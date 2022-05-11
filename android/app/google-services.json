@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "436859620833",
+    "project_id": "tour-app-57fdc",
+    "storage_bucket": "tour-app-57fdc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:436859620833:android:bab115b0bc56a1f396d6a0",
+        "android_client_info": {
+          "package_name": "com.dicoding.tourapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "436859620833-47havr5vf10mnt6db7cddbp75mniu15n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dicoding.tourapp",
+            "certificate_hash": "2e32031eba542af2ee9a5d9f880d8ea54acd8c49"
+          }
+        },
+        {
+          "client_id": "436859620833-mva9aoe18cj5n5ajh8mehluhlclrjcif.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDn7mH708-0H05xPo8xGtuNAU_JXgQCSEI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "436859620833-mva9aoe18cj5n5ajh8mehluhlclrjcif.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

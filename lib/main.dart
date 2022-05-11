@@ -1,9 +1,9 @@
 import 'package:capstone_design/dashboard.dart';
+import 'package:capstone_design/login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'dart:async';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -11,72 +11,39 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Home(),
-    );
-  }
+  State<MyApp> createState() => _MyAppState();
 }
 
-class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+class _MyAppState extends State<MyApp> {
+  bool _isLogIn = false;
+  User? user;
 
   @override
-  State<Home> createState() => _HomeState();
-}
+  void initState() {
+    isLogin();
+    super.initState();
+  }
 
-class _HomeState extends State<Home> {
-  final FirebaseAuth firebaseauth = FirebaseAuth.instance;
-  final GoogleSignIn googlesignin = GoogleSignIn();
-
-  void _signIn() async {
-    final GoogleSignInAccount? googleUser = await googlesignin.signIn();
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser!.authentication;
-    final AuthCredential credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
-
-    final UserCredential authResult =
-        await firebaseauth.signInWithCredential(credential);
-    final User user = authResult.user!;
-    assert(user.email != null);
-    assert(user.displayName != null);
-    assert(!user.isAnonymous);
-    assert(await user.getIdToken() != null);
-
-    final User currentUser = firebaseauth.currentUser!;
-    assert(user.uid == currentUser.uid);
-
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-      return Dashboard(
-        user: user,
-        googlesignin: googlesignin,
-      );
-    }));
+  void isLogin() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _isLogIn = prefs.getBool('isLogIn') ?? false;
+      if (_isLogIn == true) {
+        user = FirebaseAuth.instance.currentUser!;
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          children: [
-            const TextField(),
-            const TextField(),
-            ElevatedButton(onPressed: () {}, child: const Text("Submit")),
-            ElevatedButton(
-              onPressed: _signIn,
-              child: const Text("Google"),
-            )
-          ],
-        ),
-      ),
+    return MaterialApp(
+      title: "Batur-App",
+      debugShowCheckedModeBanner: false,
+      home: _isLogIn == true ? Dashboard(user: user!) : const Login(),
     );
   }
 }

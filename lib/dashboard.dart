@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:capstone_design/dua.dart';
 import 'package:capstone_design/login.dart';
 import 'package:capstone_design/satu.dart';
@@ -5,6 +7,7 @@ import 'package:capstone_design/tiga.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -24,6 +27,14 @@ class _DashboardState extends State<Dashboard> {
     Dua(),
     Tiga(),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    Timer(const Duration(seconds: 1), () {
+      FlutterNativeSplash.remove();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:capstone_design/dashboard.dart';
 import 'package:capstone_design/presentation/screens/theme_setting_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,6 +18,14 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final FirebaseAuth firebaseauth = FirebaseAuth.instance;
   final GoogleSignIn googlesignin = GoogleSignIn();
+
+  @override
+  void initState() {
+    super.initState();
+    Timer(const Duration(seconds: 1), () {
+      FlutterNativeSplash.remove();
+    });
+  }
 
   Future _signInbyGoogle() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();

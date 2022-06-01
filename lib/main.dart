@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:capstone_design/dashboard.dart';
 import 'package:capstone_design/domain/usecase/get_first_open.dart';
 import 'package:capstone_design/login.dart';
@@ -6,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:theme/presentation/injection/theme_injection.dart' as ti;
 import 'package:capstone_design/presentation/injection/injection.dart' as di;
@@ -16,6 +19,8 @@ void main() async {
   di.init();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(
     BlocProvider(
       create: (context) => ti.locator<ThemeManagerBloc>(),
@@ -48,7 +53,6 @@ class _MyAppState extends State<MyApp> {
   }
 
   void isFirstTime() async {
-    // final GetIsFirstOpen getIsFirstOpen;
     final result = await getIsFirstOpen.execute();
     setState(() {
       _isFirst = result;

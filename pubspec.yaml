@@ -25,12 +25,24 @@ dependencies:
   firebase_core:
   firebase_analytics:
   flutter_bloc:
+  flutter_native_splash:
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^1.0.0
+
+flutter_native_splash:
+  image: assets/splashscreen/logo.png
+  background_image: assets/splashscreen/bgsplashscreen.png
+  background_image_dark: assets/splashscreen/bgsplashscreen_dark.png
+  image_dark: assets/splashscreen/logo_dark.png
+  android_12:
+    image: assets/splashscreen/logo.png
+    image_dark: assets/splashscreen/logo_dark.png
+
+  web: false
 
 flutter:
   uses-material-design: true

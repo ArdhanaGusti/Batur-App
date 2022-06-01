@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:capstone_design/dashboard.dart';
+import 'package:capstone_design/presentation/screens/text_button_screen.dart';
 import 'package:capstone_design/presentation/screens/theme_setting_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -79,7 +80,18 @@ class _LoginState extends State<Login> {
                 );
               },
               child: const Text("Theme"),
-            )
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const TextButtonScreen(),
+                  ),
+                );
+              },
+              child: const Text("Text Button"),
+            ),
           ],
         ),
       ),

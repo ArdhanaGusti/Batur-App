@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:capstone_design/dashboard.dart';
+import 'package:capstone_design/presentation/components/custom_app_bar.dart';
 import 'package:capstone_design/presentation/screens/icon_button_screen.dart';
 import 'package:capstone_design/presentation/screens/text_button_screen.dart';
 import 'package:capstone_design/presentation/screens/text_icon_button_screen.dart';
@@ -63,72 +64,75 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          children: [
-            const TextField(),
-            const TextField(),
-            ElevatedButton(onPressed: () {}, child: const Text("Submit")),
-            ElevatedButton(
-              onPressed: _signInbyGoogle,
-              child: const Text("Google"),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const ThemeSettingScreen(),
-                  ),
-                );
-              },
-              child: const Text("Theme"),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const TextButtonScreen(),
-                  ),
-                );
-              },
-              child: const Text("Text Button"),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const TextIconButtonScreen(),
-                  ),
-                );
-              },
-              child: const Text("Text Icon Button"),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const IconButtonScreen(),
-                  ),
-                );
-              },
-              child: const Text("Icon Button"),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const ValidationButtonScreen(),
-                  ),
-                );
-              },
-              child: const Text("Validation Button"),
-            ),
-          ],
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            children: [
+              const CustomAppBar(),
+              const TextField(),
+              const TextField(),
+              ElevatedButton(onPressed: () {}, child: const Text("Submit")),
+              ElevatedButton(
+                onPressed: _signInbyGoogle,
+                child: const Text("Google"),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ThemeSettingScreen(),
+                    ),
+                  );
+                },
+                child: const Text("Theme"),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const TextButtonScreen(),
+                    ),
+                  );
+                },
+                child: const Text("Text Button"),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const TextIconButtonScreen(),
+                    ),
+                  );
+                },
+                child: const Text("Text Icon Button"),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const IconButtonScreen(),
+                    ),
+                  );
+                },
+                child: const Text("Icon Button"),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ValidationButtonScreen(),
+                    ),
+                  );
+                },
+                child: const Text("Validation Button"),
+              ),
+            ],
+          ),
         ),
       ),
     );

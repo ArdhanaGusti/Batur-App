@@ -61,3 +61,5 @@ flutter:
     - assets/icon/google.svg
     - assets/icon/check.svg
     - assets/icon/uncheck.svg
+    - assets/icon/back.svg
+    - assets/icon/menu.svg

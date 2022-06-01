@@ -5,6 +5,7 @@ import 'package:capstone_design/presentation/screens/icon_button_screen.dart';
 import 'package:capstone_design/presentation/screens/text_button_screen.dart';
 import 'package:capstone_design/presentation/screens/text_icon_button_screen.dart';
 import 'package:capstone_design/presentation/screens/theme_setting_screen.dart';
+import 'package:capstone_design/presentation/screens/validation_button_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -115,6 +116,17 @@ class _LoginState extends State<Login> {
                 );
               },
               child: const Text("Icon Button"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ValidationButtonScreen(),
+                  ),
+                );
+              },
+              child: const Text("Validation Button"),
             ),
           ],
         ),

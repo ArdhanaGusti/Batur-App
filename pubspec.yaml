@@ -26,6 +26,7 @@ dependencies:
   firebase_analytics:
   flutter_bloc:
   flutter_native_splash:
+  get_it:
 
 dev_dependencies:
   flutter_test:

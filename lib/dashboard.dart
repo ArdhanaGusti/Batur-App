@@ -31,7 +31,7 @@ class _DashboardState extends State<Dashboard> {
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(seconds: 1), () {
+    Timer(const Duration(seconds: 2), () {
       FlutterNativeSplash.remove();
     });
   }

@@ -24,7 +24,7 @@ class _LoginState extends State<Login> {
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(seconds: 1), () {
+    Timer(const Duration(seconds: 2), () {
       FlutterNativeSplash.remove();
     });
   }

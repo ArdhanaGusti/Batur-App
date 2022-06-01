@@ -27,6 +27,7 @@ dependencies:
   flutter_bloc:
   flutter_native_splash:
   get_it:
+  flutter_svg:
 
 dev_dependencies:
   flutter_test:
@@ -47,3 +48,11 @@ flutter_native_splash:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/
+    - assets/icon/coupon.svg
+    - assets/icon/upload.svg
+    - assets/icon/map-marker.svg
+    - assets/icon/tokopedia.svg
+    - assets/icon/shopee.svg

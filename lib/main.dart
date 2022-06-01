@@ -3,12 +3,21 @@ import 'package:capstone_design/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:theme/presentation/injection/theme_injection.dart' as di;
+import 'package:theme/theme.dart';
 
 void main() async {
+  di.init();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+  runApp(
+    BlocProvider(
+      create: (context) => di.locator<ThemeManagerBloc>(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -24,6 +33,9 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
+    Future.microtask(() {
+      context.read<ThemeManagerBloc>().add(const LoadTheme());
+    });
     isLogin();
     super.initState();
   }
@@ -40,10 +52,21 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "Batur-App",
-      debugShowCheckedModeBanner: false,
-      home: _isLogIn == true ? Dashboard(user: user!) : const Login(),
+    return BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
+      builder: (context, state) {
+        return MaterialApp(
+          title: "Batur-App",
+          debugShowCheckedModeBanner: false,
+          theme: lightTheme,
+          darkTheme: darkTheme,
+          themeMode: (state.isDark == ThemeModeEnum.lightTheme)
+              ? ThemeMode.light
+              : (state.isDark == ThemeModeEnum.darkTheme)
+                  ? ThemeMode.dark
+                  : ThemeMode.system,
+          home: _isLogIn == true ? Dashboard(user: user!) : const Login(),
+        );
+      },
     );
   }
 }

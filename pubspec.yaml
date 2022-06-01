@@ -11,6 +11,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  
+  theme:
+    path: theme
 
   cupertino_icons: ^1.0.2
   shared_preferences:
@@ -21,6 +24,7 @@ dependencies:
   firebase_storage:
   firebase_core:
   firebase_analytics:
+  flutter_bloc:
 
 dev_dependencies:
   flutter_test:

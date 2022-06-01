@@ -1,4 +1,5 @@
 import 'package:capstone_design/dashboard.dart';
+import 'package:capstone_design/presentation/screens/theme_setting_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -56,6 +57,17 @@ class _LoginState extends State<Login> {
             ElevatedButton(
               onPressed: _signInbyGoogle,
               child: const Text("Google"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ThemeSettingScreen(),
+                  ),
+                );
+              },
+              child: const Text("Theme"),
             )
           ],
         ),

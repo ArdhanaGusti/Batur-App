@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:capstone_design/dashboard.dart';
+import 'package:capstone_design/presentation/screens/icon_button_screen.dart';
 import 'package:capstone_design/presentation/screens/text_button_screen.dart';
 import 'package:capstone_design/presentation/screens/text_icon_button_screen.dart';
 import 'package:capstone_design/presentation/screens/theme_setting_screen.dart';
@@ -103,6 +104,17 @@ class _LoginState extends State<Login> {
                 );
               },
               child: const Text("Text Icon Button"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const IconButtonScreen(),
+                  ),
+                );
+              },
+              child: const Text("Icon Button"),
             ),
           ],
         ),

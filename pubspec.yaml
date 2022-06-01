@@ -56,3 +56,6 @@ flutter:
     - assets/icon/map-marker.svg
     - assets/icon/tokopedia.svg
     - assets/icon/shopee.svg
+    - assets/icon/twitter.svg
+    - assets/icon/facebook.svg
+    - assets/icon/google.svg

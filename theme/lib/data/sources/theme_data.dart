@@ -89,6 +89,20 @@ ThemeData lightTheme = ThemeData(
     prefixIconColor: bPrimaryVariant1,
     suffixIconColor: bPrimaryVariant1,
   ),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ButtonStyle(
+      backgroundColor: MaterialStateProperty.all(bPrimary),
+      textStyle: MaterialStateProperty.all(
+        bSubtitle4.copyWith(color: bTextPrimary),
+      ),
+      overlayColor: MaterialStateProperty.all(bPrimaryVariant1),
+      shape: MaterialStateProperty.all(
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(25.0),
+        ),
+      ),
+    ),
+  ),
 );
 
 // dark theme
@@ -110,5 +124,19 @@ ThemeData darkTheme = ThemeData(
     prefixIconColor: bGrey,
     suffixIconColor: bGrey,
     focusColor: bError,
+  ),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ButtonStyle(
+      backgroundColor: MaterialStateProperty.all(bDarkGrey),
+      textStyle: MaterialStateProperty.all(
+        bSubtitle4.copyWith(color: bTextPrimary),
+      ),
+      overlayColor: MaterialStateProperty.all(bGrey),
+      shape: MaterialStateProperty.all(
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(25.0),
+        ),
+      ),
+    ),
   ),
 );

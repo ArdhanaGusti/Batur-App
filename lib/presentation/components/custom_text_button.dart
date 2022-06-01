@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
 
 class CustomTextButton extends StatelessWidget {
   final Color color;
@@ -28,13 +27,9 @@ class CustomTextButton extends StatelessWidget {
           (width > 500) ? 500 : width,
           50,
         ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(25.0),
-        ),
       ),
       child: Text(
         text,
-        style: bSubtitle4.copyWith(color: bTextPrimary),
       ),
     );
   }

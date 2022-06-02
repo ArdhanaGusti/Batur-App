@@ -7,6 +7,7 @@ class CardWisata extends StatelessWidget {
   final String rating;
   final String title;
   final String timeOpen;
+<<<<<<< HEAD
   final bool isFavourited;
   final String description;
   final Function() onTap;
@@ -20,6 +21,17 @@ class CardWisata extends StatelessWidget {
       required this.description,
       required this.onTap})
       : super(key: key);
+=======
+  final String description;
+  const CardWisata({
+    Key? key,
+    required this.img,
+    required this.rating,
+    required this.title,
+    required this.timeOpen,
+    required this.description,
+  }) : super(key: key);
+>>>>>>> 351e738 (add custom card wisata)
 
   @override
   Widget build(BuildContext context) {

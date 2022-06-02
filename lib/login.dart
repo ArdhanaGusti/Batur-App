@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:capstone_design/dashboard.dart';
 import 'package:capstone_design/presentation/components/custom_app_bar.dart';
+import 'package:capstone_design/presentation/screens/error_screen.dart';
 import 'package:capstone_design/presentation/screens/icon_button_screen.dart';
 import 'package:capstone_design/presentation/screens/on_boarding_screen.dart';
 import 'package:capstone_design/presentation/screens/text_button_screen.dart';
@@ -142,6 +143,20 @@ class _LoginState extends State<Login> {
                   );
                 },
                 child: const Text("Validation Button"),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ErrorScreen(
+                        message: 'Halo',
+                        title: 'Halaman tidak ditemukan',
+                      ),
+                    ),
+                  );
+                },
+                child: const Text("Error Screen"),
               ),
             ],
           ),

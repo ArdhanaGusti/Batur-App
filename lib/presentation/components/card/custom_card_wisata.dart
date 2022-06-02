@@ -3,7 +3,19 @@ import 'package:theme/theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CardWisata extends StatelessWidget {
-  const CardWisata({Key? key}) : super(key: key);
+  final String img;
+  final String rating;
+  final String title;
+  final String timeOpen;
+  final String description;
+  const CardWisata({
+    Key? key,
+    required this.img,
+    required this.rating,
+    required this.title,
+    required this.timeOpen,
+    required this.description,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

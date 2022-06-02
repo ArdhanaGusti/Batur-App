@@ -122,25 +122,21 @@ class CustomWisataCardList extends StatelessWidget {
                       SizedBox(
                         width: 10,
                       ),
-                      Column(
-                        children: [
-                          isFavourited == true
-                              ? GestureDetector(
-                                  onTap: () => {},
-                                  child: Icon(
-                                    Icons.favorite,
-                                    color: bError,
-                                    size: 20,
-                                  ))
-                              : GestureDetector(
-                                  onTap: () => {},
-                                  child: Icon(
-                                    Icons.favorite_border_outlined,
-                                    color: bError,
-                                    size: 20,
-                                  )),
-                        ],
-                      ),
+                      isFavourited == true
+                          ? GestureDetector(
+                              onTap: () => {},
+                              child: Icon(
+                                Icons.favorite,
+                                color: bError,
+                                size: 20,
+                              ))
+                          : GestureDetector(
+                              onTap: () => {},
+                              child: Icon(
+                                Icons.favorite_border_outlined,
+                                color: bError,
+                                size: 20,
+                              )),
                     ],
                   ),
                   SizedBox(

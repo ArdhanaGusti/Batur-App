@@ -26,22 +26,19 @@ class ListNotifikasi extends StatelessWidget {
       Brightness screenBrightness = MediaQuery.platformBrightnessOf(context);
       return Center(
         child: Container(
-          padding: EdgeInsets.symmetric(
-            vertical: 15,
-          ),
-          width: width,
+          padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
           child: GestureDetector(
-            onTap: onTap,
+            onTap: () {
+              print("Container clicked");
+            },
             child: Container(
-              child:
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              child: Row(children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(50),
                   child: Image.network(
                     img,
                     width: 50,
                     height: 50,
-                    fit: BoxFit.cover,
                   ),
                 ),
                 SizedBox(
@@ -53,19 +50,15 @@ class ListNotifikasi extends StatelessWidget {
                     Row(
                       children: [
                         Container(
-                          width: width - 200,
-                          child: Text(
-                            title,
-                            style: bSubtitle2,
-                            maxLines: 1,
-                          ),
+                          child: Text(title, style: bSubtitle2),
+                        ),
+                        SizedBox(
+                          width: 40,
                         ),
                         Container(
-                          width: width - 230,
                           child: Text(
                             uploadTime,
                             style: bCaption1,
-                            maxLines: 1,
                           ),
                         ),
                       ],
@@ -74,7 +67,7 @@ class ListNotifikasi extends StatelessWidget {
                       height: 5,
                     ),
                     Container(
-                      width: width - 60,
+                      width: 250,
                       child: Text(
                         description,
                         style: bSubtitle4,

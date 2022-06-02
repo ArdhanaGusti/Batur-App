@@ -3,6 +3,7 @@ import 'package:capstone_design/presentation/components/card/custom_card_stasiun
 import 'package:capstone_design/presentation/components/card/custom_card_status_registrasi.dart';
 import 'package:capstone_design/presentation/components/card/custom_card_transmetro.dart';
 import 'package:capstone_design/presentation/components/card/custom_card_wisata.dart';
+import 'package:capstone_design/presentation/components/card/custom_list_notifikasi.dart';
 import 'package:capstone_design/presentation/components/card/custom_news_card.dart';
 import 'package:capstone_design/presentation/components/card/custom_wisata_card.dart';
 import 'package:capstone_design/presentation/components/card/custom_wisata_card_list.dart';
@@ -78,11 +79,11 @@ class CardScreen extends StatelessWidget {
               ),
               CardWisata(
                   img:
-                      "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
+                      "https://akcdn.detik.net.id/visual/2020/03/12/2049bba1-49a2-4efb-a253-82825d9c1f2d_169.jpeg?w=650",
                   rating: "4.5",
                   title: "Gedung Sate",
                   timeOpen: "Buka (07.00 WIB -16.00 WIB)",
-                  isFavourited: false,
+                  isFavourited: true,
                   description:
                       "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."),
               SizedBox(
@@ -102,7 +103,14 @@ class CardScreen extends StatelessWidget {
                       'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg',
                   title: "Teko Hias",
                   validasi: "Validasi",
-                  time: "Buka (07.00 WIB -16.00 WIB)")
+                  time: "Buka (07.00 WIB -16.00 WIB)"),
+              ListNotifikasi(
+                  img:
+                      'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg',
+                  title: "Kabar Bandung",
+                  uploadTime: "12 Menit yang lalu",
+                  description:
+                      "Prabowo Atau Anies, Siapa Capres yang Paling Kuat?")
             ],
           ),
         ],

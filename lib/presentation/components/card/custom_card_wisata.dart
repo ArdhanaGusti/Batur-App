@@ -144,11 +144,21 @@ class CardWisata extends StatelessWidget {
                                           : bPrimary,
                               shape: BoxShape.circle),
                           child: Center(
-                            child: Icon(
-                              Icons.favorite_border,
-                              color: bTextPrimary,
-                              size: 20,
-                            ),
+                            child: isFavourited == true
+                                ? GestureDetector(
+                                    onTap: () => {},
+                                    child: Icon(
+                                      Icons.favorite,
+                                      color: bError,
+                                      size: 20,
+                                    ))
+                                : GestureDetector(
+                                    onTap: () => {},
+                                    child: Icon(
+                                      Icons.favorite_border_outlined,
+                                      color: bError,
+                                      size: 20,
+                                    )),
                           )), //CircularAvatar
                     ),
                   ]),

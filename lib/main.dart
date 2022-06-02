@@ -66,6 +66,7 @@ class _MyAppState extends State<MyApp> {
       if (_isLogIn == true) {
         user = FirebaseAuth.instance.currentUser!;
       }
+      print(_isLogIn);
     });
   }
 

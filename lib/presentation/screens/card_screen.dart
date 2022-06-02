@@ -53,6 +53,7 @@ class CardScreen extends StatelessWidget {
                   rating: "4.5",
                   title: "Gedung Sate",
                   timeOpen: "Buka (07.00 WIB -16.00 WIB)",
+                  isFavourited: false,
                   description:
                       "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."),
               SizedBox(
@@ -75,6 +76,7 @@ class CardScreen extends StatelessWidget {
                   img:
                       'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg',
                   title: "Prabowo Atau Anies, Siapa Capres yang Paling Kuat?",
+                  onTap: () {},
                   writer: "Udin Saparudin",
                   date: "Jumat, 13 Mei 2022"),
               SizedBox(
@@ -96,6 +98,7 @@ class CardScreen extends StatelessWidget {
                       "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
                   title: "Trans Metro Bandung",
                   rute: "Cibiru – Cibeureum",
+                  onTap: () {},
                   time: "07.00 WIB -16.00 WIB"),
               SizedBox(
                 height: 20,
@@ -104,7 +107,8 @@ class CardScreen extends StatelessWidget {
                   img:
                       'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg',
                   title: "Teko Hias",
-                  validasi: "Validasi",
+                  validasi: true,
+                  onTap: () {},
                   time: "Buka (07.00 WIB -16.00 WIB)")
             ],
           ),

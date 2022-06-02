@@ -7,6 +7,7 @@ class CustomWisataCard extends StatelessWidget {
   final String rating;
   final String title;
   final String timeOpen;
+  final bool isFavourited;
   final String description;
   const CustomWisataCard({
     Key? key,
@@ -14,6 +15,7 @@ class CustomWisataCard extends StatelessWidget {
     required this.rating,
     required this.title,
     required this.timeOpen,
+    required this.isFavourited,
     required this.description,
   }) : super(key: key);
 
@@ -24,7 +26,6 @@ class CustomWisataCard extends StatelessWidget {
     return BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
         builder: (context, state) {
       Brightness screenBrightness = MediaQuery.platformBrightnessOf(context);
-      var isFavourited = false;
       return Center(
         child: GestureDetector(
           onTap: () {

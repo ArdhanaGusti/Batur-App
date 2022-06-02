@@ -29,7 +29,6 @@ class CustomWisataCardList extends StatelessWidget {
     return BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
         builder: (context, state) {
       Brightness screenBrightness = MediaQuery.platformBrightnessOf(context);
-      var isFavourited = false;
       return Center(
         child: GestureDetector(
           onTap: () {

@@ -8,6 +8,7 @@ class CardWisata extends StatelessWidget {
   final String title;
   final String timeOpen;
 <<<<<<< HEAD
+<<<<<<< HEAD
   final bool isFavourited;
   final String description;
   final Function() onTap;
@@ -22,6 +23,9 @@ class CardWisata extends StatelessWidget {
       required this.onTap})
       : super(key: key);
 =======
+=======
+  final bool isFavourited;
+>>>>>>> 20ac234 (repair favorite in card wisata)
   final String description;
   const CardWisata({
     Key? key,
@@ -29,6 +33,7 @@ class CardWisata extends StatelessWidget {
     required this.rating,
     required this.title,
     required this.timeOpen,
+    required this.isFavourited,
     required this.description,
   }) : super(key: key);
 >>>>>>> 351e738 (add custom card wisata)
@@ -40,7 +45,6 @@ class CardWisata extends StatelessWidget {
     return BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
         builder: (context, state) {
       Brightness screenBrightness = MediaQuery.platformBrightnessOf(context);
-      var isFavourited = false;
       return Center(
         child: GestureDetector(
           onTap: () {

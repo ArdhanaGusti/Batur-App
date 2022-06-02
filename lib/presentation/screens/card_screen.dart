@@ -1,5 +1,6 @@
 import 'package:capstone_design/presentation/components/card/custom_card_stasiun.dart';
 import 'package:capstone_design/presentation/components/card/custom_card_stasiun_list.dart';
+import 'package:capstone_design/presentation/components/card/custom_card_wisata.dart';
 import 'package:capstone_design/presentation/components/card/custom_news_card.dart';
 import 'package:capstone_design/presentation/components/card/custom_wisata_card.dart';
 import 'package:capstone_design/presentation/components/card/custom_wisata_card_list.dart';
@@ -67,7 +68,18 @@ class CardScreen extends StatelessWidget {
                       'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg',
                   title: "Prabowo Atau Anies, Siapa Capres yang Paling Kuat?",
                   writer: "Udin Saparudin",
-                  date: "Jumat, 13 Mei 2022")
+                  date: "Jumat, 13 Mei 2022"),
+              SizedBox(
+                height: 20,
+              ),
+              CardWisata(
+                  img:
+                      "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
+                  rating: "4.5",
+                  title: "Gedung Sate",
+                  timeOpen: "Buka (07.00 WIB -16.00 WIB)",
+                  description:
+                      "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."),
             ],
           ),
         ],

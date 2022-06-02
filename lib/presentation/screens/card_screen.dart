@@ -49,6 +49,7 @@ class CardScreen extends StatelessWidget {
                   rating: "4.5",
                   title: "Gedung Sate",
                   timeOpen: "Buka (07.00 WIB -16.00 WIB)",
+                  isFavourited: false,
                   description:
                       "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."),
               SizedBox(
@@ -60,6 +61,7 @@ class CardScreen extends StatelessWidget {
                   rating: "4.5",
                   title: "Gedung Sate",
                   timeOpen: "Buka (07.00 WIB -16.00 WIB)",
+                  isFavourited: false,
                   description:
                       "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."),
               SizedBox(
@@ -80,6 +82,7 @@ class CardScreen extends StatelessWidget {
                   rating: "4.5",
                   title: "Gedung Sate",
                   timeOpen: "Buka (07.00 WIB -16.00 WIB)",
+                  isFavourited: false,
                   description:
                       "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."),
               SizedBox(

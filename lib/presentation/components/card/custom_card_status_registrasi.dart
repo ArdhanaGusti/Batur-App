@@ -144,6 +144,7 @@ class CardStatusRegistrasi extends StatelessWidget {
                                 time,
                                 style: bCaption1,
                                 maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                               ),
                             )
                           ],

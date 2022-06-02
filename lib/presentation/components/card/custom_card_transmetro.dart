@@ -128,6 +128,7 @@ class CardTransmetro extends StatelessWidget {
                           time,
                           style: TextStyle(color: bGrey, fontSize: 10),
                           maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       )
                     ],

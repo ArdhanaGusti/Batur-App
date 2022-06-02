@@ -76,7 +76,7 @@ class CardWisata extends StatelessWidget {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(15),
                           child: Image.network(
-                            'https://akcdn.detik.net.id/visual/2020/03/12/2049bba1-49a2-4efb-a253-82825d9c1f2d_169.jpeg?w=650',
+                            img,
                             width: 140,
                             height: 81,
                           ),
@@ -87,7 +87,7 @@ class CardWisata extends StatelessWidget {
                         Container(
                           width: 140,
                           child: Text(
-                            "Gedung Sate",
+                            title,
                             style: bSubtitle4,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
@@ -124,7 +124,7 @@ class CardWisata extends StatelessWidget {
                             Container(
                               padding: EdgeInsets.only(right: 3),
                               child: Text(
-                                "4,5",
+                                rating,
                                 style: TextStyle(
                                   fontSize: 10,
                                   color:
@@ -176,7 +176,7 @@ class CardWisata extends StatelessWidget {
                 Container(
                   width: 140,
                   child: Text(
-                    "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+                    description,
                     style: bCaption1,
                     maxLines: 5,
                     overflow: TextOverflow.ellipsis,

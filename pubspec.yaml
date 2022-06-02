@@ -63,3 +63,7 @@ flutter:
     - assets/icon/uncheck.svg
     - assets/icon/back.svg
     - assets/icon/menu.svg
+    - assets/logo/logo.png
+    - assets/logo/logo_dark.png
+    - assets/image/gedung_sate.png
+    - assets/image/404.svg

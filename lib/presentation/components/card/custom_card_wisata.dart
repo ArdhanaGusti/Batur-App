@@ -24,17 +24,18 @@ class CardWisata extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-    double width = screenSize.width - 40;
+    double width = screenSize.width - 60;
     return BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
         builder: (context, state) {
       Brightness screenBrightness = MediaQuery.platformBrightnessOf(context);
+      var isFavourited = false;
       return Center(
         child: GestureDetector(
-          onTap: onTap,
+          onTap: () {
+            print("Container clicked");
+          },
           child: Container(
-            width: screenSize.width - 235,
-            height: screenSize.height - 530,
-            margin: EdgeInsets.only(left: 15, top: 15, bottom: 15),
+            margin: EdgeInsets.symmetric(horizontal: 30),
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(25),
@@ -55,31 +56,30 @@ class CardWisata extends StatelessWidget {
               ],
             ),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  width: screenSize.width - 253,
                   child: Stack(children: [
                     Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(15),
                           child: Image.network(
-                            img,
-                            fit: BoxFit.cover,
-                            width: screenSize.width - 200,
-                            height: 105, //revisi
+                            'https://akcdn.detik.net.id/visual/2020/03/12/2049bba1-49a2-4efb-a253-82825d9c1f2d_169.jpeg?w=650',
+                            width: 140,
+                            height: 81,
                           ),
                         ),
                         SizedBox(
                           height: 15,
                         ),
-                        Text(
-                          title,
-                          style: bSubtitle4,
-                          maxLines: 1,
-                          // overflow: TextOverflow.ellipsis,
+                        Container(
+                          width: 140,
+                          child: Text(
+                            "Gedung Sate",
+                            style: bSubtitle4,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       ],
                     ),
@@ -112,7 +112,7 @@ class CardWisata extends StatelessWidget {
                             Container(
                               padding: EdgeInsets.only(right: 3),
                               child: Text(
-                                rating,
+                                "4,5",
                                 style: TextStyle(
                                   fontSize: 10,
                                   color:
@@ -133,44 +133,25 @@ class CardWisata extends StatelessWidget {
                       ), //CircularAvatar
                     ),
                     Positioned(
-                      top: 85,
-                      left: 100,
+                      top: 65,
+                      left: 95,
                       child: Container(
                           padding: EdgeInsets.all(5),
                           decoration: BoxDecoration(
                               color: (state.isDark == ThemeModeEnum.darkTheme)
-                                  ? bTextPrimary
+                                  ? bPrimary
                                   : (state.isDark == ThemeModeEnum.lightTheme)
                                       ? bPrimary
                                       : (screenBrightness == Brightness.light)
                                           ? bPrimary
-                                          : bTextPrimary,
+                                          : bPrimary,
                               shape: BoxShape.circle),
                           child: Center(
-                            child: isFavourited == true
-                                ? GestureDetector(
-                                    onTap: () => {},
-                                    child: Icon(
-                                      Icons.favorite,
-                                      color: bError,
-                                      size: 20,
-                                    ))
-                                : GestureDetector(
-                                    onTap: () => {},
-                                    child: Icon(
-                                      Icons.favorite_border_outlined,
-                                      color: (state.isDark ==
-                                              ThemeModeEnum.darkTheme)
-                                          ? bPrimary
-                                          : (state.isDark ==
-                                                  ThemeModeEnum.lightTheme)
-                                              ? bTextPrimary
-                                              : (screenBrightness ==
-                                                      Brightness.light)
-                                                  ? bTextPrimary
-                                                  : bPrimary,
-                                      size: 20,
-                                    )),
+                            child: Icon(
+                              Icons.favorite_border,
+                              color: bTextPrimary,
+                              size: 20,
+                            ),
                           )), //CircularAvatar
                     ),
                   ]),
@@ -178,15 +159,20 @@ class CardWisata extends StatelessWidget {
                 SizedBox(
                   height: 5,
                 ),
+
+                ///trans Metro Bandung
                 Container(
-                  width: screenSize.width - 254,
+                  width: 140,
                   child: Text(
-                    description,
+                    "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
                     style: bCaption1,
-                    maxLines: 4,
+                    maxLines: 5,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
+                SizedBox(
+                  height: 10,
+                )
               ],
             ),
           ),

@@ -41,6 +41,9 @@ class CardScreen extends StatelessWidget {
               SizedBox(
                 height: 20,
               ),
+              SizedBox(
+                height: 20,
+              ),
               CustomWisataCard(
                   img:
                       "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
@@ -49,6 +52,9 @@ class CardScreen extends StatelessWidget {
                   timeOpen: "Buka (07.00 WIB -16.00 WIB)",
                   description:
                       "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."),
+              SizedBox(
+                height: 20,
+              ),
               CustomWisataCardList(
                   img:
                       "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
@@ -59,6 +65,9 @@ class CardScreen extends StatelessWidget {
                   onTap: () {},
                   description:
                       "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."),
+              SizedBox(
+                height: 20,
+              ),
               CustomNewsCard(
                   img:
                       'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg',

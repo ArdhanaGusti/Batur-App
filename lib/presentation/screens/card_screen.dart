@@ -1,5 +1,6 @@
 import 'package:capstone_design/presentation/components/card/custom_card_stasiun.dart';
 import 'package:capstone_design/presentation/components/card/custom_card_stasiun_list.dart';
+import 'package:capstone_design/presentation/components/card/custom_news_card.dart';
 import 'package:capstone_design/presentation/components/card/custom_wisata_card.dart';
 import 'package:capstone_design/presentation/components/card/custom_wisata_card_list.dart';
 import 'package:flutter/material.dart';
@@ -57,7 +58,13 @@ class CardScreen extends StatelessWidget {
                   isFavourited: false,
                   onTap: () {},
                   description:
-                      "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.")
+                      "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."),
+              CustomNewsCard(
+                  img:
+                      'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg',
+                  title: "Prabowo Atau Anies, Siapa Capres yang Paling Kuat?",
+                  writer: "Udin Saparudin",
+                  date: "Jumat, 13 Mei 2022")
             ],
           ),
         ],

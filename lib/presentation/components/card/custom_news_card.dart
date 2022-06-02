@@ -20,121 +20,126 @@ class CustomNewsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-    double width = screenSize.width - 40;
-    return BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
+    double width = screenSize.width - 60;
+    return Scaffold(body: BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
         builder: (context, state) {
       Brightness screenBrightness = MediaQuery.platformBrightnessOf(context);
       var isFavourited = false;
       return Center(
-        child: GestureDetector(
-          onTap: onTap,
-          child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 20),
-            padding: EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: (state.isDark == ThemeModeEnum.darkTheme)
-                  ? bDarkGrey
-                  : (state.isDark == ThemeModeEnum.lightTheme)
-                      ? bTextPrimary
-                      : (screenBrightness == Brightness.light)
-                          ? bTextPrimary
-                          : bDarkGrey,
-              boxShadow: [
-                BoxShadow(
-                  color: bStroke,
-                  spreadRadius: 2,
-                  blurRadius: 10,
-                  offset: Offset(0, 0), // changes position of shadow
-                ),
-              ],
+        child: Column(
+          children: [
+            SizedBox(
+              height: 30,
             ),
-            child: Row(children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.network(
-                  img,
-                  fit: BoxFit.cover,
-                  width: 85,
-                  height: 85,
+            GestureDetector(
+              onTap: () {
+                print("Container clicked");
+              },
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 30),
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: (state.isDark == ThemeModeEnum.darkTheme)
+                      ? bDarkGrey
+                      : (state.isDark == ThemeModeEnum.lightTheme)
+                          ? bTextPrimary
+                          : (screenBrightness == Brightness.light)
+                              ? bTextPrimary
+                              : bDarkGrey,
+                  boxShadow: [
+                    BoxShadow(
+                      color: bStroke,
+                      spreadRadius: 2,
+                      blurRadius: 10,
+                      offset: Offset(0, 0), // changes position of shadow
+                    ),
+                  ],
                 ),
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        width: screenSize.width - 155,
-                        child: Text(
-                          title,
-                          style: bSubtitle4,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
+                child: Row(children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.network(
+                      img,
+                      width: 85,
+                      height: 85,
+                    ),
                   ),
                   SizedBox(
-                    height: 30,
+                    width: 10,
                   ),
-                  Row(
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         children: [
-                          Icon(
-                            Icons.account_circle,
-                            color: bGrey,
-                            size: 10,
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
                           Container(
-                            width: width - 280,
+                            width: 210,
                             child: Text(
-                              writer,
-                              maxLines: 1,
-                              style: bCaption2.copyWith(color: bGrey),
+                              title,
+                              style: bSubtitle4,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                         ],
                       ),
                       SizedBox(
-                        width: 20,
+                        height: 30,
                       ),
                       Row(
                         children: [
-                          Icon(
-                            Icons.access_time,
-                            color: bGrey,
-                            size: 12,
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.account_circle,
+                                color: bGrey,
+                                size: 10,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Container(
+                                child: Text(
+                                  writer,
+                                  style: bCaption2,
+                                ),
+                              ),
+                            ],
                           ),
                           SizedBox(
-                            width: 5,
+                            width: 10,
                           ),
-                          Container(
-                            width: width - 250,
-                            child: Text(
-                              date,
-                              style: bCaption2.copyWith(color: bGrey),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          )
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.access_time,
+                                color: bGrey,
+                                size: 12,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Container(
+                                child: Text(
+                                  date,
+                                  style: bCaption2,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              )
+                            ],
+                          ),
                         ],
                       ),
                     ],
-                  ),
-                ],
-              )
-            ]),
-          ),
+                  )
+                ]),
+              ),
+            ),
+          ],
         ),
       );
-    });
+    }));
   }
 }

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:capstone_design/dashboard.dart';
 import 'package:capstone_design/presentation/components/custom_app_bar.dart';
+import 'package:capstone_design/presentation/screens/card_screen.dart';
 import 'package:capstone_design/presentation/screens/icon_button_screen.dart';
 import 'package:capstone_design/presentation/screens/text_button_screen.dart';
 import 'package:capstone_design/presentation/screens/text_icon_button_screen.dart';
@@ -130,6 +131,17 @@ class _LoginState extends State<Login> {
                   );
                 },
                 child: const Text("Validation Button"),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const CardScreen(),
+                    ),
+                  );
+                },
+                child: const Text("Card Screen"),
               ),
             ],
           ),

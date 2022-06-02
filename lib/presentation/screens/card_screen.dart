@@ -184,6 +184,14 @@ class CardScreen extends StatelessWidget {
                   print("Container clicked");
                 },
               ),
+              // CustomWisataCard(
+              //     img:
+              //         "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
+              //     rating: "4.5",
+              //     title: "Gedung Sate",
+              //     timeOpen: "Buka (07.00 WIB -16.00 WIB)",
+              //     description:
+              //         "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.")
             ],
           ),
         ],

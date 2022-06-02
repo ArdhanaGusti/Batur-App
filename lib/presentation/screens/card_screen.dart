@@ -15,6 +15,9 @@ class CardScreen extends StatelessWidget {
         children: [
           Column(
             children: [
+              SizedBox(
+                height: 30,
+              ),
               CustomCardStasiun(
                 img:
                     "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
@@ -22,6 +25,9 @@ class CardScreen extends StatelessWidget {
                 description:
                     "Stasiun Bandung, juga dikenal sebagai Stasiun Hall, adalah stasiun kereta api kelas besar tipe A yang terletak di Jalan Stasiun Timur dan Jalan Kebon Kawung",
                 address: "Jl. Stasiun Barat, Kb. Jeruk, Kec. Andir, Bandung",
+              ),
+              SizedBox(
+                height: 20,
               ),
               CustomCardStasiunList(
                 img:
@@ -31,6 +37,9 @@ class CardScreen extends StatelessWidget {
                     "Stasiun Bandung, juga dikenal sebagai Stasiun Hall, adalah stasiun kereta api kelas besar tipe A yang terletak di Jalan Stasiun Timur dan Jalan Kebon Kawung",
                 address: "Jl. Stasiun Barat, Kb. Jeruk, Kec. Andir, Bandung",
               ),
+              SizedBox(
+                height: 20,
+              ),
               CustomWisataCard(
                   img:
                       "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
@@ -39,6 +48,9 @@ class CardScreen extends StatelessWidget {
                   timeOpen: "Buka (07.00 WIB -16.00 WIB)",
                   description:
                       "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."),
+              SizedBox(
+                height: 20,
+              ),
               CustomWisataCardList(
                   img:
                       "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
@@ -47,6 +59,9 @@ class CardScreen extends StatelessWidget {
                   timeOpen: "Buka (07.00 WIB -16.00 WIB)",
                   description:
                       "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."),
+              SizedBox(
+                height: 20,
+              ),
               CustomNewsCard(
                   img:
                       'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg',
@@ -54,7 +69,7 @@ class CardScreen extends StatelessWidget {
                   writer: "Udin Saparudin",
                   date: "Jumat, 13 Mei 2022")
             ],
-          )
+          ),
         ],
       ),
     );

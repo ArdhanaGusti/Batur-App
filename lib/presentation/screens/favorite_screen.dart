@@ -1,3 +1,4 @@
+import 'package:capstone_design/presentation/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
 
 class FavoriteScreen extends StatelessWidget {
@@ -5,8 +6,23 @@ class FavoriteScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text("Favorite Screen"),
+    return Center(
+      child: Column(
+        children: [
+          const Text("Favorite Screen"),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const RegistrationScreen(),
+                ),
+              );
+            },
+            child: const Text("Regis"),
+          ),
+        ],
+      ),
     );
   }
 }

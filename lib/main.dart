@@ -4,6 +4,7 @@ import 'package:capstone_design/dashboard.dart';
 import 'package:capstone_design/domain/usecase/get_first_open.dart';
 import 'package:capstone_design/login.dart';
 import 'package:capstone_design/presentation/bloc/login_form_bloc.dart';
+import 'package:capstone_design/presentation/bloc/regis_form_bloc.dart';
 import 'package:capstone_design/presentation/screens/dashboard_screen.dart';
 import 'package:capstone_design/presentation/screens/on_boarding_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -31,6 +32,9 @@ void main() async {
         ),
         BlocProvider(
           create: (context) => LoginFormBloc(),
+        ),
+        BlocProvider(
+          create: (context) => RegisFormBloc(),
         ),
       ],
       child: const MyApp(),

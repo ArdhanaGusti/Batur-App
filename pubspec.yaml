@@ -76,6 +76,7 @@ flutter:
     - assets/icon/lock.svg
     - assets/icon/eye.svg
     - assets/icon/eye-slash.svg
+    - assets/icon/envelope.svg
     - assets/logo/logo.png
     - assets/logo/logo_dark.png
     - assets/image/gedung_sate.png

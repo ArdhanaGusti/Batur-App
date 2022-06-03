@@ -7,12 +7,14 @@ class CustomNewsCard extends StatelessWidget {
   final String title;
   final String writer;
   final String date;
+  final Function() onTap;
   const CustomNewsCard({
     Key? key,
     required this.img,
     required this.title,
     required this.writer,
     required this.date,
+    required this.onTap,
   }) : super(key: key);
 
   @override
@@ -25,9 +27,7 @@ class CustomNewsCard extends StatelessWidget {
       var isFavourited = false;
       return Center(
         child: GestureDetector(
-          onTap: () {
-            print("Container clicked");
-          },
+          onTap: onTap,
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: 30),
             padding: EdgeInsets.all(10),

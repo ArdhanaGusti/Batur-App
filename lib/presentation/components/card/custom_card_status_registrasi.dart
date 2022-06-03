@@ -5,14 +5,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class CardStatusRegistrasi extends StatelessWidget {
   final String img;
   final String title;
-  final String validasi;
+  final bool validasi;
   final String time;
+  final Function() onTap;
   const CardStatusRegistrasi({
     Key? key,
     required this.img,
     required this.title,
     required this.validasi,
     required this.time,
+    required this.onTap,
   }) : super(key: key);
 
   @override
@@ -69,49 +71,54 @@ class CardStatusRegistrasi extends StatelessWidget {
                         Row(
                           children: [
                             Container(
-                              width: 175,
+                              width: 170,
                               child: Text(
                                 title,
                                 style: bSubtitle4,
                               ),
                             ),
-                            GestureDetector(
-                              child: Container(
-                                padding: EdgeInsets.all(3),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: bAccepted,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: bStroke,
-                                      spreadRadius: 2,
-                                      blurRadius: 10,
-                                      offset: Offset(
-                                          0, 0), // changes position of shadow
-                                    ),
-                                  ],
-                                ),
-                                child: Row(children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.white),
-                                    child: Icon(
-                                      Icons.check,
-                                      size: 12,
-                                      color: bAccepted,
-                                    ),
+                            Container(
+                              padding: EdgeInsets.all(3),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: (validasi == true) ? bAccepted : bError,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: bStroke,
+                                    spreadRadius: 2,
+                                    blurRadius: 10,
+                                    offset: Offset(
+                                        0, 0), // changes position of shadow
                                   ),
-                                  SizedBox(
-                                    width: 3,
-                                  ),
-                                  Text(
-                                    validasi,
-                                    style: TextStyle(
-                                        fontSize: 12, color: Colors.white),
-                                  )
-                                ]),
+                                ],
                               ),
+                              child: Row(children: [
+                                (validasi == true)
+                                    ? Icon(
+                                        Icons.check_circle,
+                                        size: 12,
+                                        color: bTextPrimary,
+                                      )
+                                    : Icon(
+                                        Icons.cancel_rounded,
+                                        size: 12,
+                                        color: bTextPrimary,
+                                      ),
+                                SizedBox(
+                                  width: 3,
+                                ),
+                                (validasi == true)
+                                    ? Text(
+                                        "Accepted",
+                                        style: TextStyle(
+                                            fontSize: 12, color: Colors.white),
+                                      )
+                                    : Text(
+                                        "Rejected",
+                                        style: TextStyle(
+                                            fontSize: 12, color: Colors.white),
+                                      ),
+                              ]),
                             )
                           ],
                         ),

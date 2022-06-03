@@ -9,6 +9,7 @@ class CustomWisataCardList extends StatelessWidget {
   final String timeOpen;
   final bool isFavourited;
   final String description;
+  final Function() onTap;
   const CustomWisataCardList({
     Key? key,
     required this.img,
@@ -17,6 +18,7 @@ class CustomWisataCardList extends StatelessWidget {
     required this.timeOpen,
     required this.isFavourited,
     required this.description,
+    required this.onTap,
   }) : super(key: key);
 
   @override
@@ -28,9 +30,7 @@ class CustomWisataCardList extends StatelessWidget {
       Brightness screenBrightness = MediaQuery.platformBrightnessOf(context);
       return Center(
         child: GestureDetector(
-          onTap: () {
-            print("Container clicked");
-          },
+          onTap: onTap,
           child: Container(
             width: width,
             padding: EdgeInsets.all(10),

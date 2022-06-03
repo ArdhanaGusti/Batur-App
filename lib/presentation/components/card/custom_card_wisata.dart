@@ -9,15 +9,17 @@ class CardWisata extends StatelessWidget {
   final String timeOpen;
   final bool isFavourited;
   final String description;
-  const CardWisata({
-    Key? key,
-    required this.img,
-    required this.rating,
-    required this.title,
-    required this.timeOpen,
-    required this.isFavourited,
-    required this.description,
-  }) : super(key: key);
+  final Function() onTap;
+  const CardWisata(
+      {Key? key,
+      required this.img,
+      required this.rating,
+      required this.title,
+      required this.timeOpen,
+      required this.isFavourited,
+      required this.description,
+      required this.onTap})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +30,7 @@ class CardWisata extends StatelessWidget {
       Brightness screenBrightness = MediaQuery.platformBrightnessOf(context);
       return Center(
         child: GestureDetector(
-          onTap: () {
-            print("Container clicked");
-          },
+          onTap: onTap,
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: 30),
             padding: EdgeInsets.all(10),

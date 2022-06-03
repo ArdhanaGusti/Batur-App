@@ -7,12 +7,14 @@ class CardTransmetro extends StatelessWidget {
   final String title;
   final String rute;
   final String time;
+  final Function() onTap;
   const CardTransmetro({
     Key? key,
     required this.img,
     required this.title,
     required this.rute,
     required this.time,
+    required this.onTap,
   }) : super(key: key);
 
   @override
@@ -24,9 +26,7 @@ class CardTransmetro extends StatelessWidget {
       Brightness screenBrightness = MediaQuery.platformBrightnessOf(context);
       return Center(
         child: GestureDetector(
-          onTap: () {
-            print("Container clicked");
-          },
+          onTap: onTap,
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: 30),
             padding: EdgeInsets.all(10),

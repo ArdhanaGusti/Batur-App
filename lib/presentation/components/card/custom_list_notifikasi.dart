@@ -7,12 +7,14 @@ class ListNotifikasi extends StatelessWidget {
   final String title;
   final String uploadTime;
   final String description;
+  final Function() onTap;
   const ListNotifikasi({
     Key? key,
     required this.img,
     required this.title,
     required this.uploadTime,
     required this.description,
+    required this.onTap,
   }) : super(key: key);
 
   @override
@@ -26,9 +28,7 @@ class ListNotifikasi extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
           child: GestureDetector(
-            onTap: () {
-              print("Container clicked");
-            },
+            onTap: onTap,
             child: Container(
               child: Row(children: [
                 ClipRRect(

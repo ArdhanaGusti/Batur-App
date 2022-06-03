@@ -17,6 +17,15 @@ const Color bGrey = Color(0xFF5C5C5C);
 const Color bDarkGrey = Color(0xFF33393F);
 const Color bLightGrey = Color(0xFFEEEEF0);
 const Color bStroke = Color.fromARGB(30, 0, 0, 0);
+const Color bToastFiled = Color(0xffEC4D2C);
+const Color bBgToastFiled = Color(0xffFCEDE9);
+const Color bBorderToastFiled = Color(0xffFF977B);
+const Color bToastSuccess = Color(0xff3CAE5C);
+const Color bBgToastSuccess = Color(0xffEAF7EE);
+const Color bBorderToastSuccess = Color(0xff8CD8A2);
+const Color bToastWarning = Color(0xffFFE924);
+const Color bBgToastWarning = Color(0xffFEFFBD);
+const Color bBorderToastWarning = Color(0xffFFE924);
 
 // border
 OutlineInputBorder bBorderBuilder(Color color) {

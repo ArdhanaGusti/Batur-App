@@ -28,6 +28,7 @@ dependencies:
   flutter_native_splash:
   get_it:
   flutter_svg:
+  fluttertoast: ^8.0.9
 
 dev_dependencies:
   flutter_test:

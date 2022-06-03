@@ -103,6 +103,16 @@ ThemeData lightTheme = ThemeData(
       ),
     ),
   ),
+  checkboxTheme: CheckboxThemeData(
+    side: const BorderSide(
+      width: 1.0,
+      color: bPrimary,
+    ),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(5),
+    ),
+    fillColor: MaterialStateProperty.all(bPrimary),
+  ),
 );
 
 // dark theme
@@ -138,5 +148,15 @@ ThemeData darkTheme = ThemeData(
         ),
       ),
     ),
+  ),
+  checkboxTheme: CheckboxThemeData(
+    side: const BorderSide(
+      width: 1.0,
+      color: bGrey,
+    ),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(5),
+    ),
+    fillColor: MaterialStateProperty.all(bGrey),
   ),
 );

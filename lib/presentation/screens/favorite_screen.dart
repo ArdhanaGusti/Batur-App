@@ -1,3 +1,4 @@
+import 'package:capstone_design/presentation/screens/login_screen.dart';
 import 'package:capstone_design/presentation/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -20,6 +21,17 @@ class FavoriteScreen extends StatelessWidget {
               );
             },
             child: const Text("Regis"),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const LoginScreen(),
+                ),
+              );
+            },
+            child: const Text("Login"),
           ),
         ],
       ),

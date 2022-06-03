@@ -124,21 +124,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                                   height: 24.0,
                                                   width: 24.0,
                                                   child: Checkbox(
-                                                    side: BorderSide(
-                                                      width: 1.0,
-                                                      color: (isLight)
-                                                          ? bPrimary
-                                                          : bGrey,
-                                                    ),
-                                                    activeColor: (isLight)
-                                                        ? bPrimary
-                                                        : bGrey,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5),
-                                                    ),
                                                     value: state.rememberMe,
                                                     onChanged: (value) =>
                                                         context

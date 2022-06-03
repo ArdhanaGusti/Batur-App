@@ -4,6 +4,7 @@ import 'package:capstone_design/dashboard.dart';
 import 'package:capstone_design/domain/usecase/get_first_open.dart';
 import 'package:capstone_design/login.dart';
 import 'package:capstone_design/presentation/bloc/login_form_bloc.dart';
+import 'package:capstone_design/presentation/screens/dashboard_screen.dart';
 import 'package:capstone_design/presentation/screens/on_boarding_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -95,7 +96,7 @@ class _MyAppState extends State<MyApp> {
               ? const OnBoardingScreen()
               : _isLogIn == true
                   ? Dashboard(user: user!)
-                  : const Login(),
+                  : const DashboardScreen(),
         );
       },
     );

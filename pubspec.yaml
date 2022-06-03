@@ -66,6 +66,13 @@ flutter:
     - assets/icon/menu.svg
     - assets/icon/cross.svg
     - assets/icon/user_outline.svg
+    - assets/icon/user.svg
+    - assets/icon/star_outline.svg
+    - assets/icon/star.svg
+    - assets/icon/home_outline.svg
+    - assets/icon/home.svg
+    - assets/icon/copy_outline.svg
+    - assets/icon/copy.svg
     - assets/icon/lock.svg
     - assets/icon/eye.svg
     - assets/icon/eye-slash.svg

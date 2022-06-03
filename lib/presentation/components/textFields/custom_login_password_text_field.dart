@@ -16,6 +16,7 @@ class CustomLoginPasswordTextField extends StatelessWidget {
     return BlocBuilder<LoginFormBloc, LoginFormState>(
       builder: (context, state) {
         return TextFormField(
+          initialValue: state.password,
           obscureText: state.obsecurePassword,
           style:
               bSubtitle1.copyWith(color: (isLight) ? bPrimary : bTextPrimary),

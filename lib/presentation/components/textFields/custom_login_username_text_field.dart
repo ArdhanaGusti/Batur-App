@@ -16,6 +16,7 @@ class CustomLoginUsernameTextField extends StatelessWidget {
     return BlocBuilder<LoginFormBloc, LoginFormState>(
       builder: (context, state) {
         return TextFormField(
+          initialValue: state.email,
           style:
               bSubtitle1.copyWith(color: (isLight) ? bPrimary : bTextPrimary),
           decoration: InputDecoration(

@@ -7,12 +7,14 @@ class CustomCardStasiunList extends StatelessWidget {
   final String title;
   final String description;
   final String address;
+  final Function() onTap;
   const CustomCardStasiunList(
       {Key? key,
       required this.img,
       required this.title,
       required this.description,
-      required this.address})
+      required this.address,
+      required this.onTap})
       : super(key: key);
 
   @override
@@ -24,9 +26,7 @@ class CustomCardStasiunList extends StatelessWidget {
       Brightness screenBrightness = MediaQuery.platformBrightnessOf(context);
       return Center(
         child: GestureDetector(
-          onTap: () {
-            print("Container clicked");
-          },
+          onTap: onTap,
           child: Container(
             padding: EdgeInsets.all(10),
             width: width,

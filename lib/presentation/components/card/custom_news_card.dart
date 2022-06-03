@@ -27,9 +27,7 @@ class CustomNewsCard extends StatelessWidget {
       var isFavourited = false;
       return Center(
         child: GestureDetector(
-          onTap: () {
-            print("Container clicked");
-          },
+          onTap: onTap,
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: 30),
             padding: EdgeInsets.all(10),

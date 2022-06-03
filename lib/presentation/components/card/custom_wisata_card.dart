@@ -9,6 +9,7 @@ class CustomWisataCard extends StatelessWidget {
   final String timeOpen;
   final bool isFavourited;
   final String description;
+  final Function() onTap;
   const CustomWisataCard({
     Key? key,
     required this.img,
@@ -17,6 +18,7 @@ class CustomWisataCard extends StatelessWidget {
     required this.timeOpen,
     required this.isFavourited,
     required this.description,
+    required this.onTap,
   }) : super(key: key);
 
   @override

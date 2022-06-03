@@ -72,7 +72,11 @@ class CardStatusRegistrasi extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Container(
+<<<<<<< HEAD
                               width: screenSize.width - 210,
+=======
+                              width: 170,
+>>>>>>> 4bbadd0 (repair ontap on card)
                               child: Text(
                                 title,
                                 style: bSubtitle4,

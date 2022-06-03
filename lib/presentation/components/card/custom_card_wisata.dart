@@ -22,6 +22,7 @@ class CardWisata extends StatelessWidget {
       required this.description,
       required this.onTap})
       : super(key: key);
+<<<<<<< HEAD
 =======
 =======
   final bool isFavourited;
@@ -37,6 +38,8 @@ class CardWisata extends StatelessWidget {
     required this.description,
   }) : super(key: key);
 >>>>>>> 351e738 (add custom card wisata)
+=======
+>>>>>>> 4bbadd0 (repair ontap on card)
 
   @override
   Widget build(BuildContext context) {
@@ -47,9 +50,7 @@ class CardWisata extends StatelessWidget {
       Brightness screenBrightness = MediaQuery.platformBrightnessOf(context);
       return Center(
         child: GestureDetector(
-          onTap: () {
-            print("Container clicked");
-          },
+          onTap: onTap,
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: 30),
             padding: EdgeInsets.all(10),

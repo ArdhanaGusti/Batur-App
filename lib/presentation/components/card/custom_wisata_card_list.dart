@@ -31,9 +31,7 @@ class CustomWisataCardList extends StatelessWidget {
       Brightness screenBrightness = MediaQuery.platformBrightnessOf(context);
       return Center(
         child: GestureDetector(
-          onTap: () {
-            print("Container clicked");
-          },
+          onTap: onTap,
           child: Container(
             width: width,
             padding: EdgeInsets.all(10),

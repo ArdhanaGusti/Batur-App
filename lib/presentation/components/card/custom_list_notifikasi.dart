@@ -28,9 +28,7 @@ class ListNotifikasi extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
           child: GestureDetector(
-            onTap: () {
-              print("Container clicked");
-            },
+            onTap: onTap,
             child: Container(
               child: Row(children: [
                 ClipRRect(

@@ -28,6 +28,7 @@ dependencies:
   flutter_native_splash:
   get_it:
   flutter_svg:
+  equatable:
 
 dev_dependencies:
   flutter_test:
@@ -64,6 +65,10 @@ flutter:
     - assets/icon/back.svg
     - assets/icon/menu.svg
     - assets/icon/cross.svg
+    - assets/icon/user_outline.svg
+    - assets/icon/lock.svg
+    - assets/icon/eye.svg
+    - assets/icon/eye-slash.svg
     - assets/logo/logo.png
     - assets/logo/logo_dark.png
     - assets/image/gedung_sate.png

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:capstone_design/dashboard.dart';
 import 'package:capstone_design/domain/usecase/get_first_open.dart';
 import 'package:capstone_design/login.dart';
+import 'package:capstone_design/presentation/bloc/login_form_bloc.dart';
 import 'package:capstone_design/presentation/screens/on_boarding_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -22,8 +23,15 @@ void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(
-    BlocProvider(
-      create: (context) => ti.locator<ThemeManagerBloc>(),
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => ti.locator<ThemeManagerBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => LoginFormBloc(),
+        ),
+      ],
       child: const MyApp(),
     ),
   );

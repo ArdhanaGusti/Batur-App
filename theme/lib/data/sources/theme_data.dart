@@ -66,7 +66,7 @@ final TextStyle bButton1 =
     GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w500);
 final TextStyle bButton2 =
     GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.w600);
-final TextStyle bButton3 =
+final TextStyle bPopup =
     GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w700);
 
 // light theme
@@ -74,6 +74,29 @@ ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
   scaffoldBackgroundColor: bBackgroundPrimary,
   primaryColor: bPrimary,
+  colorScheme: const ColorScheme(
+    brightness: Brightness.light,
+    primary: bPrimary,
+    onPrimary: bTextPrimary,
+    primaryContainer: bLightGrey,
+    onPrimaryContainer: bPrimary,
+    secondary: bSecondary,
+    onSecondary: bTextPrimary,
+    secondaryContainer: bTextPrimary,
+    onSecondaryContainer: bPrimary,
+    tertiary: bTextSecondary,
+    onTertiary: bGrey,
+    error: bError,
+    onError: bTextPrimary,
+    background: bBackgroundPrimary,
+    onBackground: bPrimary,
+    surface: bPrimary,
+    onSurface: bTextPrimary,
+    surfaceVariant: bTextPrimary,
+    onSurfaceVariant: bTextSecondary,
+    inverseSurface: bPrimaryVariant1,
+    onInverseSurface: bTextPrimary,
+  ),
   inputDecorationTheme: InputDecorationTheme(
     contentPadding: const EdgeInsets.all(16),
     floatingLabelBehavior: FloatingLabelBehavior.never,
@@ -134,6 +157,29 @@ ThemeData darkTheme = ThemeData(
     prefixIconColor: bGrey,
     suffixIconColor: bGrey,
     focusColor: bError,
+  ),
+  colorScheme: const ColorScheme(
+    brightness: Brightness.dark,
+    primary: bPrimary,
+    onPrimary: bTextPrimary,
+    primaryContainer: bDarkGrey,
+    onPrimaryContainer: bTextPrimary,
+    secondary: bGrey,
+    onSecondary: bTextPrimary,
+    secondaryContainer: bDarkGrey,
+    onSecondaryContainer: bTextPrimary,
+    tertiary: bTextPrimary,
+    onTertiary: bGrey,
+    error: bError,
+    onError: bTextPrimary,
+    background: bBackgroundSecondary,
+    onBackground: bTextPrimary,
+    surface: bBackgroundSecondary,
+    onSurface: bTextPrimary,
+    surfaceVariant: bGrey,
+    onSurfaceVariant: bTextPrimary,
+    inverseSurface: bGrey,
+    onInverseSurface: bTextPrimary,
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(

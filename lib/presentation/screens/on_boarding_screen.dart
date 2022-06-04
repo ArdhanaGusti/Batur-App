@@ -1,6 +1,7 @@
 import 'dart:async';
 
-import 'package:capstone_design/presentation/components/custom_text_button.dart';
+import 'package:capstone_design/presentation/components/button/custom_primary_text_button.dart';
+import 'package:capstone_design/presentation/screens/dashboard_screen.dart';
 import 'package:capstone_design/presentation/screens/error_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,47 +27,36 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-    Brightness screenBrightness = MediaQuery.platformBrightnessOf(context);
-    return BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
-      builder: (context, state) {
-        bool isLight = (state.isDark == ThemeModeEnum.darkTheme)
-            ? false
-            : (state.isDark == ThemeModeEnum.lightTheme)
-                ? true
-                : (screenBrightness == Brightness.light)
-                    ? true
-                    : false;
-        if (screenSize.width < 320 || screenSize.height < 650) {
-          return const ErrorScreen(
-            title: "Error Layar",
-            message: "Aduh, Layar anda terlalu kecil",
-          );
-        } else if (screenSize.width > 500) {
-          // Tablet Mode
-          return Scaffold(
-            body: SafeArea(
-              child: Center(
-                child: Container(
-                  constraints: const BoxConstraints(maxWidth: 500),
-                  child: _buildOnBoardingScreen(screenSize, isLight),
-                ),
-              ),
+    if (screenSize.width < 320 || screenSize.height < 650) {
+      return const ErrorScreen(
+        // Text wait localization
+        title: "Error Layar",
+        message: "Aduh, Layar anda terlalu kecil",
+      );
+    } else if (screenSize.width > 500) {
+      // Tablet Mode (Must be repair)
+      return Scaffold(
+        body: SafeArea(
+          child: Center(
+            child: Container(
+              constraints: const BoxConstraints(maxWidth: 500),
+              child: _buildOnBoardingScreen(screenSize),
             ),
-          );
-        } else {
-          // Mobile Mode
-          return Scaffold(
-            body: SafeArea(
-              child: _buildOnBoardingScreen(screenSize, isLight),
-            ),
-          );
-        }
-        // Is the tablet viewport included ?
-      },
-    );
+          ),
+        ),
+      );
+    } else {
+      // Mobile Mode
+      return Scaffold(
+        body: SafeArea(
+          child: _buildOnBoardingScreen(screenSize),
+        ),
+      );
+    }
   }
 
-  Widget _buildOnBoardingScreen(Size screenSize, bool isLight) {
+  Widget _buildOnBoardingScreen(Size screenSize) {
+    Brightness screenBrightness = MediaQuery.platformBrightnessOf(context);
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Column(
@@ -75,11 +65,22 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           Column(
             children: <Widget>[
               Center(
-                child: Image.asset(
-                  (isLight)
-                      ? 'assets/logo/logo.png'
-                      : 'assets/logo/logo_dark.png',
-                  height: 40.0,
+                child: BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
+                  builder: (context, state) {
+                    bool isLight = (state.isDark == ThemeModeEnum.darkTheme)
+                        ? false
+                        : (state.isDark == ThemeModeEnum.lightTheme)
+                            ? true
+                            : (screenBrightness == Brightness.light)
+                                ? true
+                                : false;
+                    return Image.asset(
+                      (isLight)
+                          ? 'assets/logo/logo.png'
+                          : 'assets/logo/logo_dark.png',
+                      height: 40.0,
+                    );
+                  },
                 ),
               ),
               Padding(
@@ -118,15 +119,16 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               ),
             ],
           ),
-          CustomTextButton(
-            color: (isLight) ? bPrimary : bDarkGrey,
+          CustomPrimaryTextButton(
             width: screenSize.width,
             // Text wait localization
             text: 'Mulai Sekarang',
-            // On tap Navigation needs to be replaced
             onTap: () {
-              Navigator.pop(
+              Navigator.pushReplacement(
                 context,
+                MaterialPageRoute(
+                  builder: (context) => const DashboardScreen(),
+                ),
               );
             },
           ),

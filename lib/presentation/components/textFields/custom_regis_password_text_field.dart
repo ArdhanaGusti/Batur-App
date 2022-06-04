@@ -1,21 +1,21 @@
-import 'package:capstone_design/presentation/bloc/login_form_bloc.dart';
+import 'package:capstone_design/presentation/bloc/regis_form_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:theme/theme.dart';
 
-class CustomLoginPasswordTextField extends StatelessWidget {
-  const CustomLoginPasswordTextField({
+class CustomRegisPasswordTextField extends StatelessWidget {
+  const CustomRegisPasswordTextField({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LoginFormBloc, LoginFormState>(
-      builder: (context, loginForm) {
+    return BlocBuilder<RegisFormBloc, RegisFormState>(
+      builder: (context, regisForm) {
         return TextFormField(
-          initialValue: loginForm.password,
-          obscureText: loginForm.obsecurePassword,
+          initialValue: regisForm.password,
+          obscureText: regisForm.obsecurePassword,
           style: bSubtitle1.copyWith(
             color: Theme.of(context).colorScheme.tertiary,
           ),
@@ -25,13 +25,13 @@ class CustomLoginPasswordTextField extends StatelessWidget {
             suffixIcon: Padding(
               padding: const EdgeInsets.only(left: 5.0, right: 20.0),
               child: GestureDetector(
-                onTap: (() => context.read<LoginFormBloc>().add(
-                      LoginFormObsecurePasswordChanged(
-                        obsecure: !loginForm.obsecurePassword,
+                onTap: (() => context.read<RegisFormBloc>().add(
+                      RegisFormObsecurePasswordChanged(
+                        obsecure: !regisForm.obsecurePassword,
                       ),
                     )),
                 child: SvgPicture.asset(
-                  (loginForm.obsecurePassword)
+                  (regisForm.obsecurePassword)
                       ? "assets/icon/eye.svg"
                       : "assets/icon/eye-slash.svg",
                   color: Theme.of(context).colorScheme.tertiary,
@@ -61,8 +61,8 @@ class CustomLoginPasswordTextField extends StatelessWidget {
             return null;
           },
           autovalidateMode: AutovalidateMode.onUserInteraction,
-          onChanged: (text) => context.read<LoginFormBloc>().add(
-                LoginFormPasswordChanged(
+          onChanged: (text) => context.read<RegisFormBloc>().add(
+                RegisFormPasswordChanged(
                   password: text,
                 ),
               ),

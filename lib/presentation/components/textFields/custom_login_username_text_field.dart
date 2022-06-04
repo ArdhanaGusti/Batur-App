@@ -5,20 +5,19 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:theme/theme.dart';
 
 class CustomLoginUsernameTextField extends StatelessWidget {
-  final bool isLight;
   const CustomLoginUsernameTextField({
     Key? key,
-    required this.isLight,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginFormBloc, LoginFormState>(
-      builder: (context, state) {
+      builder: (context, loginForm) {
         return TextFormField(
-          initialValue: state.email,
-          style:
-              bSubtitle1.copyWith(color: (isLight) ? bPrimary : bTextPrimary),
+          initialValue: loginForm.email,
+          style: bSubtitle1.copyWith(
+            color: Theme.of(context).colorScheme.tertiary,
+          ),
           decoration: InputDecoration(
             labelText: "Username / Email",
             errorStyle: bCaption1.copyWith(color: bError),
@@ -30,11 +29,12 @@ class CustomLoginUsernameTextField extends StatelessWidget {
               ),
               child: SvgPicture.asset(
                 "assets/icon/user_outline.svg",
-                color: (isLight) ? bPrimary : bTextPrimary,
-                height: 24,
+                color: Theme.of(context).colorScheme.tertiary,
+                height: 24.0,
               ),
             ),
           ),
+          // Validator must be check
           validator: (text) {
             if (text == null || text.isEmpty) {
               return 'Please enter some text';

@@ -27,13 +27,13 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-    if (screenSize.width < 320 || screenSize.height < 650) {
+    if (screenSize.width < 320.0 || screenSize.height < 650.0) {
       return const ErrorScreen(
         // Text wait localization
         title: "Error Layar",
         message: "Aduh, Layar anda terlalu kecil",
       );
-    } else if (screenSize.width > 500) {
+    } else if (screenSize.width > 500.0) {
       // Tablet Mode (Must be repair)
       return Scaffold(
         body: SafeArea(

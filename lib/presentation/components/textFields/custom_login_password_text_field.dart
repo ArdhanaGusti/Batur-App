@@ -5,10 +5,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:theme/theme.dart';
 
 class CustomLoginPasswordTextField extends StatelessWidget {
-  final bool isLight;
   const CustomLoginPasswordTextField({
     Key? key,
-    required this.isLight,
   }) : super(key: key);
 
   @override
@@ -18,8 +16,9 @@ class CustomLoginPasswordTextField extends StatelessWidget {
         return TextFormField(
           initialValue: state.password,
           obscureText: state.obsecurePassword,
-          style:
-              bSubtitle1.copyWith(color: (isLight) ? bPrimary : bTextPrimary),
+          style: bSubtitle1.copyWith(
+            color: Theme.of(context).colorScheme.tertiary,
+          ),
           decoration: InputDecoration(
             labelText: "Password",
             errorStyle: bCaption1.copyWith(color: bError),
@@ -35,8 +34,8 @@ class CustomLoginPasswordTextField extends StatelessWidget {
                   (state.obsecurePassword)
                       ? "assets/icon/eye.svg"
                       : "assets/icon/eye-slash.svg",
-                  color: (isLight) ? bPrimary : bTextPrimary,
-                  height: 24,
+                  color: Theme.of(context).colorScheme.tertiary,
+                  height: 24.0,
                 ),
               ),
             ),
@@ -47,11 +46,12 @@ class CustomLoginPasswordTextField extends StatelessWidget {
               ),
               child: SvgPicture.asset(
                 "assets/icon/lock.svg",
-                color: (isLight) ? bPrimary : bTextPrimary,
-                height: 24,
+                color: Theme.of(context).colorScheme.tertiary,
+                height: 24.0,
               ),
             ),
           ),
+          // Validator must be check
           validator: (text) {
             if (text == null || text.isEmpty) {
               return 'Please enter some text';

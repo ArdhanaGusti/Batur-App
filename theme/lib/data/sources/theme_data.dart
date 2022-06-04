@@ -74,26 +74,45 @@ ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
   scaffoldBackgroundColor: bBackgroundPrimary,
   primaryColor: bPrimary,
+  backgroundColor: bBackgroundPrimary,
   colorScheme: const ColorScheme(
     brightness: Brightness.light,
+    // button color primary
     primary: bPrimary,
     onPrimary: bTextPrimary,
+    // container color primary
     primaryContainer: bLightGrey,
     onPrimaryContainer: bPrimary,
+    // button secondary
     secondary: bSecondary,
     onSecondary: bTextPrimary,
+    // container color secondary
     secondaryContainer: bTextPrimary,
     onSecondaryContainer: bPrimary,
-    tertiary: bTextSecondary,
+    // text color primary
+    tertiary: bPrimary,
+    // text color secondary
     onTertiary: bGrey,
+    // text color primary in container
+    tertiaryContainer: bTextSecondary,
+    // text color secondary in container
+    onTertiaryContainer: bGrey,
+    // error
     error: bError,
     onError: bTextPrimary,
+    // error in container
+    errorContainer: bError,
+    onErrorContainer: bTextPrimary,
+    // background color
     background: bBackgroundPrimary,
     onBackground: bPrimary,
+    // card primary
     surface: bPrimary,
     onSurface: bTextPrimary,
+    // card secondary
     surfaceVariant: bTextPrimary,
     onSurfaceVariant: bTextSecondary,
+    // drop down
     inverseSurface: bPrimaryVariant1,
     onInverseSurface: bTextPrimary,
   ),
@@ -142,6 +161,49 @@ ThemeData lightTheme = ThemeData(
 ThemeData darkTheme = ThemeData(
   brightness: Brightness.dark,
   scaffoldBackgroundColor: const Color(0xff1B222A),
+  primaryColor: bTextPrimary,
+  backgroundColor: bBackgroundSecondary,
+  colorScheme: const ColorScheme(
+    brightness: Brightness.dark,
+    // button color primary
+    primary: bPrimary,
+    onPrimary: bTextPrimary,
+    // container color primary
+    primaryContainer: bDarkGrey,
+    onPrimaryContainer: bTextPrimary,
+    // button secondary
+    secondary: bDarkGrey,
+    onSecondary: bTextPrimary,
+    // container color secondary
+    secondaryContainer: bDarkGrey,
+    onSecondaryContainer: bTextPrimary,
+    // text color primary
+    tertiary: bTextPrimary,
+    // text color secondary
+    onTertiary: bGrey,
+    // text color primary in container
+    tertiaryContainer: bTextPrimary,
+    // text color secondary in container
+    onTertiaryContainer: bGrey,
+    // error
+    error: bError,
+    onError: bTextPrimary,
+    // error in container
+    errorContainer: bError,
+    onErrorContainer: bTextPrimary,
+    // background color
+    background: bBackgroundSecondary,
+    onBackground: bTextPrimary,
+    // card primary
+    surface: bDarkGrey,
+    onSurface: bTextPrimary,
+    // card secondary
+    surfaceVariant: bGrey,
+    onSurfaceVariant: bTextPrimary,
+    // drop down
+    inverseSurface: bGrey,
+    onInverseSurface: bTextPrimary,
+  ),
   inputDecorationTheme: InputDecorationTheme(
     contentPadding: const EdgeInsets.all(16),
     floatingLabelBehavior: FloatingLabelBehavior.never,
@@ -157,29 +219,6 @@ ThemeData darkTheme = ThemeData(
     prefixIconColor: bGrey,
     suffixIconColor: bGrey,
     focusColor: bError,
-  ),
-  colorScheme: const ColorScheme(
-    brightness: Brightness.dark,
-    primary: bPrimary,
-    onPrimary: bTextPrimary,
-    primaryContainer: bDarkGrey,
-    onPrimaryContainer: bTextPrimary,
-    secondary: bGrey,
-    onSecondary: bTextPrimary,
-    secondaryContainer: bDarkGrey,
-    onSecondaryContainer: bTextPrimary,
-    tertiary: bTextPrimary,
-    onTertiary: bGrey,
-    error: bError,
-    onError: bTextPrimary,
-    background: bBackgroundSecondary,
-    onBackground: bTextPrimary,
-    surface: bBackgroundSecondary,
-    onSurface: bTextPrimary,
-    surfaceVariant: bGrey,
-    onSurfaceVariant: bTextPrimary,
-    inverseSurface: bGrey,
-    onInverseSurface: bTextPrimary,
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(

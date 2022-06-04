@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:capstone_design/dashboard.dart';
 import 'package:capstone_design/domain/usecase/get_first_open.dart';
-import 'package:capstone_design/login.dart';
 import 'package:capstone_design/presentation/bloc/login_form_bloc.dart';
 import 'package:capstone_design/presentation/bloc/regis_form_bloc.dart';
 import 'package:capstone_design/presentation/screens/dashboard_screen.dart';
@@ -51,8 +50,8 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   bool _isLogIn = false;
-  bool _isFirst = true;
   User? user;
+  bool _isFirst = true;
   final GetIsFirstOpen getIsFirstOpen = di.locator<GetIsFirstOpen>();
 
   @override
@@ -98,7 +97,7 @@ class _MyAppState extends State<MyApp> {
                   : ThemeMode.system,
           home: (_isFirst)
               ? const OnBoardingScreen()
-              : _isLogIn == true
+              : (_isLogIn)
                   ? Dashboard(user: user!)
                   : const DashboardScreen(),
         );

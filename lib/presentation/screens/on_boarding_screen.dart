@@ -97,7 +97,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   child: Text(
                     'Jelajahi Bandung',
                     style: bHeading3.copyWith(
-                      color: (isLight) ? bPrimary : bTextPrimary,
+                      color: Theme.of(context).colorScheme.tertiary,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -110,7 +110,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   child: Text(
                     'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s.',
                     style: bSubtitle1.copyWith(
-                      color: (isLight) ? bPrimary : bTextPrimary,
+                      color: Theme.of(context).colorScheme.tertiary,
                     ),
                     textAlign: TextAlign.center,
                   ),

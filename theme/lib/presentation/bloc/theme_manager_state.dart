@@ -29,7 +29,6 @@ class ThemeManagerState extends Equatable {
 class ThemeManagerInitial extends ThemeManagerState {
   static ThemeModeEnum isDarkInit = ThemeModeEnum.systemTheme;
   static String messageInit = '';
-  static bool isBrightnessLightInit = true;
 
   ThemeManagerInitial()
       : super(

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:capstone_design/dashboard.dart';
 import 'package:capstone_design/presentation/components/custom_app_bar.dart';
+import 'package:capstone_design/presentation/screens/UMKM/status_register_umkm_screen.dart';
 import 'package:capstone_design/presentation/screens/card_screen.dart';
 import 'package:capstone_design/presentation/screens/icon_button_screen.dart';
 import 'package:capstone_design/presentation/screens/text_button_screen.dart';
@@ -70,7 +71,10 @@ class _LoginState extends State<Login> {
         child: Center(
           child: Column(
             children: [
-              const CustomAppBar(),
+              const CustomAppBar(
+                title: "Batur App",
+                hamburgerMenu: false,
+              ),
               const TextField(),
               const TextField(),
               ElevatedButton(onPressed: () {}, child: const Text("Submit")),
@@ -154,6 +158,17 @@ class _LoginState extends State<Login> {
                   );
                 },
                 child: const Text("Toast Screen"),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const StatusRegisterUmkmScreen(),
+                    ),
+                  );
+                },
+                child: const Text("Status Register UMKM Screen"),
               ),
             ],
           ),

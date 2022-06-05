@@ -136,12 +136,12 @@ class CardWisata extends StatelessWidget {
                           padding: EdgeInsets.all(5),
                           decoration: BoxDecoration(
                               color: (state.isDark == ThemeModeEnum.darkTheme)
-                                  ? bPrimary
+                                  ? bTextPrimary
                                   : (state.isDark == ThemeModeEnum.lightTheme)
                                       ? bPrimary
                                       : (screenBrightness == Brightness.light)
                                           ? bPrimary
-                                          : bPrimary,
+                                          : bTextPrimary,
                               shape: BoxShape.circle),
                           child: Center(
                             child: isFavourited == true
@@ -156,7 +156,16 @@ class CardWisata extends StatelessWidget {
                                     onTap: () => {},
                                     child: Icon(
                                       Icons.favorite_border_outlined,
-                                      color: bError,
+                                      color: (state.isDark ==
+                                              ThemeModeEnum.darkTheme)
+                                          ? bPrimary
+                                          : (state.isDark ==
+                                                  ThemeModeEnum.lightTheme)
+                                              ? bTextPrimary
+                                              : (screenBrightness ==
+                                                      Brightness.light)
+                                                  ? bTextPrimary
+                                                  : bPrimary,
                                       size: 20,
                                     )),
                           )), //CircularAvatar

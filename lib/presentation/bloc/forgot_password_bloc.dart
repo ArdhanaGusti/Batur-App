@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:capstone_design/utils/enum/form_enum.dart';
 import 'package:equatable/equatable.dart';
 
 part 'forgot_password_event.dart';
@@ -28,6 +29,22 @@ class ForgotPasswordFormBloc
 
       emit(state.copyWith(
         passwordConf: newPassConf,
+      ));
+    });
+
+    on<ForgotPasswordFormObsecurePasswordChanged>((event, emit) {
+      final newObsecure = event.obsecure;
+
+      emit(state.copyWith(
+        obsecurePassword: newObsecure,
+      ));
+    });
+
+    on<ForgotPasswordFormObsecurePasswordConfChanged>((event, emit) {
+      final newObsecureConf = event.obsecureConf;
+
+      emit(state.copyWith(
+        obsecurePasswordConf: newObsecureConf,
       ));
     });
   }

@@ -3,6 +3,7 @@ import 'package:capstone_design/presentation/screens/login_screen.dart';
 import 'package:capstone_design/presentation/screens/on_boarding_screen.dart';
 import 'package:capstone_design/presentation/screens/registration_screen.dart';
 import 'package:capstone_design/presentation/screens/registration_setting_screen.dart';
+import 'package:capstone_design/presentation/screens/reset_password_screen.dart';
 import 'package:capstone_design/presentation/screens/verification_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -80,6 +81,17 @@ class FavoriteScreen extends StatelessWidget {
               );
             },
             child: const Text("Lupa Password"),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ResetPasswordScreen(),
+                ),
+              );
+            },
+            child: const Text("Reset Password"),
           ),
         ],
       ),

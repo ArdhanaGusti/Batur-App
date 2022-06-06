@@ -30,3 +30,22 @@ class ForgotPasswordFormPasswordConfChanged extends ForgotPasswordFormEvent {
   @override
   List<Object> get props => [passwordConf];
 }
+
+class ForgotPasswordFormObsecurePasswordChanged
+    extends ForgotPasswordFormEvent {
+  final bool obsecure;
+  const ForgotPasswordFormObsecurePasswordChanged({required this.obsecure});
+
+  @override
+  List<Object> get props => [obsecure];
+}
+
+class ForgotPasswordFormObsecurePasswordConfChanged
+    extends ForgotPasswordFormEvent {
+  final bool obsecureConf;
+  const ForgotPasswordFormObsecurePasswordConfChanged(
+      {required this.obsecureConf});
+
+  @override
+  List<Object> get props => [obsecureConf];
+}

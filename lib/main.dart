@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:capstone_design/dashboard.dart';
 import 'package:capstone_design/domain/usecase/get_first_open.dart';
+import 'package:capstone_design/presentation/bloc/forgot_password_bloc.dart';
 import 'package:capstone_design/presentation/bloc/login_form_bloc.dart';
 import 'package:capstone_design/presentation/bloc/regis_form_bloc.dart';
 import 'package:capstone_design/presentation/bloc/verification_form_bloc.dart';
@@ -38,6 +39,9 @@ void main() async {
         ),
         BlocProvider(
           create: (context) => VerificationFormBloc(),
+        ),
+        BlocProvider(
+          create: (context) => ForgotPasswordFormBloc(),
         ),
       ],
       child: const MyApp(),

@@ -1,3 +1,4 @@
+import 'package:capstone_design/presentation/screens/forgot_password.dart';
 import 'package:capstone_design/presentation/screens/login_screen.dart';
 import 'package:capstone_design/presentation/screens/on_boarding_screen.dart';
 import 'package:capstone_design/presentation/screens/registration_screen.dart';
@@ -68,6 +69,17 @@ class FavoriteScreen extends StatelessWidget {
               );
             },
             child: const Text("Setting"),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ForgotPasswordScreen(),
+                ),
+              );
+            },
+            child: const Text("Lupa Password"),
           ),
         ],
       ),

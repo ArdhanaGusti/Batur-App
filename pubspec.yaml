@@ -79,6 +79,7 @@ flutter:
     - assets/icon/envelope.svg
     - assets/icon/envelope-fill.svg
     - assets/icon/pen.svg
+    - assets/icon/shield.svg
     - assets/logo/logo.png
     - assets/logo/logo_dark.png
     - assets/image/gedung_sate.png

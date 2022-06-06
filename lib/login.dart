@@ -5,10 +5,14 @@ import 'package:capstone_design/presentation/components/card/custom_card_detail_
 import 'package:capstone_design/presentation/components/custom_app_bar.dart';
 import 'package:capstone_design/presentation/screens/UMKM/status_register_umkm_screen.dart';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import 'package:capstone_design/presentation/screens/UMKM/umkm_detail_acc_screen.dart';
 import 'package:capstone_design/presentation/screens/UMKM/umkm_detail_screen.dart';
 =======
 >>>>>>> ab30d61 (add status register umkm screen)
+=======
+import 'package:capstone_design/presentation/screens/UMKM/umkm_detail_acc_screen.dart';
+>>>>>>> eb9f98b (add umkm detail acc screen)
 import 'package:capstone_design/presentation/screens/card_screen.dart';
 import 'package:capstone_design/presentation/screens/favorite/favorite_screen.dart';
 import 'package:capstone_design/presentation/screens/favorite/favorite_screen.dart';
@@ -86,6 +90,9 @@ class _LoginState extends State<Login> {
     return Scaffold(
       body: SafeArea(
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> eb9f98b (add umkm detail acc screen)
         child: ListView(
           children: [
             Center(
@@ -93,7 +100,11 @@ class _LoginState extends State<Login> {
                 children: [
                   const CustomAppBar(
                     title: "Batur App",
+<<<<<<< HEAD
                     hamburgerMenu: true,
+=======
+                    hamburgerMenu: false,
+>>>>>>> eb9f98b (add umkm detail acc screen)
                   ),
                   const TextField(),
                   const TextField(),
@@ -202,6 +213,7 @@ class _LoginState extends State<Login> {
                     },
                     child: const Text("UMKM detail acc"),
                   ),
+<<<<<<< HEAD
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -434,6 +446,12 @@ class _LoginState extends State<Login> {
             ],
           ),
 >>>>>>> ab30d61 (add status register umkm screen)
+=======
+                ],
+              ),
+            ),
+          ],
+>>>>>>> eb9f98b (add umkm detail acc screen)
         ),
       ),
     );

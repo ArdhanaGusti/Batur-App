@@ -5,8 +5,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:theme/theme.dart';
 
 class CustomRegisPasswordTextField extends StatelessWidget {
+  final bool enable;
   const CustomRegisPasswordTextField({
     Key? key,
+    required this.enable,
   }) : super(key: key);
 
   @override
@@ -14,14 +16,20 @@ class CustomRegisPasswordTextField extends StatelessWidget {
     return BlocBuilder<RegisFormBloc, RegisFormState>(
       builder: (context, regisForm) {
         return TextFormField(
+          enabled: enable,
           initialValue: regisForm.password,
-          obscureText: regisForm.obsecurePassword,
+          obscureText: (enable) ? regisForm.obsecurePassword : true,
           style: bSubtitle1.copyWith(
             color: Theme.of(context).colorScheme.tertiary,
           ),
+          cursorColor: Theme.of(context).colorScheme.tertiary,
           decoration: InputDecoration(
             labelText: "Password",
             errorStyle: bCaption1.copyWith(color: bError),
+            disabledBorder: bBorderBuilder(bGrey),
+            fillColor: (enable)
+                ? Theme.of(context).colorScheme.secondaryContainer
+                : bStroke,
             suffixIcon: Padding(
               padding: const EdgeInsets.only(left: 5.0, right: 20.0),
               child: GestureDetector(
@@ -34,7 +42,8 @@ class CustomRegisPasswordTextField extends StatelessWidget {
                   (regisForm.obsecurePassword)
                       ? "assets/icon/eye.svg"
                       : "assets/icon/eye-slash.svg",
-                  color: Theme.of(context).colorScheme.tertiary,
+                  color:
+                      (enable) ? Theme.of(context).colorScheme.tertiary : bGrey,
                   height: 24.0,
                 ),
               ),
@@ -46,7 +55,8 @@ class CustomRegisPasswordTextField extends StatelessWidget {
               ),
               child: SvgPicture.asset(
                 "assets/icon/lock.svg",
-                color: Theme.of(context).colorScheme.tertiary,
+                color:
+                    (enable) ? Theme.of(context).colorScheme.tertiary : bGrey,
                 height: 24.0,
               ),
             ),

@@ -112,23 +112,27 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           key: _regisFormKey,
           child: Column(
             children: <Widget>[
-              const Padding(
+              Padding(
                 padding: EdgeInsets.symmetric(
-                  vertical: 20.0,
+                  vertical: screenSize.height * 0.02,
                 ),
-                child: CustomRegisEmailTextField(),
+                child: const CustomRegisEmailTextField(
+                  enable: true,
+                ),
               ),
-              const Padding(
+              Padding(
                 padding: EdgeInsets.symmetric(
-                  vertical: 20.0,
+                  vertical: screenSize.height * 0.02,
                 ),
-                child: CustomRegisPasswordTextField(),
+                child: const CustomRegisPasswordTextField(
+                  enable: true,
+                ),
               ),
-              const Padding(
+              Padding(
                 padding: EdgeInsets.symmetric(
-                  vertical: 20.0,
+                  vertical: screenSize.height * 0.02,
                 ),
-                child: CustomRegisConfirmPasswordTextField(),
+                child: const CustomRegisConfirmPasswordTextField(),
               ),
               Padding(
                 padding: const EdgeInsets.only(

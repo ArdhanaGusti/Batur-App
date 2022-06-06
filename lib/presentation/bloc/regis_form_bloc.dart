@@ -46,5 +46,21 @@ class RegisFormBloc extends Bloc<RegisFormEvent, RegisFormState> {
         obsecurePasswordConf: newObsecure,
       ));
     });
+
+    on<RegisFormUsernameChanged>((event, emit) {
+      final newUsername = event.username;
+
+      emit(state.copyWith(
+        username: newUsername,
+      ));
+    });
+
+    on<RegisFormFullNameChanged>((event, emit) {
+      final newFullName = event.fullName;
+
+      emit(state.copyWith(
+        fullName: newFullName,
+      ));
+    });
   }
 }

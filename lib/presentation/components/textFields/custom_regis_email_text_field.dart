@@ -5,8 +5,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:theme/theme.dart';
 
 class CustomRegisEmailTextField extends StatelessWidget {
+  final bool enable;
   const CustomRegisEmailTextField({
     Key? key,
+    required this.enable,
   }) : super(key: key);
 
   @override
@@ -14,15 +16,22 @@ class CustomRegisEmailTextField extends StatelessWidget {
     return BlocBuilder<RegisFormBloc, RegisFormState>(
       builder: (context, regisForm) {
         return TextFormField(
+          enabled: enable,
           keyboardType: TextInputType.emailAddress,
           initialValue: regisForm.email,
           style: bSubtitle1.copyWith(
             color: Theme.of(context).colorScheme.tertiary,
           ),
+          cursorColor: Theme.of(context).colorScheme.tertiary,
           decoration: InputDecoration(
             labelText: "Email",
             errorStyle: bCaption1.copyWith(color: bError),
             hintText: "Batur@gmail.com",
+            enabled: enable,
+            disabledBorder: bBorderBuilder(bGrey),
+            fillColor: (enable)
+                ? Theme.of(context).colorScheme.secondaryContainer
+                : bStroke,
             prefixIcon: Padding(
               padding: const EdgeInsets.only(
                 left: 20.0,
@@ -30,7 +39,8 @@ class CustomRegisEmailTextField extends StatelessWidget {
               ),
               child: SvgPicture.asset(
                 "assets/icon/envelope.svg",
-                color: Theme.of(context).colorScheme.tertiary,
+                color:
+                    (enable) ? Theme.of(context).colorScheme.tertiary : bGrey,
                 height: 24.0,
               ),
             ),

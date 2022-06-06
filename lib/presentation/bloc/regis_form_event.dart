@@ -46,3 +46,19 @@ class RegisFormObsecurePasswordConfChanged extends RegisFormEvent {
   @override
   List<Object> get props => [obsecureConf];
 }
+
+class RegisFormUsernameChanged extends RegisFormEvent {
+  final String username;
+  const RegisFormUsernameChanged({required this.username});
+
+  @override
+  List<Object> get props => [username];
+}
+
+class RegisFormFullNameChanged extends RegisFormEvent {
+  final String fullName;
+  const RegisFormFullNameChanged({required this.fullName});
+
+  @override
+  List<Object> get props => [fullName];
+}

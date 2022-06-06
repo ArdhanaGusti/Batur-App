@@ -1,6 +1,7 @@
 import 'package:capstone_design/presentation/screens/login_screen.dart';
 import 'package:capstone_design/presentation/screens/on_boarding_screen.dart';
 import 'package:capstone_design/presentation/screens/registration_screen.dart';
+import 'package:capstone_design/presentation/screens/registration_setting_screen.dart';
 import 'package:capstone_design/presentation/screens/verification_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -56,6 +57,17 @@ class FavoriteScreen extends StatelessWidget {
               );
             },
             child: const Text("Verifikasi"),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const RegistrationSettingScreen(),
+                ),
+              );
+            },
+            child: const Text("Setting"),
           ),
         ],
       ),

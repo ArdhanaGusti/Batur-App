@@ -1,5 +1,14 @@
+<<<<<<< HEAD
 import 'package:capstone_design/presentation/components/card/custom_wisata_card_list.dart';
 import 'package:flutter/material.dart';
+=======
+import 'package:capstone_design/presentation/components/card/custom_card_stasiun_list.dart';
+import 'package:capstone_design/presentation/components/card/custom_wisata_card.dart';
+import 'package:capstone_design/presentation/components/card/custom_wisata_card_list.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/src/foundation/key.dart';
+import 'package:flutter/src/widgets/framework.dart';
+>>>>>>> d4077e1 (add favorite screen)
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
@@ -11,7 +20,11 @@ class FavoriteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
+<<<<<<< HEAD
     double width = screenSize.width - 40;
+=======
+    double width = screenSize.width - 60;
+>>>>>>> d4077e1 (add favorite screen)
     return BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
         builder: (context, state) {
       Brightness screenBrightness = MediaQuery.platformBrightnessOf(context);
@@ -23,6 +36,7 @@ class FavoriteScreen extends StatelessWidget {
                   ? true
                   : false;
       return Scaffold(
+<<<<<<< HEAD
         body: DefaultTabController(
             length: 2, // length of tabs
             initialIndex: 0,
@@ -384,6 +398,99 @@ class FavoriteScreen extends StatelessWidget {
                 ]))
               ]),
             )),
+=======
+        body: SingleChildScrollView(
+            child: Center(
+          child: Column(
+            children: [
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 30),
+                width: width,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Favorite',
+                      style: bHeading4.copyWith(
+                        color: (isLight) ? bPrimary : bTextPrimary,
+                      ),
+                    ),
+                    SvgPicture.asset(
+                      'assets/icon/bell-Bold.svg',
+                      color: (isLight) ? bPrimary : bTextPrimary,
+                      height: 30,
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                width: width,
+                child: Row(
+                  children: [
+                    Text(
+                      'Wisata',
+                      style: bSubtitle3.copyWith(
+                          color: (isLight) ? bPrimary : bTextPrimary),
+                    ),
+                    SizedBox(
+                      width: 60,
+                    ),
+                    Text('UMKM')
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              CustomWisataCardList(
+                img:
+                    "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
+                rating: "4.5",
+                title: "Gedung Sate",
+                timeOpen: "Buka (07.00 WIB -16.00 WIB)",
+                isFavourited: false,
+                description:
+                    "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+                onTap: () {
+                  print("Container clicked");
+                },
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              CustomWisataCardList(
+                img:
+                    "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
+                rating: "4.5",
+                title: "Gedung Sate",
+                timeOpen: "Buka (07.00 WIB -16.00 WIB)",
+                isFavourited: false,
+                description:
+                    "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+                onTap: () {
+                  print("Container clicked");
+                },
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              CustomWisataCardList(
+                img:
+                    "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
+                rating: "4.5",
+                title: "Gedung Sate",
+                timeOpen: "Buka (07.00 WIB -16.00 WIB)",
+                isFavourited: false,
+                description:
+                    "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+                onTap: () {
+                  print("Container clicked");
+                },
+              ),
+            ],
+          ),
+        )),
+>>>>>>> d4077e1 (add favorite screen)
       );
     });
   }

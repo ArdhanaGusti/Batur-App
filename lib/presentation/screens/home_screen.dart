@@ -74,19 +74,19 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   Image.asset(
                     'assets/icon/news.png',
-                    width: 75,
+                    width: 80,
                   ),
                   Image.asset(
                     'assets/icon/umkm.png',
-                    width: 75,
+                    width: 80,
                   ),
                   Image.asset(
                     'assets/icon/wisata.png',
-                    width: 75,
+                    width: 80,
                   ),
                   Image.asset(
                     'assets/icon/transport.png',
-                    width: 75,
+                    width: 80,
                   ),
                 ],
               ),

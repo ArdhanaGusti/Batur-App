@@ -15,10 +15,14 @@ import 'package:capstone_design/presentation/screens/UMKM/umkm_detail_acc_screen
 >>>>>>> eb9f98b (add umkm detail acc screen)
 import 'package:capstone_design/presentation/screens/card_screen.dart';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import 'package:capstone_design/presentation/screens/favorite/favorite_screen.dart';
 import 'package:capstone_design/presentation/screens/favorite/favorite_screen.dart';
 =======
 >>>>>>> c09ec6d (add home screen without bottom navbar)
+=======
+import 'package:capstone_design/presentation/screens/favorite/favorite_screen.dart';
+>>>>>>> d4077e1 (add favorite screen)
 import 'package:capstone_design/presentation/screens/home_screen.dart';
 import 'package:capstone_design/presentation/screens/icon_button_screen.dart';
 <<<<<<< HEAD
@@ -251,6 +255,9 @@ class _LoginState extends State<Login> {
                     child: const Text("News Screen"),
                   ),
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d4077e1 (add favorite screen)
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -262,6 +269,7 @@ class _LoginState extends State<Login> {
                     },
                     child: const Text("Favorite Screen"),
                   ),
+<<<<<<< HEAD
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -466,6 +474,8 @@ class _LoginState extends State<Login> {
 >>>>>>> c09ec6d (add home screen without bottom navbar)
 =======
 >>>>>>> fd85131 (add news screen without bottom navbar)
+=======
+>>>>>>> d4077e1 (add favorite screen)
                 ],
               ),
             ),

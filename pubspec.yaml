@@ -11,7 +11,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  
+
   theme:
     path: theme
 
@@ -29,6 +29,7 @@ dependencies:
   get_it:
   flutter_svg:
   fluttertoast: ^8.0.9
+  carousel_slider: ^4.1.1
 
 dev_dependencies:
   flutter_test:
@@ -64,3 +65,12 @@ flutter:
     - assets/icon/uncheck.svg
     - assets/icon/back.svg
     - assets/icon/menu.svg
+    - assets/splashscreen/logo.png
+    - assets/icon/bell-Bold.svg
+    - assets/icon/news.png
+    - assets/icon/transport.png
+    - assets/icon/umkm.png
+    - assets/icon/wisata.png
+    - assets/splashscreen/image6.png
+    - assets/splashscreen/image1.webp
+    - assets/splashscreen/logo_dark.png

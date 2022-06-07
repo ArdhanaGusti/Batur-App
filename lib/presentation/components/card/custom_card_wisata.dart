@@ -32,7 +32,7 @@ class CardWisata extends StatelessWidget {
         child: GestureDetector(
           onTap: onTap,
           child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 30),
+            margin: EdgeInsets.only(left: 15, top: 15, bottom: 15),
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(25),

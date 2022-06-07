@@ -1,5 +1,7 @@
 import 'package:capstone_design/presentation/components/card/custom_news_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/src/foundation/key.dart';
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
@@ -43,7 +45,7 @@ class NewsScreen extends StatelessWidget {
                         SvgPicture.asset(
                           'assets/icon/bell.svg',
                           color: (isLight) ? bPrimary : bTextPrimary,
-                          height: 25,
+                          height: 30,
                         ),
                         SizedBox(
                           width: 10,
@@ -51,7 +53,7 @@ class NewsScreen extends StatelessWidget {
                         SvgPicture.asset(
                           'assets/icon/bell-Bold.svg',
                           color: (isLight) ? bPrimary : bTextPrimary,
-                          height: 25,
+                          height: 30,
                         ),
                       ],
                     ),

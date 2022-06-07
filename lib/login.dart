@@ -21,9 +21,13 @@ import 'package:capstone_design/presentation/screens/favorite/favorite_screen.da
 >>>>>>> c09ec6d (add home screen without bottom navbar)
 import 'package:capstone_design/presentation/screens/home_screen.dart';
 import 'package:capstone_design/presentation/screens/icon_button_screen.dart';
+<<<<<<< HEAD
 import 'package:capstone_design/presentation/screens/filter_tour_list_screen.dart';
 import 'package:capstone_design/presentation/screens/news/news_screen.dart';
 import 'package:capstone_design/presentation/screens/notifikasi/notifikasi_screen.dart';
+=======
+import 'package:capstone_design/presentation/screens/news/news_screen.dart';
+>>>>>>> fd85131 (add news screen without bottom navbar)
 import 'package:capstone_design/presentation/screens/text_button_screen.dart';
 import 'package:capstone_design/presentation/screens/text_icon_button_screen.dart';
 import 'package:capstone_design/presentation/screens/theme_setting_screen.dart';
@@ -232,6 +236,9 @@ class _LoginState extends State<Login> {
                     child: const Text("Home Screen"),
                   ),
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> fd85131 (add news screen without bottom navbar)
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -243,6 +250,7 @@ class _LoginState extends State<Login> {
                     },
                     child: const Text("News Screen"),
                   ),
+<<<<<<< HEAD
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -456,6 +464,8 @@ class _LoginState extends State<Login> {
 =======
 =======
 >>>>>>> c09ec6d (add home screen without bottom navbar)
+=======
+>>>>>>> fd85131 (add news screen without bottom navbar)
                 ],
               ),
             ),

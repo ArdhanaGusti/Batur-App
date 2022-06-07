@@ -44,7 +44,7 @@ class HomeScreen extends StatelessWidget {
                   SvgPicture.asset(
                     'assets/icon/bell-Bold.svg',
                     color: (isLight) ? bPrimary : bTextPrimary,
-                    height: 25,
+                    height: 30,
                   ),
                 ],
               ),

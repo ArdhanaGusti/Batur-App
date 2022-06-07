@@ -83,6 +83,7 @@ flutter:
     - assets/splashscreen/image1.webp
     - assets/splashscreen/logo_dark.png
 <<<<<<< HEAD
+<<<<<<< HEAD
     - assets/splashscreen/map.jpg
     - assets/icon/bell.svg
     - assets/icon/star.svg
@@ -91,3 +92,6 @@ flutter:
     - assets/icon/search.svg
 =======
 >>>>>>> c09ec6d (add home screen without bottom navbar)
+=======
+    - assets/icon/bell.svg
+>>>>>>> fd85131 (add news screen without bottom navbar)

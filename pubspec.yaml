@@ -30,10 +30,14 @@ dependencies:
   flutter_svg:
   fluttertoast: ^8.0.9
 <<<<<<< HEAD
+<<<<<<< HEAD
   carousel_slider: ^4.1.1
   flutter_slidable: ^1.3.0
 =======
 >>>>>>> c152b45 (add custom toast)
+=======
+  carousel_slider: ^4.1.1
+>>>>>>> c09ec6d (add home screen without bottom navbar)
 
 dev_dependencies:
   flutter_test:
@@ -78,9 +82,12 @@ flutter:
     - assets/splashscreen/image6.png
     - assets/splashscreen/image1.webp
     - assets/splashscreen/logo_dark.png
+<<<<<<< HEAD
     - assets/splashscreen/map.jpg
     - assets/icon/bell.svg
     - assets/icon/star.svg
     - assets/icon/star_outline.svg
     - assets/icon/map.svg
     - assets/icon/search.svg
+=======
+>>>>>>> c09ec6d (add home screen without bottom navbar)

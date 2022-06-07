@@ -14,8 +14,11 @@ import 'package:capstone_design/presentation/screens/UMKM/umkm_detail_screen.dar
 import 'package:capstone_design/presentation/screens/UMKM/umkm_detail_acc_screen.dart';
 >>>>>>> eb9f98b (add umkm detail acc screen)
 import 'package:capstone_design/presentation/screens/card_screen.dart';
+<<<<<<< HEAD
 import 'package:capstone_design/presentation/screens/favorite/favorite_screen.dart';
 import 'package:capstone_design/presentation/screens/favorite/favorite_screen.dart';
+=======
+>>>>>>> c09ec6d (add home screen without bottom navbar)
 import 'package:capstone_design/presentation/screens/home_screen.dart';
 import 'package:capstone_design/presentation/screens/icon_button_screen.dart';
 import 'package:capstone_design/presentation/screens/filter_tour_list_screen.dart';
@@ -214,6 +217,9 @@ class _LoginState extends State<Login> {
                     child: const Text("UMKM detail acc"),
                   ),
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c09ec6d (add home screen without bottom navbar)
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -225,6 +231,7 @@ class _LoginState extends State<Login> {
                     },
                     child: const Text("Home Screen"),
                   ),
+<<<<<<< HEAD
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -447,6 +454,8 @@ class _LoginState extends State<Login> {
           ),
 >>>>>>> ab30d61 (add status register umkm screen)
 =======
+=======
+>>>>>>> c09ec6d (add home screen without bottom navbar)
                 ],
               ),
             ),

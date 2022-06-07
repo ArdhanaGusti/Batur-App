@@ -5,6 +5,7 @@ import 'package:capstone_design/presentation/components/custom_app_bar.dart';
 import 'package:capstone_design/presentation/screens/UMKM/status_register_umkm_screen.dart';
 import 'package:capstone_design/presentation/screens/UMKM/umkm_detail_acc_screen.dart';
 import 'package:capstone_design/presentation/screens/card_screen.dart';
+import 'package:capstone_design/presentation/screens/favorite/favorite_screen.dart';
 import 'package:capstone_design/presentation/screens/home_screen.dart';
 import 'package:capstone_design/presentation/screens/icon_button_screen.dart';
 import 'package:capstone_design/presentation/screens/news/news_screen.dart';
@@ -208,6 +209,17 @@ class _LoginState extends State<Login> {
                       );
                     },
                     child: const Text("News Screen"),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const FavoriteScreen(),
+                        ),
+                      );
+                    },
+                    child: const Text("Favorite Screen"),
                   ),
                 ],
               ),

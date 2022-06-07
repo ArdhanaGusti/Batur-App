@@ -50,25 +50,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Batur Test Aplication"),
-        actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const ThemeSettingScreen(),
-                  ),
-                );
-              },
-              child: const Icon(Icons.settings),
-            ),
-          ),
-        ],
-      ),
       body: _listWidget[_selectedIndex],
       bottomNavigationBar: BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
         builder: (context, state) {

@@ -80,8 +80,18 @@ flutter:
     - assets/icon/envelope-fill.svg
     - assets/icon/pen.svg
     - assets/icon/shield.svg
+    - assets/icon/check-circle.svg
+    - assets/icon/file.svg
+    - assets/icon/bell.svg
+    - assets/icon/info-circle.svg
+    - assets/icon/question-circle.svg
+    - assets/icon/settings.svg
+    - assets/icon/log-out.svg
+    - assets/icon/chevron-right.svg
     - assets/logo/logo.png
     - assets/logo/logo_dark.png
     - assets/image/gedung_sate.png
+    - assets/image/gd-sate.png
+    - assets/image/gd-sate-profile.png
     - assets/image/404.svg
     - assets/image/profile.jpg

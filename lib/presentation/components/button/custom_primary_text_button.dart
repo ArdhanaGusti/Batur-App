@@ -18,16 +18,18 @@ class CustomPrimaryTextButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         primary: Theme.of(context).colorScheme.primary,
         minimumSize: Size(
-          (width < 300) ? 300 : width,
-          50,
+          (width < 300.0) ? 300.0 : width,
+          50.0,
         ),
         maximumSize: Size(
-          (width > 500) ? 500 : width,
-          50,
+          (width > 500.0) ? 500.0 : width,
+          50.0,
         ),
       ),
       child: Text(
         text,
+        overflow: TextOverflow.ellipsis,
+        maxLines: 1,
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:capstone_design/presentation/components/appbar/custom_sliver_appbar_text_leading_action.dart';
+import 'package:capstone_design/presentation/screens/edit_account_screen.dart';
 import 'package:capstone_design/presentation/screens/error_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:theme/theme.dart';
@@ -51,8 +52,15 @@ class AccountDetailScreen extends StatelessWidget {
               );
             },
             actionIcon: "assets/icon/pen.svg",
-            // Must replace function to navigate
-            actionOnTap: () {},
+            // Navigation repair
+            actionOnTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const EditAccountScreen(),
+                ),
+              );
+            },
           ),
         ),
         SliverPadding(
@@ -92,6 +100,7 @@ class AccountDetailScreen extends StatelessWidget {
                     "Email",
                     "neidaaleida@gmail.com",
                   ),
+                  // Display Password with Obsecure
                 ],
               ),
             ),

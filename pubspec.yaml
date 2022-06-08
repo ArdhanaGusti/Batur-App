@@ -79,6 +79,7 @@ flutter:
     - assets/icon/envelope.svg
     - assets/icon/envelope-fill.svg
     - assets/icon/pen.svg
+    - assets/icon/pen-Light.svg
     - assets/icon/shield.svg
     - assets/icon/check-circle.svg
     - assets/icon/file.svg

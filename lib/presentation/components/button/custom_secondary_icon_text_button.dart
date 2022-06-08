@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:theme/data/sources/theme_data.dart';
 
-class CustomPrimaryIconTextButton extends StatelessWidget {
+class CustomSecondaryIconTextButton extends StatelessWidget {
   final double width;
   final String text;
   final String icon;
   final Function() onTap;
-  const CustomPrimaryIconTextButton({
+  const CustomSecondaryIconTextButton({
     Key? key,
     required this.width,
     required this.text,
@@ -20,7 +20,7 @@ class CustomPrimaryIconTextButton extends StatelessWidget {
     return ElevatedButton.icon(
       onPressed: onTap,
       style: ElevatedButton.styleFrom(
-        primary: Theme.of(context).colorScheme.primary,
+        primary: Theme.of(context).colorScheme.secondary,
         minimumSize: Size(
           (width < 300.0) ? 300.0 : width,
           50.0,

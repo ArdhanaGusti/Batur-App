@@ -21,7 +21,7 @@ class CustomSliverAppBarTextLeadingAction extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverAppBar(
       pinned: true,
-      toolbarHeight: 40.0,
+      toolbarHeight: 60.0,
       backgroundColor: Theme.of(context).colorScheme.background,
       centerTitle: true,
       titleTextStyle: bHeading6.copyWith(
@@ -31,40 +31,55 @@ class CustomSliverAppBarTextLeadingAction extends StatelessWidget {
         title,
         textAlign: TextAlign.center,
       ),
-      leadingWidth: 40.0,
-      leading: GestureDetector(
-        onTap: leadingOnTap,
-        child: Container(
-          height: 40.0,
-          width: 40.0,
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.primaryContainer,
-            borderRadius: BorderRadius.circular(8.0),
-          ),
+      leadingWidth: 80.0,
+      elevation: 2.0,
+      leading: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 20.0,
+        ),
+        child: GestureDetector(
+          onTap: leadingOnTap,
           child: Center(
-            child: SvgPicture.asset(
-              leadingIcon,
-              color: Theme.of(context).colorScheme.tertiary,
-              height: 24.0,
+            child: Container(
+              height: 40.0,
+              width: 40.0,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primaryContainer,
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: Center(
+                child: SvgPicture.asset(
+                  leadingIcon,
+                  color: Theme.of(context).colorScheme.tertiary,
+                  height: 24.0,
+                ),
+              ),
             ),
           ),
         ),
       ),
       actions: [
-        GestureDetector(
-          onTap: actionOnTap,
-          child: Container(
-            height: 40.0,
-            width: 40.0,
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primaryContainer,
-              borderRadius: BorderRadius.circular(8.0),
-            ),
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 20.0,
+          ),
+          child: GestureDetector(
+            onTap: actionOnTap,
             child: Center(
-              child: SvgPicture.asset(
-                actionIcon,
-                color: Theme.of(context).colorScheme.tertiary,
-                height: 24.0,
+              child: Container(
+                height: 40.0,
+                width: 40.0,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primaryContainer,
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Center(
+                  child: SvgPicture.asset(
+                    actionIcon,
+                    color: Theme.of(context).colorScheme.tertiary,
+                    height: 24.0,
+                  ),
+                ),
               ),
             ),
           ),

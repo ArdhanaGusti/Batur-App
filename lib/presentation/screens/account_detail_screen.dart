@@ -1,7 +1,9 @@
+import 'package:capstone_design/presentation/bloc/profile_bloc.dart';
 import 'package:capstone_design/presentation/components/appbar/custom_sliver_appbar_text_leading_action.dart';
 import 'package:capstone_design/presentation/screens/edit_account_screen.dart';
 import 'package:capstone_design/presentation/screens/error_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:theme/theme.dart';
 
 class AccountDetailScreen extends StatelessWidget {
@@ -36,77 +38,82 @@ class AccountDetailScreen extends StatelessWidget {
   }
 
   Widget _buildAccountDetailScreen(BuildContext context, Size screenSize) {
-    return CustomScrollView(
-      physics: const BouncingScrollPhysics(),
-      slivers: <Widget>[
-        SliverPadding(
-          padding: const EdgeInsets.all(20.0),
-          sliver: CustomSliverAppBarTextLeadingAction(
-            // Text wait localization
-            title: "Detail Akun",
-            leadingIcon: "assets/icon/back.svg",
-            // Navigation repair
-            leadingOnTap: () {
-              Navigator.pop(
-                context,
-              );
-            },
-            actionIcon: "assets/icon/pen.svg",
-            // Navigation repair
-            actionOnTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const EditAccountScreen(),
-                ),
-              );
-            },
-          ),
-        ),
-        SliverPadding(
-          padding: const EdgeInsets.all(20.0),
-          sliver: SliverToBoxAdapter(
-            // Parameter must change, depends on image use
-            child: _customProfilePict("assets/image/profile.jpg"),
-          ),
-        ),
-        SliverPadding(
-          padding: const EdgeInsets.all(20.0),
-          sliver: SliverToBoxAdapter(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.secondaryContainer,
-                borderRadius: BorderRadius.circular(15.0),
-              ),
-              child: Column(
-                children: <Widget>[
-                  _customTextContainer(
-                    context,
-                    // Text wait localization
-                    "Nama",
-                    "Neida Aleida",
+    return BlocBuilder<ProfileBloc, ProfileState>(
+      builder: (context, state) {
+        return CustomScrollView(
+          physics: const BouncingScrollPhysics(),
+          slivers: <Widget>[
+            CustomSliverAppBarTextLeadingAction(
+              // Text wait localization
+              title: "Detail Akun",
+              leadingIcon: "assets/icon/back.svg",
+              // Navigation repair
+              leadingOnTap: () {
+                Navigator.pop(
+                  context,
+                );
+              },
+              actionIcon: "assets/icon/pen.svg",
+              // Navigation repair
+              actionOnTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const EditAccountScreen(),
                   ),
-                  _customDivider(),
-                  _customTextContainer(
-                    context,
-                    // Text wait localization
-                    "Username",
-                    "neidaaleida",
-                  ),
-                  _customDivider(),
-                  _customTextContainer(
-                    context,
-                    // Text wait localization
-                    "Email",
-                    "neidaaleida@gmail.com",
-                  ),
-                  // Display Password with Obsecure
-                ],
+                );
+              },
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.all(20.0),
+              sliver: SliverToBoxAdapter(
+                // Parameter must change, depends on image use
+                // Parameter use Bloc
+                child: _customProfilePict("assets/image/profile.jpg"),
               ),
             ),
-          ),
-        ),
-      ],
+            SliverPadding(
+              padding: const EdgeInsets.all(20.0),
+              sliver: SliverToBoxAdapter(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.secondaryContainer,
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  child: Column(
+                    children: <Widget>[
+                      _customTextContainer(
+                        context,
+                        // Text wait localization
+                        "Nama",
+                        // Parameter use Bloc
+                        "Neida Aleida",
+                      ),
+                      _customDivider(),
+                      _customTextContainer(
+                        context,
+                        // Text wait localization
+                        "Username",
+                        // Parameter use Bloc
+                        "neidaaleida",
+                      ),
+                      _customDivider(),
+                      _customTextContainer(
+                        context,
+                        // Text wait localization
+                        "Email",
+                        // Parameter use Bloc
+                        "neidaaleida@gmail.com",
+                      ),
+                      // Display Password with Obsecure
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 

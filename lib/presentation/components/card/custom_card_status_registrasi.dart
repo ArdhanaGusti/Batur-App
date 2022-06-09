@@ -20,7 +20,7 @@ class CardStatusRegistrasi extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-    double width = screenSize.width - 60;
+    double width = screenSize.width - 40;
     return BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
         builder: (context, state) {
       Brightness screenBrightness = MediaQuery.platformBrightnessOf(context);
@@ -69,9 +69,10 @@ class CardStatusRegistrasi extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Container(
-                              width: 170,
+                              width: 190,
                               child: Text(
                                 title,
                                 style: bSubtitle4,

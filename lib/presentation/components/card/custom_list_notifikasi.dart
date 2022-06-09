@@ -20,23 +20,28 @@ class ListNotifikasi extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-    double width = screenSize.width - 60;
+    double width = screenSize.width - 40;
     return BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
         builder: (context, state) {
       Brightness screenBrightness = MediaQuery.platformBrightnessOf(context);
       return Center(
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+          padding: EdgeInsets.symmetric(
+            vertical: 15,
+          ),
+          width: width,
           child: GestureDetector(
             onTap: onTap,
             child: Container(
-              child: Row(children: [
+              child:
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(50),
                   child: Image.network(
                     img,
                     width: 50,
                     height: 50,
+                    fit: BoxFit.cover,
                   ),
                 ),
                 SizedBox(
@@ -48,15 +53,19 @@ class ListNotifikasi extends StatelessWidget {
                     Row(
                       children: [
                         Container(
-                          child: Text(title, style: bSubtitle2),
-                        ),
-                        SizedBox(
-                          width: 40,
+                          width: 210,
+                          child: Text(
+                            title,
+                            style: bSubtitle2,
+                            maxLines: 1,
+                          ),
                         ),
                         Container(
+                          width: 80,
                           child: Text(
                             uploadTime,
                             style: bCaption1,
+                            maxLines: 1,
                           ),
                         ),
                       ],
@@ -65,7 +74,7 @@ class ListNotifikasi extends StatelessWidget {
                       height: 5,
                     ),
                     Container(
-                      width: 250,
+                      width: 270,
                       child: Text(
                         description,
                         style: bSubtitle4,

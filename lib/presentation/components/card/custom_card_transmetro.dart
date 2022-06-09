@@ -20,7 +20,7 @@ class CardTransmetro extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-    double width = screenSize.width - 60;
+    double width = screenSize.width - 40;
     return BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
         builder: (context, state) {
       Brightness screenBrightness = MediaQuery.platformBrightnessOf(context);
@@ -28,7 +28,7 @@ class CardTransmetro extends StatelessWidget {
         child: GestureDetector(
           onTap: onTap,
           child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 30),
+            margin: EdgeInsets.symmetric(horizontal: 20),
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
@@ -100,7 +100,9 @@ class CardTransmetro extends StatelessWidget {
                         width: 192,
                         child: Text(
                           rute,
-                          style: TextStyle(color: bGrey, fontSize: 10),
+                          style: bCaption1.copyWith(
+                            color: bGrey,
+                          ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),

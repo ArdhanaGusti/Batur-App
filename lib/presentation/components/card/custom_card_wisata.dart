@@ -24,7 +24,7 @@ class CardWisata extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-    double width = screenSize.width - 60;
+    double width = screenSize.width - 40;
     return BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
         builder: (context, state) {
       Brightness screenBrightness = MediaQuery.platformBrightnessOf(context);
@@ -62,8 +62,9 @@ class CardWisata extends StatelessWidget {
                           borderRadius: BorderRadius.circular(15),
                           child: Image.network(
                             img,
+                            fit: BoxFit.cover,
                             width: 140,
-                            height: 81,
+                            height: 100, //revisi
                           ),
                         ),
                         SizedBox(
@@ -130,8 +131,8 @@ class CardWisata extends StatelessWidget {
                       ), //CircularAvatar
                     ),
                     Positioned(
-                      top: 65,
-                      left: 95,
+                      top: 85,
+                      left: 100,
                       child: Container(
                           padding: EdgeInsets.all(5),
                           decoration: BoxDecoration(
@@ -182,13 +183,10 @@ class CardWisata extends StatelessWidget {
                   child: Text(
                     description,
                     style: bCaption1,
-                    maxLines: 5,
+                    maxLines: 4,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                SizedBox(
-                  height: 10,
-                )
               ],
             ),
           ),

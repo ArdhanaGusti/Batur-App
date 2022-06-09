@@ -20,7 +20,7 @@ class CustomNewsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-    double width = screenSize.width - 60;
+    double width = screenSize.width - 40;
     return BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
         builder: (context, state) {
       Brightness screenBrightness = MediaQuery.platformBrightnessOf(context);
@@ -29,7 +29,7 @@ class CustomNewsCard extends StatelessWidget {
         child: GestureDetector(
           onTap: onTap,
           child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 30),
+            margin: EdgeInsets.symmetric(horizontal: 20),
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
@@ -54,6 +54,7 @@ class CustomNewsCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
                 child: Image.network(
                   img,
+                  fit: BoxFit.cover,
                   width: 85,
                   height: 85,
                 ),
@@ -67,7 +68,7 @@ class CustomNewsCard extends StatelessWidget {
                   Row(
                     children: [
                       Container(
-                        width: 210,
+                        width: 235,
                         child: Text(
                           title,
                           style: bSubtitle4,
@@ -95,13 +96,13 @@ class CustomNewsCard extends StatelessWidget {
                           Container(
                             child: Text(
                               writer,
-                              style: bCaption2,
+                              style: bCaption2.copyWith(color: bGrey),
                             ),
                           ),
                         ],
                       ),
                       SizedBox(
-                        width: 10,
+                        width: 20,
                       ),
                       Row(
                         children: [
@@ -116,7 +117,7 @@ class CustomNewsCard extends StatelessWidget {
                           Container(
                             child: Text(
                               date,
-                              style: bCaption2,
+                              style: bCaption2.copyWith(color: bGrey),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),

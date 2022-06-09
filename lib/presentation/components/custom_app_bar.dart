@@ -23,7 +23,7 @@ class CustomAppBar extends StatelessWidget {
                     ? true
                     : false;
         return Padding(
-          padding: const EdgeInsets.all(30.0),
+          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -64,7 +64,8 @@ class CustomAppBar extends StatelessWidget {
                       ),
                     )
                   : SizedBox(
-                      height: 0,
+                      height: 40,
+                      width: 40,
                     ),
             ],
           ),

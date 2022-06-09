@@ -30,6 +30,7 @@ dependencies:
   flutter_svg:
   fluttertoast: ^8.0.9
   carousel_slider: ^4.1.1
+  flutter_slidable: ^1.3.0
 
 dev_dependencies:
   flutter_test:
@@ -75,3 +76,4 @@ flutter:
     - assets/splashscreen/image1.webp
     - assets/splashscreen/logo_dark.png
     - assets/icon/bell.svg
+    - assets/icon/star.svg

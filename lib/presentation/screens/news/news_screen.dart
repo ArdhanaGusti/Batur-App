@@ -11,7 +11,7 @@ class NewsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-    double width = screenSize.width - 60;
+    double width = screenSize.width - 40;
     return BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
         builder: (context, state) {
       Brightness screenBrightness = MediaQuery.platformBrightnessOf(context);
@@ -23,12 +23,11 @@ class NewsScreen extends StatelessWidget {
                   ? true
                   : false;
       return Scaffold(
-        body: SingleChildScrollView(
-            child: Center(
+        body: SafeArea(
           child: Column(
             children: [
               Container(
-                margin: EdgeInsets.symmetric(vertical: 30),
+                margin: EdgeInsets.symmetric(vertical: 15),
                 width: width,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -44,7 +43,7 @@ class NewsScreen extends StatelessWidget {
                         SvgPicture.asset(
                           'assets/icon/bell.svg',
                           color: (isLight) ? bPrimary : bTextPrimary,
-                          height: 30,
+                          height: 25,
                         ),
                         SizedBox(
                           width: 10,
@@ -52,52 +51,149 @@ class NewsScreen extends StatelessWidget {
                         SvgPicture.asset(
                           'assets/icon/bell-Bold.svg',
                           color: (isLight) ? bPrimary : bTextPrimary,
-                          height: 30,
+                          height: 25,
                         ),
                       ],
                     ),
                   ],
                 ),
               ),
-              CustomNewsCard(
-                img:
-                    'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg',
-                title: "Prabowo Atau Anies, Siapa Capres yang Paling Kuat?",
-                writer: "Udin Saparudin",
-                date: "Jumat, 13 Mei 2022",
-                onTap: () {
-                  print("Container clicked");
-                },
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              CustomNewsCard(
-                img:
-                    'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg',
-                title: "Prabowo Atau Anies, Siapa Capres yang Paling Kuat?",
-                writer: "Udin Saparudin",
-                date: "Jumat, 13 Mei 2022",
-                onTap: () {
-                  print("Container clicked");
-                },
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              CustomNewsCard(
-                img:
-                    'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg',
-                title: "Prabowo Atau Anies, Siapa Capres yang Paling Kuat?",
-                writer: "Udin Saparudin",
-                date: "Jumat, 13 Mei 2022",
-                onTap: () {
-                  print("Container clicked");
-                },
+              Expanded(
+                child: ListView(
+                  physics: BouncingScrollPhysics(),
+                  children: [
+                    CustomNewsCard(
+                      img:
+                          'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg',
+                      title:
+                          "Prabowo Atau Anies, Siapa Capres yang Paling Kuat?",
+                      writer: "Udin Saparudin",
+                      date: "Jumat, 13 Mei 2022",
+                      onTap: () {
+                        print("Container clicked");
+                      },
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    CustomNewsCard(
+                      img:
+                          'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg',
+                      title:
+                          "Prabowo Atau Anies, Siapa Capres yang Paling Kuat?",
+                      writer: "Udin Saparudin",
+                      date: "Jumat, 13 Mei 2022",
+                      onTap: () {
+                        print("Container clicked");
+                      },
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    CustomNewsCard(
+                      img:
+                          'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg',
+                      title:
+                          "Prabowo Atau Anies, Siapa Capres yang Paling Kuat?",
+                      writer: "Udin Saparudin",
+                      date: "Jumat, 13 Mei 2022",
+                      onTap: () {
+                        print("Container clicked");
+                      },
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    CustomNewsCard(
+                      img:
+                          'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg',
+                      title:
+                          "Prabowo Atau Anies, Siapa Capres yang Paling Kuat?",
+                      writer: "Udin Saparudin",
+                      date: "Jumat, 13 Mei 2022",
+                      onTap: () {
+                        print("Container clicked");
+                      },
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    CustomNewsCard(
+                      img:
+                          'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg',
+                      title:
+                          "Prabowo Atau Anies, Siapa Capres yang Paling Kuat?",
+                      writer: "Udin Saparudin",
+                      date: "Jumat, 13 Mei 2022",
+                      onTap: () {
+                        print("Container clicked");
+                      },
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    CustomNewsCard(
+                      img:
+                          'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg',
+                      title:
+                          "Prabowo Atau Anies, Siapa Capres yang Paling Kuat?",
+                      writer: "Udin Saparudin",
+                      date: "Jumat, 13 Mei 2022",
+                      onTap: () {
+                        print("Container clicked");
+                      },
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    CustomNewsCard(
+                      img:
+                          'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg',
+                      title:
+                          "Prabowo Atau Anies, Siapa Capres yang Paling Kuat?",
+                      writer: "Udin Saparudin",
+                      date: "Jumat, 13 Mei 2022",
+                      onTap: () {
+                        print("Container clicked");
+                      },
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    CustomNewsCard(
+                      img:
+                          'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg',
+                      title:
+                          "Prabowo Atau Anies, Siapa Capres yang Paling Kuat?",
+                      writer: "Udin Saparudin",
+                      date: "Jumat, 13 Mei 2022",
+                      onTap: () {
+                        print("Container clicked");
+                      },
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    CustomNewsCard(
+                      img:
+                          'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg',
+                      title:
+                          "Prabowo Atau Anies, Siapa Capres yang Paling Kuat?",
+                      writer: "Udin Saparudin",
+                      date: "Jumat, 13 Mei 2022",
+                      onTap: () {
+                        print("Container clicked");
+                      },
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
-        )),
+        ),
       );
     });
   }

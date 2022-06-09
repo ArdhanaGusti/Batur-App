@@ -6,9 +6,11 @@ import 'package:capstone_design/presentation/screens/UMKM/status_register_umkm_s
 import 'package:capstone_design/presentation/screens/UMKM/umkm_detail_acc_screen.dart';
 import 'package:capstone_design/presentation/screens/card_screen.dart';
 import 'package:capstone_design/presentation/screens/favorite/favorite_screen.dart';
+import 'package:capstone_design/presentation/screens/favorite/favorite_screen.dart';
 import 'package:capstone_design/presentation/screens/home_screen.dart';
 import 'package:capstone_design/presentation/screens/icon_button_screen.dart';
 import 'package:capstone_design/presentation/screens/news/news_screen.dart';
+import 'package:capstone_design/presentation/screens/notifikasi/notifikasi_screen.dart';
 import 'package:capstone_design/presentation/screens/text_button_screen.dart';
 import 'package:capstone_design/presentation/screens/text_icon_button_screen.dart';
 import 'package:capstone_design/presentation/screens/theme_setting_screen.dart';
@@ -79,7 +81,7 @@ class _LoginState extends State<Login> {
                 children: [
                   const CustomAppBar(
                     title: "Batur App",
-                    hamburgerMenu: false,
+                    hamburgerMenu: true,
                   ),
                   const TextField(),
                   const TextField(),
@@ -220,6 +222,17 @@ class _LoginState extends State<Login> {
                       );
                     },
                     child: const Text("Favorite Screen"),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const NotifikasiScreen(),
+                        ),
+                      );
+                    },
+                    child: const Text("Notifikasi Screen"),
                   ),
                 ],
               ),

@@ -114,27 +114,35 @@ class LanguageSettingScreen extends StatelessWidget {
   ) {
     return BlocBuilder<LanguageBloc, LanguageState>(
       builder: (context, state) {
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text(
-              title,
-              style: bSubtitle2.copyWith(
-                color: Theme.of(context).colorScheme.tertiary,
+        return GestureDetector(
+          onTap: () {
+            _languageChange(
+              value,
+              context,
+            );
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(
+                title,
+                style: bSubtitle2.copyWith(
+                  color: Theme.of(context).colorScheme.tertiary,
+                ),
               ),
-            ),
-            Radio<LanguageEnum>(
-              fillColor: MaterialStateProperty.all(
-                Theme.of(context).colorScheme.tertiary,
+              Radio<LanguageEnum>(
+                fillColor: MaterialStateProperty.all(
+                  Theme.of(context).colorScheme.tertiary,
+                ),
+                value: value,
+                groupValue: state.language,
+                onChanged: (value) => _languageChange(
+                  value!,
+                  context,
+                ),
               ),
-              value: value,
-              groupValue: state.language,
-              onChanged: (value) => _languageChange(
-                value!,
-                context,
-              ),
-            ),
-          ],
+            ],
+          ),
         );
       },
     );

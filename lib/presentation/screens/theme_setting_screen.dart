@@ -129,27 +129,35 @@ class ThemeSettingScreen extends StatelessWidget {
   ) {
     return BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
       builder: (context, state) {
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text(
-              title,
-              style: bSubtitle2.copyWith(
-                color: Theme.of(context).colorScheme.tertiary,
+        return GestureDetector(
+          onTap: () {
+            _themeChange(
+              value,
+              context,
+            );
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(
+                title,
+                style: bSubtitle2.copyWith(
+                  color: Theme.of(context).colorScheme.tertiary,
+                ),
               ),
-            ),
-            Radio<ThemeModeEnum>(
-              fillColor: MaterialStateProperty.all(
-                Theme.of(context).colorScheme.tertiary,
+              Radio<ThemeModeEnum>(
+                fillColor: MaterialStateProperty.all(
+                  Theme.of(context).colorScheme.tertiary,
+                ),
+                value: value,
+                groupValue: state.isDark,
+                onChanged: (value) => _themeChange(
+                  value!,
+                  context,
+                ),
               ),
-              value: value,
-              groupValue: state.isDark,
-              onChanged: (value) => _themeChange(
-                value!,
-                context,
-              ),
-            ),
-          ],
+            ],
+          ),
         );
       },
     );

@@ -1,10 +1,5 @@
-import 'package:capstone_design/presentation/screens/forgot_password.dart';
-import 'package:capstone_design/presentation/screens/login_screen.dart';
-import 'package:capstone_design/presentation/screens/on_boarding_screen.dart';
-import 'package:capstone_design/presentation/screens/registration_screen.dart';
-import 'package:capstone_design/presentation/screens/registration_setting_screen.dart';
-import 'package:capstone_design/presentation/screens/reset_password_screen.dart';
-import 'package:capstone_design/presentation/screens/verification_screen.dart';
+import 'package:capstone_design/presentation/components/appbar/custom_sliver_appbar_dashboard.dart';
+import 'package:capstone_design/presentation/screens/error_screen.dart';
 import 'package:flutter/material.dart';
 
 class FavoriteScreen extends StatelessWidget {
@@ -12,89 +7,49 @@ class FavoriteScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        children: [
-          const Text("Favorite Screen"),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const RegistrationScreen(),
-                ),
-              );
-            },
-            child: const Text("Regis"),
+    Size screenSize = MediaQuery.of(context).size;
+
+    if (screenSize.width < 320.0 || screenSize.height < 650.0) {
+      return const ErrorScreen(
+        // Text wait localization
+        title: "Error Layar",
+        message: "Aduh, Layar anda terlalu kecil",
+      );
+    } else if (screenSize.width > 500.0) {
+      // Tablet Mode (Must be repair)
+      return Center(
+        child: Container(
+          constraints: const BoxConstraints(maxWidth: 500.0),
+          child: _buildAccountScreen(context, screenSize),
+        ),
+      );
+    } else {
+      // Mobile Mode
+      return _buildAccountScreen(context, screenSize);
+    }
+  }
+
+  Widget _buildAccountScreen(BuildContext context, Size screenSize) {
+    Brightness screenBrightness = MediaQuery.platformBrightnessOf(context);
+    return CustomScrollView(
+      physics: const BouncingScrollPhysics(),
+      slivers: <Widget>[
+        CustomSliverAppBarDashboard(
+          actionIcon: "assets/icon/bell.svg",
+          // Must add on Tap
+          actionOnTap: () {},
+          leading: const Text(
+            // Text wait localization
+            "Favorite",
+            textAlign: TextAlign.center,
           ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const LoginScreen(),
-                ),
-              );
-            },
-            child: const Text("Login"),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const OnBoardingScreen(),
-                ),
-              );
-            },
-            child: const Text("On Boarding"),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => VerificationScreen(),
-                ),
-              );
-            },
-            child: const Text("Verifikasi"),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const RegistrationSettingScreen(),
-                ),
-              );
-            },
-            child: const Text("Setting"),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ForgotPasswordScreen(),
-                ),
-              );
-            },
-            child: const Text("Lupa Password"),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ResetPasswordScreen(),
-                ),
-              );
-            },
-            child: const Text("Reset Password"),
-          ),
-        ],
-      ),
+          actionIconSecondary: "",
+          // Must add on Tap
+          actionOnTapSecondary: () {},
+          // Becarefull with this
+          isDoubleAction: false,
+        ),
+      ],
     );
   }
 }

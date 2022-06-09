@@ -34,6 +34,16 @@ class CustomSliverAppBarDashboard extends StatelessWidget {
         child: leading,
       ),
       actions: [
+        (isDoubleAction)
+            ? GestureDetector(
+                onTap: actionOnTapSecondary,
+                child: SvgPicture.asset(
+                  actionIconSecondary,
+                  color: Theme.of(context).colorScheme.tertiary,
+                  height: 30.0,
+                ),
+              )
+            : const SizedBox(),
         Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 20.0,
@@ -47,16 +57,6 @@ class CustomSliverAppBarDashboard extends StatelessWidget {
             ),
           ),
         ),
-        (isDoubleAction)
-            ? GestureDetector(
-                onTap: actionOnTapSecondary,
-                child: SvgPicture.asset(
-                  actionIconSecondary,
-                  color: Theme.of(context).colorScheme.tertiary,
-                  height: 30.0,
-                ),
-              )
-            : const SizedBox(),
       ],
     );
   }

@@ -1,9 +1,12 @@
 import 'package:capstone_design/presentation/bloc/language_bloc.dart';
+import 'package:capstone_design/presentation/bloc/notification_bloc.dart';
 import 'package:capstone_design/presentation/components/appbar/custom_sliver_appbar_text_leading.dart';
 import 'package:capstone_design/presentation/screens/error_screen.dart';
-import 'package:capstone_design/presentation/screens/language_setting.dart';
+import 'package:capstone_design/presentation/screens/language_setting_screen.dart';
+import 'package:capstone_design/presentation/screens/notification_setting_screen.dart';
 import 'package:capstone_design/presentation/screens/theme_setting_screen.dart';
 import 'package:capstone_design/utils/enum/language_enum.dart';
+import 'package:capstone_design/utils/enum/notification_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -65,13 +68,31 @@ class SettingScreen extends StatelessWidget {
               ),
               child: Column(
                 children: <Widget>[
-                  _customTextContainer(
-                    context,
-                    // Text wait localization
-                    "Notifikasi",
-                    // Parameter use Bloc
-                    "Neida Aleida",
-                    "assets/icon/bell.svg",
+                  BlocBuilder<NotificationBloc, NotificationState>(
+                    builder: (context, state) {
+                      String mode = (state.notif == NotificationEnum.off)
+                          ? "Nonaktif"
+                          : "Aktif";
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const NotificationSettingScreen(),
+                            ),
+                          );
+                        },
+                        child: _customTextContainer(
+                          context,
+                          // Text wait localization
+                          "Notifikasi",
+                          // Parameter use Bloc
+                          mode,
+                          "assets/icon/bell-Light.svg",
+                        ),
+                      );
+                    },
                   ),
                   _customDivider(),
                   BlocBuilder<LanguageBloc, LanguageState>(

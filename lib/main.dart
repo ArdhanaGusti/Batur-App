@@ -5,6 +5,7 @@ import 'package:capstone_design/domain/usecase/get_first_open.dart';
 import 'package:capstone_design/presentation/bloc/forgot_password_bloc.dart';
 import 'package:capstone_design/presentation/bloc/language_bloc.dart';
 import 'package:capstone_design/presentation/bloc/login_form_bloc.dart';
+import 'package:capstone_design/presentation/bloc/notification_bloc.dart';
 import 'package:capstone_design/presentation/bloc/profile_bloc.dart';
 import 'package:capstone_design/presentation/bloc/regis_form_bloc.dart';
 import 'package:capstone_design/presentation/bloc/verification_form_bloc.dart';
@@ -50,6 +51,9 @@ void main() async {
         ),
         BlocProvider(
           create: (context) => LanguageBloc(),
+        ),
+        BlocProvider(
+          create: (context) => NotificationBloc(),
         ),
       ],
       child: const MyApp(),

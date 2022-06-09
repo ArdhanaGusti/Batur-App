@@ -1,7 +1,7 @@
-import 'package:capstone_design/dua.dart';
-import 'package:capstone_design/login.dart';
-import 'package:capstone_design/satu.dart';
-import 'package:capstone_design/tiga.dart';
+import 'package:capstone_design/presentation/page/dua.dart';
+import 'package:capstone_design/presentation/page/login.dart';
+import 'package:capstone_design/presentation/page/satu.dart';
+import 'package:capstone_design/presentation/page/tiga.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +32,7 @@ class _DashboardState extends State<Dashboard> {
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.black,
         elevation: 0,
-        title: Text("Batur App"),
+        title: const Text("Batur App"),
         actions: [
           IconButton(
             onPressed: () async {
@@ -42,10 +42,10 @@ class _DashboardState extends State<Dashboard> {
               prefs.setBool('isLogIn', false);
               Navigator.of(context)
                   .pushReplacement(MaterialPageRoute(builder: (context) {
-                return Login();
+                return const Login();
               }));
             },
-            icon: Icon(Icons.output_sharp),
+            icon: const Icon(Icons.output_sharp),
           )
         ],
       ),

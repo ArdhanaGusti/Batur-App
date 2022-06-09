@@ -1,5 +1,5 @@
-import 'package:capstone_design/dashboard.dart';
-import 'package:capstone_design/login.dart';
+import 'package:capstone_design/presentation/page/dashboard.dart';
+import 'package:capstone_design/presentation/page/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +35,7 @@ class _MyAppState extends State<MyApp> {
       if (_isLogIn == true) {
         user = FirebaseAuth.instance.currentUser!;
       }
+      print(_isLogIn);
     });
   }
 

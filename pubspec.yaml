@@ -42,6 +42,12 @@ dependencies:
   firebase_storage: 
   firebase_core: 
   firebase_analytics:
+  image_picker:
+  geolocator:
+  geocoding:
+  flutter_map:
+  flutter_facebook_auth:
+  twitter_login:
 
 dev_dependencies:
   flutter_test:

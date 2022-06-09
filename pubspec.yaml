@@ -85,6 +85,8 @@ flutter:
     - assets/icon/file.svg
     - assets/icon/bell.svg
     - assets/icon/bell-Light.svg
+    - assets/icon/trash-Light.svg
+    - assets/icon/camera-Light.svg
     - assets/icon/info-circle.svg
     - assets/icon/question-circle.svg
     - assets/icon/plus-circle.svg

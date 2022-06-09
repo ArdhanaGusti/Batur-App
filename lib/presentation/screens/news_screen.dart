@@ -1,4 +1,5 @@
 import 'package:capstone_design/presentation/components/appbar/custom_sliver_appbar_dashboard.dart';
+import 'package:capstone_design/presentation/screens/add_news_screen.dart';
 import 'package:capstone_design/presentation/screens/error_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -45,7 +46,14 @@ class NewsScreen extends StatelessWidget {
           ),
           actionIconSecondary: "assets/icon/plus-circle.svg",
           // Must add on Tap
-          actionOnTapSecondary: () {},
+          actionOnTapSecondary: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const AddNewsScreen(),
+              ),
+            );
+          },
           // Becarefull with this
           isDoubleAction: true,
         ),

@@ -33,11 +33,14 @@ dependencies:
 <<<<<<< HEAD
   carousel_slider: ^4.1.1
   flutter_slidable: ^1.3.0
+<<<<<<< HEAD
 =======
 >>>>>>> c152b45 (add custom toast)
 =======
   carousel_slider: ^4.1.1
 >>>>>>> c09ec6d (add home screen without bottom navbar)
+=======
+>>>>>>> a2577e4 (revisi card and screen)
 
 dev_dependencies:
   flutter_test:
@@ -94,4 +97,8 @@ flutter:
 >>>>>>> c09ec6d (add home screen without bottom navbar)
 =======
     - assets/icon/bell.svg
+<<<<<<< HEAD
 >>>>>>> fd85131 (add news screen without bottom navbar)
+=======
+    - assets/icon/star.svg
+>>>>>>> a2577e4 (revisi card and screen)

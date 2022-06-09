@@ -21,10 +21,14 @@ class FavoriteScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
 <<<<<<< HEAD
+<<<<<<< HEAD
     double width = screenSize.width - 40;
 =======
     double width = screenSize.width - 60;
 >>>>>>> d4077e1 (add favorite screen)
+=======
+    double width = screenSize.width - 40;
+>>>>>>> a2577e4 (revisi card and screen)
     return BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
         builder: (context, state) {
       Brightness screenBrightness = MediaQuery.platformBrightnessOf(context);
@@ -37,6 +41,9 @@ class FavoriteScreen extends StatelessWidget {
                   : false;
       return Scaffold(
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> a2577e4 (revisi card and screen)
         body: DefaultTabController(
             length: 2, // length of tabs
             initialIndex: 0,
@@ -58,6 +65,7 @@ class FavoriteScreen extends StatelessWidget {
                       ),
                       SvgPicture.asset(
                         'assets/icon/bell-Bold.svg',
+<<<<<<< HEAD
                         color: (isLight) ? bPrimary : bTextPrimary,
                         height: 25,
                       ),
@@ -412,32 +420,39 @@ class FavoriteScreen extends StatelessWidget {
                     Text(
                       'Favorite',
                       style: bHeading4.copyWith(
+=======
+>>>>>>> a2577e4 (revisi card and screen)
                         color: (isLight) ? bPrimary : bTextPrimary,
+                        height: 25,
                       ),
-                    ),
-                    SvgPicture.asset(
-                      'assets/icon/bell-Bold.svg',
-                      color: (isLight) ? bPrimary : bTextPrimary,
-                      height: 30,
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              Container(
-                width: width,
-                child: Row(
-                  children: [
-                    Text(
-                      'Wisata',
-                      style: bSubtitle3.copyWith(
-                          color: (isLight) ? bPrimary : bTextPrimary),
-                    ),
-                    SizedBox(
-                      width: 60,
-                    ),
-                    Text('UMKM')
-                  ],
+                Container(
+                  width: width,
+                  child: TabBar(
+                    indicator: BoxDecoration(
+                        color: (isLight) ? bPrimary : bTextPrimary,
+                        borderRadius: BorderRadius.circular(8)),
+                    labelColor: (isLight) ? bTextPrimary : bTextSecondary,
+                    unselectedLabelColor:
+                        (isLight) ? bTextSecondary : bTextPrimary,
+                    tabs: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text('Wisata', style: bSubtitle3),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'UMKM',
+                          style: bSubtitle3,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
+<<<<<<< HEAD
               ),
               SizedBox(
                 height: 20,
@@ -491,6 +506,314 @@ class FavoriteScreen extends StatelessWidget {
           ),
         )),
 >>>>>>> d4077e1 (add favorite screen)
+=======
+                SizedBox(
+                  height: 15,
+                ),
+                Expanded(
+                    child: TabBarView(children: <Widget>[
+                  ListView(
+                    physics: BouncingScrollPhysics(),
+                    children: [
+                      CustomWisataCardList(
+                        img:
+                            "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
+                        rating: "4.5",
+                        title: "Gedung Sate",
+                        timeOpen: "Buka (07.00 WIB -16.00 WIB)",
+                        isFavourited: true,
+                        description:
+                            "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+                        onTap: () {
+                          print("Container clicked");
+                        },
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      CustomWisataCardList(
+                        img:
+                            "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
+                        rating: "4.5",
+                        title: "Gedung Sate",
+                        timeOpen: "Buka (07.00 WIB -16.00 WIB)",
+                        isFavourited: false,
+                        description:
+                            "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+                        onTap: () {
+                          print("Container clicked");
+                        },
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      CustomWisataCardList(
+                        img:
+                            "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
+                        rating: "4.5",
+                        title: "Gedung Sate",
+                        timeOpen: "Buka (07.00 WIB -16.00 WIB)",
+                        isFavourited: false,
+                        description:
+                            "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+                        onTap: () {
+                          print("Container clicked");
+                        },
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      CustomWisataCardList(
+                        img:
+                            "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
+                        rating: "4.5",
+                        title: "Gedung Sate",
+                        timeOpen: "Buka (07.00 WIB -16.00 WIB)",
+                        isFavourited: true,
+                        description:
+                            "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+                        onTap: () {
+                          print("Container clicked");
+                        },
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      CustomWisataCardList(
+                        img:
+                            "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
+                        rating: "4.5",
+                        title: "Gedung Sate",
+                        timeOpen: "Buka (07.00 WIB -16.00 WIB)",
+                        isFavourited: false,
+                        description:
+                            "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+                        onTap: () {
+                          print("Container clicked");
+                        },
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      CustomWisataCardList(
+                        img:
+                            "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
+                        rating: "4.5",
+                        title: "Gedung Sate",
+                        timeOpen: "Buka (07.00 WIB -16.00 WIB)",
+                        isFavourited: false,
+                        description:
+                            "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+                        onTap: () {
+                          print("Container clicked");
+                        },
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      CustomWisataCardList(
+                        img:
+                            "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
+                        rating: "4.5",
+                        title: "Gedung Sate",
+                        timeOpen: "Buka (07.00 WIB -16.00 WIB)",
+                        isFavourited: true,
+                        description:
+                            "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+                        onTap: () {
+                          print("Container clicked");
+                        },
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      CustomWisataCardList(
+                        img:
+                            "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
+                        rating: "4.5",
+                        title: "Gedung Sate",
+                        timeOpen: "Buka (07.00 WIB -16.00 WIB)",
+                        isFavourited: false,
+                        description:
+                            "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+                        onTap: () {
+                          print("Container clicked");
+                        },
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      CustomWisataCardList(
+                        img:
+                            "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
+                        rating: "4.5",
+                        title: "Gedung Sate",
+                        timeOpen: "Buka (07.00 WIB -16.00 WIB)",
+                        isFavourited: false,
+                        description:
+                            "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+                        onTap: () {
+                          print("Container clicked");
+                        },
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                    ],
+                  ),
+                  ListView(
+                    physics: BouncingScrollPhysics(),
+                    children: [
+                      CustomWisataCardList(
+                        img:
+                            "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
+                        rating: "4.5",
+                        title: "Teko Hias",
+                        timeOpen: "Buka (07.00 WIB -16.00 WIB)",
+                        isFavourited: true,
+                        description:
+                            "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+                        onTap: () {
+                          print("Container clicked");
+                        },
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      CustomWisataCardList(
+                        img:
+                            "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
+                        rating: "4.5",
+                        title: "Teko Hias",
+                        timeOpen: "Buka (07.00 WIB -16.00 WIB)",
+                        isFavourited: false,
+                        description:
+                            "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+                        onTap: () {
+                          print("Container clicked");
+                        },
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      CustomWisataCardList(
+                        img:
+                            "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
+                        rating: "4.5",
+                        title: "Teko Hias",
+                        timeOpen: "Buka (07.00 WIB -16.00 WIB)",
+                        isFavourited: false,
+                        description:
+                            "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+                        onTap: () {
+                          print("Container clicked");
+                        },
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      CustomWisataCardList(
+                        img:
+                            "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
+                        rating: "4.5",
+                        title: "Teko Hias",
+                        timeOpen: "Buka (07.00 WIB -16.00 WIB)",
+                        isFavourited: true,
+                        description:
+                            "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+                        onTap: () {
+                          print("Container clicked");
+                        },
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      CustomWisataCardList(
+                        img:
+                            "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
+                        rating: "4.5",
+                        title: "Teko Hias",
+                        timeOpen: "Buka (07.00 WIB -16.00 WIB)",
+                        isFavourited: false,
+                        description:
+                            "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+                        onTap: () {
+                          print("Container clicked");
+                        },
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      CustomWisataCardList(
+                        img:
+                            "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
+                        rating: "4.5",
+                        title: "Teko Hias",
+                        timeOpen: "Buka (07.00 WIB -16.00 WIB)",
+                        isFavourited: false,
+                        description:
+                            "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+                        onTap: () {
+                          print("Container clicked");
+                        },
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      CustomWisataCardList(
+                        img:
+                            "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
+                        rating: "4.5",
+                        title: "Teko Hias",
+                        timeOpen: "Buka (07.00 WIB -16.00 WIB)",
+                        isFavourited: true,
+                        description:
+                            "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+                        onTap: () {
+                          print("Container clicked");
+                        },
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      CustomWisataCardList(
+                        img:
+                            "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
+                        rating: "4.5",
+                        title: "Teko Hias",
+                        timeOpen: "Buka (07.00 WIB -16.00 WIB)",
+                        isFavourited: false,
+                        description:
+                            "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+                        onTap: () {
+                          print("Container clicked");
+                        },
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      CustomWisataCardList(
+                        img:
+                            "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
+                        rating: "4.5",
+                        title: "Teko Hias",
+                        timeOpen: "Buka (07.00 WIB -16.00 WIB)",
+                        isFavourited: false,
+                        description:
+                            "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+                        onTap: () {
+                          print("Container clicked");
+                        },
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                    ],
+                  ),
+                ]))
+              ]),
+            )),
+>>>>>>> a2577e4 (revisi card and screen)
       );
     });
   }

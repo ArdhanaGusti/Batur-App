@@ -43,7 +43,7 @@ class NewsScreen extends StatelessWidget {
                         SvgPicture.asset(
                           'assets/icon/bell.svg',
                           color: (isLight) ? bPrimary : bTextPrimary,
-                          height: 30,
+                          height: 25,
                         ),
                         SizedBox(
                           width: 10,
@@ -51,7 +51,7 @@ class NewsScreen extends StatelessWidget {
                         SvgPicture.asset(
                           'assets/icon/bell-Bold.svg',
                           color: (isLight) ? bPrimary : bTextPrimary,
-                          height: 30,
+                          height: 25,
                         ),
                       ],
                     ),

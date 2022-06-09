@@ -69,11 +69,16 @@ class CustomAppBar extends StatelessWidget {
                     )
                   : SizedBox(
 <<<<<<< HEAD
+<<<<<<< HEAD
                       height: 40,
                       width: 40,
 =======
                       height: 0,
 >>>>>>> ab30d61 (add status register umkm screen)
+=======
+                      height: 40,
+                      width: 40,
+>>>>>>> a2577e4 (revisi card and screen)
                     ),
             ],
           ),

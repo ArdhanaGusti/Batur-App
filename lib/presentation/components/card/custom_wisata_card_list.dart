@@ -25,10 +25,18 @@ class CustomWisataCardList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-    double width = screenSize.width - 60;
+    double width = screenSize.width - 40;
+
     return BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
         builder: (context, state) {
       Brightness screenBrightness = MediaQuery.platformBrightnessOf(context);
+      bool isLight = (state.isDark == ThemeModeEnum.darkTheme)
+          ? false
+          : (state.isDark == ThemeModeEnum.lightTheme)
+              ? true
+              : (screenBrightness == Brightness.light)
+                  ? true
+                  : false;
       return Center(
         child: GestureDetector(
           onTap: onTap,
@@ -65,7 +73,7 @@ class CustomWisataCardList extends StatelessWidget {
                     ),
                     Positioned(
                         bottom: 0,
-                        left: 14,
+                        left: 15,
                         child: Container(
                           padding: EdgeInsets.all(1),
                           decoration: BoxDecoration(
@@ -79,14 +87,20 @@ class CustomWisataCardList extends StatelessWidget {
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: Row(children: [
-                            Icon(
-                              Icons.star,
-                              color: bSecondary,
-                              size: 15,
+                            SvgPicture.asset(
+                              "assets/icon/star.svg",
+                              color: (isLight) ? bSecondary : bTextPrimary,
+                              height: 13,
+                            ),
+                            SizedBox(
+                              width: 2,
                             ),
                             Text(
                               rating,
-                              style: TextStyle(fontSize: 10),
+                              style: bCaption2.copyWith(
+                                  color: (isLight)
+                                      ? bPrimaryVariant2
+                                      : bTextPrimary),
                             )
                           ]),
                         ))
@@ -102,7 +116,7 @@ class CustomWisataCardList extends StatelessWidget {
                   Row(
                     children: [
                       Container(
-                        width: 210,
+                        width: 230,
                         child: Text(
                           title,
                           style: TextStyle(
@@ -125,14 +139,14 @@ class CustomWisataCardList extends StatelessWidget {
                               onTap: () => {},
                               child: Icon(
                                 Icons.favorite,
-                                color: bError,
+                                color: (isLight) ? bError : bTextPrimary,
                                 size: 20,
                               ))
                           : GestureDetector(
                               onTap: () => {},
                               child: Icon(
                                 Icons.favorite_border_outlined,
-                                color: bError,
+                                color: bGrey,
                                 size: 20,
                               )),
                     ],

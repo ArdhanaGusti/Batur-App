@@ -22,16 +22,23 @@ import 'package:capstone_design/presentation/screens/favorite/favorite_screen.da
 >>>>>>> c09ec6d (add home screen without bottom navbar)
 =======
 import 'package:capstone_design/presentation/screens/favorite/favorite_screen.dart';
+<<<<<<< HEAD
 >>>>>>> d4077e1 (add favorite screen)
+=======
+import 'package:capstone_design/presentation/screens/favorite/favorite_screen.dart';
+>>>>>>> a2577e4 (revisi card and screen)
 import 'package:capstone_design/presentation/screens/home_screen.dart';
 import 'package:capstone_design/presentation/screens/icon_button_screen.dart';
 <<<<<<< HEAD
 import 'package:capstone_design/presentation/screens/filter_tour_list_screen.dart';
 import 'package:capstone_design/presentation/screens/news/news_screen.dart';
 import 'package:capstone_design/presentation/screens/notifikasi/notifikasi_screen.dart';
+<<<<<<< HEAD
 =======
 import 'package:capstone_design/presentation/screens/news/news_screen.dart';
 >>>>>>> fd85131 (add news screen without bottom navbar)
+=======
+>>>>>>> a2577e4 (revisi card and screen)
 import 'package:capstone_design/presentation/screens/text_button_screen.dart';
 import 'package:capstone_design/presentation/screens/text_icon_button_screen.dart';
 import 'package:capstone_design/presentation/screens/theme_setting_screen.dart';
@@ -112,10 +119,14 @@ class _LoginState extends State<Login> {
                   const CustomAppBar(
                     title: "Batur App",
 <<<<<<< HEAD
+<<<<<<< HEAD
                     hamburgerMenu: true,
 =======
                     hamburgerMenu: false,
 >>>>>>> eb9f98b (add umkm detail acc screen)
+=======
+                    hamburgerMenu: true,
+>>>>>>> a2577e4 (revisi card and screen)
                   ),
                   const TextField(),
                   const TextField(),
@@ -270,6 +281,9 @@ class _LoginState extends State<Login> {
                     child: const Text("Favorite Screen"),
                   ),
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> a2577e4 (revisi card and screen)
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -281,6 +295,7 @@ class _LoginState extends State<Login> {
                     },
                     child: const Text("Notifikasi Screen"),
                   ),
+<<<<<<< HEAD
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -476,6 +491,8 @@ class _LoginState extends State<Login> {
 >>>>>>> fd85131 (add news screen without bottom navbar)
 =======
 >>>>>>> d4077e1 (add favorite screen)
+=======
+>>>>>>> a2577e4 (revisi card and screen)
                 ],
               ),
             ),

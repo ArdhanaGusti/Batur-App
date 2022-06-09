@@ -32,77 +32,82 @@ class CustomProfileCard extends StatelessWidget {
               ],
             ),
           ),
-          Padding(
+          Container(
             padding: const EdgeInsets.all(20.0),
-            child: SizedBox(
-              height: 80.0,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(50.0),
-                    child: Image.asset(
-                      "assets/image/profile.jpg",
-                      height: 80.0,
-                    ),
+            height: 120.0,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(50.0),
+                  // Image must repair, depands on image
+                  child: Image.asset(
+                    "assets/image/profile.jpg",
+                    height: 80.0,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Neida Aleida",
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          "Neida Aleidaa",
+                          overflow: TextOverflow.ellipsis,
                           style: bSubtitle2.copyWith(
                             color: bTextPrimary,
                           ),
                         ),
-                        Row(
+                      ),
+                      Expanded(
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            SvgPicture.asset(
-                              "assets/icon/user_outline.svg",
-                              color: bSecondary,
-                              height: 18.0,
-                            ),
                             Padding(
-                              padding: const EdgeInsets.only(left: 10.0),
-                              child: Text(
-                                'bandungtourism',
-                                style: bBody1.copyWith(
-                                  color: bSecondary,
-                                ),
-                                textAlign: TextAlign.center,
+                              padding: const EdgeInsets.only(right: 10.0),
+                              child: SvgPicture.asset(
+                                "assets/icon/user_outline.svg",
+                                color: bSecondary,
+                                height: 18.0,
                               ),
+                            ),
+                            Text(
+                              'bandungtourim',
+                              style: bBody1.copyWith(
+                                color: bSecondary,
+                              ),
+                              overflow: TextOverflow.fade,
+                              textAlign: TextAlign.start,
                             ),
                           ],
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            SvgPicture.asset(
-                              "assets/icon/envelope.svg",
-                              color: bSecondary,
-                              height: 18.0,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10.0),
-                              child: Text(
-                                'Batur@gmail.com',
-                                style: bBody1.copyWith(
-                                  color: bSecondary,
-                                ),
-                                textAlign: TextAlign.center,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          SvgPicture.asset(
+                            "assets/icon/envelope.svg",
+                            color: bSecondary,
+                            height: 18.0,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10.0),
+                            child: Text(
+                              'Batur@gmail.com',
+                              style: bBody1.copyWith(
+                                color: bSecondary,
                               ),
+                              textAlign: TextAlign.center,
                             ),
-                          ],
-                        ),
-                      ],
-                    ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           )
         ],

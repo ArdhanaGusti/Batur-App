@@ -87,6 +87,8 @@ flutter:
     - assets/icon/info-circle.svg
     - assets/icon/question-circle.svg
     - assets/icon/settings.svg
+    - assets/icon/globe.svg
+    - assets/icon/mode.svg
     - assets/icon/log-out.svg
     - assets/icon/chevron-right.svg
     - assets/logo/logo.png

@@ -3,6 +3,7 @@ import 'package:capstone_design/presentation/components/button/custom_primary_ic
 import 'package:capstone_design/presentation/components/custom_profile_card.dart';
 import 'package:capstone_design/presentation/screens/account_detail_screen.dart';
 import 'package:capstone_design/presentation/screens/dashboard_screen.dart';
+import 'package:capstone_design/presentation/screens/setting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:theme/theme.dart';
@@ -106,43 +107,54 @@ class AccountScreen extends StatelessWidget {
                                 endIndent: 25,
                                 color: bStroke,
                               ),
-                              Padding(
-                                padding: const EdgeInsets.all(20.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        SvgPicture.asset(
-                                          "assets/icon/settings.svg",
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .tertiary,
-                                          height: 24.0,
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 20.0),
-                                          child: Text(
-                                            "Pengaturan",
-                                            style: bSubtitle2.copyWith(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .tertiary,
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const SettingScreen(),
+                                    ),
+                                  );
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          SvgPicture.asset(
+                                            "assets/icon/settings.svg",
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .tertiary,
+                                            height: 24.0,
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 20.0),
+                                            child: Text(
+                                              "Pengaturan",
+                                              style: bSubtitle2.copyWith(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .tertiary,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    SvgPicture.asset(
-                                      "assets/icon/chevron-right.svg",
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .tertiary,
-                                      height: 24.0,
-                                    ),
-                                  ],
+                                        ],
+                                      ),
+                                      SvgPicture.asset(
+                                        "assets/icon/chevron-right.svg",
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .tertiary,
+                                        height: 24.0,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                               const Divider(

@@ -1,65 +1,167 @@
+import 'package:capstone_design/presentation/components/appbar/custom_sliver_appbar_text_leading.dart';
+import 'package:capstone_design/presentation/screens/error_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:theme/theme.dart';
 
-class ThemeSettingScreen extends StatefulWidget {
+class ThemeSettingScreen extends StatelessWidget {
   const ThemeSettingScreen({Key? key}) : super(key: key);
 
   @override
-  State<ThemeSettingScreen> createState() => _ThemeSettingScreenState();
-}
-
-class _ThemeSettingScreenState extends State<ThemeSettingScreen> {
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Theme Setting"),
-      ),
-      body: BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
-        builder: (context, state) {
-          return Column(
+    Size screenSize = MediaQuery.of(context).size;
+
+    if (screenSize.width < 320.0 || screenSize.height < 650.0) {
+      return const ErrorScreen(
+        // Text wait localization
+        title: "Error Layar",
+        message: "Aduh, Layar anda terlalu kecil",
+      );
+    } else if (screenSize.width > 500.0) {
+      // Tablet Mode (Must be repair)
+      return Scaffold(
+        body: Center(
+          child: Container(
+            constraints: const BoxConstraints(maxWidth: 500.0),
+            child: _buildThemeScreen(context, screenSize),
+          ),
+        ),
+      );
+    } else {
+      // Mobile Mode
+      return Scaffold(
+        body: _buildThemeScreen(context, screenSize),
+      );
+    }
+  }
+
+  Widget _buildThemeScreen(BuildContext context, Size screenSize) {
+    return CustomScrollView(
+      physics: const BouncingScrollPhysics(),
+      slivers: <Widget>[
+        CustomSliverAppBarTextLeading(
+          // Text wait localization
+          title: "Mode Tampilan",
+          leadingIcon: "assets/icon/back.svg",
+          // Navigation repair
+          leadingOnTap: () {
+            Navigator.pop(
+              context,
+            );
+          },
+        ),
+        _customTheme(context),
+      ],
+    );
+  }
+
+  void _themeChange(ThemeModeEnum mode, BuildContext context) {
+    context.read<ThemeManagerBloc>().add(
+          SaveThemeMode(
+            isDark: mode,
+          ),
+        );
+  }
+
+  Widget _customTheme(BuildContext context) {
+    return SliverPadding(
+      padding: const EdgeInsets.all(20.0),
+      sliver: SliverToBoxAdapter(
+        child: Container(
+          padding: const EdgeInsets.all(20.0),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.secondaryContainer,
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          child: Column(
             children: <Widget>[
-              ListTile(
-                title: const Text('Light Mode'),
-                leading: Radio<ThemeModeEnum>(
-                  value: ThemeModeEnum.lightTheme,
-                  groupValue: state.isDark,
-                  onChanged: (value) => context.read<ThemeManagerBloc>().add(
-                        const SaveThemeMode(
-                          isDark: ThemeModeEnum.lightTheme,
-                        ),
-                      ),
+              Text(
+                // Text wait localization
+                "Pilih Mode tampilan aplikasi Bandung Tourism anda pada perangkat ini.",
+                style: bSubtitle2.copyWith(
+                  color: Theme.of(context).colorScheme.tertiary,
                 ),
               ),
-              ListTile(
-                title: const Text('Dark Mode'),
-                leading: Radio<ThemeModeEnum>(
-                  value: ThemeModeEnum.darkTheme,
-                  groupValue: state.isDark,
-                  onChanged: (value) => context.read<ThemeManagerBloc>().add(
-                        const SaveThemeMode(
-                          isDark: ThemeModeEnum.darkTheme,
-                        ),
-                      ),
-                ),
+              Padding(
+                padding: const EdgeInsets.only(top: 20.0, bottom: 10.0),
+                child: _customDivider(),
               ),
-              ListTile(
-                title: const Text('System'),
-                leading: Radio<ThemeModeEnum>(
-                  value: ThemeModeEnum.systemTheme,
-                  groupValue: state.isDark,
-                  onChanged: (value) => context.read<ThemeManagerBloc>().add(
-                        const SaveThemeMode(
-                          isDark: ThemeModeEnum.systemTheme,
-                        ),
-                      ),
+              _customListTileTheme(
+                context,
+                ThemeModeEnum.lightTheme,
+                // Text wait localization
+                "Terang",
+              ),
+              _customListTileTheme(
+                context,
+                ThemeModeEnum.darkTheme,
+                // Text wait localization
+                "Gelap",
+              ),
+              _customListTileTheme(
+                context,
+                ThemeModeEnum.systemTheme,
+                // Text wait localization
+                "Sistem",
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20.0, top: 10.0),
+                child: _customDivider(),
+              ),
+              Text(
+                // Text wait localization
+                "Jika anda memilih Mode Tampilan Sistem, aplikasi akan menggunakan Mode sesuai dengan mode yang digunakan di pengaturan perangkat.",
+                style: bBody1.copyWith(
+                  color: bGrey,
                 ),
               ),
             ],
-          );
-        },
+          ),
+        ),
       ),
+    );
+  }
+
+  Widget _customListTileTheme(
+    BuildContext context,
+    ThemeModeEnum value,
+    String title,
+  ) {
+    return BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
+      builder: (context, state) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(
+              title,
+              style: bSubtitle2.copyWith(
+                color: Theme.of(context).colorScheme.tertiary,
+              ),
+            ),
+            Radio<ThemeModeEnum>(
+              fillColor: MaterialStateProperty.all(
+                Theme.of(context).colorScheme.tertiary,
+              ),
+              value: value,
+              groupValue: state.isDark,
+              onChanged: (value) => _themeChange(
+                value!,
+                context,
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Divider _customDivider() {
+    return const Divider(
+      height: 0,
+      thickness: 1.0,
+      indent: 10.0,
+      endIndent: 10.0,
+      color: bStroke,
     );
   }
 }

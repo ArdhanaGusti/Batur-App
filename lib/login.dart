@@ -44,12 +44,16 @@ import 'package:capstone_design/presentation/screens/text_icon_button_screen.dar
 import 'package:capstone_design/presentation/screens/theme_setting_screen.dart';
 import 'package:capstone_design/presentation/screens/toast_screen.dart';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import 'package:capstone_design/presentation/screens/tour/tour_detail_screen.dart';
 import 'package:capstone_design/presentation/screens/tour_list_screen.dart';
 import 'package:capstone_design/presentation/screens/transportasi/maps_transportasi.dart';
 import 'package:capstone_design/presentation/screens/transportasi/transportasi_screen.dart';
 import 'package:capstone_design/presentation/screens/transportasi/transportation_detail_screen.dart';
 =======
+=======
+import 'package:capstone_design/presentation/screens/transportasi/maps_transportasi.dart';
+>>>>>>> 646a4e8 (add map transportasi screen)
 import 'package:capstone_design/presentation/screens/transportasi/transportasi_screen.dart';
 >>>>>>> 0698073 (add transportasi screen and custom detail umkm card)
 import 'package:capstone_design/presentation/screens/validation_button_screen.dart';
@@ -315,6 +319,9 @@ class _LoginState extends State<Login> {
                     child: const Text("Transportasi Screen"),
                   ),
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 646a4e8 (add map transportasi screen)
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -326,6 +333,7 @@ class _LoginState extends State<Login> {
                     },
                     child: const Text("Map Transportasi Screen"),
                   ),
+<<<<<<< HEAD
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -503,6 +511,8 @@ class _LoginState extends State<Login> {
 >>>>>>> a2577e4 (revisi card and screen)
 =======
 >>>>>>> 0698073 (add transportasi screen and custom detail umkm card)
+=======
+>>>>>>> 646a4e8 (add map transportasi screen)
                 ],
               ),
             ),

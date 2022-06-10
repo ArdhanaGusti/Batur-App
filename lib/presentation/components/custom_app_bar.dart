@@ -57,7 +57,7 @@ class CustomAppBar extends StatelessWidget {
                       ),
                       child: Center(
                         child: SvgPicture.asset(
-                          "assets/icon/menu.svg",
+                          "assets/icon/map.svg",
                           color: (isLight) ? bPrimary : bTextPrimary,
                           height: 24,
                         ),

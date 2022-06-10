@@ -1,5 +1,6 @@
 import 'package:capstone_design/presentation/components/card/custom_card_transmetro.dart';
 import 'package:capstone_design/presentation/components/card/custom_card_wisata.dart';
+import 'package:capstone_design/presentation/components/card/custom_detail_umkm_card.dart';
 import 'package:capstone_design/presentation/components/card/custom_news_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -151,7 +152,7 @@ class HomeScreen extends StatelessWidget {
                             },
                           ),
                           SizedBox(
-                            height: 30,
+                            height: 15,
                           ),
                           CustomNewsCard(
                             img:
@@ -476,6 +477,9 @@ class HomeScreen extends StatelessWidget {
                                       onTap: () {
                                         print("Container clicked");
                                       },
+                                    ),
+                                    SizedBox(
+                                      height: 15,
                                     ),
                                     CardTransmetro(
                                       img:

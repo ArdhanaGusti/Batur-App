@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:theme/theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -24,6 +25,13 @@ class CustomCardStasiunList extends StatelessWidget {
     return BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
         builder: (context, state) {
       Brightness screenBrightness = MediaQuery.platformBrightnessOf(context);
+      bool isLight = (state.isDark == ThemeModeEnum.darkTheme)
+          ? false
+          : (state.isDark == ThemeModeEnum.lightTheme)
+              ? true
+              : (screenBrightness == Brightness.light)
+                  ? true
+                  : false;
       return Center(
         child: GestureDetector(
           onTap: onTap,
@@ -35,9 +43,9 @@ class CustomCardStasiunList extends StatelessWidget {
               color: (state.isDark == ThemeModeEnum.darkTheme)
                   ? bDarkGrey
                   : (state.isDark == ThemeModeEnum.lightTheme)
-                      ? bPrimary
+                      ? bTextPrimary
                       : (screenBrightness == Brightness.light)
-                          ? bPrimary
+                          ? bTextPrimary
                           : bDarkGrey,
               boxShadow: [
                 BoxShadow(
@@ -57,6 +65,7 @@ class CustomCardStasiunList extends StatelessWidget {
                       img,
                       width: 60,
                       height: 60,
+                      fit: BoxFit.cover,
                     ),
                   ],
                 ),
@@ -70,51 +79,36 @@ class CustomCardStasiunList extends StatelessWidget {
                   Row(
                     children: [
                       Container(
-                        width: 225,
-                        child: Text(
-                          title,
-                          style: TextStyle(
-                              color: bTextPrimary,
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold),
-                        ),
+                        width: 242,
+                        child: Text(title,
+                            style: bSubtitle2.copyWith(
+                                color: (isLight)
+                                    ? bPrimaryVariant1
+                                    : bTextPrimary)),
                       ),
                       Column(
                         children: [
-                          Icon(
-                            Icons.star,
+                          SvgPicture.asset(
+                            'assets/icon/star.svg',
                             color: bSecondary,
-                            size: 14,
+                            height: 15,
                           ),
-                          Text("4,5",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 10))
+                          Text("4,5", style: bCaption1)
                         ],
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: 5,
-                  ),
                   Container(
-                    width: 184,
+                    width: 250,
                     child: Text(
                       description,
-                      style: TextStyle(
-                          color: (state.isDark == ThemeModeEnum.darkTheme)
-                              ? bGrey
-                              : (state.isDark == ThemeModeEnum.lightTheme)
-                                  ? bTextPrimary
-                                  : (screenBrightness == Brightness.light)
-                                      ? bTextPrimary
-                                      : bGrey,
-                          fontSize: 10),
+                      style: TextStyle(color: bGrey, fontSize: 10),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   SizedBox(
-                    height: 2,
+                    height: 10,
                   ),
                   Row(
                     children: [
@@ -131,7 +125,8 @@ class CustomCardStasiunList extends StatelessWidget {
                         height: 10,
                         child: Text(
                           address,
-                          style: TextStyle(color: bSecondary, fontSize: 10),
+                          style: bCaption2.copyWith(
+                              color: (isLight) ? bGrey : bGrey),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),

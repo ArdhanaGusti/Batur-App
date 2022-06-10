@@ -58,10 +58,14 @@ class CustomAppBar extends StatelessWidget {
                       child: Center(
                         child: SvgPicture.asset(
 <<<<<<< HEAD
+<<<<<<< HEAD
                           "assets/icon/map.svg",
 =======
                           "assets/icon/menu.svg",
 >>>>>>> ab30d61 (add status register umkm screen)
+=======
+                          "assets/icon/map.svg",
+>>>>>>> 0698073 (add transportasi screen and custom detail umkm card)
                           color: (isLight) ? bPrimary : bTextPrimary,
                           height: 24,
                         ),

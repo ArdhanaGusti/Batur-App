@@ -54,93 +54,18 @@ class _UmkmDetailAccScreenState extends State<UmkmDetailAccScreen> {
                   child: ListView(
                     physics: BouncingScrollPhysics(),
                     children: [
-                      Container(
-                        padding: EdgeInsets.all(15),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: (state.isDark == ThemeModeEnum.darkTheme)
-                                ? bDarkGrey
-                                : (state.isDark == ThemeModeEnum.lightTheme)
-                                    ? bTextPrimary
-                                    : (screenBrightness == Brightness.light)
-                                        ? bTextPrimary
-                                        : bDarkGrey,
-                            boxShadow: [
-                              BoxShadow(
-                                color: bStroke,
-                                spreadRadius: 2,
-                                blurRadius: 10,
-                                offset:
-                                    Offset(0, 0), // changes position of shadow
-                              ),
-                            ]),
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image.network(
-                                  'https://majalahpeluang.com/wp-content/uploads/2021/03/584ukm-bandung-ayobandung.jpg',
-                                  width: 324,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 15,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Contrary to popular belief',
-                                    style: bHeading7.copyWith(
-                                      color:
-                                          (isLight) ? bPrimary : bTextPrimary,
-                                    ),
-                                  ),
-                                  Column(
-                                    children: [
-                                      Icon(
-                                        Icons.thumb_up,
-                                        color:
-                                            (isLight) ? bPrimary : bTextPrimary,
-                                        size: 20,
-                                      ),
-                                      Text(
-                                        '155',
-                                        style: bCaption1,
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                              SizedBox(
-                                height: 15,
-                              ),
-                              Text(
-                                'Jl. Trunojoyo No. 64 Bandung',
-                                style: bCaption1,
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.call,
-                                    color: (isLight) ? bPrimary : bTextPrimary,
-                                    size: 11,
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    '(022) 4208757',
-                                    style: bCaption1,
-                                  ),
-                                ],
-                              ),
-                            ]),
+                      CustomDetailScreen(
+                        img:
+                            'https://majalahpeluang.com/wp-content/uploads/2021/03/584ukm-bandung-ayobandung.jpg',
+                        title: 'Contrary to popular belief',
+                        like: '155',
+                        description:
+                            'Stasiun Bandung, juga dikenal sebagai Stasiun Hall, adalah stasiun kereta api kelas besar tipe A yang terletak di Jalan Stasiun Timur dan Jalan Kebon Kawung, di Kebonjeruk, Andir, tepatnya di perbatasan antara Kelurahan Pasirkaliki, Cicendo dan Kebonjeruk, Andir, Kota Bandung, Jawa Barat.',
+                        address: 'Jl. Trunojoyo No. 64 Bandung',
+                        telephone: '(022) 4208757',
+                        onTap: () {
+                          print("Container clicked");
+                        },
                       ),
                       SizedBox(
                         height: 15,

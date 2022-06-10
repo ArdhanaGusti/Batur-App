@@ -1,7 +1,13 @@
 import 'package:capstone_design/presentation/components/card/custom_card_stasiun_list.dart';
+import 'package:capstone_design/presentation/components/card/custom_wisata_card.dart';
+import 'package:capstone_design/presentation/components/card/custom_wisata_card_list.dart';
 import 'package:capstone_design/presentation/components/custom_app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/src/foundation/key.dart';
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:theme/theme.dart';
 
 class TransportasiScreen extends StatelessWidget {
@@ -32,8 +38,7 @@ class TransportasiScreen extends StatelessWidget {
                   hamburgerMenu: true,
                 ),
                 Container(
-                  width: width - 100,
-                  margin: EdgeInsets.only(right: 100),
+                  width: width,
                   child: TabBar(
                     indicator: BoxDecoration(
                         color: (isLight) ? bPrimary : bTextPrimary,
@@ -43,11 +48,11 @@ class TransportasiScreen extends StatelessWidget {
                         (isLight) ? bTextSecondary : bTextPrimary,
                     tabs: [
                       Padding(
-                        padding: const EdgeInsets.all(2.0),
+                        padding: const EdgeInsets.all(8.0),
                         child: Text('Stasiun', style: bSubtitle3),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(2.0),
+                        padding: const EdgeInsets.all(8.0),
                         child: Text(
                           'Terminal',
                           style: bSubtitle3,

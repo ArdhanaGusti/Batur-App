@@ -101,4 +101,8 @@ flutter:
 >>>>>>> fd85131 (add news screen without bottom navbar)
 =======
     - assets/icon/star.svg
+<<<<<<< HEAD
 >>>>>>> a2577e4 (revisi card and screen)
+=======
+    - assets/icon/map.svg
+>>>>>>> 0698073 (add transportasi screen and custom detail umkm card)

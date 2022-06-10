@@ -1,4 +1,11 @@
+import 'package:capstone_design/login.dart';
+import 'package:capstone_design/presentation/components/custom_app_bar.dart';
+import 'package:capstone_design/presentation/components/custom_text_icon_button.dart';
+import 'package:capstone_design/presentation/components/custom_validation_button.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/src/foundation/key.dart';
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:theme/theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -66,9 +73,7 @@ class CustomDetailScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                       child: Image.network(
                         img,
-                        width: width - 30,
-                        height: screenSize.height - 600,
-                        fit: BoxFit.cover,
+                        width: 324,
                       ),
                     ),
                     SizedBox(
@@ -78,7 +83,7 @@ class CustomDetailScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                          width: width - 50,
+                          width: 300,
                           child: Text(
                             title,
                             maxLines: 2,
@@ -112,13 +117,10 @@ class CustomDetailScreen extends StatelessWidget {
                     SizedBox(
                       height: 15,
                     ),
-                    Container(
-                      width: width - 50,
-                      child: Text(
-                        address,
-                        maxLines: 1,
-                        style: bCaption1,
-                      ),
+                    Text(
+                      address,
+                      maxLines: 1,
+                      style: bCaption1,
                     ),
                     SizedBox(
                       height: 10,
@@ -133,13 +135,10 @@ class CustomDetailScreen extends StatelessWidget {
                         SizedBox(
                           width: 5,
                         ),
-                        Container(
-                          width: width - 50,
-                          child: Text(
-                            telephone,
-                            maxLines: 1,
-                            style: bCaption1,
-                          ),
+                        Text(
+                          telephone,
+                          maxLines: 1,
+                          style: bCaption1,
                         ),
                       ],
                     ),

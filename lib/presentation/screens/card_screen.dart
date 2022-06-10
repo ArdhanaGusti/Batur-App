@@ -3,6 +3,7 @@ import 'package:capstone_design/presentation/components/card/custom_card_stasiun
 import 'package:capstone_design/presentation/components/card/custom_card_status_registrasi.dart';
 import 'package:capstone_design/presentation/components/card/custom_card_transmetro.dart';
 import 'package:capstone_design/presentation/components/card/custom_card_wisata.dart';
+import 'package:capstone_design/presentation/components/card/custom_detail_umkm_card.dart';
 import 'package:capstone_design/presentation/components/card/custom_list_notifikasi.dart';
 import 'package:capstone_design/presentation/components/card/custom_news_card.dart';
 import 'package:capstone_design/presentation/components/card/custom_wisata_card.dart';
@@ -142,7 +143,20 @@ class CardScreen extends StatelessWidget {
                 onTap: () {
                   print("Container clicked");
                 },
-              )
+              ),
+              CustomDetailScreen(
+                img:
+                    'https://majalahpeluang.com/wp-content/uploads/2021/03/584ukm-bandung-ayobandung.jpg',
+                title: 'Contrary to popular belief',
+                like: '155',
+                description:
+                    'Stasiun Bandung, juga dikenal sebagai Stasiun Hall, adalah stasiun kereta api kelas besar tipe A yang terletak di Jalan Stasiun Timur dan Jalan Kebon Kawung, di Kebonjeruk, Andir, tepatnya di perbatasan antara Kelurahan Pasirkaliki, Cicendo dan Kebonjeruk, Andir, Kota Bandung, Jawa Barat.',
+                address: 'Jl. Trunojoyo No. 64 Bandung',
+                telephone: '(022) 4208757',
+                onTap: () {
+                  print("Container clicked");
+                },
+              ),
             ],
           ),
         ],

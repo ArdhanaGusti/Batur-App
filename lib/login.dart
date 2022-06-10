@@ -43,11 +43,15 @@ import 'package:capstone_design/presentation/screens/text_button_screen.dart';
 import 'package:capstone_design/presentation/screens/text_icon_button_screen.dart';
 import 'package:capstone_design/presentation/screens/theme_setting_screen.dart';
 import 'package:capstone_design/presentation/screens/toast_screen.dart';
+<<<<<<< HEAD
 import 'package:capstone_design/presentation/screens/tour/tour_detail_screen.dart';
 import 'package:capstone_design/presentation/screens/tour_list_screen.dart';
 import 'package:capstone_design/presentation/screens/transportasi/maps_transportasi.dart';
 import 'package:capstone_design/presentation/screens/transportasi/transportasi_screen.dart';
 import 'package:capstone_design/presentation/screens/transportasi/transportation_detail_screen.dart';
+=======
+import 'package:capstone_design/presentation/screens/transportasi/transportasi_screen.dart';
+>>>>>>> 0698073 (add transportasi screen and custom detail umkm card)
 import 'package:capstone_design/presentation/screens/validation_button_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -296,6 +300,9 @@ class _LoginState extends State<Login> {
                     child: const Text("Notifikasi Screen"),
                   ),
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 0698073 (add transportasi screen and custom detail umkm card)
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -307,6 +314,7 @@ class _LoginState extends State<Login> {
                     },
                     child: const Text("Transportasi Screen"),
                   ),
+<<<<<<< HEAD
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -493,6 +501,8 @@ class _LoginState extends State<Login> {
 >>>>>>> d4077e1 (add favorite screen)
 =======
 >>>>>>> a2577e4 (revisi card and screen)
+=======
+>>>>>>> 0698073 (add transportasi screen and custom detail umkm card)
                 ],
               ),
             ),

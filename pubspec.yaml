@@ -75,6 +75,7 @@ flutter:
     - assets/splashscreen/image6.png
     - assets/splashscreen/image1.webp
     - assets/splashscreen/logo_dark.png
+    - assets/splashscreen/map.jpg
     - assets/icon/bell.svg
     - assets/icon/star.svg
     - assets/icon/map.svg

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:theme/theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,10 +21,17 @@ class CustomCardStasiun extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-    double width = screenSize.width - 40;
+    double width = screenSize.width - 70;
     return BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
         builder: (context, state) {
       Brightness screenBrightness = MediaQuery.platformBrightnessOf(context);
+      bool isLight = (state.isDark == ThemeModeEnum.darkTheme)
+          ? false
+          : (state.isDark == ThemeModeEnum.lightTheme)
+              ? true
+              : (screenBrightness == Brightness.light)
+                  ? true
+                  : false;
       return Center(
         child: GestureDetector(
           onTap: onTap,
@@ -73,10 +81,8 @@ class CustomCardStasiun extends StatelessWidget {
                         width: 184,
                         child: Text(
                           title,
-                          style: TextStyle(
-                              color: bTextPrimary,
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold),
+                          maxLines: 1,
+                          style: bSubtitle2,
                         ),
                       ),
                       SizedBox(
@@ -84,14 +90,12 @@ class CustomCardStasiun extends StatelessWidget {
                       ),
                       Column(
                         children: [
-                          Icon(
-                            Icons.star,
+                          SvgPicture.asset(
+                            'assets/icon/star.svg',
                             color: bSecondary,
-                            size: 15,
+                            height: 15,
                           ),
-                          Text("4,5",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 10))
+                          Text("4,5", style: bCaption1)
                         ],
                       ),
                     ],
@@ -103,15 +107,8 @@ class CustomCardStasiun extends StatelessWidget {
                     width: 184,
                     child: Text(
                       description,
-                      style: TextStyle(
-                          color: (state.isDark == ThemeModeEnum.darkTheme)
-                              ? bGrey
-                              : (state.isDark == ThemeModeEnum.lightTheme)
-                                  ? bTextPrimary
-                                  : (screenBrightness == Brightness.light)
-                                      ? bTextPrimary
-                                      : bGrey,
-                          fontSize: 10),
+                      style: bCaption1.copyWith(
+                          color: (isLight) ? bTextSecondary : bGrey),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -134,7 +131,7 @@ class CustomCardStasiun extends StatelessWidget {
                         height: 10,
                         child: Text(
                           address,
-                          style: TextStyle(color: bSecondary, fontSize: 10),
+                          style: bCaption1.copyWith(color: bSecondary),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),

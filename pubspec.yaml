@@ -52,6 +52,11 @@ flutter:
 
   assets:
     - assets/
+    - assets/icon/bold/map.svg
+    - assets/icon/bold/menu.svg
+    - assets/icon/regular/map.svg
+    - assets/icon/regular/menu.svg
+    - assets/icon/regular/chevron-down.svg
     - assets/icon/coupon.svg
     - assets/icon/upload.svg
     - assets/icon/map-marker.svg

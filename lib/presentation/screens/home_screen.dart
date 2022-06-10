@@ -1,5 +1,6 @@
 import 'package:capstone_design/presentation/components/appbar/custom_sliver_appbar_dashboard.dart';
 import 'package:capstone_design/presentation/screens/error_screen.dart';
+import 'package:capstone_design/presentation/screens/tour_umkm_maps_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:theme/theme.dart';
@@ -39,7 +40,14 @@ class HomeScreen extends StatelessWidget {
         CustomSliverAppBarDashboard(
           actionIcon: "assets/icon/bell.svg",
           // Must add on Tap
-          actionOnTap: () {},
+          actionOnTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const TourUMKMMapsScreen(),
+              ),
+            );
+          },
           leading: BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
             builder: (context, state) {
               bool isLight = (state.isDark == ThemeModeEnum.darkTheme)

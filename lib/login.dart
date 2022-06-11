@@ -46,9 +46,13 @@ import 'package:capstone_design/presentation/screens/toast_screen.dart';
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import 'package:capstone_design/presentation/screens/tour/tour_detail_screen.dart';
 =======
 >>>>>>> c8b1995 (add tour list screen)
+=======
+import 'package:capstone_design/presentation/screens/tour/tour_detail_screen.dart';
+>>>>>>> 2e96a55 (add tour detail screen)
 import 'package:capstone_design/presentation/screens/tour_list_screen.dart';
 import 'package:capstone_design/presentation/screens/transportasi/maps_transportasi.dart';
 import 'package:capstone_design/presentation/screens/transportasi/transportasi_screen.dart';
@@ -367,6 +371,9 @@ class _LoginState extends State<Login> {
                     child: const Text("Tour List Screen"),
                   ),
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 2e96a55 (add tour detail screen)
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -378,6 +385,7 @@ class _LoginState extends State<Login> {
                     },
                     child: const Text("Tour Detail Screen"),
                   ),
+<<<<<<< HEAD
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -525,6 +533,8 @@ class _LoginState extends State<Login> {
 >>>>>>> 646a4e8 (add map transportasi screen)
 =======
 >>>>>>> c8b1995 (add tour list screen)
+=======
+>>>>>>> 2e96a55 (add tour detail screen)
                 ],
               ),
             ),

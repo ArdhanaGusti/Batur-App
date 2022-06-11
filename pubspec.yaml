@@ -29,6 +29,9 @@ dependencies:
   get_it:
   flutter_svg:
   equatable:
+  image_picker:
+  photo_view: 
+  path_provider: 
 
 dev_dependencies:
   flutter_test:
@@ -54,8 +57,11 @@ flutter:
     - assets/
     - assets/icon/bold/map.svg
     - assets/icon/bold/menu.svg
+    - assets/icon/fill/map-marker.svg
+    - assets/icon/fill/log-out.svg
     - assets/icon/regular/map.svg
     - assets/icon/regular/menu.svg
+    - assets/icon/regular/times-square.svg
     - assets/icon/regular/chevron-down.svg
     - assets/icon/coupon.svg
     - assets/icon/upload.svg

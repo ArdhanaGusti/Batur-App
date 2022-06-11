@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:capstone_design/dashboard.dart';
+import 'package:capstone_design/presentation/components/card/custom_card_detail_stasiun.dart';
 import 'package:capstone_design/presentation/components/custom_app_bar.dart';
 import 'package:capstone_design/presentation/screens/UMKM/status_register_umkm_screen.dart';
 import 'package:capstone_design/presentation/screens/UMKM/umkm_detail_acc_screen.dart';
@@ -15,8 +16,10 @@ import 'package:capstone_design/presentation/screens/text_button_screen.dart';
 import 'package:capstone_design/presentation/screens/text_icon_button_screen.dart';
 import 'package:capstone_design/presentation/screens/theme_setting_screen.dart';
 import 'package:capstone_design/presentation/screens/toast_screen.dart';
+import 'package:capstone_design/presentation/screens/tour_list_screen.dart';
 import 'package:capstone_design/presentation/screens/transportasi/maps_transportasi.dart';
 import 'package:capstone_design/presentation/screens/transportasi/transportasi_screen.dart';
+import 'package:capstone_design/presentation/screens/transportasi/transportation_detail_screen.dart';
 import 'package:capstone_design/presentation/screens/validation_button_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -257,6 +260,29 @@ class _LoginState extends State<Login> {
                       );
                     },
                     child: const Text("Map Transportasi Screen"),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              const TransportationDetailScreen(),
+                        ),
+                      );
+                    },
+                    child: const Text("Map Transportasi Detail Screen"),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const TourListScreen(),
+                        ),
+                      );
+                    },
+                    child: const Text("Tour List Screen"),
                   ),
                 ],
               ),

@@ -82,7 +82,7 @@ class CustomCardStasiun extends StatelessWidget {
                         child: Text(
                           title,
                           maxLines: 1,
-                          style: bSubtitle2,
+                          style: bSubtitle2.copyWith(color: bTextPrimary),
                         ),
                       ),
                       SizedBox(
@@ -95,7 +95,8 @@ class CustomCardStasiun extends StatelessWidget {
                             color: bSecondary,
                             height: 15,
                           ),
-                          Text("4,5", style: bCaption1)
+                          Text("4,5",
+                              style: bCaption1.copyWith(color: bTextPrimary))
                         ],
                       ),
                     ],
@@ -108,7 +109,7 @@ class CustomCardStasiun extends StatelessWidget {
                     child: Text(
                       description,
                       style: bCaption1.copyWith(
-                          color: (isLight) ? bTextSecondary : bGrey),
+                          color: (isLight) ? bTextPrimary : bGrey),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),

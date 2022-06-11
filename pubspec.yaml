@@ -109,4 +109,8 @@ flutter:
 >>>>>>> a2577e4 (revisi card and screen)
 =======
     - assets/icon/map.svg
+<<<<<<< HEAD
 >>>>>>> 0698073 (add transportasi screen and custom detail umkm card)
+=======
+    - assets/icon/search.svg
+>>>>>>> c8b1995 (add tour list screen)

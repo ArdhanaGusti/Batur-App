@@ -45,17 +45,23 @@ import 'package:capstone_design/presentation/screens/theme_setting_screen.dart';
 import 'package:capstone_design/presentation/screens/toast_screen.dart';
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import 'package:capstone_design/presentation/screens/tour/tour_detail_screen.dart';
+=======
+>>>>>>> c8b1995 (add tour list screen)
 import 'package:capstone_design/presentation/screens/tour_list_screen.dart';
 import 'package:capstone_design/presentation/screens/transportasi/maps_transportasi.dart';
 import 'package:capstone_design/presentation/screens/transportasi/transportasi_screen.dart';
 import 'package:capstone_design/presentation/screens/transportasi/transportation_detail_screen.dart';
+<<<<<<< HEAD
 =======
 =======
 import 'package:capstone_design/presentation/screens/transportasi/maps_transportasi.dart';
 >>>>>>> 646a4e8 (add map transportasi screen)
 import 'package:capstone_design/presentation/screens/transportasi/transportasi_screen.dart';
 >>>>>>> 0698073 (add transportasi screen and custom detail umkm card)
+=======
+>>>>>>> c8b1995 (add tour list screen)
 import 'package:capstone_design/presentation/screens/validation_button_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -334,6 +340,9 @@ class _LoginState extends State<Login> {
                     child: const Text("Map Transportasi Screen"),
                   ),
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c8b1995 (add tour list screen)
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -357,6 +366,7 @@ class _LoginState extends State<Login> {
                     },
                     child: const Text("Tour List Screen"),
                   ),
+<<<<<<< HEAD
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -513,6 +523,8 @@ class _LoginState extends State<Login> {
 >>>>>>> 0698073 (add transportasi screen and custom detail umkm card)
 =======
 >>>>>>> 646a4e8 (add map transportasi screen)
+=======
+>>>>>>> c8b1995 (add tour list screen)
                 ],
               ),
             ),

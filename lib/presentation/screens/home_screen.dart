@@ -69,7 +69,10 @@ class HomeScreen extends StatelessWidget {
                                 builder: (BuildContext context) {
                                   return ClipRRect(
                                       borderRadius: BorderRadius.circular(15),
-                                      child: Image.asset(i));
+                                      child: Image.asset(
+                                        i,
+                                        fit: BoxFit.cover,
+                                      ));
                                 },
                               );
                             }).toList(),

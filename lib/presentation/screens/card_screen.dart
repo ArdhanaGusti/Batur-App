@@ -1,3 +1,4 @@
+import 'package:capstone_design/presentation/components/card/custom_card_detail_stasiun.dart';
 import 'package:capstone_design/presentation/components/card/custom_card_stasiun.dart';
 import 'package:capstone_design/presentation/components/card/custom_card_stasiun_list.dart';
 import 'package:capstone_design/presentation/components/card/custom_card_status_registrasi.dart';
@@ -133,6 +134,9 @@ class CardScreen extends StatelessWidget {
                   print("Container clicked");
                 },
               ),
+              SizedBox(
+                height: 20,
+              ),
               ListNotifikasi(
                 img:
                     'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg',
@@ -144,7 +148,26 @@ class CardScreen extends StatelessWidget {
                   print("Container clicked");
                 },
               ),
+              SizedBox(
+                height: 20,
+              ),
               CustomDetailScreen(
+                img:
+                    'https://majalahpeluang.com/wp-content/uploads/2021/03/584ukm-bandung-ayobandung.jpg',
+                title: 'Contrary to popular belief',
+                like: '155',
+                description:
+                    'Stasiun Bandung, juga dikenal sebagai Stasiun Hall, adalah stasiun kereta api kelas besar tipe A yang terletak di Jalan Stasiun Timur dan Jalan Kebon Kawung, di Kebonjeruk, Andir, tepatnya di perbatasan antara Kelurahan Pasirkaliki, Cicendo dan Kebonjeruk, Andir, Kota Bandung, Jawa Barat.',
+                address: 'Jl. Trunojoyo No. 64 Bandung',
+                telephone: '(022) 4208757',
+                onTap: () {
+                  print("Container clicked");
+                },
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              CustomCardDetailStasiun(
                 img:
                     'https://majalahpeluang.com/wp-content/uploads/2021/03/584ukm-bandung-ayobandung.jpg',
                 title: 'Contrary to popular belief',

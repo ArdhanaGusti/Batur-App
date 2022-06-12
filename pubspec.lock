@@ -388,7 +388,7 @@ packages:
     source: hosted
     version: "2.5.0"
   intl:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: intl
       url: "https://pub.dartlang.org"
@@ -672,6 +672,13 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
+  timelines:
+    dependency: "direct main"
+    description:
+      name: timelines
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.0"
   typed_data:
     dependency: transitive
     description:

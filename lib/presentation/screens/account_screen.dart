@@ -1,6 +1,7 @@
 import 'package:capstone_design/presentation/components/appbar/custom_sliver_appbar_dashboard.dart';
 import 'package:capstone_design/presentation/components/button/custom_primary_icon_text_button.dart';
 import 'package:capstone_design/presentation/components/custom_profile_card.dart';
+import 'package:capstone_design/presentation/screens/about_screen.dart';
 import 'package:capstone_design/presentation/screens/account_detail_screen.dart';
 import 'package:capstone_design/presentation/screens/add_umkm_screen.dart';
 import 'package:capstone_design/presentation/screens/error_screen.dart';
@@ -190,7 +191,14 @@ class AccountScreen extends StatelessWidget {
               _buildSmallContainer(
                 context,
                 // Must add on Tap
-                () {},
+                () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const AboutScreen(),
+                    ),
+                  );
+                },
                 // Text wait localization
                 "Tentang",
                 "assets/icon/info-circle.svg",

@@ -109,7 +109,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 child: Center(
                   // Text wait localization
                   child: Text(
-                    'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s.',
+                    'Jelajahi seluruh kota bandung dalam satu gengaman dan ciptakan momen indah Anda bersama keluarga dan teman-teman Anda dengan aplikasi Bandung Tourism',
                     style: bSubtitle1.copyWith(
                       color: Theme.of(context).colorScheme.tertiary,
                     ),

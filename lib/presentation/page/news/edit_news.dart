@@ -1,7 +1,6 @@
 import 'dart:io';
-import 'package:capstone_design/presentation/page/news/news.dart';
+import 'package:capstone_design/data/service/api_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
@@ -22,6 +21,7 @@ class EditNews extends StatefulWidget {
 }
 
 class _EditNewsState extends State<EditNews> {
+  ApiService apiService = ApiService();
   File? imageNow;
   String? imageNameNow, judulNow, kontenNow, urlNameNow;
   TextEditingController? titlecontroller;
@@ -45,86 +45,6 @@ class _EditNewsState extends State<EditNews> {
     setState(() {
       imageNow = File(selectedImage!.path);
       imageNameNow = basename(imageNow!.path);
-    });
-  }
-
-  void editData(BuildContext context) {
-    UploadTask? uploadTask;
-    if (imageNow != null) {
-      Reference ref = FirebaseStorage.instance
-          .ref()
-          .child(imageNameNow! + DateTime.now().toString());
-      uploadTask = ref.putFile(imageNow!);
-    } else {
-      uploadTask = null;
-    }
-    FirebaseFirestore.instance.runTransaction((transaction) async {
-      CollectionReference reference =
-          FirebaseFirestore.instance.collection("News");
-      if (imageNow != null) {
-        uploadTask!.then((res) async {
-          urlNameNow = await res.ref.getDownloadURL();
-          if (judulNow != null && kontenNow != null) {
-            reference.doc(widget.index.id).update({
-              "coverUrl": urlNameNow,
-              "title": judulNow,
-              "content": kontenNow,
-            });
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-              return News();
-            }));
-            imageNow = null;
-            imageNameNow = null;
-          } else {
-            AlertDialog alert = AlertDialog(
-              title: Text("Silahkan lengkapi data"),
-              actions: [
-                TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Text("Ok"))
-              ],
-            );
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return alert;
-              },
-            );
-          }
-        });
-      } else {
-        if (judulNow != null && kontenNow != null) {
-          reference.doc(widget.index.id).update({
-            "coverUrl": urlNameNow,
-            "title": judulNow,
-            "content": kontenNow,
-          });
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-            return News();
-          }));
-          imageNow = null;
-          imageNameNow = null;
-        } else {
-          AlertDialog alert = AlertDialog(
-            title: Text("Silahkan lengkapi data"),
-            actions: [
-              TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text("Ok"))
-            ],
-          );
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return alert;
-            },
-          );
-        }
-      }
     });
   }
 
@@ -180,8 +100,31 @@ class _EditNewsState extends State<EditNews> {
               tag: "change",
               child: ElevatedButton(
                 onPressed: () {
-                  editData(context);
-                  setState(() {});
+                  if (judulNow != null && kontenNow != null) {
+                    apiService.editNews(context, imageNow, imageNameNow,
+                        judulNow!, kontenNow!, urlNameNow!, widget.index);
+                    setState(() {
+                      imageNow = null;
+                      imageNameNow = null;
+                    });
+                  } else {
+                    AlertDialog alert = AlertDialog(
+                      title: Text("Silahkan lengkapi data"),
+                      actions: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text("Ok"))
+                      ],
+                    );
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return alert;
+                      },
+                    );
+                  }
                 },
                 child: Text("Submit"),
               ),

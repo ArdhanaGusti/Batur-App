@@ -1,7 +1,6 @@
 import 'dart:io';
-import 'package:capstone_design/presentation/page/profile/profile.dart';
+import 'package:capstone_design/data/service/api_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -26,12 +25,14 @@ class _EditProfileState extends State<EditProfile> {
   File? image;
   String? imageName;
   String? urlNameNow, usernameNow, fullnameNow;
+  ApiService apiService = ApiService();
   TextEditingController? usernamecontroller, fullnamecontroller;
 
   @override
   void initState() {
     usernameNow = widget.username;
     fullnameNow = widget.fullname;
+    urlNameNow = widget.urlName;
     usernamecontroller = TextEditingController(text: widget.username);
     fullnamecontroller = TextEditingController(text: widget.fullname);
     super.initState();
@@ -44,60 +45,6 @@ class _EditProfileState extends State<EditProfile> {
     setState(() {
       image = File(selectedImage!.path);
       imageName = basename(image!.path);
-    });
-  }
-
-  void sendData(BuildContext context) async {
-    FirebaseFirestore.instance.runTransaction((transaction) async {
-      CollectionReference reference =
-          FirebaseFirestore.instance.collection("Profile");
-      UploadTask? uploadTask;
-      if (usernameNow != null && fullnameNow != null) {
-        if (image != null) {
-          Reference ref = FirebaseStorage.instance
-              .ref()
-              .child(imageName! + DateTime.now().toString());
-          uploadTask = ref.putFile(image!);
-          uploadTask.then((res) async {
-            urlNameNow = await res.ref.getDownloadURL();
-            await reference.doc(widget.index.id).update({
-              "username": usernameNow,
-              "fullname": fullnameNow,
-              "imgUrl": urlNameNow,
-            });
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-              return Profile();
-            }));
-          });
-        } else {
-          uploadTask = null;
-          await reference.doc(widget.index.id).update({
-            "username": usernameNow,
-            "fullname": fullnameNow,
-            "imgUrl": urlNameNow,
-          });
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-            return Profile();
-          }));
-        }
-      } else {
-        AlertDialog alert = AlertDialog(
-          title: Text("Silahkan lengkapi data"),
-          actions: [
-            TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text("Ok"))
-          ],
-        );
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return alert;
-          },
-        );
-      }
     });
   }
 
@@ -136,7 +83,31 @@ class _EditProfileState extends State<EditProfile> {
             ),
             ElevatedButton(
               onPressed: () {
-                sendData(context);
+                if (usernameNow != null && fullnameNow != null) {
+                  apiService.editProfile(context, usernameNow!, fullnameNow!,
+                      imageName, urlNameNow!, image, widget.index);
+                  setState(() {
+                    image = null;
+                    imageName = null;
+                  });
+                } else {
+                  AlertDialog alert = AlertDialog(
+                    title: Text("Silahkan lengkapi data"),
+                    actions: [
+                      TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text("Ok"))
+                    ],
+                  );
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return alert;
+                    },
+                  );
+                }
               },
               child: Text("Send Data"),
             ),

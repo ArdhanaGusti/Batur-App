@@ -2,8 +2,6 @@ import 'package:capstone_design/data/service/api_service.dart';
 import 'package:capstone_design/presentation/page/register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:twitter_login/twitter_login.dart';
 
 class Login extends StatefulWidget {
@@ -18,7 +16,7 @@ class Resource {
   Resource({required this.status});
 }
 
-enum Status { Success, Error, Cancelled }
+enum Status { success, error, cancelled }
 
 class _LoginState extends State<Login> {
   String? email, pass;
@@ -41,98 +39,94 @@ class _LoginState extends State<Login> {
 
         final userCredential = await FirebaseAuth.instance
             .signInWithCredential(twitterAuthCredential);
-        print(userCredential.additionalUserInfo);
-        return Resource(status: Status.Success);
+        return Resource(status: Status.success);
       case TwitterLoginStatus.cancelledByUser:
-        return Resource(status: Status.Success);
+        return Resource(status: Status.success);
       case TwitterLoginStatus.error:
-        return Resource(status: Status.Error);
+        return Resource(status: Status.error);
       default:
         return null;
     }
   }
 
-  Future signInWithEmail() async {}
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Center(
-        child: Column(
-          children: [
-            TextField(
-              decoration: InputDecoration(hintText: "Name"),
-              onChanged: (value) {
-                setState(() {
-                  email = value;
-                });
-              },
-            ),
-            TextField(
-              decoration: InputDecoration(hintText: "Pass"),
-              onChanged: (value) {
-                setState(() {
-                  pass = value;
-                });
-              },
-            ),
-            ElevatedButton(
-                onPressed: () async {
-                  if (email != null && pass != null) {
-                    await FirebaseAuth.instance.signInWithEmailAndPassword(
-                      email: email!,
-                      password: pass!,
-                    );
-                  } else {
-                    AlertDialog alert = AlertDialog(
-                      title: Text("Silahkan lengkapi data"),
-                      actions: [
-                        TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: Text("Ok"))
-                      ],
-                    );
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return alert;
-                      },
-                    );
-                  }
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            children: [
+              TextField(
+                decoration: InputDecoration(hintText: "Email"),
+                onChanged: (value) {
+                  setState(() {
+                    email = value;
+                  });
                 },
-                child: const Text("Submit")),
-            ElevatedButton(
-              onPressed: () {
-                apiservice.signInbyGoogle(context);
-              },
-              child: const Text("Google"),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                apiservice.signInWithFacebook(context);
-              },
-              child: const Text("Facebook"),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                signInWithTwitter();
-              },
-              child: const Text("Twitter"),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) {
-                    return Register();
+              ),
+              TextField(
+                decoration: InputDecoration(hintText: "Pass"),
+                onChanged: (value) {
+                  setState(() {
+                    pass = value;
+                  });
+                },
+              ),
+              ElevatedButton(
+                  onPressed: () {
+                    if (email != null && pass != null) {
+                      apiservice.loginWithEmail(context, email!, pass!);
+                    } else {
+                      AlertDialog alert = AlertDialog(
+                        title: Text("Silahkan lengkapi data"),
+                        actions: [
+                          TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text("Ok"))
+                        ],
+                      );
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return alert;
+                        },
+                      );
+                    }
                   },
-                ));
-              },
-              child: const Text("Register"),
-            ),
-          ],
+                  child: const Text("Submit")),
+              ElevatedButton(
+                onPressed: () {
+                  apiservice.signInbyGoogle(context);
+                },
+                child: const Text("Google"),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  apiservice.signInWithFacebook(context);
+                },
+                child: const Text("Facebook"),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  signInWithTwitter();
+                },
+                child: const Text("Twitter"),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) {
+                      return Register();
+                    },
+                  ));
+                },
+                child: const Text("Register"),
+              ),
+            ],
+          ),
         ),
       ),
     );

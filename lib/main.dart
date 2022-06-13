@@ -1,14 +1,19 @@
+import 'package:capstone_design/presentation/bloc/news/news_create_bloc.dart';
 import 'package:capstone_design/presentation/page/dashboard.dart';
 import 'package:capstone_design/presentation/page/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:capstone_design/injection.dart' as di;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+  di.init();
+  runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -41,10 +46,17 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "Batur-App",
-      debugShowCheckedModeBanner: false,
-      home: _isLogIn == true ? Dashboard(user: user!) : const Login(),
+    return MultiProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => di.locator<NewsCreateBloc>(),
+        ),
+      ],
+      child: MaterialApp(
+        title: "Batur-App",
+        debugShowCheckedModeBanner: false,
+        home: _isLogIn == true ? Dashboard(user: user!) : const Login(),
+      ),
     );
   }
 }

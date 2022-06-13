@@ -1,5 +1,4 @@
-import 'package:capstone_design/presentation/page/login.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:capstone_design/data/service/api_service.dart';
 import 'package:flutter/material.dart';
 
 class Register extends StatefulWidget {
@@ -10,6 +9,7 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  ApiService apiService = ApiService();
   String? email, pass;
   @override
   Widget build(BuildContext context) {
@@ -35,18 +35,9 @@ class _RegisterState extends State<Register> {
                 },
               ),
               ElevatedButton(
-                  onPressed: () async {
+                  onPressed: () {
                     if (email != null && pass != null) {
-                      await FirebaseAuth.instance
-                          .createUserWithEmailAndPassword(
-                        email: email!,
-                        password: pass!,
-                      );
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) {
-                          return Login();
-                        },
-                      ));
+                      apiService.signInWithEmail(context, email!, pass!);
                     } else {
                       AlertDialog alert = AlertDialog(
                         title: Text("Silahkan lengkapi data"),

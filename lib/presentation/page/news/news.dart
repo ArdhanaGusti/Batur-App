@@ -1,3 +1,4 @@
+import 'package:capstone_design/data/service/api_service.dart';
 import 'package:capstone_design/presentation/page/news/edit_news.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -52,7 +53,8 @@ class _NewsState extends State<News> {
 
 class NewsList extends StatelessWidget {
   final List<DocumentSnapshot> document;
-  const NewsList({Key? key, required this.document}) : super(key: key);
+  ApiService apiService = ApiService();
+  NewsList({Key? key, required this.document}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -74,33 +76,28 @@ class NewsList extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   RaisedButton(
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) {
-                            return EditNews(
-                                judul: document[index]['title'],
-                                konten: document[index]['content'],
-                                index: document[index].reference,
-                                urlName: document[index]['coverUrl']);
-                          },
-                        ));
-                      },
-                      child: Text("Edit"),
-                      color: Colors.green),
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) {
+                          return EditNews(
+                              judul: document[index]['title'],
+                              konten: document[index]['content'],
+                              index: document[index].reference,
+                              urlName: document[index]['coverUrl']);
+                        },
+                      ));
+                    },
+                    child: Text("Edit"),
+                    color: Colors.green,
+                  ),
                   RaisedButton(
-                      onPressed: () {
-                        FirebaseFirestore.instance
-                            .runTransaction((transaction) async {
-                          DocumentSnapshot snapshot =
-                              await transaction.get(document[index].reference);
-                          FirebaseStorage.instance
-                              .refFromURL(document[index]['coverUrl'])
-                              .delete();
-                          transaction.delete(snapshot.reference);
-                        });
-                      },
-                      child: Text("Delete"),
-                      color: Colors.red),
+                    onPressed: () {
+                      apiService.deleteNews(document[index].reference,
+                          document[index]['coverUrl']);
+                    },
+                    child: Text("Delete"),
+                    color: Colors.red,
+                  ),
                 ],
               )
             ],

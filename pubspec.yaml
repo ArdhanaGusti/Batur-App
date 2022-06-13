@@ -48,6 +48,13 @@ dependencies:
   flutter_map:
   flutter_facebook_auth:
   twitter_login:
+  dartz:
+  equatable:
+  get_it:
+  path_provider:
+  flutter_bloc:
+  internet_connection_checker:
+  provider:
 
 dev_dependencies:
   flutter_test:

@@ -2,13 +2,9 @@ import 'dart:io';
 import 'package:capstone_design/presentation/page/news/add_news.dart';
 import 'package:capstone_design/presentation/page/news/news.dart';
 import 'package:capstone_design/presentation/page/profile/profile.dart';
+import 'package:capstone_design/presentation/page/umkm/add_umkm.dart';
 import 'package:capstone_design/presentation/page/umkm/umkm.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart';
 
 File? image;
 String? imageName, judul, konten, urlName;
@@ -54,6 +50,16 @@ class Satu extends StatelessWidget {
                 ));
               },
               child: Text("News"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) {
+                    return AddUmkm();
+                  },
+                ));
+              },
+              child: Text("Add UMKM"),
             ),
             ElevatedButton(
               onPressed: () {

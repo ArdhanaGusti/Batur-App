@@ -1,8 +1,5 @@
 import 'dart:io';
-import 'package:capstone_design/presentation/page/dashboard.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:capstone_design/data/service/api_service.dart';
 import 'package:path/path.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
@@ -18,6 +15,7 @@ class AddUmkm extends StatefulWidget {
 }
 
 class _AddUmkmState extends State<AddUmkm> {
+  ApiService apiService = ApiService();
   File? image;
   LatLng? _center;
   String? address, imageName, urlName, name, type;
@@ -30,54 +28,6 @@ class _AddUmkmState extends State<AddUmkm> {
     setState(() {
       image = File(selectedImage!.path);
       imageName = basename(image!.path);
-    });
-  }
-
-  void addData(BuildContext context) {
-    Reference ref = FirebaseStorage.instance
-        .ref()
-        .child(imageName! + DateTime.now().toString());
-    UploadTask uploadTask = ref.putFile(image!);
-    User user = FirebaseAuth.instance.currentUser!;
-    FirebaseFirestore.instance.runTransaction((transaction) async {
-      CollectionReference reference =
-          FirebaseFirestore.instance.collection("UMKM");
-      uploadTask.then((res) async {
-        urlName = await res.ref.getDownloadURL();
-        if (name != null && type != null) {
-          await reference.add({
-            "name": name,
-            "email": user.email,
-            "latitude": currentLocation.latitude,
-            "longitude": currentLocation.longitude,
-            "coverUrl": urlName,
-            "type": type,
-            "verivication": false,
-          });
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-            return Dashboard(user: user);
-          }));
-          image = null;
-          imageName = null;
-        } else {
-          AlertDialog alert = AlertDialog(
-            title: Text("Silahkan lengkapi data"),
-            actions: [
-              TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text("Ok"))
-            ],
-          );
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return alert;
-            },
-          );
-        }
-      });
     });
   }
 
@@ -173,7 +123,31 @@ class _AddUmkmState extends State<AddUmkm> {
             (image == null) ? Text("Tidak ada gambar") : Image.file(image!),
             ElevatedButton(
               onPressed: () {
-                addData(context);
+                if (name != null && type != null) {
+                  apiService.sendUmkm(
+                      context, imageName!, name, type, image!, currentLocation);
+                  setState(() {
+                    image = null;
+                    imageName = null;
+                  });
+                } else {
+                  AlertDialog alert = AlertDialog(
+                    title: Text("Silahkan lengkapi data"),
+                    actions: [
+                      TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text("Ok"))
+                    ],
+                  );
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return alert;
+                    },
+                  );
+                }
               },
               child: Text("Send UMKM"),
             ),

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:capstone_design/data/service/api_service.dart';
 import 'package:capstone_design/presentation/page/dashboard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -31,6 +32,7 @@ class EditUmkm extends StatefulWidget {
 
 class _EditUmkmState extends State<EditUmkm> {
   File? image;
+  ApiService apiService = ApiService();
   LatLng? _center;
   String? addressNow, imageName, coverUrlNow, nameNow, typeNow;
   TextEditingController? namecontroller, typecontroller;
@@ -84,7 +86,7 @@ class _EditUmkmState extends State<EditUmkm> {
     });
   }
 
-  void editData(BuildContext context) {
+  void editUmkm(BuildContext context) {
     UploadTask? uploadTask;
     if (image != null) {
       FirebaseStorage.instance.refFromURL(widget.coverUrl).delete();
@@ -244,7 +246,39 @@ class _EditUmkmState extends State<EditUmkm> {
                     : Image.file(image!),
                 ElevatedButton(
                   onPressed: () {
-                    editData(context);
+                    if (nameNow != null && typeNow != null) {
+                      apiService.editUmkm(
+                        context,
+                        image,
+                        coverUrlNow!,
+                        imageName,
+                        nameNow,
+                        typeNow,
+                        _center!,
+                        widget.index,
+                      );
+                      setState(() {
+                        image = null;
+                        imageName = null;
+                      });
+                    } else {
+                      AlertDialog alert = AlertDialog(
+                        title: Text("Silahkan lengkapi data"),
+                        actions: [
+                          TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text("Ok"))
+                        ],
+                      );
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return alert;
+                        },
+                      );
+                    }
                   },
                   child: Text("Update UMKM"),
                 ),

@@ -53,31 +53,32 @@ class CardWisata extends StatelessWidget {
               ],
             ),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
+                  width: screenSize.width - 253,
+                  height: screenSize.height - 618,
                   child: Stack(children: [
                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(15),
                           child: Image.network(
                             img,
                             fit: BoxFit.cover,
-                            width: 140,
-                            height: 100, //revisi
+                            width: screenSize.width - 200,
+                            height: screenSize.height - 654, //revisi
                           ),
                         ),
                         SizedBox(
                           height: 15,
                         ),
-                        Container(
-                          width: 140,
-                          child: Text(
-                            title,
-                            style: bSubtitle4,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
+                        Text(
+                          title,
+                          style: bSubtitle4,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ],
                     ),
@@ -176,10 +177,8 @@ class CardWisata extends StatelessWidget {
                 SizedBox(
                   height: 5,
                 ),
-
-                ///trans Metro Bandung
                 Container(
-                  width: 140,
+                  width: screenSize.width - 254,
                   child: Text(
                     description,
                     style: bCaption1,

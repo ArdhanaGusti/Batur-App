@@ -38,6 +38,7 @@ class CustomCardStasiun extends StatelessWidget {
           child: Container(
             padding: EdgeInsets.all(10),
             width: width,
+            height: 110,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
               color: (state.isDark == ThemeModeEnum.darkTheme)

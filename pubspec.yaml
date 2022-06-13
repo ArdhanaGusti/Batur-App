@@ -78,5 +78,6 @@ flutter:
     - assets/splashscreen/map.jpg
     - assets/icon/bell.svg
     - assets/icon/star.svg
+    - assets/icon/star_outline.svg
     - assets/icon/map.svg
     - assets/icon/search.svg

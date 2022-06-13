@@ -1,7 +1,5 @@
 import 'package:capstone_design/presentation/components/toast/custom_alert_toast.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:theme/data/sources/theme_data.dart';
 

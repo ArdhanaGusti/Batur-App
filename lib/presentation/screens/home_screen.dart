@@ -1,10 +1,7 @@
 import 'package:capstone_design/presentation/components/card/custom_card_transmetro.dart';
 import 'package:capstone_design/presentation/components/card/custom_card_wisata.dart';
-import 'package:capstone_design/presentation/components/card/custom_detail_umkm_card.dart';
 import 'package:capstone_design/presentation/components/card/custom_news_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:theme/theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -56,6 +53,7 @@ class HomeScreen extends StatelessWidget {
               ),
               Expanded(
                 child: SingleChildScrollView(
+                  physics: BouncingScrollPhysics(),
                   child: Column(
                     children: [
                       Column(
@@ -82,7 +80,7 @@ class HomeScreen extends StatelessWidget {
                             height: 30,
                           ),
                           Container(
-                            width: screenSize.width - 30,
+                            width: screenSize.width - 20,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [

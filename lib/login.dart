@@ -5,11 +5,13 @@ import 'package:capstone_design/presentation/components/card/custom_card_detail_
 import 'package:capstone_design/presentation/components/custom_app_bar.dart';
 import 'package:capstone_design/presentation/screens/UMKM/status_register_umkm_screen.dart';
 import 'package:capstone_design/presentation/screens/UMKM/umkm_detail_acc_screen.dart';
+import 'package:capstone_design/presentation/screens/UMKM/umkm_detail_screen.dart';
 import 'package:capstone_design/presentation/screens/card_screen.dart';
 import 'package:capstone_design/presentation/screens/favorite/favorite_screen.dart';
 import 'package:capstone_design/presentation/screens/favorite/favorite_screen.dart';
 import 'package:capstone_design/presentation/screens/home_screen.dart';
 import 'package:capstone_design/presentation/screens/icon_button_screen.dart';
+import 'package:capstone_design/presentation/screens/filter_tour_list_screen.dart';
 import 'package:capstone_design/presentation/screens/news/news_screen.dart';
 import 'package:capstone_design/presentation/screens/notifikasi/notifikasi_screen.dart';
 import 'package:capstone_design/presentation/screens/text_button_screen.dart';
@@ -295,6 +297,28 @@ class _LoginState extends State<Login> {
                       );
                     },
                     child: const Text("Tour Detail Screen"),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const UmkmDetailScreen(),
+                        ),
+                      );
+                    },
+                    child: const Text("UMKM Detail Screen"),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const FilterTourListScreen(),
+                        ),
+                      );
+                    },
+                    child: const Text("filter tour list Screen"),
                   ),
                 ],
               ),

@@ -68,7 +68,7 @@ class CustomNewsCard extends StatelessWidget {
                   Row(
                     children: [
                       Container(
-                        width: 235,
+                        width: screenSize.width - 155,
                         child: Text(
                           title,
                           style: bSubtitle4,

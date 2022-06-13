@@ -2,10 +2,13 @@ import 'package:capstone_design/presentation/components/card/custom_card_status_
 import 'package:capstone_design/presentation/components/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 >>>>>>> ab30d61 (add status register umkm screen)
+=======
+>>>>>>> 3b0a7ce (add filter tour list screen)
 
 class StatusRegisterUmkmScreen extends StatelessWidget {
   const StatusRegisterUmkmScreen({Key? key}) : super(key: key);

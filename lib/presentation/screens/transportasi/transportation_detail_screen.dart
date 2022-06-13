@@ -1,19 +1,23 @@
 import 'package:capstone_design/login.dart';
 import 'package:capstone_design/presentation/components/card/custom_card_detail_stasiun.dart';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import 'package:capstone_design/presentation/components/custom_app_bar.dart';
 import 'package:capstone_design/presentation/components/custom_text_icon_button.dart';
 import 'package:flutter/material.dart';
 =======
 import 'package:capstone_design/presentation/components/card/custom_detail_umkm_card.dart';
+=======
+>>>>>>> 3b0a7ce (add filter tour list screen)
 import 'package:capstone_design/presentation/components/custom_app_bar.dart';
 import 'package:capstone_design/presentation/components/custom_text_icon_button.dart';
-import 'package:capstone_design/presentation/components/custom_validation_button.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 >>>>>>> c8b1995 (add tour list screen)
+=======
+>>>>>>> 3b0a7ce (add filter tour list screen)
 import 'package:theme/theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -429,7 +433,7 @@ class _TransportationDetailScreenState
                                 height: 15,
                               ),
                               Container(
-                                height: 141,
+                                height: 160,
                                 child: TabBarView(
                                   children: [
                                     Column(

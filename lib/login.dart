@@ -8,11 +8,14 @@ import 'package:capstone_design/presentation/screens/UMKM/status_register_umkm_s
 <<<<<<< HEAD
 import 'package:capstone_design/presentation/screens/UMKM/umkm_detail_acc_screen.dart';
 import 'package:capstone_design/presentation/screens/UMKM/umkm_detail_screen.dart';
+<<<<<<< HEAD
 =======
 >>>>>>> ab30d61 (add status register umkm screen)
 =======
 import 'package:capstone_design/presentation/screens/UMKM/umkm_detail_acc_screen.dart';
 >>>>>>> eb9f98b (add umkm detail acc screen)
+=======
+>>>>>>> 3b0a7ce (add filter tour list screen)
 import 'package:capstone_design/presentation/screens/card_screen.dart';
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -30,6 +33,9 @@ import 'package:capstone_design/presentation/screens/favorite/favorite_screen.da
 import 'package:capstone_design/presentation/screens/home_screen.dart';
 import 'package:capstone_design/presentation/screens/icon_button_screen.dart';
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3b0a7ce (add filter tour list screen)
 import 'package:capstone_design/presentation/screens/filter_tour_list_screen.dart';
 import 'package:capstone_design/presentation/screens/news/news_screen.dart';
 import 'package:capstone_design/presentation/screens/notifikasi/notifikasi_screen.dart';
@@ -386,6 +392,9 @@ class _LoginState extends State<Login> {
                     child: const Text("Tour Detail Screen"),
                   ),
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3b0a7ce (add filter tour list screen)
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -408,6 +417,7 @@ class _LoginState extends State<Login> {
                     },
                     child: const Text("filter tour list Screen"),
                   ),
+<<<<<<< HEAD
                 ],
               ),
             ),
@@ -535,6 +545,8 @@ class _LoginState extends State<Login> {
 >>>>>>> c8b1995 (add tour list screen)
 =======
 >>>>>>> 2e96a55 (add tour detail screen)
+=======
+>>>>>>> 3b0a7ce (add filter tour list screen)
                 ],
               ),
             ),

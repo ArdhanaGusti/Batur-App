@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import 'package:capstone_design/presentation/components/card/custom_wisata_card_list.dart';
 import 'package:flutter/material.dart';
 =======
@@ -9,6 +10,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 >>>>>>> d4077e1 (add favorite screen)
+=======
+import 'package:capstone_design/presentation/components/card/custom_wisata_card_list.dart';
+import 'package:flutter/material.dart';
+>>>>>>> 3b0a7ce (add filter tour list screen)
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
@@ -515,6 +520,9 @@ class FavoriteScreen extends StatelessWidget {
                   ListView(
                     physics: BouncingScrollPhysics(),
                     children: [
+                      SizedBox(
+                        height: 10,
+                      ),
                       CustomWisataCardList(
                         img:
                             "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",

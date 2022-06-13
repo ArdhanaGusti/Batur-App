@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import 'package:flutter/material.dart';
 =======
 import 'package:capstone_design/login.dart';
@@ -10,6 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 >>>>>>> 2e96a55 (add tour detail screen)
+=======
+import 'package:flutter/material.dart';
+>>>>>>> 3b0a7ce (add filter tour list screen)
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:theme/theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -121,10 +125,14 @@ class CustomCardDetailTourScreen extends StatelessWidget {
                       children: [
                         Container(
 <<<<<<< HEAD
+<<<<<<< HEAD
                           width: width - 100,
 =======
                           width: 270,
 >>>>>>> 2e96a55 (add tour detail screen)
+=======
+                          width: 260,
+>>>>>>> 3b0a7ce (add filter tour list screen)
                           child: Text(
                             title,
                             maxLines: 2,

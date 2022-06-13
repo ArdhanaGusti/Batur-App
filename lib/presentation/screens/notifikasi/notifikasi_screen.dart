@@ -1,5 +1,6 @@
 import 'package:capstone_design/presentation/components/card/custom_list_notifikasi.dart';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import 'package:capstone_design/presentation/components/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,6 +12,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 >>>>>>> a2577e4 (revisi card and screen)
+=======
+import 'package:capstone_design/presentation/components/custom_app_bar.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+>>>>>>> 3b0a7ce (add filter tour list screen)
 import 'package:theme/theme.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 

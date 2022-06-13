@@ -24,8 +24,8 @@ class _LoginState extends State<Login> {
 
   Future<Resource?> signInWithTwitter() async {
     final twitterLogin = TwitterLogin(
-      apiKey: "RwpJ12f9jPCGZfQ6KAuH2EXvU",
-      apiSecretKey: "1JrcuoMyieOzMF5ypvTlQgNwm0DZdGR1wuMhAeJdyWPVJomwEC",
+      apiKey: "",
+      apiSecretKey: "",
       redirectURI: "Batur-app://",
     );
     final authResult = await twitterLogin.login();

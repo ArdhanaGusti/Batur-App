@@ -1,5 +1,9 @@
 import 'dart:io';
 import 'package:capstone_design/data/service/api_service.dart';
+import 'package:capstone_design/presentation/bloc/umkm/umkm_create_bloc.dart';
+import 'package:capstone_design/presentation/bloc/umkm/umkm_event.dart';
+import 'package:capstone_design/presentation/bloc/umkm/umkm_state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path/path.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
@@ -121,36 +125,38 @@ class _AddUmkmState extends State<AddUmkm> {
               child: Text("Input Foto"),
             ),
             (image == null) ? Text("Tidak ada gambar") : Image.file(image!),
-            ElevatedButton(
-              onPressed: () {
-                if (name != null && type != null) {
-                  apiService.sendUmkm(
-                      context, imageName!, name, type, image!, currentLocation);
-                  setState(() {
-                    image = null;
-                    imageName = null;
-                  });
-                } else {
-                  AlertDialog alert = AlertDialog(
-                    title: Text("Silahkan lengkapi data"),
-                    actions: [
-                      TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Text("Ok"))
-                    ],
-                  );
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return alert;
-                    },
-                  );
-                }
-              },
-              child: Text("Send UMKM"),
-            ),
+            BlocBuilder<UmkmCreateBloc, UmkmState>(builder: (context, state) {
+              return ElevatedButton(
+                onPressed: () {
+                  if (name != null && type != null) {
+                    context.read<UmkmCreateBloc>().add(OnCreateUmkm(context,
+                        imageName!, name!, type!, image!, currentLocation));
+                    setState(() {
+                      image = null;
+                      imageName = null;
+                    });
+                  } else {
+                    AlertDialog alert = AlertDialog(
+                      title: Text("Silahkan lengkapi data"),
+                      actions: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text("Ok"))
+                      ],
+                    );
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return alert;
+                      },
+                    );
+                  }
+                },
+                child: Text("Send UMKM"),
+              );
+            }),
           ],
         ),
       ),

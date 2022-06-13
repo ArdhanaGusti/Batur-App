@@ -1,4 +1,9 @@
 import 'package:capstone_design/presentation/bloc/news/news_create_bloc.dart';
+import 'package:capstone_design/presentation/bloc/news/news_update_bloc.dart';
+import 'package:capstone_design/presentation/bloc/profile/profile_create_bloc.dart';
+import 'package:capstone_design/presentation/bloc/profile/profile_update_bloc.dart';
+import 'package:capstone_design/presentation/bloc/umkm/umkm_create_bloc.dart';
+import 'package:capstone_design/presentation/bloc/umkm/umkm_update_bloc.dart';
 import 'package:capstone_design/presentation/page/dashboard.dart';
 import 'package:capstone_design/presentation/page/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -46,10 +51,25 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
+    return MultiBlocProvider(
       providers: [
         BlocProvider(
           create: (_) => di.locator<NewsCreateBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<NewsUpdateBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<ProfileCreateBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<ProfileUpdateBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<UmkmCreateBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<UmkmUpdateBloc>(),
         ),
       ],
       child: MaterialApp(

@@ -54,7 +54,6 @@ dependencies:
   path_provider:
   flutter_bloc:
   internet_connection_checker:
-  provider:
 
 dev_dependencies:
   flutter_test:

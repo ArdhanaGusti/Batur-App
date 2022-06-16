@@ -136,7 +136,7 @@ class CustomWisataCardList extends StatelessWidget {
                       ),
                       isFavourited == true
                           ? GestureDetector(
-                              onTap: () => {},
+                              onTap: () => {isFavourited == false},
                               child: Icon(
                                 Icons.favorite,
                                 color: (isLight) ? bError : bTextPrimary,

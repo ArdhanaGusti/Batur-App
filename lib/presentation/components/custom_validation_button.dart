@@ -26,7 +26,7 @@ class CustomValidationButton extends StatelessWidget {
         color: color,
         borderRadius: const BorderRadius.all(Radius.circular(25)),
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      padding: const EdgeInsets.symmetric(horizontal: 15.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[

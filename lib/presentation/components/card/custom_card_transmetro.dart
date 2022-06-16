@@ -66,9 +66,10 @@ class CardTransmetro extends StatelessWidget {
                   Row(
                     children: [
                       Container(
-                        width: 184,
+                        width: width - 90,
                         child: Text(
                           title,
+                          maxLines: 1,
                           style: TextStyle(
                               color: (state.isDark == ThemeModeEnum.darkTheme)
                                   ? bTextPrimary
@@ -97,14 +98,13 @@ class CardTransmetro extends StatelessWidget {
                         width: 5,
                       ),
                       Container(
-                        width: 192,
+                        width: width - 110,
                         child: Text(
                           rute,
                           style: bCaption1.copyWith(
                             color: bGrey,
                           ),
                           maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
@@ -123,12 +123,11 @@ class CardTransmetro extends StatelessWidget {
                         width: 5,
                       ),
                       Container(
-                        width: 192,
+                        width: width - 110,
                         child: Text(
                           time,
                           style: TextStyle(color: bGrey, fontSize: 10),
                           maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
                         ),
                       )
                     ],

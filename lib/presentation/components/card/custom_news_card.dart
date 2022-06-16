@@ -94,8 +94,10 @@ class CustomNewsCard extends StatelessWidget {
                             width: 5,
                           ),
                           Container(
+                            width: width - 280,
                             child: Text(
                               writer,
+                              maxLines: 1,
                               style: bCaption2.copyWith(color: bGrey),
                             ),
                           ),
@@ -115,6 +117,7 @@ class CustomNewsCard extends StatelessWidget {
                             width: 5,
                           ),
                           Container(
+                            width: width - 250,
                             child: Text(
                               date,
                               style: bCaption2.copyWith(color: bGrey),

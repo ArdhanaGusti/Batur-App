@@ -51,7 +51,8 @@ class FavoriteScreen extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  width: width,
+                  width: width - 100,
+                  margin: EdgeInsets.only(right: 100),
                   child: TabBar(
                     indicator: BoxDecoration(
                         color: (isLight) ? bPrimary : bTextPrimary,
@@ -61,11 +62,11 @@ class FavoriteScreen extends StatelessWidget {
                         (isLight) ? bTextSecondary : bTextPrimary,
                     tabs: [
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(2.0),
                         child: Text('Wisata', style: bSubtitle3),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(2.0),
                         child: Text(
                           'UMKM',
                           style: bSubtitle3,

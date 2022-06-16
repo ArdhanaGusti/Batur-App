@@ -113,27 +113,31 @@ class _TransportationDetailScreenState
                               SizedBox(
                                 height: 10,
                               ),
-                              TabBar(
-                                indicator: BoxDecoration(
-                                    color: (isLight) ? bPrimary : bTextPrimary,
-                                    borderRadius: BorderRadius.circular(8)),
-                                labelColor:
-                                    (isLight) ? bTextPrimary : bTextSecondary,
-                                unselectedLabelColor:
-                                    (isLight) ? bTextSecondary : bTextPrimary,
-                                tabs: [
-                                  Container(
-                                    padding: EdgeInsets.all(5),
-                                    child: Text('Local', style: bSubtitle3),
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.all(5),
-                                    child: Text(
-                                      'All',
-                                      style: bSubtitle3,
+                              Container(
+                                width: width - 100,
+                                child: TabBar(
+                                  indicator: BoxDecoration(
+                                      color:
+                                          (isLight) ? bPrimary : bTextPrimary,
+                                      borderRadius: BorderRadius.circular(8)),
+                                  labelColor:
+                                      (isLight) ? bTextPrimary : bTextSecondary,
+                                  unselectedLabelColor:
+                                      (isLight) ? bTextSecondary : bTextPrimary,
+                                  tabs: [
+                                    Container(
+                                      padding: EdgeInsets.all(2),
+                                      child: Text('Local', style: bSubtitle3),
                                     ),
-                                  )
-                                ],
+                                    Container(
+                                      padding: EdgeInsets.all(2),
+                                      child: Text(
+                                        'All',
+                                        style: bSubtitle3,
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                               SizedBox(
                                 height: 15,
@@ -172,7 +176,7 @@ class _TransportationDetailScreenState
                                                 Column(
                                                   children: [
                                                     Text(
-                                                      "Rp. 25.000",
+                                                      "Rp. 25.00",
                                                       style: bSubtitle4.copyWith(
                                                           color: (isLight)
                                                               ? bPrimary

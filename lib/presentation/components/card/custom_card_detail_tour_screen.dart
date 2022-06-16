@@ -72,8 +72,8 @@ class CustomCardDetailTourScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      width: 324,
-                      height: 150,
+                      width: width - 30,
+                      height: screenSize.height - 600,
                       child: CarouselSlider(
                         options: CarouselOptions(
                           viewportFraction: 1,
@@ -104,7 +104,7 @@ class CustomCardDetailTourScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                          width: 260,
+                          width: width - 100,
                           child: Text(
                             title,
                             maxLines: 2,

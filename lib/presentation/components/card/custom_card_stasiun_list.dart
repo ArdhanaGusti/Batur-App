@@ -79,8 +79,9 @@ class CustomCardStasiunList extends StatelessWidget {
                   Row(
                     children: [
                       Container(
-                        width: 242,
+                        width: width - 110,
                         child: Text(title,
+                            maxLines: 1,
                             style: bSubtitle2.copyWith(
                                 color: (isLight)
                                     ? bPrimaryVariant1
@@ -99,16 +100,15 @@ class CustomCardStasiunList extends StatelessWidget {
                     ],
                   ),
                   Container(
-                    width: 250,
+                    width: width - 110,
                     child: Text(
                       description,
-                      style: TextStyle(color: bGrey, fontSize: 10),
+                      style: bCaption1.copyWith(color: bGrey),
                       maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 2,
                   ),
                   Row(
                     children: [
@@ -121,7 +121,7 @@ class CustomCardStasiunList extends StatelessWidget {
                         width: 5,
                       ),
                       Container(
-                        width: 192,
+                        width: width - 110,
                         height: 10,
                         child: Text(
                           address,

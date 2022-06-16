@@ -32,6 +32,8 @@ class CardWisata extends StatelessWidget {
         child: GestureDetector(
           onTap: onTap,
           child: Container(
+            width: screenSize.width - 235,
+            height: screenSize.height - 530,
             margin: EdgeInsets.only(left: 15, top: 15, bottom: 15),
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
@@ -78,7 +80,7 @@ class CardWisata extends StatelessWidget {
                           title,
                           style: bSubtitle4,
                           maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                          // overflow: TextOverflow.ellipsis,
                         ),
                       ],
                     ),

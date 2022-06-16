@@ -72,10 +72,11 @@ class CardStatusRegistrasi extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Container(
-                              width: 190,
+                              width: screenSize.width - 210,
                               child: Text(
                                 title,
                                 style: bSubtitle4,
+                                maxLines: 1,
                               ),
                             ),
                             Container(
@@ -138,12 +139,11 @@ class CardStatusRegistrasi extends StatelessWidget {
                               width: 5,
                             ),
                             Container(
-                              width: 192,
+                              width: screenSize.width - 150,
                               child: Text(
                                 time,
                                 style: bCaption1,
                                 maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
                               ),
                             )
                           ],

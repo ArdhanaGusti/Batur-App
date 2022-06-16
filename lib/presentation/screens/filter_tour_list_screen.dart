@@ -13,11 +13,12 @@ class FilterTourListScreen extends StatefulWidget {
 }
 
 class _FilterTourListScreenState extends State<FilterTourListScreen> {
+  int _value = 1;
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     double width = screenSize.width - 40;
-    int _value = 1;
+
     return BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
         builder: (context, state) {
       Brightness screenBrightness = MediaQuery.platformBrightnessOf(context);
@@ -170,6 +171,7 @@ class _FilterTourListScreenState extends State<FilterTourListScreen> {
                             setState(() {
                               _value = 1;
                             });
+                            print(_value);
                           })
                     ],
                   ),
@@ -219,6 +221,7 @@ class _FilterTourListScreenState extends State<FilterTourListScreen> {
                             setState(() {
                               _value = 2;
                             });
+                            print(_value);
                           })
                     ],
                   ),
@@ -268,6 +271,7 @@ class _FilterTourListScreenState extends State<FilterTourListScreen> {
                             setState(() {
                               _value = 3;
                             });
+                            print(_value);
                           })
                     ],
                   ),

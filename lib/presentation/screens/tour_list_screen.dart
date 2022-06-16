@@ -104,7 +104,8 @@ class _TourListScreenState extends State<TourListScreen> {
                 //   child: Text(fullName),
                 // ),
                 Container(
-                  width: width,
+                  width: width - 100,
+                  margin: EdgeInsets.only(right: width - 250),
                   child: TabBar(
                     indicator: BoxDecoration(
                         color: (isLight) ? bPrimary : bTextPrimary,
@@ -114,11 +115,11 @@ class _TourListScreenState extends State<TourListScreen> {
                         (isLight) ? bTextSecondary : bTextPrimary,
                     tabs: [
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(2.0),
                         child: Text('Wisata', style: bSubtitle3),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(2.0),
                         child: Text(
                           'UMKM',
                           style: bSubtitle3,

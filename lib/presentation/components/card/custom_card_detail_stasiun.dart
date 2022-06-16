@@ -70,7 +70,6 @@ class CustomCardDetailStasiun extends StatelessWidget {
                   children: [
                     Container(
                       width: width - 30,
-                      height: screenSize.height - 600,
                       child: CarouselSlider(
                         options: CarouselOptions(
                           viewportFraction: 1,

@@ -66,7 +66,9 @@ class CustomDetailScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                       child: Image.network(
                         img,
-                        width: 324,
+                        width: width - 30,
+                        height: screenSize.height - 600,
+                        fit: BoxFit.cover,
                       ),
                     ),
                     SizedBox(
@@ -76,7 +78,7 @@ class CustomDetailScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                          width: 300,
+                          width: width - 50,
                           child: Text(
                             title,
                             maxLines: 2,
@@ -110,10 +112,13 @@ class CustomDetailScreen extends StatelessWidget {
                     SizedBox(
                       height: 15,
                     ),
-                    Text(
-                      address,
-                      maxLines: 1,
-                      style: bCaption1,
+                    Container(
+                      width: width - 50,
+                      child: Text(
+                        address,
+                        maxLines: 1,
+                        style: bCaption1,
+                      ),
                     ),
                     SizedBox(
                       height: 10,
@@ -128,10 +133,13 @@ class CustomDetailScreen extends StatelessWidget {
                         SizedBox(
                           width: 5,
                         ),
-                        Text(
-                          telephone,
-                          maxLines: 1,
-                          style: bCaption1,
+                        Container(
+                          width: width - 50,
+                          child: Text(
+                            telephone,
+                            maxLines: 1,
+                            style: bCaption1,
+                          ),
                         ),
                       ],
                     ),

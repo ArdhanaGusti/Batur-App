@@ -53,7 +53,7 @@ class ListNotifikasi extends StatelessWidget {
                     Row(
                       children: [
                         Container(
-                          width: 210,
+                          width: width - 200,
                           child: Text(
                             title,
                             style: bSubtitle2,
@@ -61,7 +61,7 @@ class ListNotifikasi extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          width: 80,
+                          width: width - 230,
                           child: Text(
                             uploadTime,
                             style: bCaption1,
@@ -74,7 +74,7 @@ class ListNotifikasi extends StatelessWidget {
                       height: 5,
                     ),
                     Container(
-                      width: 270,
+                      width: width - 60,
                       child: Text(
                         description,
                         style: bSubtitle4,

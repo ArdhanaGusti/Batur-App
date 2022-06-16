@@ -88,12 +88,17 @@ class CustomCardDetailTourScreen extends StatelessWidget {
                   children: [
                     Container(
 <<<<<<< HEAD
+<<<<<<< HEAD
                       width: width - 30,
                       height: screenSize.height - 600,
 =======
                       width: 324,
                       height: 150,
 >>>>>>> 2e96a55 (add tour detail screen)
+=======
+                      width: width - 30,
+                      height: screenSize.height - 600,
+>>>>>>> 8fc1931 (revisi card)
                       child: CarouselSlider(
                         options: CarouselOptions(
                           viewportFraction: 1,
@@ -126,6 +131,7 @@ class CustomCardDetailTourScreen extends StatelessWidget {
                         Container(
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                           width: width - 100,
 =======
                           width: 270,
@@ -133,6 +139,9 @@ class CustomCardDetailTourScreen extends StatelessWidget {
 =======
                           width: 260,
 >>>>>>> 3b0a7ce (add filter tour list screen)
+=======
+                          width: width - 100,
+>>>>>>> 8fc1931 (revisi card)
                           child: Text(
                             title,
                             maxLines: 2,

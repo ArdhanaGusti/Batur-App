@@ -74,6 +74,7 @@ class CardStatusRegistrasi extends StatelessWidget {
                             Container(
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                               width: screenSize.width - 210,
 =======
                               width: 170,
@@ -81,6 +82,9 @@ class CardStatusRegistrasi extends StatelessWidget {
 =======
                               width: 190,
 >>>>>>> a2577e4 (revisi card and screen)
+=======
+                              width: screenSize.width - 210,
+>>>>>>> 8fc1931 (revisi card)
                               child: Text(
                                 title,
                                 style: bSubtitle4,
@@ -152,7 +156,6 @@ class CardStatusRegistrasi extends StatelessWidget {
                                 time,
                                 style: bCaption1,
                                 maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
                               ),
                             )
                           ],

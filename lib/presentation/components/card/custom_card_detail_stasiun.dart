@@ -69,8 +69,8 @@ class CustomCardDetailStasiun extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      width: 324,
-                      height: 150,
+                      width: width - 30,
+                      height: screenSize.height - 600,
                       child: CarouselSlider(
                         options: CarouselOptions(
                           viewportFraction: 1,
@@ -135,10 +135,13 @@ class CustomCardDetailStasiun extends StatelessWidget {
                     SizedBox(
                       height: 15,
                     ),
-                    Text(
-                      address,
-                      maxLines: 1,
-                      style: bCaption1,
+                    Container(
+                      width: width - 50,
+                      child: Text(
+                        address,
+                        maxLines: 1,
+                        style: bCaption1,
+                      ),
                     ),
                     SizedBox(
                       height: 10,
@@ -153,10 +156,13 @@ class CustomCardDetailStasiun extends StatelessWidget {
                         SizedBox(
                           width: 5,
                         ),
-                        Text(
-                          telephone,
-                          maxLines: 1,
-                          style: bCaption1,
+                        Container(
+                          width: width - 50,
+                          child: Text(
+                            telephone,
+                            maxLines: 1,
+                            style: bCaption1,
+                          ),
                         ),
                       ],
                     ),

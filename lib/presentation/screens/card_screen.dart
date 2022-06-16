@@ -44,7 +44,8 @@ class CardScreen extends StatelessWidget {
                 title: "Stasiun Bandung Kota dua tiga empat lima",
                 description:
                     "Stasiun Bandung, juga dikenal sebagai Stasiun Hall, adalah stasiun kereta api kelas besar tipe A yang terletak di Jalan Stasiun Timur dan Jalan Kebon Kawung",
-                address: "Jl. Stasiun Barat, Kb. Jeruk, Kec. Andir, Bandung",
+                address:
+                    "Jl. Stasiun Barat, Kb. Jeruk, Kec. Andir, Bandung satu dua tiga",
                 onTap: () {
                   print("Container clicked");
                 },
@@ -127,9 +128,10 @@ class CardScreen extends StatelessWidget {
               CardStatusRegistrasi(
                 img:
                     'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg',
-                title: "Teko Hias",
+                title: "Teko Hias satu dua tiga empat lima enam tujuh",
                 validasi: true,
-                time: "Buka (07.00 WIB -16.00 WIB)",
+                time:
+                    "Buka (07.00 WIB -16.00 WIB) satu dua tiga emapat lima enam",
                 onTap: () {
                   print("Container clicked");
                 },
@@ -141,7 +143,7 @@ class CardScreen extends StatelessWidget {
                 img:
                     'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg',
                 title: "Kabar Bandung",
-                uploadTime: "12 Menit yang lalu",
+                uploadTime: "12 Menit yang lula",
                 description:
                     "Prabowo Atau Anies, Siapa Capres yang Paling Kuat?",
                 onTap: () {
@@ -154,12 +156,13 @@ class CardScreen extends StatelessWidget {
               CustomDetailScreen(
                 img:
                     'https://majalahpeluang.com/wp-content/uploads/2021/03/584ukm-bandung-ayobandung.jpg',
-                title: 'Contrary to popular belief',
+                title: 'Contrary to popular belief satu dua tiga empat lima',
                 like: '155',
                 description:
-                    'Stasiun Bandung, juga dikenal sebagai Stasiun Hall, adalah stasiun kereta api kelas besar tipe A yang terletak di Jalan Stasiun Timur dan Jalan Kebon Kawung, di Kebonjeruk, Andir, tepatnya di perbatasan antara Kelurahan Pasirkaliki, Cicendo dan Kebonjeruk, Andir, Kota Bandung, Jawa Barat.',
+                    'Stasiun Bandung, juga dikenal sebagai Stasiun Hall, adalah stasiun kereta api kelas besar tipe A yang terletak di Jalan Stasiun Timur dan Jalan Kebon Kawung, di Kebonjeruk, Andir, tepatnya di perbatasan antara Kelurahan Pasirkaliki, Cicendo dan Kebonjeruk, Andir, Kota Bandung, Jawa Barat. satu dua tiga empat lima enam',
                 address: 'Jl. Trunojoyo No. 64 Bandung',
-                telephone: '(022) 4208757',
+                telephone:
+                    '(022) 4208757 satu dua tiga emapt lima enam tujuh delapan',
                 onTap: () {
                   print("Container clicked");
                 },

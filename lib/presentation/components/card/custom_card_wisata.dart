@@ -79,7 +79,6 @@ class CardWisata extends StatelessWidget {
               children: [
                 Container(
                   width: screenSize.width - 253,
-                  height: screenSize.height - 618,
                   child: Stack(children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,7 +89,7 @@ class CardWisata extends StatelessWidget {
                             img,
                             fit: BoxFit.cover,
                             width: screenSize.width - 200,
-                            height: screenSize.height - 654, //revisi
+                            height: 105, //revisi
                           ),
                         ),
                         SizedBox(

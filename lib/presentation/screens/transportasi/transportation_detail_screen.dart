@@ -69,6 +69,9 @@ class _TransportationDetailScreenState
       return Scaffold(
         body: SafeArea(
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> e8bb3be (repair card wisata & maps transportasi)
           child: Column(
             children: [
               const CustomAppBar(
@@ -112,6 +115,7 @@ class _TransportationDetailScreenState
                                 spreadRadius: 2,
                                 blurRadius: 10,
                                 offset: Offset(0, 0),
+<<<<<<< HEAD
                               ),
                             ]),
                         child: Column(
@@ -406,265 +410,248 @@ class _TransportationDetailScreenState
                               ),
                               SizedBox(
                                 height: 10,
+=======
+>>>>>>> e8bb3be (repair card wisata & maps transportasi)
                               ),
-                              Container(
-                                width: width - 100,
-                                child: TabBar(
-                                  indicator: BoxDecoration(
-                                      color:
-                                          (isLight) ? bPrimary : bTextPrimary,
-                                      borderRadius: BorderRadius.circular(8)),
-                                  labelColor:
-                                      (isLight) ? bTextPrimary : bTextSecondary,
-                                  unselectedLabelColor:
-                                      (isLight) ? bTextSecondary : bTextPrimary,
-                                  tabs: [
-                                    Container(
-                                      padding: EdgeInsets.all(2),
-                                      child: Text('Local', style: bSubtitle3),
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.all(2),
-                                      child: Text(
-                                        'All',
-                                        style: bSubtitle3,
+                            ]),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              child: Column(
+                                children: [
+                                  Column(
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Jadwal",
+                                            style: bHeading7.copyWith(
+                                                color: (isLight)
+                                                    ? bPrimary
+                                                    : bTextPrimary),
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Column(
+                                                children: [
+                                                  Text(
+                                                    "KA 105",
+                                                    style: bSubtitle4.copyWith(
+                                                        color: (isLight)
+                                                            ? bPrimary
+                                                            : bTextPrimary),
+                                                  ),
+                                                  Text(
+                                                    "Ekonomi",
+                                                    style: bCaption1.copyWith(
+                                                        color: bGrey),
+                                                  )
+                                                ],
+                                              ),
+                                              Column(
+                                                children: [
+                                                  Text(
+                                                    "Rp. 25.00",
+                                                    style: bSubtitle4.copyWith(
+                                                        color: (isLight)
+                                                            ? bPrimary
+                                                            : bTextPrimary),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 6,
+                                          ),
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Column(
+                                                children: [
+                                                  Text(
+                                                    "BDG",
+                                                    style: bCaption3.copyWith(
+                                                        color: (isLight)
+                                                            ? bPrimary
+                                                            : bTextPrimary),
+                                                  ),
+                                                  Text(
+                                                    "14.50",
+                                                    style: bCaption1.copyWith(
+                                                        color: bGrey),
+                                                  )
+                                                ],
+                                              ),
+                                              Column(
+                                                children: [
+                                                  Text("1 Jam 5 Menit",
+                                                      style: bCaption1.copyWith(
+                                                          color: bGrey)),
+                                                ],
+                                              ),
+                                              Column(
+                                                children: [
+                                                  Text(
+                                                    "BDG",
+                                                    style: bCaption3.copyWith(
+                                                        color: (isLight)
+                                                            ? bPrimary
+                                                            : bTextPrimary),
+                                                  ),
+                                                  Text(
+                                                    "15.55",
+                                                    style: bCaption1.copyWith(
+                                                        color: bGrey),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        ],
                                       ),
-                                    )
-                                  ],
-                                ),
+                                      SizedBox(
+                                        height: 15,
+                                      ),
+                                      Column(
+                                        children: [
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Column(
+                                                children: [
+                                                  Text(
+                                                    "KA 105",
+                                                    style: bSubtitle4.copyWith(
+                                                        color: (isLight)
+                                                            ? bPrimary
+                                                            : bTextPrimary),
+                                                  ),
+                                                  Text(
+                                                    "Ekonomi",
+                                                    style: bCaption1.copyWith(
+                                                        color: bGrey),
+                                                  )
+                                                ],
+                                              ),
+                                              Column(
+                                                children: [
+                                                  Text(
+                                                    "Rp. 25.000",
+                                                    style: bSubtitle4.copyWith(
+                                                        color: (isLight)
+                                                            ? bPrimary
+                                                            : bTextPrimary),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 6,
+                                          ),
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Column(
+                                                children: [
+                                                  Text(
+                                                    "BDG",
+                                                    style: bCaption3.copyWith(
+                                                        color: (isLight)
+                                                            ? bPrimary
+                                                            : bTextPrimary),
+                                                  ),
+                                                  Text(
+                                                    "14.50",
+                                                    style: bCaption1.copyWith(
+                                                        color: bGrey),
+                                                  )
+                                                ],
+                                              ),
+                                              Column(
+                                                children: [
+                                                  Text("1 Jam 5 Menit",
+                                                      style: bCaption1.copyWith(
+                                                          color: bGrey)),
+                                                ],
+                                              ),
+                                              Column(
+                                                children: [
+                                                  Text(
+                                                    "BDG",
+                                                    style: bCaption3.copyWith(
+                                                        color: (isLight)
+                                                            ? bPrimary
+                                                            : bTextPrimary),
+                                                  ),
+                                                  Text(
+                                                    "15.55",
+                                                    style: bCaption1.copyWith(
+                                                        color: bGrey),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
-                              SizedBox(
-                                height: 15,
-                              ),
-                              Container(
-                                height: 160,
-                                child: TabBarView(
-                                  children: [
-                                    Column(
-                                      children: [
-                                        Column(
-                                          children: [
-                                            Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Column(
-                                                  children: [
-                                                    Text(
-                                                      "KA 105",
-                                                      style: bSubtitle4.copyWith(
-                                                          color: (isLight)
-                                                              ? bPrimary
-                                                              : bTextPrimary),
-                                                    ),
-                                                    Text(
-                                                      "Ekonomi",
-                                                      style: bCaption1.copyWith(
-                                                          color: bGrey),
-                                                    )
-                                                  ],
-                                                ),
-                                                Column(
-                                                  children: [
-                                                    Text(
-                                                      "Rp. 25.00",
-                                                      style: bSubtitle4.copyWith(
-                                                          color: (isLight)
-                                                              ? bPrimary
-                                                              : bTextPrimary),
-                                                    ),
-                                                  ],
-                                                )
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              height: 6,
-                                            ),
-                                            Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Column(
-                                                  children: [
-                                                    Text(
-                                                      "BDG",
-                                                      style: bCaption3.copyWith(
-                                                          color: (isLight)
-                                                              ? bPrimary
-                                                              : bTextPrimary),
-                                                    ),
-                                                    Text(
-                                                      "14.50",
-                                                      style: bCaption1.copyWith(
-                                                          color: bGrey),
-                                                    )
-                                                  ],
-                                                ),
-                                                Column(
-                                                  children: [
-                                                    Text("1 Jam 5 Menit",
-                                                        style:
-                                                            bCaption1.copyWith(
-                                                                color: bGrey)),
-                                                  ],
-                                                ),
-                                                Column(
-                                                  children: [
-                                                    Text(
-                                                      "BDG",
-                                                      style: bCaption3.copyWith(
-                                                          color: (isLight)
-                                                              ? bPrimary
-                                                              : bTextPrimary),
-                                                    ),
-                                                    Text(
-                                                      "15.55",
-                                                      style: bCaption1.copyWith(
-                                                          color: bGrey),
-                                                    ),
-                                                  ],
-                                                )
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 15,
-                                        ),
-                                        Column(
-                                          children: [
-                                            Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Column(
-                                                  children: [
-                                                    Text(
-                                                      "KA 105",
-                                                      style: bSubtitle4.copyWith(
-                                                          color: (isLight)
-                                                              ? bPrimary
-                                                              : bTextPrimary),
-                                                    ),
-                                                    Text(
-                                                      "Ekonomi",
-                                                      style: bCaption1.copyWith(
-                                                          color: bGrey),
-                                                    )
-                                                  ],
-                                                ),
-                                                Column(
-                                                  children: [
-                                                    Text(
-                                                      "Rp. 25.000",
-                                                      style: bSubtitle4.copyWith(
-                                                          color: (isLight)
-                                                              ? bPrimary
-                                                              : bTextPrimary),
-                                                    ),
-                                                  ],
-                                                )
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              height: 6,
-                                            ),
-                                            Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Column(
-                                                  children: [
-                                                    Text(
-                                                      "BDG",
-                                                      style: bCaption3.copyWith(
-                                                          color: (isLight)
-                                                              ? bPrimary
-                                                              : bTextPrimary),
-                                                    ),
-                                                    Text(
-                                                      "14.50",
-                                                      style: bCaption1.copyWith(
-                                                          color: bGrey),
-                                                    )
-                                                  ],
-                                                ),
-                                                Column(
-                                                  children: [
-                                                    Text("1 Jam 5 Menit",
-                                                        style:
-                                                            bCaption1.copyWith(
-                                                                color: bGrey)),
-                                                  ],
-                                                ),
-                                                Column(
-                                                  children: [
-                                                    Text(
-                                                      "BDG",
-                                                      style: bCaption3.copyWith(
-                                                          color: (isLight)
-                                                              ? bPrimary
-                                                              : bTextPrimary),
-                                                    ),
-                                                    Text(
-                                                      "15.55",
-                                                      style: bCaption1.copyWith(
-                                                          color: bGrey),
-                                                    ),
-                                                  ],
-                                                )
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                    Column(
-                                      children: [Text("data")],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 20.0, horizontal: 20),
-                        child: CustomTextIconButton(
-                          icon: "assets/icon/map-marker.svg",
-                          color: colorTwo,
-                          width: width,
-                          text: "Petunjuk Arah",
-                          onTap: () {
-                            Navigator.pop(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const Login(),
-                              ),
-                            );
-                          },
-                        ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 20.0, horizontal: 20),
+                      child: CustomTextIconButton(
+                        icon: "assets/icon/map-marker.svg",
+                        color: colorTwo,
+                        width: width,
+                        text: "Petunjuk Arah",
+                        onTap: () {
+                          Navigator.pop(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const Login(),
+                            ),
+                          );
+                        },
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
+<<<<<<< HEAD
               ],
             ),
 >>>>>>> c8b1995 (add tour list screen)
+=======
+              ),
+            ],
+>>>>>>> e8bb3be (repair card wisata & maps transportasi)
           ),
         ),
       );

@@ -5,6 +5,7 @@ import 'package:capstone_design/presentation/screens/about_screen.dart';
 import 'package:capstone_design/presentation/screens/account_detail_screen.dart';
 import 'package:capstone_design/presentation/screens/add_umkm_screen.dart';
 import 'package:capstone_design/presentation/screens/error_screen.dart';
+import 'package:capstone_design/presentation/screens/news_web_screen.dart';
 import 'package:capstone_design/presentation/screens/setting_screen.dart';
 import 'package:capstone_design/presentation/screens/timeline_screen.dart';
 import 'package:flutter/material.dart';
@@ -176,7 +177,14 @@ class AccountScreen extends StatelessWidget {
               _buildSmallContainer(
                 context,
                 // Must add on Tap
-                () {},
+                () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const NewsWebScreen(),
+                    ),
+                  );
+                },
                 // Text wait localization
                 "Bantuan",
                 "assets/icon/question-circle.svg",

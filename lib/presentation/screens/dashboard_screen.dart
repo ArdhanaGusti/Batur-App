@@ -21,8 +21,10 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   int _selectedIndex = 0;
-  bool isLogin = false;
+  // Change with shared preferences
+  bool isLogin = true;
 
+  // Wait Localization
   static const String _homeTitle = 'Beranda';
   static const String _newsTitle = 'Berita';
   static const String _favoriteTitle = 'Favorite';
@@ -81,24 +83,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   : (screenBrightness == Brightness.light)
                       ? bPrimary
                       : bTextPrimary;
-          Color backgroundBottomNav = (state.isDark == ThemeModeEnum.darkTheme)
-              ? bDarkGrey
-              : (state.isDark == ThemeModeEnum.lightTheme)
-                  ? bTextPrimary
-                  : (screenBrightness == Brightness.light)
-                      ? bTextPrimary
-                      : bDarkGrey;
           return BottomNavigationBar(
-            backgroundColor: backgroundBottomNav,
             items: [
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
-                  "assets/icon/home_outline.svg",
+                  "assets/icon/light/home.svg",
                   color: bGrey,
                   height: 24,
                 ),
                 activeIcon: SvgPicture.asset(
-                  "assets/icon/home.svg",
+                  "assets/icon/fill/home.svg",
                   color: activeBottomNav,
                   height: 24,
                 ),
@@ -106,12 +100,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
-                  "assets/icon/copy_outline.svg",
+                  "assets/icon/light/copy.svg",
                   color: bGrey,
                   height: 24,
                 ),
                 activeIcon: SvgPicture.asset(
-                  "assets/icon/copy.svg",
+                  "assets/icon/fill/copy.svg",
                   color: activeBottomNav,
                   height: 24,
                 ),
@@ -119,12 +113,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
-                  "assets/icon/star_outline.svg",
+                  "assets/icon/light/star.svg",
                   color: bGrey,
                   height: 24,
                 ),
                 activeIcon: SvgPicture.asset(
-                  "assets/icon/star.svg",
+                  "assets/icon/fill/star.svg",
                   color: activeBottomNav,
                   height: 24,
                 ),
@@ -132,27 +126,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
-                  "assets/icon/user_outline.svg",
+                  "assets/icon/light/user.svg",
                   color: bGrey,
                   height: 24,
                 ),
                 activeIcon: SvgPicture.asset(
-                  "assets/icon/user.svg",
+                  "assets/icon/fill/user.svg",
                   color: activeBottomNav,
                   height: 24,
                 ),
                 label: _accountTitle,
               ),
             ],
-            type: BottomNavigationBarType.fixed,
             currentIndex: _selectedIndex,
             onTap: _onItemTapped,
             selectedFontSize: 10,
-            selectedLabelStyle: bCaption3.copyWith(color: activeBottomNav),
             unselectedFontSize: 10,
-            unselectedLabelStyle: bCaption1.copyWith(color: bGrey),
-            selectedItemColor: activeBottomNav,
-            unselectedItemColor: bGrey,
           );
         },
       ),

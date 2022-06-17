@@ -64,9 +64,25 @@ flutter:
     - assets/
     - assets/icon/bold/map.svg
     - assets/icon/bold/menu.svg
+    - assets/icon/bold/copy.svg
+    - assets/icon/bold/home.svg
+    - assets/icon/bold/star.svg
+    - assets/icon/bold/user.svg
     - assets/icon/fill/map-marker.svg
     - assets/icon/fill/log-out.svg
     - assets/icon/fill/train.svg
+    - assets/icon/fill/user.svg
+    - assets/icon/fill/star.svg
+    - assets/icon/fill/home.svg
+    - assets/icon/fill/copy.svg
+    - assets/icon/light/user.svg
+    - assets/icon/light/star.svg
+    - assets/icon/light/home.svg
+    - assets/icon/light/copy.svg
+    - assets/icon/regular/user.svg
+    - assets/icon/regular/star.svg
+    - assets/icon/regular/home.svg
+    - assets/icon/regular/copy.svg
     - assets/icon/regular/map.svg
     - assets/icon/regular/menu.svg
     - assets/icon/regular/times-square.svg

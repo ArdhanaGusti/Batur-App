@@ -18,15 +18,22 @@ abstract class DataRepository {
       kontenNow,
       urlNameNow,
       DocumentReference index);
-  Future<Either<Failure, String>> sendUmkm(BuildContext context,
-      String imageName, name, type, File image, Position currentLocation);
+  Future<Either<Failure, String>> sendUmkm(
+      BuildContext context,
+      String imageName,
+      String name,
+      String type,
+      String desc,
+      File image,
+      Position currentLocation);
   Future<Either<Failure, String>> editUmkm(
       BuildContext context,
       File? image,
       String coverUrlNow,
-      imageName,
-      nameNow,
-      typeNow,
+      String? imageName,
+      String nameNow,
+      String typeNow,
+      String descNow,
       LatLng center,
       DocumentReference index);
   Future<Either<Failure, String>> sendProfile(BuildContext context,
@@ -39,4 +46,31 @@ abstract class DataRepository {
       urlNameNow,
       File? image,
       DocumentReference index);
+  Future<Either<Failure, String>> sendTour(
+      BuildContext context,
+      String imageName,
+      String name,
+      String type,
+      String desc,
+      File image,
+      Position currentLocation);
+  Future<Either<Failure, String>> editTour(
+    BuildContext context,
+    File? image,
+    String coverUrlNow,
+    String? imageName,
+    nameNow,
+    typeNow,
+    String descNow,
+    LatLng center,
+    DocumentReference index,
+  );
+  Future<Either<Failure, String>> sendTrain(
+      BuildContext context, String trainName, String station, DateTime time);
+  Future<Either<Failure, String>> editTrain(
+      BuildContext context,
+      String trainName,
+      String station,
+      DateTime time,
+      DocumentReference<Object?> index);
 }

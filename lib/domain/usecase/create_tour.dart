@@ -5,20 +5,20 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
-class CreateUmkm {
+class CreateTour {
   final DataRepository repository;
 
-  CreateUmkm(this.repository);
+  CreateTour(this.repository);
 
   Future<Either<Failure, String>> execute(
       BuildContext context,
       String imageName,
-      name,
-      type,
+      String name,
+      String type,
       String desc,
       File image,
       Position currentLocation) {
-    return repository.sendUmkm(
+    return repository.sendTour(
         context, imageName, name, type, desc, image, currentLocation);
   }
 }

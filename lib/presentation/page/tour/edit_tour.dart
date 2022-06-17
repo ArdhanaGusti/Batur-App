@@ -1,12 +1,9 @@
 import 'dart:io';
 import 'package:capstone_design/data/service/api_service.dart';
-import 'package:capstone_design/presentation/bloc/umkm/umkm_event.dart';
-import 'package:capstone_design/presentation/bloc/umkm/umkm_state.dart';
-import 'package:capstone_design/presentation/bloc/umkm/umkm_update_bloc.dart';
-import 'package:capstone_design/presentation/page/dashboard.dart';
+import 'package:capstone_design/presentation/bloc/tour/tour_event.dart';
+import 'package:capstone_design/presentation/bloc/tour/tour_state.dart';
+import 'package:capstone_design/presentation/bloc/tour/tour_update_bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path/path.dart';
 import 'package:flutter/material.dart';
@@ -15,12 +12,12 @@ import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:latlong2/latlong.dart';
 
-class EditUmkm extends StatefulWidget {
+class EditTour extends StatefulWidget {
   final DocumentReference index;
   final String name, coverUrl, type, desc;
   final double latitude, longitude;
 
-  const EditUmkm({
+  const EditTour({
     Key? key,
     required this.coverUrl,
     required this.index,
@@ -32,10 +29,10 @@ class EditUmkm extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<EditUmkm> createState() => _EditUmkmState();
+  State<EditTour> createState() => _EditTourState();
 }
 
-class _EditUmkmState extends State<EditUmkm> {
+class _EditTourState extends State<EditTour> {
   File? image;
   ApiService apiService = ApiService();
   LatLng? _center;
@@ -175,24 +172,34 @@ class _EditUmkmState extends State<EditUmkm> {
                 (image == null)
                     ? Image.network(widget.coverUrl)
                     : Image.file(image!),
-                BlocBuilder<UmkmUpdateBloc, UmkmState>(
+                BlocBuilder<TourUpdateBloc, TourState>(
                     builder: (context, state) {
                   return ElevatedButton(
                     onPressed: () {
                       if (nameNow != null &&
                           typeNow != null &&
                           descNow != null) {
-                        context.read<UmkmUpdateBloc>().add(OnUpdateUmkm(
-                              context,
-                              imageName,
-                              nameNow!,
-                              typeNow!,
-                              descNow!,
-                              coverUrlNow!,
-                              image,
-                              _center!,
-                              widget.index,
-                            ));
+                        context.read<TourUpdateBloc>().add(OnUpdateTour(
+                            context,
+                            imageName,
+                            nameNow!,
+                            typeNow!,
+                            descNow!,
+                            coverUrlNow!,
+                            image,
+                            _center!,
+                            widget.index));
+                        // apiService.editTour(
+                        //   context,
+                        //   image,
+                        //   coverUrlNow!,
+                        //   imageName,
+                        //   nameNow,
+                        //   typeNow,
+                        //   descNow!,
+                        //   _center!,
+                        //   widget.index,
+                        // );
                         setState(() {
                           image = null;
                           imageName = null;
@@ -216,7 +223,7 @@ class _EditUmkmState extends State<EditUmkm> {
                         );
                       }
                     },
-                    child: Text("Update UMKM"),
+                    child: Text("Update Tour"),
                   );
                 }),
               ],

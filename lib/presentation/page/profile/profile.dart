@@ -1,3 +1,4 @@
+import 'package:capstone_design/presentation/page/profile/create_profile.dart';
 import 'package:capstone_design/presentation/page/profile/edit_profile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -19,15 +20,25 @@ class _ProfileState extends State<Profile> {
             .where("email", isEqualTo: FirebaseAuth.instance.currentUser!.email)
             .snapshots(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) {
+          if (snapshot.data!.size == 0) {
             return Scaffold(
-              body: Center(
-                child: Column(
-                  children: [
-                    Text("Anda belum mengatur profile"),
-                    ElevatedButton(
-                        onPressed: () {}, child: Text("Buat profile"))
-                  ],
+              body: SafeArea(
+                child: Center(
+                  child: Column(
+                    children: [
+                      Text("Anda belum mengatur profile"),
+                      ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) {
+                                return CreateProfile(
+                                    user: FirebaseAuth.instance.currentUser!);
+                              },
+                            ));
+                          },
+                          child: Text("Buat profile"))
+                    ],
+                  ),
                 ),
               ),
             );

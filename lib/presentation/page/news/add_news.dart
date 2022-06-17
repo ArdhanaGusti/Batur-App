@@ -73,7 +73,34 @@ class _AddNewsState extends State<AddNews> {
               ),
             ),
             (image == null) ? Text("Tidak ada gambar") : Image.file(image!),
-            BlocBuilder<NewsCreateBloc, NewsState>(builder: (context, state) {
+            BlocConsumer<NewsCreateBloc, NewsState>(
+                listener: (context, state) async {
+              if (state is NewsLoading) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: CircularProgressIndicator(),
+                ));
+              } else if (state is NewsCreated) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(state.result),
+                ));
+              } else if (state is NewsError) {
+                await showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        content: Text(state.message),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text("Kembali"),
+                          )
+                        ],
+                      );
+                    });
+              }
+            }, builder: (context, state) {
               return Hero(
                 tag: "change",
                 child: ElevatedButton(

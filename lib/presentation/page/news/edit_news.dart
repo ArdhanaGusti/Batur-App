@@ -1,7 +1,11 @@
 import 'dart:io';
 import 'package:capstone_design/data/service/api_service.dart';
+import 'package:capstone_design/presentation/bloc/news/news_event.dart';
+import 'package:capstone_design/presentation/bloc/news/news_state.dart';
+import 'package:capstone_design/presentation/bloc/news/news_update_bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 
@@ -96,39 +100,49 @@ class _EditNewsState extends State<EditNews> {
                   pickImg();
                 },
                 child: Text("Pick IMG")),
-            Hero(
-              tag: "change",
-              child: ElevatedButton(
-                onPressed: () {
-                  if (judulNow != null && kontenNow != null) {
-                    apiService.editNews(context, imageNow, imageNameNow,
-                        judulNow!, kontenNow!, urlNameNow!, widget.index);
-                    setState(() {
-                      imageNow = null;
-                      imageNameNow = null;
-                    });
-                  } else {
-                    AlertDialog alert = AlertDialog(
-                      title: Text("Silahkan lengkapi data"),
-                      actions: [
-                        TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: Text("Ok"))
-                      ],
-                    );
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return alert;
-                      },
-                    );
-                  }
-                },
-                child: Text("Submit"),
-              ),
-            ),
+            BlocBuilder<NewsUpdateBloc, NewsState>(builder: (context, state) {
+              return Hero(
+                tag: "change",
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (judulNow != null && kontenNow != null) {
+                      context.read<NewsUpdateBloc>().add(OnUpdateNews(
+                          context,
+                          imageNow,
+                          imageNameNow,
+                          judulNow!,
+                          kontenNow!,
+                          urlNameNow!,
+                          widget.index));
+                      apiService.editNews(context, imageNow, imageNameNow,
+                          judulNow!, kontenNow!, urlNameNow!, widget.index);
+                      setState(() {
+                        imageNow = null;
+                        imageNameNow = null;
+                      });
+                    } else {
+                      AlertDialog alert = AlertDialog(
+                        title: Text("Silahkan lengkapi data"),
+                        actions: [
+                          TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text("Ok"))
+                        ],
+                      );
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return alert;
+                        },
+                      );
+                    }
+                  },
+                  child: Text("Submit"),
+                ),
+              );
+            }),
           ],
         ),
       ),

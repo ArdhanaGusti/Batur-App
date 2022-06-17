@@ -1,8 +1,8 @@
 import 'package:capstone_design/data/service/api_service.dart';
+import 'package:capstone_design/presentation/page/dashboard.dart';
 import 'package:capstone_design/presentation/page/news/edit_news.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 class News extends StatefulWidget {
@@ -32,6 +32,16 @@ class _NewsState extends State<News> {
     return Scaffold(
       appBar: AppBar(
         title: Text("News List"),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) {
+                return Dashboard(user: user!);
+              },
+            ));
+          },
+          icon: Icon(Icons.arrow_back_rounded),
+        ),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection("News").snapshots(),

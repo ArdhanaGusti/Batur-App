@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:capstone_design/data/datasources/crud_news.dart';
 import 'package:capstone_design/data/datasources/crud_profile.dart';
+import 'package:capstone_design/data/datasources/crud_tour.dart';
+import 'package:capstone_design/data/datasources/crud_train.dart';
 import 'package:capstone_design/data/datasources/crud_umkm.dart';
 import 'package:capstone_design/domain/repository/data_repository.dart';
 import 'package:capstone_design/utils/exception.dart';
@@ -16,11 +18,15 @@ class DataRepositoryImpl implements DataRepository {
   final CrudUmkm crudUmkm;
   final CrudNews crudNews;
   final CrudProfile crudProfile;
+  final CrudTour crudTour;
+  final CrudTrain crudTrain;
 
   DataRepositoryImpl({
     required this.crudUmkm,
     required this.crudNews,
     required this.crudProfile,
+    required this.crudTour,
+    required this.crudTrain,
   });
 
   @override
@@ -64,14 +70,15 @@ class DataRepositoryImpl implements DataRepository {
       BuildContext context,
       File? image,
       String coverUrlNow,
-      imageName,
-      nameNow,
-      typeNow,
+      String? imageName,
+      String nameNow,
+      String typeNow,
+      String descNow,
       LatLng center,
       DocumentReference<Object?> index) async {
     try {
       final res = await crudUmkm.editUmkm(context, image, coverUrlNow,
-          imageName, nameNow, typeNow, center, index);
+          imageName, nameNow, typeNow, descNow, center, index);
       return Right(res);
     } on DatabaseException catch (e) {
       return Left(DatabaseFailure(e.message));
@@ -112,13 +119,80 @@ class DataRepositoryImpl implements DataRepository {
   Future<Either<Failure, String>> sendUmkm(
       BuildContext context,
       String imageName,
-      name,
-      type,
+      String name,
+      String type,
+      String desc,
       File image,
       Position currentLocation) async {
     try {
       final res = await crudUmkm.sendUmkm(
-          context, imageName, name, type, image, currentLocation);
+          context, imageName, name, type, desc, image, currentLocation);
+      return Right(res);
+    } on DatabaseException catch (e) {
+      return Left(DatabaseFailure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> sendTour(
+      BuildContext context,
+      String imageName,
+      String name,
+      String type,
+      String desc,
+      File image,
+      Position currentLocation) async {
+    try {
+      final res = await crudTour.sendTour(
+          context, imageName, name, type, desc, image, currentLocation);
+      return Right(res);
+    } on DatabaseException catch (e) {
+      return Left(DatabaseFailure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> editTour(
+    BuildContext context,
+    File? image,
+    String coverUrlNow,
+    String? imageName,
+    nameNow,
+    typeNow,
+    String descNow,
+    LatLng center,
+    DocumentReference index,
+  ) async {
+    try {
+      final res = await crudTour.editTour(context, image, coverUrlNow,
+          imageName, nameNow, typeNow, descNow, center, index);
+      return Right(res);
+    } on DatabaseException catch (e) {
+      return Left(DatabaseFailure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> sendTrain(BuildContext context,
+      String trainName, String station, DateTime time) async {
+    try {
+      final res = await crudTrain.sendTrain(context, trainName, station, time);
+      return Right(res);
+    } on DatabaseException catch (e) {
+      return Left(DatabaseFailure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> editTrain(
+      BuildContext context,
+      String trainName,
+      String station,
+      DateTime time,
+      DocumentReference<Object?> index) async {
+    try {
+      final res =
+          await crudTrain.editTrain(context, trainName, station, time, index);
       return Right(res);
     } on DatabaseException catch (e) {
       return Left(DatabaseFailure(e.message));

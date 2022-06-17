@@ -10,8 +10,14 @@ class UmkmCreateBloc extends Bloc<UmkmEvent, UmkmState> {
     on<OnCreateUmkm>(
       (event, emit) async {
         emit(UmkmLoading());
-        final result = await createUmkm.execute(event.context, event.imageName,
-            event.name, event.type, event.image, event.currentLocation);
+        final result = await createUmkm.execute(
+            event.context,
+            event.imageName,
+            event.name,
+            event.type,
+            event.desc,
+            event.image,
+            event.currentLocation);
 
         result.fold(
           (failure) {

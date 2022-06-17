@@ -56,8 +56,34 @@ class _CreateProfileState extends State<CreateProfile> {
                   border: UnderlineInputBorder(), hintText: "Fullname"),
             ),
             (image == null) ? Text("No image yet") : Image.file(image!),
-            BlocBuilder<ProfileCreateBloc, ProfileState>(
-                builder: (context, state) {
+            BlocConsumer<ProfileCreateBloc, ProfileState>(
+                listener: (context, state) async {
+              if (state is ProfileLoading) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: CircularProgressIndicator(),
+                ));
+              } else if (state is ProfileCreated) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(state.result),
+                ));
+              } else if (state is ProfileError) {
+                await showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        content: Text(state.message),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text("Kembali"),
+                          )
+                        ],
+                      );
+                    });
+              }
+            }, builder: (context, state) {
               return ElevatedButton(
                 onPressed: () {
                   if (image == null) {

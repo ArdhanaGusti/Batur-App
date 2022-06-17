@@ -2,6 +2,10 @@ import 'dart:io';
 import 'package:capstone_design/presentation/page/news/add_news.dart';
 import 'package:capstone_design/presentation/page/news/news.dart';
 import 'package:capstone_design/presentation/page/profile/profile.dart';
+import 'package:capstone_design/presentation/page/tour/add_tour.dart';
+import 'package:capstone_design/presentation/page/tour/tour.dart';
+import 'package:capstone_design/presentation/page/train/add_train.dart';
+import 'package:capstone_design/presentation/page/train/train.dart';
 import 'package:capstone_design/presentation/page/umkm/add_umkm.dart';
 import 'package:capstone_design/presentation/page/umkm/umkm.dart';
 import 'package:flutter/material.dart';
@@ -70,6 +74,46 @@ class Satu extends StatelessWidget {
                 ));
               },
               child: Text("Profile"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) {
+                    return Tour();
+                  },
+                ));
+              },
+              child: Text("Tour"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) {
+                    return AddTrain();
+                  },
+                ));
+              },
+              child: Text("Add Train"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) {
+                    return Train();
+                  },
+                ));
+              },
+              child: Text("Train"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) {
+                    return AddTour();
+                  },
+                ));
+              },
+              child: Text("Add Tour"),
             ),
           ],
         ),

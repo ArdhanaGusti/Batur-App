@@ -1,21 +1,21 @@
-import 'package:capstone_design/presentation/page/umkm/edit_umkm.dart';
+import 'package:capstone_design/presentation/page/tour/edit_tour.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class UMKM extends StatelessWidget {
-  const UMKM({Key? key}) : super(key: key);
+class Tour extends StatelessWidget {
+  const Tour({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance.collection("UMKM").snapshots(),
+      stream: FirebaseFirestore.instance.collection("Tour").snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return Scaffold(
             body: Center(
               child: ElevatedButton(
                 onPressed: () {},
-                child: Text("Buat UMKM"),
+                child: Text("Buat tempat wisata"),
               ),
             ),
           );
@@ -35,7 +35,7 @@ class UMKM extends StatelessWidget {
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) {
-                              return EditUmkm(
+                              return EditTour(
                                   coverUrl: data[index]['coverUrl'],
                                   index: data[index].reference,
                                   latitude: data[index]['latitude'],

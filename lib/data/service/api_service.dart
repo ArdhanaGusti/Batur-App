@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:capstone_design/presentation/page/train/train.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:capstone_design/presentation/page/dashboard.dart';
 import 'package:capstone_design/presentation/page/login.dart';
@@ -94,7 +95,7 @@ class ApiService {
     ));
   }
 
-  Future sendNews(
+  Future<void> sendNews(
       BuildContext context, File image, String imageName, judul, konten) async {
     Reference ref = FirebaseStorage.instance
         .ref()
@@ -120,7 +121,41 @@ class ApiService {
     });
   }
 
-  Future editNews(
+  Future<void> sendTrain(BuildContext context, String trainName, String station,
+      DateTime time) async {
+    FirebaseFirestore.instance.runTransaction((transaction) async {
+      CollectionReference reference =
+          FirebaseFirestore.instance.collection("Train");
+      await reference.add({
+        "trainName": trainName,
+        "date": time,
+        "station": station,
+      });
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (context) {
+        return Train();
+      }));
+    });
+  }
+
+  Future<void> editTrain(BuildContext context, String trainName, String station,
+      DateTime time, DocumentReference index) async {
+    FirebaseFirestore.instance.runTransaction((transaction) async {
+      CollectionReference reference =
+          FirebaseFirestore.instance.collection("Train");
+      reference.doc(index.id).update({
+        "trainName": trainName,
+        "date": time,
+        "station": station,
+      });
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (context) {
+        return Train();
+      }));
+    });
+  }
+
+  Future<void> editNews(
       BuildContext context,
       File? imageNow,
       String? imageNameNow,
@@ -244,8 +279,8 @@ class ApiService {
     });
   }
 
-  Future<void> sendUmkm(BuildContext context, String imageName, name, type,
-      File image, Position currentLocation) async {
+  Future<void> sendUmkm(BuildContext context, String imageName, String name,
+      String type, String desc, File image, Position currentLocation) async {
     Reference ref = FirebaseStorage.instance
         .ref()
         .child(imageName + DateTime.now().toString());
@@ -263,7 +298,37 @@ class ApiService {
           "longitude": currentLocation.longitude,
           "coverUrl": urlName,
           "type": type,
-          "verivication": false,
+          "desc": desc,
+          "verification": false,
+        });
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+          return Dashboard(user: user);
+        }));
+      });
+    });
+  }
+
+  Future<void> sendTour(BuildContext context, String imageName, String name,
+      String type, String desc, File image, Position currentLocation) async {
+    Reference ref = FirebaseStorage.instance
+        .ref()
+        .child(imageName + DateTime.now().toString());
+    UploadTask uploadTask = ref.putFile(image);
+    User user = FirebaseAuth.instance.currentUser!;
+    FirebaseFirestore.instance.runTransaction((transaction) async {
+      CollectionReference reference =
+          FirebaseFirestore.instance.collection("Tour");
+      uploadTask.then((res) async {
+        String urlName = await res.ref.getDownloadURL();
+        await reference.add({
+          "name": name,
+          "email": user.email,
+          "latitude": currentLocation.latitude,
+          "longitude": currentLocation.longitude,
+          "coverUrl": urlName,
+          "type": type,
+          "desc": desc,
+          "verification": false,
         });
         Navigator.of(context).push(MaterialPageRoute(builder: (context) {
           return Dashboard(user: user);
@@ -276,9 +341,10 @@ class ApiService {
       BuildContext context,
       File? image,
       String coverUrlNow,
-      imageName,
+      String? imageName,
       nameNow,
       typeNow,
+      String descNow,
       LatLng center,
       DocumentReference index) async {
     UploadTask? uploadTask;
@@ -305,6 +371,7 @@ class ApiService {
             "longitude": center.longitude,
             "coverUrl": coverUrlNow,
             "type": typeNow,
+            "desc": descNow
           });
           Navigator.of(context).push(MaterialPageRoute(builder: (context) {
             return Dashboard(user: user);
@@ -317,6 +384,63 @@ class ApiService {
           "longitude": center.longitude,
           "coverUrl": coverUrlNow,
           "type": typeNow,
+          "desc": descNow
+        });
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+          return Dashboard(user: user);
+        }));
+      }
+    });
+  }
+
+  Future<void> editTour(
+      BuildContext context,
+      File? image,
+      String coverUrlNow,
+      String? imageName,
+      nameNow,
+      typeNow,
+      String descNow,
+      LatLng center,
+      DocumentReference index) async {
+    UploadTask? uploadTask;
+    if (image != null) {
+      FirebaseStorage.instance.refFromURL(coverUrlNow).delete();
+      Reference ref = FirebaseStorage.instance
+          .ref()
+          .child(imageName! + DateTime.now().toString());
+      uploadTask = ref.putFile(image);
+    } else {
+      uploadTask = null;
+    }
+    User user = FirebaseAuth.instance.currentUser!;
+    FirebaseFirestore.instance.runTransaction((transaction) async {
+      CollectionReference reference =
+          FirebaseFirestore.instance.collection("Tour");
+      if (image != null) {
+        uploadTask!.then((res) async {
+          FirebaseStorage.instance.refFromURL(coverUrlNow).delete();
+          coverUrlNow = await res.ref.getDownloadURL();
+          await reference.doc(index.id).update({
+            "name": nameNow,
+            "latitude": center.latitude,
+            "longitude": center.longitude,
+            "coverUrl": coverUrlNow,
+            "type": typeNow,
+            "desc": descNow
+          });
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+            return Dashboard(user: user);
+          }));
+        });
+      } else {
+        await reference.doc(index.id).update({
+          "name": nameNow,
+          "latitude": center.latitude,
+          "longitude": center.longitude,
+          "coverUrl": coverUrlNow,
+          "type": typeNow,
+          "desc": descNow
         });
         Navigator.of(context).push(MaterialPageRoute(builder: (context) {
           return Dashboard(user: user);

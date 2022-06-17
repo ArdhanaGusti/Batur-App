@@ -6,32 +6,32 @@ import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 
-abstract class UmkmEvent extends Equatable {
-  const UmkmEvent();
+abstract class TourEvent extends Equatable {
+  const TourEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class OnCreateUmkm extends UmkmEvent {
+class OnCreateTour extends TourEvent {
   final BuildContext context;
   final String imageName, name, type, desc;
   final File image;
   final Position currentLocation;
-  const OnCreateUmkm(this.context, this.imageName, this.name, this.type,
+  const OnCreateTour(this.context, this.imageName, this.name, this.type,
       this.desc, this.image, this.currentLocation);
   @override
   List<Object> get props => [];
 }
 
-class OnUpdateUmkm extends UmkmEvent {
+class OnUpdateTour extends TourEvent {
   final BuildContext context;
   final String? imageName;
   final String name, type, coverUrlNow, desc;
   final File? image;
   final LatLng center;
   final DocumentReference index;
-  const OnUpdateUmkm(this.context, this.imageName, this.name, this.type,
+  const OnUpdateTour(this.context, this.imageName, this.name, this.type,
       this.desc, this.coverUrlNow, this.image, this.center, this.index);
   @override
   List<Object> get props => [];

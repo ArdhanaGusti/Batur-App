@@ -7,10 +7,18 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
 abstract class CrudUmkm {
-  Future<String> sendUmkm(BuildContext context, String imageName, name, type,
-      File image, Position currentLocation);
-  Future<String> editUmkm(BuildContext context, File? image, String coverUrlNow,
-      imageName, nameNow, typeNow, LatLng center, DocumentReference index);
+  Future<String> sendUmkm(BuildContext context, String imageName, String name,
+      String type, String desc, File image, Position currentLocation);
+  Future<String> editUmkm(
+      BuildContext context,
+      File? image,
+      String coverUrlNow,
+      String? imageName,
+      String nameNow,
+      String typeNow,
+      String descNow,
+      LatLng center,
+      DocumentReference index);
 }
 
 class CrudUmkmImpl implements CrudUmkm {
@@ -23,14 +31,15 @@ class CrudUmkmImpl implements CrudUmkm {
       BuildContext context,
       File? image,
       String coverUrlNow,
-      imageName,
-      nameNow,
-      typeNow,
+      String? imageName,
+      String nameNow,
+      String typeNow,
+      String descNow,
       LatLng center,
       DocumentReference<Object?> index) async {
     try {
       apiService.editUmkm(context, image, coverUrlNow, imageName, nameNow,
-          typeNow, center, index);
+          typeNow, descNow, center, index);
       return "UMKM sudah di Update";
     } catch (e) {
       throw DatabaseException(e.toString());
@@ -38,11 +47,11 @@ class CrudUmkmImpl implements CrudUmkm {
   }
 
   @override
-  Future<String> sendUmkm(BuildContext context, String imageName, name, type,
-      File image, Position currentLocation) async {
+  Future<String> sendUmkm(BuildContext context, String imageName, String name,
+      String type, String desc, File image, Position currentLocation) async {
     try {
       apiService.sendUmkm(
-          context, imageName, name, type, image, currentLocation);
+          context, imageName, name, type, desc, image, currentLocation);
       return "UMKM sudah jadi :)";
     } catch (e) {
       throw DatabaseException(e.toString());

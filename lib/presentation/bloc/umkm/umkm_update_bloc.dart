@@ -18,6 +18,7 @@ class UmkmUpdateBloc extends Bloc<UmkmEvent, UmkmState> {
             event.imageName,
             event.name,
             event.type,
+            event.desc,
             event.center,
             event.index);
         result.fold(

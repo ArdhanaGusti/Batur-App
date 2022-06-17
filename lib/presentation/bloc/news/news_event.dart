@@ -25,8 +25,9 @@ class OnCreateNews extends NewsEvent {
 
 class OnUpdateNews extends NewsEvent {
   final BuildContext context;
-  final File image;
-  final String imageName, konten, judul, urlName;
+  final File? image;
+  final String? imageName;
+  final String konten, judul, urlName;
   final DocumentReference index;
 
   const OnUpdateNews(this.context, this.image, this.imageName, this.konten,

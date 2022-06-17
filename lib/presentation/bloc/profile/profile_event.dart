@@ -24,20 +24,12 @@ class OnCreateProfile extends ProfileEvent {
 
 class OnUpdateProfile extends ProfileEvent {
   final BuildContext context;
-  final String username, fullname, imageName, urlName, email;
-  final File image;
-  final User user;
+  final String? imageName;
+  final String username, fullname, urlName;
+  final File? image;
   final DocumentReference index;
-  const OnUpdateProfile(
-      this.context,
-      this.username,
-      this.fullname,
-      this.imageName,
-      this.email,
-      this.image,
-      this.user,
-      this.urlName,
-      this.index);
+  const OnUpdateProfile(this.context, this.username, this.fullname,
+      this.imageName, this.image, this.urlName, this.index);
   @override
   List<Object> get props => [];
 }

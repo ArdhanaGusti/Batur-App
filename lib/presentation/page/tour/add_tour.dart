@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:capstone_design/data/service/api_service.dart';
-import 'package:capstone_design/presentation/bloc/umkm/umkm_create_bloc.dart';
-import 'package:capstone_design/presentation/bloc/umkm/umkm_event.dart';
-import 'package:capstone_design/presentation/bloc/umkm/umkm_state.dart';
+import 'package:capstone_design/presentation/bloc/tour/tour_create_bloc.dart';
+import 'package:capstone_design/presentation/bloc/tour/tour_event.dart';
+import 'package:capstone_design/presentation/bloc/tour/tour_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path/path.dart';
 import 'package:flutter/material.dart';
@@ -11,14 +11,14 @@ import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:latlong2/latlong.dart';
 
-class AddUmkm extends StatefulWidget {
-  const AddUmkm({Key? key}) : super(key: key);
+class AddTour extends StatefulWidget {
+  const AddTour({Key? key}) : super(key: key);
 
   @override
-  State<AddUmkm> createState() => _AddUmkmState();
+  State<AddTour> createState() => _AddTourState();
 }
 
-class _AddUmkmState extends State<AddUmkm> {
+class _AddTourState extends State<AddTour> {
   ApiService apiService = ApiService();
   File? image;
   LatLng? _center;
@@ -134,11 +134,11 @@ class _AddUmkmState extends State<AddUmkm> {
               child: Text("Input Foto"),
             ),
             (image == null) ? Text("Tidak ada gambar") : Image.file(image!),
-            BlocBuilder<UmkmCreateBloc, UmkmState>(builder: (context, state) {
+            BlocBuilder<TourCreateBloc, TourState>(builder: (context, state) {
               return ElevatedButton(
                 onPressed: () {
                   if (name != null && type != null) {
-                    context.read<UmkmCreateBloc>().add(OnCreateUmkm(
+                    context.read<TourCreateBloc>().add(OnCreateTour(
                         context,
                         imageName!,
                         name!,
@@ -146,6 +146,8 @@ class _AddUmkmState extends State<AddUmkm> {
                         desc!,
                         image!,
                         currentLocation));
+                    // ApiService().sendTour(context, imageName!, name!, type!,
+                    //     desc!, image!, currentLocation);
                     setState(() {
                       image = null;
                       imageName = null;
@@ -169,9 +171,9 @@ class _AddUmkmState extends State<AddUmkm> {
                     );
                   }
                 },
-                child: Text("Send UMKM"),
+                child: Text("Send Tour"),
               );
-            }),
+            })
           ],
         ),
       ),

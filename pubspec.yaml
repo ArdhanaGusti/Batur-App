@@ -28,6 +28,17 @@ dependencies:
   flutter_native_splash:
   get_it:
   flutter_svg:
+<<<<<<< HEAD
+=======
+  equatable:
+  image_picker:
+  photo_view: 
+  path_provider: 
+  timelines: 
+  intl:
+  webview_flutter:
+  page_transition:
+>>>>>>> e10781d (Repair navigation in dashboard)
   fluttertoast: ^8.0.9
 <<<<<<< HEAD
 <<<<<<< HEAD

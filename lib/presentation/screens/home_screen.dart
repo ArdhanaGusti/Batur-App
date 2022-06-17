@@ -1,6 +1,7 @@
 import 'package:capstone_design/presentation/components/card/custom_card_transmetro.dart';
 import 'package:capstone_design/presentation/components/card/custom_card_wisata.dart';
 import 'package:capstone_design/presentation/components/card/custom_news_card.dart';
+<<<<<<< HEAD
 import 'package:flutter/material.dart';
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -13,6 +14,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:theme/theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+=======
+>>>>>>> e10781d (Repair navigation in dashboard)
 import 'package:carousel_slider/carousel_slider.dart';
 
 class HomeScreen extends StatelessWidget {

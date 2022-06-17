@@ -38,7 +38,6 @@ class FavoriteScreen extends StatelessWidget {
   }
 
   Widget _buildAccountScreen(BuildContext context, Size screenSize) {
-    Brightness screenBrightness = MediaQuery.platformBrightnessOf(context);
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: <Widget>[

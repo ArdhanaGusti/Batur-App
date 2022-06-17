@@ -3,12 +3,13 @@ import 'dart:async';
 import 'package:capstone_design/presentation/screens/account_screen.dart';
 import 'package:capstone_design/presentation/screens/favorite_screen.dart';
 import 'package:capstone_design/presentation/screens/home_screen.dart';
+import 'package:capstone_design/presentation/screens/login_screen.dart';
 import 'package:capstone_design/presentation/screens/news_screen.dart';
-import 'package:capstone_design/presentation/screens/theme_setting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:theme/theme.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -20,6 +21,7 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   int _selectedIndex = 0;
+  bool isLogin = false;
 
   static const String _homeTitle = 'Beranda';
   static const String _newsTitle = 'Berita';
@@ -35,7 +37,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
+      if (index == 2 || index == 3) {
+        if (isLogin) {
+          _selectedIndex = index;
+        } else {
+          Navigator.push(
+            context,
+            PageTransition(
+              curve: Curves.easeOutCirc,
+              type: PageTransitionType.bottomToTop,
+              child: const LoginScreen(),
+              duration: const Duration(milliseconds: 250),
+              reverseDuration: const Duration(milliseconds: 250),
+            ),
+          );
+        }
+      } else {
+        _selectedIndex = index;
+      }
     });
   }
 

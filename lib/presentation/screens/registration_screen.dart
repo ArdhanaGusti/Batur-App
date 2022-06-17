@@ -7,6 +7,7 @@ import 'package:capstone_design/presentation/components/textFields/custom_regis_
 import 'package:capstone_design/presentation/screens/error_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:theme/theme.dart';
 
 class RegistrationScreen extends StatefulWidget {
@@ -54,54 +55,50 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   Widget _buildRegisScreen(Size screenSize) {
     Brightness screenBrightness = MediaQuery.platformBrightnessOf(context);
     // Scaffold must be delete if in dashboard
-    return Scaffold(
-      body: SafeArea(
-        child: ListView(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
-                    builder: (context, state) {
-                      bool isLight = (state.isDark == ThemeModeEnum.darkTheme)
-                          ? false
-                          : (state.isDark == ThemeModeEnum.lightTheme)
+    return ListView(
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
+                builder: (context, state) {
+                  bool isLight = (state.isDark == ThemeModeEnum.darkTheme)
+                      ? false
+                      : (state.isDark == ThemeModeEnum.lightTheme)
+                          ? true
+                          : (screenBrightness == Brightness.light)
                               ? true
-                              : (screenBrightness == Brightness.light)
-                                  ? true
-                                  : false;
-                      return Image.asset(
-                        (isLight)
-                            ? 'assets/logo/logo.png'
-                            : 'assets/logo/logo_dark.png',
-                        height: 40.0,
-                      );
-                    },
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          // Text wait localization
-                          'Daftar',
-                          style: bHeading3.copyWith(
-                            color: Theme.of(context).colorScheme.tertiary,
-                          ),
-                        ),
-                        _buildForm(screenSize),
-                      ],
-                    ),
-                  )
-                ],
+                              : false;
+                  return Image.asset(
+                    (isLight)
+                        ? 'assets/logo/logo.png'
+                        : 'assets/logo/logo_dark.png',
+                    height: 40.0,
+                  );
+                },
               ),
-            ),
-          ],
+              Padding(
+                padding: const EdgeInsets.only(top: 20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      // Text wait localization
+                      'Daftar',
+                      style: bHeading3.copyWith(
+                        color: Theme.of(context).colorScheme.tertiary,
+                      ),
+                    ),
+                    _buildForm(screenSize),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
-      ),
+      ],
     );
   }
 
@@ -192,7 +189,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               ),
               GestureDetector(
                 onTap: () {
-                  // On tap Navigation needs to be replaced
+                  Navigator.pop(
+                    context,
+                  );
                 },
                 child: RichText(
                   // Text wait localization

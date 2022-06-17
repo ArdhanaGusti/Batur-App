@@ -37,7 +37,6 @@ import 'package:capstone_design/presentation/screens/icon_button_screen.dart';
 =======
 >>>>>>> 3b0a7ce (add filter tour list screen)
 import 'package:capstone_design/presentation/screens/filter_tour_list_screen.dart';
-import 'package:capstone_design/presentation/screens/news/news_screen.dart';
 import 'package:capstone_design/presentation/screens/notifikasi/notifikasi_screen.dart';
 <<<<<<< HEAD
 =======
@@ -283,6 +282,7 @@ class _LoginState extends State<Login> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
+<<<<<<< HEAD
                           builder: (context) => const NewsScreen(),
                         ),
                       );
@@ -298,6 +298,8 @@ class _LoginState extends State<Login> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
+=======
+>>>>>>> a0b221c (repair news screen)
                           builder: (context) => const FavoriteScreen(),
                         ),
                       );

@@ -62,9 +62,24 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
+<<<<<<< HEAD
               Expanded(
                 child: SingleChildScrollView(
                   physics: BouncingScrollPhysics(),
+=======
+              actionIconSecondary: "",
+              // Must add on Tap
+              actionOnTapSecondary: () {},
+              // Becarefull with this
+              isDoubleAction: false,
+            ),
+            SliverToBoxAdapter(
+              child: DefaultTabController(
+                length: 2,
+                initialIndex: 0,
+                child: Container(
+                  // height: 5000,
+>>>>>>> a0b221c (repair news screen)
                   child: Column(
                     children: [
                       Column(
@@ -502,9 +517,6 @@ class HomeScreen extends StatelessWidget {
                                 ),
                               ],
                             ),
-                          ),
-                          SizedBox(
-                            height: 30,
                           ),
                         ],
                       ),

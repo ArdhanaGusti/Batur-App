@@ -92,7 +92,7 @@ class HomeScreen extends StatelessWidget {
                 length: 2,
                 initialIndex: 0,
                 child: Container(
-                  height: 5000,
+                  // height: 5000,
                   child: Column(
                     children: [
                       Column(
@@ -538,9 +538,6 @@ class HomeScreen extends StatelessWidget {
                                 ),
                               ],
                             ),
-                          ),
-                          SizedBox(
-                            height: 30,
                           ),
                         ],
                       )

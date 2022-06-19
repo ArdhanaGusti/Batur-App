@@ -2,8 +2,8 @@ import 'package:capstone_design/presentation/components/card/custom_card_detail_
 import 'package:capstone_design/presentation/components/card/custom_card_stasiun.dart';
 import 'package:capstone_design/presentation/components/card/custom_card_stasiun_list.dart';
 import 'package:capstone_design/presentation/components/card/custom_card_status_registrasi.dart';
-import 'package:capstone_design/presentation/components/card/custom_card_transmetro.dart';
-import 'package:capstone_design/presentation/components/card/custom_card_wisata.dart';
+import 'package:capstone_design/presentation/components/card/custom_transport_card.dart';
+import 'package:capstone_design/presentation/components/card/custom_tour_card.dart';
 import 'package:capstone_design/presentation/components/card/custom_detail_umkm_card.dart';
 import 'package:capstone_design/presentation/components/card/custom_list_notifikasi.dart';
 import 'package:capstone_design/presentation/components/card/custom_news_card.dart';
@@ -97,12 +97,11 @@ class CardScreen extends StatelessWidget {
               SizedBox(
                 height: 20,
               ),
-              CardWisata(
+              CustomTourCard(
                 img:
                     "https://akcdn.detik.net.id/visual/2020/03/12/2049bba1-49a2-4efb-a253-82825d9c1f2d_169.jpeg?w=650",
                 rating: "4.5",
                 title: "Gedung Sate",
-                timeOpen: "Buka (07.00 WIB -16.00 WIB)",
                 isFavourited: false,
                 description:
                     "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
@@ -113,11 +112,11 @@ class CardScreen extends StatelessWidget {
               SizedBox(
                 height: 20,
               ),
-              CardTransmetro(
+              CustomTransportCard(
                 img:
                     "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
                 title: "Trans Metro Bandung",
-                rute: "Cibiru – Cibeureum",
+                route: "Cibiru – Cibeureum",
                 time: "07.00 WIB -16.00 WIB",
                 onTap: () {
                   print("Container clicked");

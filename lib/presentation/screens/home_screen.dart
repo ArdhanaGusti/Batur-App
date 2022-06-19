@@ -7,6 +7,7 @@ import 'package:capstone_design/presentation/components/card/custom_umkm_card.da
 import 'package:capstone_design/presentation/screens/UMKM/umkm_detail_screen.dart';
 import 'package:capstone_design/presentation/screens/error_screen.dart';
 import 'package:capstone_design/presentation/screens/filter_tour_list_screen.dart';
+import 'package:capstone_design/presentation/screens/news_detail_screen.dart';
 import 'package:capstone_design/presentation/screens/notifikasi/notifikasi_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -198,8 +199,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       curve: Curves.easeInOut,
                       type: PageTransitionType.bottomToTop,
                       child: onTapCarouselList[imgCarouselList.indexOf(image)],
-                      duration: const Duration(milliseconds: 250),
-                      reverseDuration: const Duration(milliseconds: 250),
+                      duration: const Duration(milliseconds: 150),
+                      reverseDuration: const Duration(milliseconds: 150),
                     ),
                   );
                 },
@@ -448,7 +449,20 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             "Prabowo Atau Anies, Siapa Capres yang Paling Kuat?",
                         writer: "Udin Saparudin",
                         date: "Jumat, 13 Mei 2022",
-                        onTap: () {},
+                        onTap: () {
+                          // To detail News
+                          Navigator.push(
+                            context,
+                            PageTransition(
+                              curve: Curves.easeOut,
+                              type: PageTransitionType.bottomToTop,
+                              child: const NewsDetailScreen(),
+                              duration: const Duration(milliseconds: 150),
+                              reverseDuration:
+                                  const Duration(milliseconds: 150),
+                            ),
+                          );
+                        },
                       ),
                     );
                   },

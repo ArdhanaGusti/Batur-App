@@ -1,9 +1,13 @@
 import 'package:capstone_design/data/service/api_service.dart';
+import 'package:capstone_design/presentation/bloc/news/news_event.dart';
+import 'package:capstone_design/presentation/bloc/news/news_remove_bloc.dart';
+import 'package:capstone_design/presentation/bloc/news/news_state.dart';
 import 'package:capstone_design/presentation/page/dashboard.dart';
 import 'package:capstone_design/presentation/page/news/edit_news.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class News extends StatefulWidget {
   const News({Key? key}) : super(key: key);
@@ -100,14 +104,18 @@ class NewsList extends StatelessWidget {
                     child: Text("Edit"),
                     color: Colors.green,
                   ),
-                  RaisedButton(
-                    onPressed: () {
-                      apiService.deleteNews(document[index].reference,
-                          document[index]['coverUrl']);
-                    },
-                    child: Text("Delete"),
-                    color: Colors.red,
-                  ),
+                  BlocBuilder<NewsRemoveBloc, NewsState>(
+                      builder: (context, state) {
+                    return RaisedButton(
+                      onPressed: () {
+                        context.read<NewsRemoveBloc>().add(OnRemoveNews(
+                            document[index]['coverUrl'],
+                            document[index].reference));
+                      },
+                      child: Text("Delete"),
+                      color: Colors.red,
+                    );
+                  }),
                 ],
               )
             ],

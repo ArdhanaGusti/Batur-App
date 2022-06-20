@@ -37,3 +37,12 @@ class TourUpdated extends TourState {
   @override
   List<Object> get props => [result];
 }
+
+class TourRemoved extends TourState {
+  final String result;
+
+  const TourRemoved(this.result);
+
+  @override
+  List<Object> get props => [result];
+}

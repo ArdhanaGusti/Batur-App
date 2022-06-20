@@ -37,3 +37,12 @@ class NewsUpdated extends NewsState {
   @override
   List<Object> get props => [result];
 }
+
+class NewsRemoved extends NewsState {
+  final String result;
+
+  const NewsRemoved(this.result);
+
+  @override
+  List<Object> get props => [result];
+}

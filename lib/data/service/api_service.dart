@@ -209,6 +209,29 @@ class ApiService {
     });
   }
 
+  Future<void> deleteUmkm(DocumentReference index, String coverUrl) async {
+    FirebaseFirestore.instance.runTransaction((transaction) async {
+      DocumentSnapshot snapshot = await transaction.get(index);
+      FirebaseStorage.instance.refFromURL(coverUrl).delete();
+      transaction.delete(snapshot.reference);
+    });
+  }
+
+  Future<void> deleteTour(DocumentReference index, String coverUrl) async {
+    FirebaseFirestore.instance.runTransaction((transaction) async {
+      DocumentSnapshot snapshot = await transaction.get(index);
+      FirebaseStorage.instance.refFromURL(coverUrl).delete();
+      transaction.delete(snapshot.reference);
+    });
+  }
+
+  Future<void> deleteTrain(DocumentReference index) async {
+    FirebaseFirestore.instance.runTransaction((transaction) async {
+      DocumentSnapshot snapshot = await transaction.get(index);
+      transaction.delete(snapshot.reference);
+    });
+  }
+
   Future<void> sendProfile(BuildContext context, String username,
       String fullname, String imageName, email, File image, User user) async {
     FirebaseFirestore.instance.runTransaction((transaction) async {
@@ -279,8 +302,15 @@ class ApiService {
     });
   }
 
-  Future<void> sendUmkm(BuildContext context, String imageName, String name,
-      String type, String desc, File image, Position currentLocation) async {
+  Future<void> sendUmkm(
+      BuildContext context,
+      String imageName,
+      String name,
+      String type,
+      String desc,
+      File image,
+      double latitude,
+      double longitude) async {
     Reference ref = FirebaseStorage.instance
         .ref()
         .child(imageName + DateTime.now().toString());
@@ -294,8 +324,8 @@ class ApiService {
         await reference.add({
           "name": name,
           "email": user.email,
-          "latitude": currentLocation.latitude,
-          "longitude": currentLocation.longitude,
+          "latitude": latitude,
+          "longitude": longitude,
           "coverUrl": urlName,
           "type": type,
           "desc": desc,
@@ -308,8 +338,15 @@ class ApiService {
     });
   }
 
-  Future<void> sendTour(BuildContext context, String imageName, String name,
-      String type, String desc, File image, Position currentLocation) async {
+  Future<void> sendTour(
+      BuildContext context,
+      String imageName,
+      String name,
+      String type,
+      String desc,
+      File image,
+      double latitude,
+      double longitude) async {
     Reference ref = FirebaseStorage.instance
         .ref()
         .child(imageName + DateTime.now().toString());
@@ -323,8 +360,8 @@ class ApiService {
         await reference.add({
           "name": name,
           "email": user.email,
-          "latitude": currentLocation.latitude,
-          "longitude": currentLocation.longitude,
+          "latitude": latitude,
+          "longitude": longitude,
           "coverUrl": urlName,
           "type": type,
           "desc": desc,
@@ -342,10 +379,11 @@ class ApiService {
       File? image,
       String coverUrlNow,
       String? imageName,
-      nameNow,
-      typeNow,
+      String nameNow,
+      String typeNow,
       String descNow,
-      LatLng center,
+      double latitude,
+      double longitude,
       DocumentReference index) async {
     UploadTask? uploadTask;
     if (image != null) {
@@ -367,8 +405,8 @@ class ApiService {
           coverUrlNow = await res.ref.getDownloadURL();
           await reference.doc(index.id).update({
             "name": nameNow,
-            "latitude": center.latitude,
-            "longitude": center.longitude,
+            "latitude": latitude,
+            "longitude": longitude,
             "coverUrl": coverUrlNow,
             "type": typeNow,
             "desc": descNow
@@ -380,8 +418,8 @@ class ApiService {
       } else {
         await reference.doc(index.id).update({
           "name": nameNow,
-          "latitude": center.latitude,
-          "longitude": center.longitude,
+          "latitude": latitude,
+          "longitude": longitude,
           "coverUrl": coverUrlNow,
           "type": typeNow,
           "desc": descNow
@@ -398,10 +436,11 @@ class ApiService {
       File? image,
       String coverUrlNow,
       String? imageName,
-      nameNow,
-      typeNow,
+      String nameNow,
+      String typeNow,
       String descNow,
-      LatLng center,
+      double latitude,
+      double longitude,
       DocumentReference index) async {
     UploadTask? uploadTask;
     if (image != null) {
@@ -423,8 +462,8 @@ class ApiService {
           coverUrlNow = await res.ref.getDownloadURL();
           await reference.doc(index.id).update({
             "name": nameNow,
-            "latitude": center.latitude,
-            "longitude": center.longitude,
+            "latitude": latitude,
+            "longitude": longitude,
             "coverUrl": coverUrlNow,
             "type": typeNow,
             "desc": descNow
@@ -436,8 +475,8 @@ class ApiService {
       } else {
         await reference.doc(index.id).update({
           "name": nameNow,
-          "latitude": center.latitude,
-          "longitude": center.longitude,
+          "latitude": latitude,
+          "longitude": longitude,
           "coverUrl": coverUrlNow,
           "type": typeNow,
           "desc": descNow

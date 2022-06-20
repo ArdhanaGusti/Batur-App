@@ -12,6 +12,8 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  User user = FirebaseAuth.instance.currentUser!;
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -42,6 +44,10 @@ class _ProfileState extends State<Profile> {
                 ),
               ),
             );
+          } else if (!snapshot.hasData || user == null) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
           } else {
             var profile = snapshot.data!.docs;
             return Scaffold(
@@ -69,6 +75,11 @@ class _ProfileState extends State<Profile> {
                           ));
                         },
                         child: Text("Edit Profile")),
+                    ElevatedButton(
+                        onPressed: () {},
+                        child: (profile[0]['status'] == "Admin")
+                            ? Text("Adalah admin")
+                            : Text("Bukan Admin"))
                   ],
                 )),
               ),

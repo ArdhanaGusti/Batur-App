@@ -33,3 +33,11 @@ class OnUpdateTrain extends TrainEvent {
   @override
   List<Object> get props => [];
 }
+
+class OnRemoveTrain extends TrainEvent {
+  final DocumentReference index;
+
+  const OnRemoveTrain(this.index);
+  @override
+  List<Object> get props => [];
+}

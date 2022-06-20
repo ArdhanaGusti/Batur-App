@@ -37,3 +37,12 @@ class UmkmUpdated extends UmkmState {
   @override
   List<Object> get props => [result];
 }
+
+class UmkmRemoved extends UmkmState {
+  final String result;
+
+  const UmkmRemoved(this.result);
+
+  @override
+  List<Object> get props => [result];
+}

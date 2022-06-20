@@ -11,13 +11,15 @@ class TourCreateBloc extends Bloc<TourEvent, TourState> {
       (event, emit) async {
         emit(TourLoading());
         final result = await createTour.execute(
-            event.context,
-            event.imageName,
-            event.name,
-            event.type,
-            event.desc,
-            event.image,
-            event.currentLocation);
+          event.context,
+          event.imageName,
+          event.name,
+          event.type,
+          event.desc,
+          event.image,
+          event.latitude,
+          event.longitude,
+        );
 
         result.fold(
           (failure) {

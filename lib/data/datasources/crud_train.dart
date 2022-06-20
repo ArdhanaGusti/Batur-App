@@ -9,6 +9,7 @@ abstract class CrudTrain {
       BuildContext context, String trainName, String station, DateTime time);
   Future<String> editTrain(BuildContext context, String trainName,
       String station, DateTime time, DocumentReference index);
+  Future<String> removeTrain(DocumentReference index);
 }
 
 class CrudTrainImpl implements CrudTrain {
@@ -33,6 +34,16 @@ class CrudTrainImpl implements CrudTrain {
     try {
       apiService.editTrain(context, trainName, station, time, index);
       return 'Jadwal kereta berhasil diedit';
+    } catch (e) {
+      throw DatabaseException(e.toString());
+    }
+  }
+
+  @override
+  Future<String> removeTrain(DocumentReference<Object?> index) async {
+    try {
+      apiService.deleteTrain(index);
+      return "Kereta sudah dihapus";
     } catch (e) {
       throw DatabaseException(e.toString());
     }

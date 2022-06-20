@@ -17,13 +17,14 @@ class UpdateTour {
     File? image,
     String coverUrlNow,
     String? imageName,
-    nameNow,
-    typeNow,
+    String nameNow,
+    String typeNow,
     String descNow,
-    LatLng center,
+    double latitude,
+    double longitude,
     DocumentReference index,
   ) {
     return repository.editTour(context, image, coverUrlNow, imageName, nameNow,
-        typeNow, descNow, center, index);
+        typeNow, descNow, latitude, longitude, index);
   }
 }

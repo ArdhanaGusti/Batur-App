@@ -17,7 +17,8 @@ class UmkmCreateBloc extends Bloc<UmkmEvent, UmkmState> {
             event.type,
             event.desc,
             event.image,
-            event.currentLocation);
+            event.latitude,
+            event.longitude);
 
         result.fold(
           (failure) {

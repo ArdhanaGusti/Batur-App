@@ -11,20 +11,27 @@ import 'package:capstone_design/domain/usecase/create_profile.dart';
 import 'package:capstone_design/domain/usecase/create_tour.dart';
 import 'package:capstone_design/domain/usecase/create_train.dart';
 import 'package:capstone_design/domain/usecase/create_umkm.dart';
+import 'package:capstone_design/domain/usecase/remove_news.dart';
+import 'package:capstone_design/domain/usecase/remove_tour.dart';
+import 'package:capstone_design/domain/usecase/remove_umkm.dart';
 import 'package:capstone_design/domain/usecase/update_news.dart';
 import 'package:capstone_design/domain/usecase/update_profile.dart';
 import 'package:capstone_design/domain/usecase/update_tour.dart';
 import 'package:capstone_design/domain/usecase/update_train.dart';
 import 'package:capstone_design/domain/usecase/update_umkm.dart';
 import 'package:capstone_design/presentation/bloc/news/news_create_bloc.dart';
+import 'package:capstone_design/presentation/bloc/news/news_remove_bloc.dart';
 import 'package:capstone_design/presentation/bloc/news/news_update_bloc.dart';
 import 'package:capstone_design/presentation/bloc/profile/profile_create_bloc.dart';
 import 'package:capstone_design/presentation/bloc/profile/profile_update_bloc.dart';
 import 'package:capstone_design/presentation/bloc/tour/tour_create_bloc.dart';
+import 'package:capstone_design/presentation/bloc/tour/tour_remove_bloc.dart';
 import 'package:capstone_design/presentation/bloc/tour/tour_update_bloc.dart';
 import 'package:capstone_design/presentation/bloc/train/train_create_bloc.dart';
+import 'package:capstone_design/presentation/bloc/train/train_remove_bloc.dart';
 import 'package:capstone_design/presentation/bloc/train/train_update_bloc.dart';
 import 'package:capstone_design/presentation/bloc/umkm/umkm_create_bloc.dart';
+import 'package:capstone_design/presentation/bloc/umkm/umkm_remove_bloc.dart';
 import 'package:capstone_design/presentation/bloc/umkm/umkm_update_bloc.dart';
 import 'package:get_it/get_it.dart';
 
@@ -39,6 +46,11 @@ void init() {
   );
   locator.registerFactory(
     () => NewsUpdateBloc(
+      locator(),
+    ),
+  );
+  locator.registerFactory(
+    () => NewsRemoveBloc(
       locator(),
     ),
   );
@@ -63,6 +75,11 @@ void init() {
     ),
   );
   locator.registerFactory(
+    () => UmkmRemoveBloc(
+      locator(),
+    ),
+  );
+  locator.registerFactory(
     () => TourUpdateBloc(
       locator(),
     ),
@@ -73,12 +90,22 @@ void init() {
     ),
   );
   locator.registerFactory(
+    () => TourRemoveBloc(
+      locator(),
+    ),
+  );
+  locator.registerFactory(
     () => TrainCreateBloc(
       locator(),
     ),
   );
   locator.registerFactory(
     () => TrainUpdateBloc(
+      locator(),
+    ),
+  );
+  locator.registerFactory(
+    () => TrainRemoveBloc(
       locator(),
     ),
   );
@@ -97,6 +124,10 @@ void init() {
   locator.registerLazySingleton(() => UpdateProfile(locator()));
   locator.registerLazySingleton(() => UpdateTour(locator()));
   locator.registerLazySingleton(() => UpdateTrain(locator()));
+  locator.registerLazySingleton(() => RemoveTour(locator()));
+  locator.registerLazySingleton(() => RemoveNews(locator()));
+  locator.registerLazySingleton(() => RemoveUmkm(locator()));
+
   //repository
   locator.registerLazySingleton<DataRepository>(
     () => DataRepositoryImpl(

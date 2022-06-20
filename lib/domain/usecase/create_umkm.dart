@@ -11,14 +11,24 @@ class CreateUmkm {
   CreateUmkm(this.repository);
 
   Future<Either<Failure, String>> execute(
-      BuildContext context,
-      String imageName,
+    BuildContext context,
+    String imageName,
+    String name,
+    String type,
+    String desc,
+    File image,
+    double latitude,
+    double longitude,
+  ) {
+    return repository.sendUmkm(
+      context,
+      imageName,
       name,
       type,
-      String desc,
-      File image,
-      Position currentLocation) {
-    return repository.sendUmkm(
-        context, imageName, name, type, desc, image, currentLocation);
+      desc,
+      image,
+      latitude,
+      longitude,
+    );
   }
 }

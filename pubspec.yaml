@@ -11,6 +11,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl:
 
   theme:
     path: theme
@@ -30,10 +33,9 @@ dependencies:
   flutter_svg:
   equatable:
   image_picker:
-  photo_view: 
-  path_provider: 
-  timelines: 
-  intl:
+  photo_view:
+  path_provider:
+  timelines:
   webview_flutter:
   page_transition:
   loading_animation_widget:
@@ -62,6 +64,7 @@ flutter_native_splash:
   web: false
 
 flutter:
+  generate: true
   uses-material-design: true
 
   assets:

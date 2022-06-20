@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:theme/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({Key? key}) : super(key: key);
@@ -28,10 +29,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     if (screenSize.width < 320.0 || screenSize.height < 650.0) {
-      return const ErrorScreen(
+      return ErrorScreen(
         // Text wait localization
-        title: "Error Layar",
-        message: "Aduh, Layar anda terlalu kecil",
+        title: AppLocalizations.of(context)!.internetConnection,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else if (screenSize.width > 500.0) {
       // Tablet Mode (Must be repair)
@@ -96,7 +97,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 child: Center(
                   // Text wait localization
                   child: Text(
-                    'Jelajahi Bandung',
+                    AppLocalizations.of(context)!.onBoardingScreenTitle,
                     style: bHeading3.copyWith(
                       color: Theme.of(context).colorScheme.tertiary,
                     ),
@@ -109,7 +110,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 child: Center(
                   // Text wait localization
                   child: Text(
-                    'Jelajahi seluruh kota bandung dalam satu gengaman dan ciptakan momen indah Anda bersama keluarga dan teman-teman Anda dengan aplikasi Bandung Tourism',
+                    AppLocalizations.of(context)!.onBoardingScreenDesc,
                     style: bSubtitle1.copyWith(
                       color: Theme.of(context).colorScheme.tertiary,
                     ),
@@ -122,7 +123,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           CustomPrimaryTextButton(
             width: screenSize.width,
             // Text wait localization
-            text: 'Mulai Sekarang',
+            text: AppLocalizations.of(context)!.btnStartNow,
             onTap: () {
               Navigator.pushReplacement(
                 context,

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:theme/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FavoriteScreen extends StatelessWidget {
   const FavoriteScreen({Key? key}) : super(key: key);
@@ -37,7 +38,7 @@ class FavoriteScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Favorite',
+                        AppLocalizations.of(context)!.favorite,
                         style: bHeading4.copyWith(
                           color: (isLight) ? bPrimary : bTextPrimary,
                         ),

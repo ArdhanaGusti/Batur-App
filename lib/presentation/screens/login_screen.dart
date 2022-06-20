@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:theme/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -25,10 +26,10 @@ class _LoginScreenState extends State<LoginScreen> {
     Size screenSize = MediaQuery.of(context).size;
 
     if (screenSize.width < 320.0 || screenSize.height < 650.0) {
-      return const ErrorScreen(
+      return ErrorScreen(
         // Text wait localization
-        title: "Error Layar",
-        message: "Aduh, Layar anda terlalu kecil",
+        title: AppLocalizations.of(context)!.internetConnection,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else if (screenSize.width > 500.0) {
       // Tablet Mode (Must be repair)
@@ -84,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: <Widget>[
                     Text(
                       // Text wait localization
-                      'Masuk',
+                      AppLocalizations.of(context)!.signIn,
                       style: bHeading3.copyWith(
                         color: Theme.of(context).colorScheme.tertiary,
                       ),
@@ -129,7 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         // Text wait localization
                         child: Text(
-                          "Lupa Password ?",
+                          AppLocalizations.of(context)!.forgotThePassword,
                           style: bSubtitle2.copyWith(
                             color: Theme.of(context).colorScheme.tertiary,
                           ),
@@ -148,7 +149,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: CustomPrimaryTextButton(
                   width: screenSize.width,
                   // Text wait localization
-                  text: 'Masuk',
+                  text: AppLocalizations.of(context)!.signIn,
                   // On tap Navigation needs to be replaced
                   onTap: () {
                     Navigator.pop(
@@ -159,7 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               // Text wait localization
               Text(
-                "Atau masuk dengan",
+                AppLocalizations.of(context)!.orSign,
                 style: bBody2.copyWith(
                   color: Theme.of(context).colorScheme.tertiary,
                 ),
@@ -211,14 +212,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: RichText(
                   // Text wait localization
                   text: TextSpan(
-                    text: 'Belum punya akun? ',
+                    text: AppLocalizations.of(context)!.dontHaveAccount,
                     style: bBody2.copyWith(
                       color: Theme.of(context).colorScheme.tertiary,
                     ),
                     children: <TextSpan>[
                       // Text wait localization
                       TextSpan(
-                        text: 'Daftar',
+                        text: AppLocalizations.of(context)!.register,
                         style: bCaption3.copyWith(
                           color: Theme.of(context).colorScheme.tertiary,
                           fontSize: 11.0,
@@ -261,7 +262,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           // Text wait localization
           Text(
-            "Remember me",
+            AppLocalizations.of(context)!.rememberMe,
             style: bBody1.copyWith(
               color: Theme.of(context).colorScheme.tertiary,
             ),

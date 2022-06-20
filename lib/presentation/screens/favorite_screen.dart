@@ -11,6 +11,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:theme/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum ScreenProcessEnum {
   loading,
@@ -110,10 +111,10 @@ class _FavoriteScreenState extends State<FavoriteScreen>
     Size screenSize = MediaQuery.of(context).size;
 
     if (screenSize.width < 300.0 || screenSize.height < 600.0) {
-      return const ErrorScreen(
+      return ErrorScreen(
         // Text wait localization
-        title: "Error Layar",
-        message: "Aduh, Layar anda terlalu kecil",
+        title: AppLocalizations.of(context)!.screenError,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else if (screenSize.width > 500.0) {
       // Tablet Mode (Must be repair)
@@ -145,9 +146,9 @@ class _FavoriteScreenState extends State<FavoriteScreen>
           ),
         );
       },
-      leading: const Text(
+      leading: Text(
         // Text wait localization
-        "Favorite",
+        AppLocalizations.of(context)!.favorite,
         textAlign: TextAlign.center,
       ),
       actionIconSecondary: "",
@@ -192,7 +193,7 @@ class _FavoriteScreenState extends State<FavoriteScreen>
                       padding: const EdgeInsets.all(2.0),
                       child: Text(
                         // Wait Localization
-                        "Wisata",
+                        AppLocalizations.of(context)!.tour,
                         style: bSubtitle3,
                       ),
                     ),
@@ -200,7 +201,7 @@ class _FavoriteScreenState extends State<FavoriteScreen>
                       padding: const EdgeInsets.all(2.0),
                       child: Text(
                         // Wait Localization
-                        "UMKM",
+                        AppLocalizations.of(context)!.umkm,
                         style: bSubtitle3,
                       ),
                     )
@@ -347,11 +348,11 @@ class CustomSmartRefresh extends StatelessWidget {
           color: Theme.of(context).colorScheme.tertiary,
           height: 20.0,
         ),
-        refreshingText: "Memperbarui...",
-        releaseText: "Lepas untuk memperbarui",
-        idleText: "Tarik kebawah untuk memperbarui",
-        failedText: "Gagal memperbarui",
-        completeText: "Selesai memperbarui",
+        refreshingText: AppLocalizations.of(context)!.refreshingText,
+        releaseText: AppLocalizations.of(context)!.releaseText,
+        idleText: AppLocalizations.of(context)!.idleText,
+        failedText: AppLocalizations.of(context)!.failedText,
+        completeText: AppLocalizations.of(context)!.completeText,
         textStyle: bBody1.copyWith(
           color: Theme.of(context).colorScheme.tertiary,
         ),

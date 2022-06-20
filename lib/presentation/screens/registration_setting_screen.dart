@@ -9,6 +9,7 @@ import 'package:capstone_design/presentation/screens/error_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:theme/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RegistrationSettingScreen extends StatelessWidget {
   const RegistrationSettingScreen({Key? key}) : super(key: key);
@@ -18,10 +19,10 @@ class RegistrationSettingScreen extends StatelessWidget {
     Size screenSize = MediaQuery.of(context).size;
 
     if (screenSize.width < 320.0 || screenSize.height < 720.0) {
-      return const ErrorScreen(
+      return ErrorScreen(
         // Text wait localization
-        title: "Error Layar",
-        message: "Aduh, Layar anda terlalu kecil",
+        title: AppLocalizations.of(context)!.screenError,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else if (screenSize.width > 500.0) {
       // Tablet Mode (Must be repair)
@@ -62,7 +63,7 @@ class RegistrationSettingScreen extends StatelessWidget {
                   );
                 },
                 // Text wait localization
-                title: "Pengaturan Akun",
+                title: AppLocalizations.of(context)!.accountSettings,
               ),
               Padding(
                 padding: EdgeInsets.only(
@@ -92,7 +93,7 @@ class RegistrationSettingScreen extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(left: 10.0),
                         child: Text(
-                          'Edit Profile',
+                          AppLocalizations.of(context)!.editProfile,
                           style: bSubtitle1.copyWith(
                             color: Theme.of(context).colorScheme.tertiary,
                           ),
@@ -145,7 +146,7 @@ class RegistrationSettingScreen extends StatelessWidget {
           CustomPrimaryTextButton(
             width: screenSize.width,
             // Text wait localization
-            text: 'Selesai',
+            text: AppLocalizations.of(context)!.done,
             onTap: () {
               // On tap must be replace
               Navigator.pushReplacement(

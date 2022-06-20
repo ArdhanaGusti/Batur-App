@@ -11,6 +11,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:theme/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -23,12 +24,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   int _selectedIndex = 0;
   // Change with shared preferences
   bool isLogin = true;
-
-  // Wait Localization
-  static const String _homeTitle = 'Beranda';
-  static const String _newsTitle = 'Berita';
-  static const String _favoriteTitle = 'Favorite';
-  static const String _accountTitle = 'Akun';
 
   final List<Widget> _listWidget = [
     const HomeScreen(),
@@ -96,7 +91,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   color: activeBottomNav,
                   height: 24.0,
                 ),
-                label: _homeTitle,
+                label: AppLocalizations.of(context)!.home,
               ),
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
@@ -109,7 +104,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   color: activeBottomNav,
                   height: 24.0,
                 ),
-                label: _newsTitle,
+                label: AppLocalizations.of(context)!.news,
               ),
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
@@ -122,7 +117,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   color: activeBottomNav,
                   height: 24.0,
                 ),
-                label: _favoriteTitle,
+                label: AppLocalizations.of(context)!.favorite,
               ),
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
@@ -135,7 +130,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   color: activeBottomNav,
                   height: 24.0,
                 ),
-                label: _accountTitle,
+                label: AppLocalizations.of(context)!.account,
               ),
             ],
             currentIndex: _selectedIndex,

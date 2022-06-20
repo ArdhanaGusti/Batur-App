@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:theme/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({Key? key}) : super(key: key);
@@ -25,10 +26,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     Size screenSize = MediaQuery.of(context).size;
 
     if (screenSize.width < 320.0 || screenSize.height < 650.0) {
-      return const ErrorScreen(
+      return ErrorScreen(
         // Text wait localization
-        title: "Error Layar",
-        message: "Aduh, Layar anda terlalu kecil",
+        title: AppLocalizations.of(context)!.screenError,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else if (screenSize.width > 500.0) {
       // Tablet Mode (Must be repair)
@@ -86,7 +87,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   children: <Widget>[
                     Text(
                       // Text wait localization
-                      'Daftar',
+                      AppLocalizations.of(context)!.register,
                       style: bHeading3.copyWith(
                         color: Theme.of(context).colorScheme.tertiary,
                       ),
@@ -139,7 +140,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 child: CustomPrimaryTextButton(
                   width: screenSize.width,
                   // Text wait localization
-                  text: 'Daftar',
+                  text: AppLocalizations.of(context)!.register,
                   // On tap Navigation needs to be replaced
                   onTap: () {
                     Navigator.pop(
@@ -150,7 +151,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               ),
               // Text wait localization
               Text(
-                "Atau daftar dengan",
+                AppLocalizations.of(context)!.orSign,
                 style: bBody2.copyWith(
                   color: Theme.of(context).colorScheme.tertiary,
                 ),
@@ -196,14 +197,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 child: RichText(
                   // Text wait localization
                   text: TextSpan(
-                    text: 'Sudah punya akun? ',
+                    text: AppLocalizations.of(context)!.alreadyHaveAccount,
                     style: bBody2.copyWith(
                       color: Theme.of(context).colorScheme.tertiary,
                     ),
                     children: <TextSpan>[
                       // Text wait localization
                       TextSpan(
-                        text: 'Masuk',
+                        text: AppLocalizations.of(context)!.signIn,
                         style: bCaption3.copyWith(
                           color: Theme.of(context).colorScheme.tertiary,
                           fontSize: 11.0,

@@ -12,6 +12,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:theme/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum ScreenProcessEnum {
   loading,
@@ -124,9 +125,9 @@ class _NewsScreenState extends State<NewsScreen> {
           ),
         );
       },
-      leading: const Text(
+      leading: Text(
         // Text wait localization
-        "Berita",
+        AppLocalizations.of(context)!.news,
         textAlign: TextAlign.center,
       ),
       actionIconSecondary: "assets/icon/regular/plus-square.svg",

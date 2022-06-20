@@ -47,6 +47,16 @@
   "help": "Help",
   "termsAndConditions": "Terms and Conditions",
   "about": "About",
-  "logout": "Logout"
-
+  "logout": "Logout",
+  "name": "Name",
+  "enable": "Enable",
+  "disable": "Disable",
+  "notification": "Notification",
+  "indonesia": "Indonesia",
+  "inggris": "England",
+  "language": "Language",
+  "dark": "Dark",
+  "light": "Light",
+  "sistem": "System",
+  "displayMode": "Display Mode"
 }

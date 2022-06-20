@@ -47,5 +47,16 @@
   "help": "Bantuan",
   "termsAndConditions": "Syarat Ketentuan",
   "about": "Tentang",
-  "logout": "Keluar"
+  "logout": "Keluar",
+  "name": "Nama",
+  "enable": "Aktif",
+  "disable": "Nonaktif",
+  "notification": "Notifikasi",
+  "indonesia": "Indonesia",
+  "inggris": "Inggris",
+  "language": "Bahasa",
+  "dark": "Gelap",
+  "light": "Terang",
+  "sistem": "Sistem",
+  "displayMode": "Mode Tampilan"
 }

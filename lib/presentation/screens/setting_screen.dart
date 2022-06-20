@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:theme/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SettingScreen extends StatelessWidget {
   const SettingScreen({Key? key}) : super(key: key);
@@ -20,10 +21,10 @@ class SettingScreen extends StatelessWidget {
     Size screenSize = MediaQuery.of(context).size;
 
     if (screenSize.width < 320.0 || screenSize.height < 650.0) {
-      return const ErrorScreen(
+      return ErrorScreen(
         // Text wait localization
-        title: "Error Layar",
-        message: "Aduh, Layar anda terlalu kecil",
+        title: AppLocalizations.of(context)!.screenError,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else if (screenSize.width > 500.0) {
       // Tablet Mode (Must be repair)
@@ -49,7 +50,7 @@ class SettingScreen extends StatelessWidget {
       slivers: <Widget>[
         CustomSliverAppBarTextLeading(
           // Text wait localization
-          title: "Pengaturan",
+          title: AppLocalizations.of(context)!.setting,
           leadingIcon: "assets/icon/back.svg",
           // Navigation repair
           leadingOnTap: () {
@@ -71,8 +72,8 @@ class SettingScreen extends StatelessWidget {
                   BlocBuilder<NotificationBloc, NotificationState>(
                     builder: (context, state) {
                       String mode = (state.notif == NotificationEnum.off)
-                          ? "Nonaktif"
-                          : "Aktif";
+                          ? AppLocalizations.of(context)!.disable
+                          : AppLocalizations.of(context)!.enable;
                       return GestureDetector(
                         onTap: () {
                           Navigator.push(
@@ -86,7 +87,7 @@ class SettingScreen extends StatelessWidget {
                         child: _customTextContainer(
                           context,
                           // Text wait localization
-                          "Notifikasi",
+                          AppLocalizations.of(context)!.notification,
                           // Parameter use Bloc
                           mode,
                           "assets/icon/bell-Light.svg",
@@ -98,8 +99,8 @@ class SettingScreen extends StatelessWidget {
                   BlocBuilder<LanguageBloc, LanguageState>(
                     builder: (context, state) {
                       String mode = (state.language == LanguageEnum.indonesia)
-                          ? "Indonesia"
-                          : "Inggris";
+                          ? AppLocalizations.of(context)!.indonesia
+                          : AppLocalizations.of(context)!.inggris;
                       return GestureDetector(
                         onTap: () {
                           Navigator.push(
@@ -113,7 +114,7 @@ class SettingScreen extends StatelessWidget {
                         child: _customTextContainer(
                           context,
                           // Text wait localization
-                          "Bahasa",
+                          AppLocalizations.of(context)!.language,
                           // Parameter use Bloc
                           mode,
                           "assets/icon/globe.svg",
@@ -125,10 +126,10 @@ class SettingScreen extends StatelessWidget {
                   BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
                     builder: (context, state) {
                       String mode = (state.isDark == ThemeModeEnum.lightTheme)
-                          ? "Terang"
+                          ? AppLocalizations.of(context)!.light
                           : (state.isDark == ThemeModeEnum.darkTheme)
-                              ? "Gelap"
-                              : "Sistem";
+                              ? AppLocalizations.of(context)!.dark
+                              : AppLocalizations.of(context)!.sistem;
                       return GestureDetector(
                         onTap: () {
                           Navigator.push(
@@ -141,7 +142,7 @@ class SettingScreen extends StatelessWidget {
                         child: _customTextContainer(
                           context,
                           // Text wait localization
-                          "Mode Tampilan",
+                          AppLocalizations.of(context)!.displayMode,
                           // Parameter use Bloc
                           mode,
                           "assets/icon/mode.svg",

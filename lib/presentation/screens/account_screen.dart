@@ -6,11 +6,15 @@ import 'package:capstone_design/presentation/screens/account_detail_screen.dart'
 import 'package:capstone_design/presentation/screens/add_umkm_screen.dart';
 import 'package:capstone_design/presentation/screens/error_screen.dart';
 import 'package:capstone_design/presentation/screens/news_web_screen.dart';
+import 'package:capstone_design/presentation/screens/notifikasi/notifikasi_screen.dart';
 import 'package:capstone_design/presentation/screens/setting_screen.dart';
 import 'package:capstone_design/presentation/screens/timeline_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:theme/theme.dart';
+
+// Review Check 1 (Done)
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({Key? key}) : super(key: key);
@@ -19,7 +23,7 @@ class AccountScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
 
-    if (screenSize.width < 320.0 || screenSize.height < 650.0) {
+    if (screenSize.width < 320.0 || screenSize.height < 600.0) {
       return const ErrorScreen(
         // Text wait localization
         title: "Error Layar",
@@ -44,16 +48,25 @@ class AccountScreen extends StatelessWidget {
       physics: const BouncingScrollPhysics(),
       slivers: <Widget>[
         CustomSliverAppBarDashboard(
-          actionIcon: "assets/icon/bell.svg",
-          // Must add on Tap
-          actionOnTap: () {},
+          actionIcon: "assets/icon/regular/bell.svg",
+          actionOnTap: () {
+            Navigator.push(
+              context,
+              PageTransition(
+                curve: Curves.easeInOut,
+                type: PageTransitionType.rightToLeft,
+                child: const NotifikasiScreen(),
+                duration: const Duration(milliseconds: 250),
+                reverseDuration: const Duration(milliseconds: 250),
+              ),
+            );
+          },
           leading: const Text(
             // Text wait localization
             "Akun",
             textAlign: TextAlign.center,
           ),
           actionIconSecondary: "",
-          // Must add on Tap
           actionOnTapSecondary: () {},
           // Becarefull with this
           isDoubleAction: false,
@@ -68,7 +81,13 @@ class AccountScreen extends StatelessWidget {
           sliver: SliverToBoxAdapter(
             child: ClipRRect(
               borderRadius: BorderRadius.circular(30.0),
-              child: const CustomProfileCard(),
+              child: const CustomProfileCard(
+                email: "Batur@gmail.com",
+                name: "Neida Aleida",
+                profilePic:
+                    "https://akcdn.detik.net.id/api/wm/2020/03/13/60cf74a7-8cc1-4a24-8f9d-0772471f9fb1_169.jpeg",
+                username: "bandungtourism",
+              ),
             ),
           ),
         ),
@@ -83,10 +102,10 @@ class AccountScreen extends StatelessWidget {
             child: CustomPrimaryIconTextButton(
               width: screenSize.width,
               // Text wait localization
-              text: 'Keluar',
+              text: "Keluar",
               // Must add on Tap
               onTap: () {},
-              icon: 'assets/icon/log-out.svg',
+              icon: "assets/icon/regular/log-out.svg",
             ),
           ),
         ),
@@ -114,43 +133,54 @@ class AccountScreen extends StatelessWidget {
                 () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => const AccountDetailScreen(),
+                    PageTransition(
+                      curve: Curves.easeInOut,
+                      type: PageTransitionType.bottomToTop,
+                      child: const AccountDetailScreen(),
+                      duration: const Duration(milliseconds: 150),
+                      reverseDuration: const Duration(milliseconds: 150),
                     ),
                   );
                 },
                 // Text wait localization
                 "Detail Akun",
-                "assets/icon/user_outline.svg",
+                "assets/icon/regular/user.svg",
               ),
               _buildSmallContainer(
                 context,
                 () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => const SettingScreen(),
+                    PageTransition(
+                      curve: Curves.easeInOut,
+                      type: PageTransitionType.bottomToTop,
+                      child: const SettingScreen(),
+                      duration: const Duration(milliseconds: 150),
+                      reverseDuration: const Duration(milliseconds: 150),
                     ),
                   );
                 },
                 // Text wait localization
                 "Pengaturan",
-                "assets/icon/settings.svg",
+                "assets/icon/regular/settings.svg",
               ),
               _buildSmallContainer(
                 context,
-                // Must add on Tap
                 () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => const AddUMKMScreen(),
+                    PageTransition(
+                      curve: Curves.easeInOut,
+                      type: PageTransitionType.bottomToTop,
+                      child: const AddUMKMScreen(),
+                      duration: const Duration(milliseconds: 150),
+                      reverseDuration: const Duration(milliseconds: 150),
                     ),
                   );
                 },
                 // Text wait localization
                 "Status Registrasi",
-                "assets/icon/check-circle.svg",
+                "assets/icon/regular/check-circle.svg",
               ),
             ],
           ),
@@ -176,48 +206,57 @@ class AccountScreen extends StatelessWidget {
             children: <Widget>[
               _buildSmallContainer(
                 context,
-                // Must add on Tap
                 () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => const NewsWebScreen(),
+                    PageTransition(
+                      curve: Curves.easeInOut,
+                      type: PageTransitionType.bottomToTop,
+                      child: const NewsWebScreen(),
+                      duration: const Duration(milliseconds: 150),
+                      reverseDuration: const Duration(milliseconds: 150),
                     ),
                   );
                 },
                 // Text wait localization
                 "Bantuan",
-                "assets/icon/question-circle.svg",
+                "assets/icon/regular/question-circle.svg",
               ),
               _buildSmallContainer(
                 context,
-                // Must add on Tap
                 () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => const TimeLineScreen(),
+                    PageTransition(
+                      curve: Curves.easeInOut,
+                      type: PageTransitionType.bottomToTop,
+                      child: const TimeLineScreen(),
+                      duration: const Duration(milliseconds: 150),
+                      reverseDuration: const Duration(milliseconds: 150),
                     ),
                   );
                 },
                 // Text wait localization
                 "Syarat Ketentuan",
-                "assets/icon/file.svg",
+                "assets/icon/regular/file.svg",
               ),
               _buildSmallContainer(
                 context,
-                // Must add on Tap
                 () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => const AboutScreen(),
+                    PageTransition(
+                      curve: Curves.easeInOut,
+                      type: PageTransitionType.bottomToTop,
+                      child: const AboutScreen(),
+                      duration: const Duration(milliseconds: 150),
+                      reverseDuration: const Duration(milliseconds: 150),
                     ),
                   );
                 },
                 // Text wait localization
                 "Tentang",
-                "assets/icon/info-circle.svg",
+                "assets/icon/regular/info-circle.svg",
               ),
             ],
           ),
@@ -240,7 +279,7 @@ class AccountScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Row(
-              children: [
+              children: <Widget>[
                 SvgPicture.asset(
                   icon,
                   color: Theme.of(context).colorScheme.tertiary,
@@ -258,7 +297,7 @@ class AccountScreen extends StatelessWidget {
               ],
             ),
             SvgPicture.asset(
-              "assets/icon/chevron-right.svg",
+              "assets/icon/regular/chevron-right.svg",
               color: bGrey,
               height: 24.0,
             ),

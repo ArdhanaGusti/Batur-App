@@ -109,7 +109,7 @@ class _FavoriteScreenState extends State<FavoriteScreen>
   Widget _buildLoaded(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
 
-    if (screenSize.width < 300.0 || screenSize.height < 650.0) {
+    if (screenSize.width < 300.0 || screenSize.height < 600.0) {
       return const ErrorScreen(
         // Text wait localization
         title: "Error Layar",

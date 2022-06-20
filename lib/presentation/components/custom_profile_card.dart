@@ -1,9 +1,21 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:theme/theme.dart';
 
 class CustomProfileCard extends StatelessWidget {
-  const CustomProfileCard({Key? key}) : super(key: key);
+  final String name;
+  final String username;
+  final String email;
+  final String profilePic;
+  const CustomProfileCard({
+    Key? key,
+    required this.name,
+    required this.username,
+    required this.email,
+    required this.profilePic,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,20 +53,37 @@ class CustomProfileCard extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(50.0),
                   // Image must repair, depands on image
-                  child: Image.asset(
-                    "assets/image/profile.jpg",
-                    height: 80.0,
+                  child: CachedNetworkImage(
+                    imageUrl: profilePic,
+                    placeholder: (context, url) {
+                      return Center(
+                        child: LoadingAnimationWidget.horizontalRotatingDots(
+                          color: bTextPrimary,
+                          size: 10.0,
+                        ),
+                      );
+                    },
+                    errorWidget: (context, url, error) => SvgPicture.asset(
+                      "assets/icon/fill/exclamation-circle.svg",
+                      color: bGrey,
+                      height: 14.0,
+                    ),
+                    fit: BoxFit.cover,
+                    width: 85.0,
+                    height: 85.0,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15.0),
+                const SizedBox(
+                  width: 15.0,
+                ),
+                Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
                         child: Text(
-                          "Neida Aleidaa",
+                          name,
                           overflow: TextOverflow.ellipsis,
                           style: bSubtitle2.copyWith(
                             color: bTextPrimary,
@@ -63,46 +92,53 @@ class CustomProfileCard extends StatelessWidget {
                       ),
                       Expanded(
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(right: 10.0),
-                              child: SvgPicture.asset(
-                                "assets/icon/user_outline.svg",
-                                color: bSecondary,
-                                height: 18.0,
-                              ),
+                            SvgPicture.asset(
+                              "assets/icon/user_outline.svg",
+                              color: bSecondary,
+                              height: 18.0,
                             ),
-                            Text(
-                              'bandungtourim',
-                              style: bBody1.copyWith(
-                                color: bSecondary,
+                            const SizedBox(
+                              width: 10.0,
+                            ),
+                            Expanded(
+                              child: Text(
+                                username,
+                                style: bBody1.copyWith(
+                                  color: bSecondary,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.start,
                               ),
-                              overflow: TextOverflow.fade,
-                              textAlign: TextAlign.start,
                             ),
                           ],
                         ),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          SvgPicture.asset(
-                            "assets/icon/envelope.svg",
-                            color: bSecondary,
-                            height: 18.0,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10.0),
-                            child: Text(
-                              'Batur@gmail.com',
-                              style: bBody1.copyWith(
-                                color: bSecondary,
-                              ),
-                              textAlign: TextAlign.center,
+                      Expanded(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            SvgPicture.asset(
+                              "assets/icon/envelope.svg",
+                              color: bSecondary,
+                              height: 18.0,
                             ),
-                          ),
-                        ],
+                            const SizedBox(
+                              width: 10.0,
+                            ),
+                            Expanded(
+                              child: Text(
+                                email,
+                                style: bBody1.copyWith(
+                                  color: bSecondary,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.start,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),

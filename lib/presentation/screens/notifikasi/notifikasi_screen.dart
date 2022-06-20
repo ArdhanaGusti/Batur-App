@@ -47,7 +47,7 @@ class NotifikasiScreen extends StatelessWidget {
                         children: [
                           ListNotifikasi(
                             img:
-                                'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg',
+                                'https://akcdn.detik.net.id/api/wm/2020/03/13/60cf74a7-8cc1-4a24-8f9d-0772471f9fb1_169.jpeg',
                             title: "Kabar Bandung",
                             uploadTime: "12 Menit yang lalu",
                             description:

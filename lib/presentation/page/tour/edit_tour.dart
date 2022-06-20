@@ -37,7 +37,12 @@ class _EditTourState extends State<EditTour> {
   ApiService apiService = ApiService();
   LatLng? _center;
   String? addressNow, imageName, coverUrlNow, nameNow, typeNow, descNow;
-  TextEditingController? namecontroller, typecontroller, descController;
+  TextEditingController? namecontroller,
+      typecontroller,
+      descController,
+      latController,
+      longController;
+  double? latitudeNow, longitudeNow;
   late Position currentLocation;
 
   @override
@@ -46,6 +51,10 @@ class _EditTourState extends State<EditTour> {
       namecontroller = TextEditingController(text: widget.name);
       typecontroller = TextEditingController(text: widget.type);
       descController = TextEditingController(text: widget.desc);
+      latController = TextEditingController(text: widget.latitude.toString());
+      longController = TextEditingController(text: widget.longitude.toString());
+      latitudeNow = widget.latitude;
+      longitudeNow = widget.longitude;
       typeNow = widget.type;
       coverUrlNow = widget.coverUrl;
       nameNow = widget.name;
@@ -53,6 +62,7 @@ class _EditTourState extends State<EditTour> {
       _center = LatLng(widget.latitude, widget.longitude);
     });
     as();
+    setState(() {});
     super.initState();
   }
 
@@ -150,15 +160,40 @@ class _EditTourState extends State<EditTour> {
                     });
                   },
                 ),
+                TextField(
+                  controller: latController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(hintText: "Latitude"),
+                  onChanged: (value) async {
+                    setState(() {
+                      latitudeNow = double.parse(value);
+                    });
+                  },
+                ),
+                TextField(
+                  controller: longController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(hintText: "Longitude"),
+                  onChanged: (value) async {
+                    setState(() {
+                      longitudeNow = double.parse(value);
+                    });
+                  },
+                ),
                 ElevatedButton(
-                  onPressed: getUserLocation,
+                  onPressed: () async {
+                    List<Placemark> placemarks = await placemarkFromCoordinates(
+                        latitudeNow!, longitudeNow!);
+                    Placemark place = placemarks[0];
+                    addressNow =
+                        '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
+                    setState(() {});
+                  },
                   child: Text("get location"),
                 ),
                 (_center != null)
                     ? Column(
                         children: [
-                          Text("Lattitude: ${_center!.latitude}"),
-                          Text("Longitude: ${_center!.longitude}"),
                           Text("Address: $addressNow"),
                         ],
                       )
@@ -187,7 +222,8 @@ class _EditTourState extends State<EditTour> {
                             descNow!,
                             coverUrlNow!,
                             image,
-                            _center!,
+                            _center!.latitude,
+                            _center!.longitude,
                             widget.index));
                         // apiService.editTour(
                         //   context,

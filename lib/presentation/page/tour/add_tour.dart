@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:capstone_design/data/service/api_service.dart';
 import 'package:capstone_design/presentation/bloc/tour/tour_create_bloc.dart';
 import 'package:capstone_design/presentation/bloc/tour/tour_event.dart';
 import 'package:capstone_design/presentation/bloc/tour/tour_state.dart';
@@ -19,10 +18,11 @@ class AddTour extends StatefulWidget {
 }
 
 class _AddTourState extends State<AddTour> {
-  ApiService apiService = ApiService();
+  TextEditingController? latController, longController;
   File? image;
   LatLng? _center;
   String? address, imageName, urlName, name, type, desc;
+  double? latitude, longitude;
   late Position currentLocation;
 
   void pickImg() async {
@@ -46,6 +46,10 @@ class _AddTourState extends State<AddTour> {
     currentLocation = await locateUser();
     setState(() {
       _center = LatLng(currentLocation.latitude, currentLocation.longitude);
+      latitude = currentLocation.latitude;
+      longitude = currentLocation.longitude;
+      latController = TextEditingController(text: latitude.toString());
+      longController = TextEditingController(text: longitude.toString());
     });
     getAddressFromLatLong(currentLocation);
   }
@@ -114,15 +118,40 @@ class _AddTourState extends State<AddTour> {
                 });
               },
             ),
+            TextField(
+              controller: latController,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(hintText: "Latitude"),
+              onChanged: (value) async {
+                setState(() {
+                  latitude = double.parse(value);
+                });
+              },
+            ),
+            TextField(
+              controller: longController,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(hintText: "Longitude"),
+              onChanged: (value) async {
+                setState(() {
+                  longitude = double.parse(value);
+                });
+              },
+            ),
             ElevatedButton(
-              onPressed: getUserLocation,
+              onPressed: () async {
+                List<Placemark> placemarks =
+                    await placemarkFromCoordinates(latitude!, longitude!);
+                Placemark place = placemarks[0];
+                address =
+                    '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
+                setState(() {});
+              },
               child: Text("get location"),
             ),
             (_center != null)
                 ? Column(
                     children: [
-                      Text("Lattitude: ${_center!.latitude}"),
-                      Text("Longitude: ${_center!.longitude}"),
                       Text("Address: $address"),
                     ],
                   )
@@ -145,9 +174,8 @@ class _AddTourState extends State<AddTour> {
                         type!,
                         desc!,
                         image!,
-                        currentLocation));
-                    // ApiService().sendTour(context, imageName!, name!, type!,
-                    //     desc!, image!, currentLocation);
+                        latitude!,
+                        longitude!));
                     setState(() {
                       image = null;
                       imageName = null;

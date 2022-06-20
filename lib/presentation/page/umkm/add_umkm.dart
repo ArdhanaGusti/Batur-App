@@ -19,10 +19,12 @@ class AddUmkm extends StatefulWidget {
 }
 
 class _AddUmkmState extends State<AddUmkm> {
+  TextEditingController? latController, longController;
   ApiService apiService = ApiService();
   File? image;
   LatLng? _center;
   String? address, imageName, urlName, name, type, desc;
+  double? latitude, longitude;
   late Position currentLocation;
 
   void pickImg() async {
@@ -46,6 +48,10 @@ class _AddUmkmState extends State<AddUmkm> {
     currentLocation = await locateUser();
     setState(() {
       _center = LatLng(currentLocation.latitude, currentLocation.longitude);
+      latitude = currentLocation.latitude;
+      longitude = currentLocation.longitude;
+      latController = TextEditingController(text: latitude.toString());
+      longController = TextEditingController(text: longitude.toString());
     });
     getAddressFromLatLong(currentLocation);
   }
@@ -114,19 +120,42 @@ class _AddUmkmState extends State<AddUmkm> {
                 });
               },
             ),
-            ElevatedButton(
-              onPressed: getUserLocation,
-              child: Text("get location"),
+            TextField(
+              controller: latController,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(hintText: "Latitude"),
+              onChanged: (value) async {
+                setState(() {
+                  latitude = double.parse(value);
+                });
+              },
             ),
-            (_center != null)
-                ? Column(
-                    children: [
-                      Text("Lattitude: ${_center!.latitude}"),
-                      Text("Longitude: ${_center!.longitude}"),
-                      Text("Address: $address"),
-                    ],
-                  )
-                : Text("Lokasi belum didapatkan"),
+            TextField(
+              controller: longController,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(hintText: "Longitude"),
+              onChanged: (value) async {
+                setState(() {
+                  longitude = double.parse(value);
+                });
+              },
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                List<Placemark> placemarks =
+                    await placemarkFromCoordinates(latitude!, longitude!);
+                Placemark place = placemarks[0];
+                address =
+                    '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
+                setState(() {});
+              },
+              child: Text("get location from lat and long"),
+            ),
+            Column(
+              children: [
+                Text("Address: $address"),
+              ],
+            ),
             ElevatedButton(
               onPressed: () {
                 pickImg();
@@ -137,7 +166,7 @@ class _AddUmkmState extends State<AddUmkm> {
             BlocBuilder<UmkmCreateBloc, UmkmState>(builder: (context, state) {
               return ElevatedButton(
                 onPressed: () {
-                  if (name != null && type != null) {
+                  if (name != null && type != null && desc != null) {
                     context.read<UmkmCreateBloc>().add(OnCreateUmkm(
                         context,
                         imageName!,
@@ -145,7 +174,8 @@ class _AddUmkmState extends State<AddUmkm> {
                         type!,
                         desc!,
                         image!,
-                        currentLocation));
+                        latitude!,
+                        longitude!));
                     setState(() {
                       image = null;
                       imageName = null;

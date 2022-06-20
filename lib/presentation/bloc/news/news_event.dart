@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:capstone_design/presentation/page/news/news.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
@@ -32,6 +33,15 @@ class OnUpdateNews extends NewsEvent {
 
   const OnUpdateNews(this.context, this.image, this.imageName, this.konten,
       this.judul, this.urlName, this.index);
+  @override
+  List<Object> get props => [];
+}
+
+class OnRemoveNews extends NewsEvent {
+  final DocumentReference index;
+  final String coverUrl;
+
+  const OnRemoveNews(this.coverUrl, this.index);
   @override
   List<Object> get props => [];
 }

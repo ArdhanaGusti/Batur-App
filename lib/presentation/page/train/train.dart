@@ -1,8 +1,12 @@
 import 'package:capstone_design/data/service/api_service.dart';
+import 'package:capstone_design/presentation/bloc/train/train_event.dart';
+import 'package:capstone_design/presentation/bloc/train/train_remove_bloc.dart';
+import 'package:capstone_design/presentation/bloc/train/train_state.dart';
 import 'package:capstone_design/presentation/page/train/edit_train.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Train extends StatefulWidget {
   const Train({Key? key}) : super(key: key);
@@ -131,14 +135,18 @@ class TrainList extends StatelessWidget {
                       child: Text("Edit"),
                       color: Colors.green,
                     ),
-                    RaisedButton(
-                      onPressed: () {
-                        apiService.deleteNews(document[index].reference,
-                            document[index]['coverUrl']);
-                      },
-                      child: Text("Delete"),
-                      color: Colors.red,
-                    ),
+                    BlocBuilder<TrainRemoveBloc, TrainState>(
+                        builder: (context, state) {
+                      return RaisedButton(
+                        onPressed: () {
+                          context.read<TrainRemoveBloc>().add(OnRemoveTrain(
+                                document[index].reference,
+                              ));
+                        },
+                        child: Text("Delete"),
+                        color: Colors.red,
+                      );
+                    }),
                   ],
                 )
               ],

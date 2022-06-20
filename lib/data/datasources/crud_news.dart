@@ -5,16 +5,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 abstract class CrudNews {
-  Future<String> sendNews(
-      BuildContext context, File image, String imageName, judul, konten);
+  Future<String> sendNews(BuildContext context, File image, String imageName,
+      String judul, String konten);
   Future<String> editNews(
       BuildContext context,
       File? imageNow,
       String? imageNameNow,
       String judulNow,
-      kontenNow,
-      urlNameNow,
+      String kontenNow,
+      String urlNameNow,
       DocumentReference index);
+  Future<String> removeNews(DocumentReference index, String coverUrl);
 }
 
 class CrudNewsImpl implements CrudNews {
@@ -27,8 +28,8 @@ class CrudNewsImpl implements CrudNews {
       File? imageNow,
       String? imageNameNow,
       String judulNow,
-      kontenNow,
-      urlNameNow,
+      String kontenNow,
+      String urlNameNow,
       DocumentReference<Object?> index) async {
     try {
       apiService.editNews(context, imageNow, imageNameNow, judulNow, kontenNow,
@@ -40,11 +41,21 @@ class CrudNewsImpl implements CrudNews {
   }
 
   @override
-  Future<String> sendNews(
-      BuildContext context, File image, String imageName, judul, konten) async {
+  Future<String> sendNews(BuildContext context, File image, String imageName,
+      String judul, String konten) async {
     try {
       apiService.sendNews(context, image, imageName, judul, konten);
       return "Berita sudah di buat";
+    } catch (e) {
+      throw DatabaseException(e.toString());
+    }
+  }
+
+  @override
+  Future<String> removeNews(DocumentReference index, String coverUrl) async {
+    try {
+      apiService.deleteNews(index, coverUrl);
+      return "Berita sudah dihapus";
     } catch (e) {
       throw DatabaseException(e.toString());
     }

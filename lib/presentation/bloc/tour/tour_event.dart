@@ -17,9 +17,9 @@ class OnCreateTour extends TourEvent {
   final BuildContext context;
   final String imageName, name, type, desc;
   final File image;
-  final Position currentLocation;
+  final double latitude, longitude;
   const OnCreateTour(this.context, this.imageName, this.name, this.type,
-      this.desc, this.image, this.currentLocation);
+      this.desc, this.image, this.latitude, this.longitude);
   @override
   List<Object> get props => [];
 }
@@ -29,10 +29,28 @@ class OnUpdateTour extends TourEvent {
   final String? imageName;
   final String name, type, coverUrlNow, desc;
   final File? image;
-  final LatLng center;
+  final double latitude, longitude;
   final DocumentReference index;
-  const OnUpdateTour(this.context, this.imageName, this.name, this.type,
-      this.desc, this.coverUrlNow, this.image, this.center, this.index);
+  const OnUpdateTour(
+      this.context,
+      this.imageName,
+      this.name,
+      this.type,
+      this.desc,
+      this.coverUrlNow,
+      this.image,
+      this.latitude,
+      this.longitude,
+      this.index);
+  @override
+  List<Object> get props => [];
+}
+
+class OnRemoveTour extends TourEvent {
+  final DocumentReference index;
+  final String coverUrl;
+
+  const OnRemoveTour(this.coverUrl, this.index);
   @override
   List<Object> get props => [];
 }

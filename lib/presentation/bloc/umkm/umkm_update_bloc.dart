@@ -19,7 +19,8 @@ class UmkmUpdateBloc extends Bloc<UmkmEvent, UmkmState> {
             event.name,
             event.type,
             event.desc,
-            event.center,
+            event.latitude,
+            event.longitude,
             event.index);
         result.fold(
           (failure) {

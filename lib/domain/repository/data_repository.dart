@@ -4,8 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:latlong2/latlong.dart';
 
 abstract class DataRepository {
   Future<Either<Failure, String>> sendNews(
@@ -18,14 +16,18 @@ abstract class DataRepository {
       kontenNow,
       urlNameNow,
       DocumentReference index);
+  Future<Either<Failure, String>> removeNews(
+      DocumentReference index, String coverUrl);
   Future<Either<Failure, String>> sendUmkm(
-      BuildContext context,
-      String imageName,
-      String name,
-      String type,
-      String desc,
-      File image,
-      Position currentLocation);
+    BuildContext context,
+    String imageName,
+    String name,
+    String type,
+    String desc,
+    File image,
+    double latitude,
+    double longitude,
+  );
   Future<Either<Failure, String>> editUmkm(
       BuildContext context,
       File? image,
@@ -34,8 +36,11 @@ abstract class DataRepository {
       String nameNow,
       String typeNow,
       String descNow,
-      LatLng center,
+      double latitude,
+      double longitude,
       DocumentReference index);
+  Future<Either<Failure, String>> removeUmkm(
+      DocumentReference index, String coverUrl);
   Future<Either<Failure, String>> sendProfile(BuildContext context,
       String username, fullname, imageName, email, File image, User user);
   Future<Either<Failure, String>> editProfile(
@@ -47,24 +52,29 @@ abstract class DataRepository {
       File? image,
       DocumentReference index);
   Future<Either<Failure, String>> sendTour(
-      BuildContext context,
-      String imageName,
-      String name,
-      String type,
-      String desc,
-      File image,
-      Position currentLocation);
+    BuildContext context,
+    String imageName,
+    String name,
+    String type,
+    String desc,
+    File image,
+    double latitude,
+    double longitude,
+  );
   Future<Either<Failure, String>> editTour(
     BuildContext context,
     File? image,
     String coverUrlNow,
     String? imageName,
-    nameNow,
-    typeNow,
+    String nameNow,
+    String typeNow,
     String descNow,
-    LatLng center,
+    double latitude,
+    double longitude,
     DocumentReference index,
   );
+  Future<Either<Failure, String>> removeTour(
+      DocumentReference index, String coverUrl);
   Future<Either<Failure, String>> sendTrain(
       BuildContext context, String trainName, String station, DateTime time);
   Future<Either<Failure, String>> editTrain(
@@ -73,4 +83,5 @@ abstract class DataRepository {
       String station,
       DateTime time,
       DocumentReference<Object?> index);
+  Future<Either<Failure, String>> removeTrain(DocumentReference index);
 }

@@ -40,7 +40,12 @@ class _EditUmkmState extends State<EditUmkm> {
   ApiService apiService = ApiService();
   LatLng? _center;
   String? addressNow, imageName, coverUrlNow, nameNow, typeNow, descNow;
-  TextEditingController? namecontroller, typecontroller, descController;
+  TextEditingController? namecontroller,
+      typecontroller,
+      descController,
+      latController,
+      longController;
+  double? latitudeNow, longitudeNow;
   late Position currentLocation;
 
   @override
@@ -49,11 +54,15 @@ class _EditUmkmState extends State<EditUmkm> {
       namecontroller = TextEditingController(text: widget.name);
       typecontroller = TextEditingController(text: widget.type);
       descController = TextEditingController(text: widget.desc);
+      latController = TextEditingController(text: widget.latitude.toString());
+      longController = TextEditingController(text: widget.longitude.toString());
       typeNow = widget.type;
       coverUrlNow = widget.coverUrl;
       nameNow = widget.name;
       descNow = widget.desc;
-      _center = LatLng(widget.latitude, widget.longitude);
+      latitudeNow = widget.latitude;
+      longitudeNow = widget.longitude;
+      // _center = LatLng(widget.latitude, widget.longitude);
     });
     as();
     super.initState();
@@ -61,7 +70,7 @@ class _EditUmkmState extends State<EditUmkm> {
 
   void as() async {
     List<Placemark> placemarks =
-        await placemarkFromCoordinates(widget.latitude, widget.longitude);
+        await placemarkFromCoordinates(latitudeNow!, longitudeNow!);
     Placemark place = placemarks[0];
     addressNow =
         '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
@@ -153,19 +162,50 @@ class _EditUmkmState extends State<EditUmkm> {
                     });
                   },
                 ),
+                TextField(
+                  controller: latController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(hintText: "Latitude"),
+                  onChanged: (value) async {
+                    if (value == '') {
+                      latitudeNow = 0;
+                    } else {
+                      setState(() {
+                        latitudeNow = double.parse(value);
+                      });
+                    }
+                  },
+                ),
+                TextField(
+                  controller: longController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(hintText: "Longitude"),
+                  onChanged: (value) async {
+                    if (value == '') {
+                      latitudeNow = 0;
+                    } else {
+                      setState(() {
+                        longitudeNow = double.parse(value);
+                      });
+                    }
+                  },
+                ),
                 ElevatedButton(
-                  onPressed: getUserLocation,
+                  onPressed: () async {
+                    List<Placemark> placemarks = await placemarkFromCoordinates(
+                        latitudeNow!, longitudeNow!);
+                    Placemark place = placemarks[0];
+                    addressNow =
+                        '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
+                    setState(() {});
+                  },
                   child: Text("get location"),
                 ),
-                (_center != null)
-                    ? Column(
-                        children: [
-                          Text("Lattitude: ${_center!.latitude}"),
-                          Text("Longitude: ${_center!.longitude}"),
-                          Text("Address: $addressNow"),
-                        ],
-                      )
-                    : Text("Lokasi belum didapatkan"),
+                Column(
+                  children: [
+                    Text("Address: $addressNow"),
+                  ],
+                ),
                 ElevatedButton(
                   onPressed: () {
                     pickImg();
@@ -190,7 +230,8 @@ class _EditUmkmState extends State<EditUmkm> {
                               descNow!,
                               coverUrlNow!,
                               image,
-                              _center!,
+                              latitudeNow!,
+                              longitudeNow!,
                               widget.index,
                             ));
                         setState(() {

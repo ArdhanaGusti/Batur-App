@@ -11,14 +11,24 @@ class CreateTour {
   CreateTour(this.repository);
 
   Future<Either<Failure, String>> execute(
-      BuildContext context,
-      String imageName,
-      String name,
-      String type,
-      String desc,
-      File image,
-      Position currentLocation) {
+    BuildContext context,
+    String imageName,
+    String name,
+    String type,
+    String desc,
+    File image,
+    double latitude,
+    double longitude,
+  ) {
     return repository.sendTour(
-        context, imageName, name, type, desc, image, currentLocation);
+      context,
+      imageName,
+      name,
+      type,
+      desc,
+      image,
+      latitude,
+      longitude,
+    );
   }
 }

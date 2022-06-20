@@ -37,3 +37,12 @@ class TrainUpdated extends TrainState {
   @override
   List<Object> get props => [result];
 }
+
+class TrainRemoved extends TrainState {
+  final String result;
+
+  const TrainRemoved(this.result);
+
+  @override
+  List<Object> get props => [result];
+}

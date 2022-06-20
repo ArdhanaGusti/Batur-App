@@ -9,6 +9,7 @@ import 'package:capstone_design/presentation/screens/registration_setting_screen
 import 'package:capstone_design/presentation/screens/reset_password_screen.dart';
 import 'package:capstone_design/presentation/screens/verification_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FavoriteScreen extends StatelessWidget {
   const FavoriteScreen({Key? key}) : super(key: key);
@@ -18,10 +19,10 @@ class FavoriteScreen extends StatelessWidget {
     Size screenSize = MediaQuery.of(context).size;
 
     if (screenSize.width < 320.0 || screenSize.height < 650.0) {
-      return const ErrorScreen(
+      return ErrorScreen(
         // Text wait localization
-        title: "Error Layar",
-        message: "Aduh, Layar anda terlalu kecil",
+        title: AppLocalizations.of(context)!.screenError,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else if (screenSize.width > 500.0) {
       // Tablet Mode (Must be repair)
@@ -38,7 +39,6 @@ class FavoriteScreen extends StatelessWidget {
   }
 
   Widget _buildAccountScreen(BuildContext context, Size screenSize) {
-    Brightness screenBrightness = MediaQuery.platformBrightnessOf(context);
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: <Widget>[
@@ -46,9 +46,9 @@ class FavoriteScreen extends StatelessWidget {
           actionIcon: "assets/icon/bell.svg",
           // Must add on Tap
           actionOnTap: () {},
-          leading: const Text(
+          leading: Text(
             // Text wait localization
-            "Favorite",
+            AppLocalizations.of(context)!.favorite,
             textAlign: TextAlign.center,
           ),
           actionIconSecondary: "",

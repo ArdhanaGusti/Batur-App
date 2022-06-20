@@ -11,6 +11,7 @@ import 'package:capstone_design/presentation/screens/timeline_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:theme/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({Key? key}) : super(key: key);
@@ -20,10 +21,10 @@ class AccountScreen extends StatelessWidget {
     Size screenSize = MediaQuery.of(context).size;
 
     if (screenSize.width < 320.0 || screenSize.height < 650.0) {
-      return const ErrorScreen(
+      return ErrorScreen(
         // Text wait localization
-        title: "Error Layar",
-        message: "Aduh, Layar anda terlalu kecil",
+        title: AppLocalizations.of(context)!.screenError,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else if (screenSize.width > 500.0) {
       // Tablet Mode (Must be repair)
@@ -47,9 +48,9 @@ class AccountScreen extends StatelessWidget {
           actionIcon: "assets/icon/bell.svg",
           // Must add on Tap
           actionOnTap: () {},
-          leading: const Text(
+          leading: Text(
             // Text wait localization
-            "Akun",
+            AppLocalizations.of(context)!.account,
             textAlign: TextAlign.center,
           ),
           actionIconSecondary: "",
@@ -83,7 +84,7 @@ class AccountScreen extends StatelessWidget {
             child: CustomPrimaryIconTextButton(
               width: screenSize.width,
               // Text wait localization
-              text: 'Keluar',
+              text: AppLocalizations.of(context)!.logout,
               // Must add on Tap
               onTap: () {},
               icon: 'assets/icon/log-out.svg',
@@ -120,7 +121,7 @@ class AccountScreen extends StatelessWidget {
                   );
                 },
                 // Text wait localization
-                "Detail Akun",
+                AppLocalizations.of(context)!.accountDetail,
                 "assets/icon/user_outline.svg",
               ),
               _buildSmallContainer(
@@ -134,7 +135,7 @@ class AccountScreen extends StatelessWidget {
                   );
                 },
                 // Text wait localization
-                "Pengaturan",
+                AppLocalizations.of(context)!.setting,
                 "assets/icon/settings.svg",
               ),
               _buildSmallContainer(
@@ -149,7 +150,7 @@ class AccountScreen extends StatelessWidget {
                   );
                 },
                 // Text wait localization
-                "Status Registrasi",
+                AppLocalizations.of(context)!.registrationStatus,
                 "assets/icon/check-circle.svg",
               ),
             ],
@@ -186,7 +187,7 @@ class AccountScreen extends StatelessWidget {
                   );
                 },
                 // Text wait localization
-                "Bantuan",
+                AppLocalizations.of(context)!.help,
                 "assets/icon/question-circle.svg",
               ),
               _buildSmallContainer(
@@ -201,7 +202,7 @@ class AccountScreen extends StatelessWidget {
                   );
                 },
                 // Text wait localization
-                "Syarat Ketentuan",
+                AppLocalizations.of(context)!.termsAndConditions,
                 "assets/icon/file.svg",
               ),
               _buildSmallContainer(
@@ -216,7 +217,7 @@ class AccountScreen extends StatelessWidget {
                   );
                 },
                 // Text wait localization
-                "Tentang",
+                AppLocalizations.of(context)!.about,
                 "assets/icon/info-circle.svg",
               ),
             ],

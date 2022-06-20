@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:theme/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class VerificationScreen extends StatelessWidget {
   VerificationScreen({Key? key}) : super(key: key);
@@ -21,10 +22,10 @@ class VerificationScreen extends StatelessWidget {
     Size screenSize = MediaQuery.of(context).size;
 
     if (screenSize.width < 320.0 || screenSize.height < 650.0) {
-      return const ErrorScreen(
+      return ErrorScreen(
         // Text wait localization
-        title: "Error Layar",
-        message: "Aduh, Layar anda terlalu kecil",
+        title: AppLocalizations.of(context)!.screenError,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else if (screenSize.width > 500.0) {
       // Tablet Mode (Must be repair)
@@ -65,7 +66,7 @@ class VerificationScreen extends StatelessWidget {
                   );
                 },
                 // Text wait localization
-                title: "Verifikasi",
+                title: AppLocalizations.of(context)!.verification,
               ),
               Padding(
                 padding: EdgeInsets.only(
@@ -86,7 +87,7 @@ class VerificationScreen extends StatelessWidget {
                 child: Center(
                   // Text wait localization
                   child: Text(
-                    'Kode verifikasi telah dikirim ke Email anda Masukkan kode verifikasi di sini',
+                    AppLocalizations.of(context)!.verificationDesc,
                     style: bSubtitle1.copyWith(
                       color: Theme.of(context).colorScheme.tertiary,
                     ),
@@ -133,7 +134,7 @@ class VerificationScreen extends StatelessWidget {
                 child: Center(
                   // Text wait localization
                   child: Text(
-                    'Tidak menerima kode verifikasi?',
+                    AppLocalizations.of(context)!.didnVerification,
                     style: bSubtitle1.copyWith(
                       color: Theme.of(context).colorScheme.tertiary,
                     ),
@@ -149,7 +150,7 @@ class VerificationScreen extends StatelessWidget {
                     onTap: () {},
                     // Text wait localization
                     child: Text(
-                      'Kirim Kembali Kode Verifikasi',
+                      AppLocalizations.of(context)!.sendBackVerification,
                       style: bSubtitle3.copyWith(
                         color: Theme.of(context).colorScheme.tertiary,
                         fontWeight: FontWeight.w900,
@@ -164,7 +165,7 @@ class VerificationScreen extends StatelessWidget {
           CustomPrimaryTextButton(
             width: screenSize.width,
             // Text wait localization
-            text: 'Verifikasi',
+            text: AppLocalizations.of(context)!.verification,
             onTap: () {
               // On tap must be replace
               Navigator.pushReplacement(

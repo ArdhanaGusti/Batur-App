@@ -4,9 +4,12 @@ import 'package:capstone_design/presentation/components/button/custom_primary_te
 import 'package:capstone_design/presentation/components/textFields/custom_login_password_text_field.dart';
 import 'package:capstone_design/presentation/components/textFields/custom_login_username_text_field.dart';
 import 'package:capstone_design/presentation/screens/error_screen.dart';
+import 'package:capstone_design/presentation/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:theme/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -23,20 +26,18 @@ class _LoginScreenState extends State<LoginScreen> {
     Size screenSize = MediaQuery.of(context).size;
 
     if (screenSize.width < 320.0 || screenSize.height < 650.0) {
-      return const ErrorScreen(
+      return ErrorScreen(
         // Text wait localization
-        title: "Error Layar",
-        message: "Aduh, Layar anda terlalu kecil",
+        title: AppLocalizations.of(context)!.internetConnection,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else if (screenSize.width > 500.0) {
       // Tablet Mode (Must be repair)
-      return Scaffold(
-        body: SafeArea(
-          child: Center(
-            child: Container(
-              constraints: const BoxConstraints(maxWidth: 500.0),
-              child: _buildLoginScreen(screenSize),
-            ),
+      return SafeArea(
+        child: Center(
+          child: Container(
+            constraints: const BoxConstraints(maxWidth: 500.0),
+            child: _buildLoginScreen(screenSize),
           ),
         ),
       );
@@ -52,55 +53,51 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _buildLoginScreen(Size screenSize) {
     Brightness screenBrightness = MediaQuery.platformBrightnessOf(context);
-    // Scaffold must be delete if in dashboard
-    return Scaffold(
-      body: SafeArea(
-        child: ListView(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
-                    builder: (context, state) {
-                      bool isLight = (state.isDark == ThemeModeEnum.darkTheme)
-                          ? false
-                          : (state.isDark == ThemeModeEnum.lightTheme)
+    return ListView(
+      physics: const BouncingScrollPhysics(),
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
+                builder: (context, state) {
+                  bool isLight = (state.isDark == ThemeModeEnum.darkTheme)
+                      ? false
+                      : (state.isDark == ThemeModeEnum.lightTheme)
+                          ? true
+                          : (screenBrightness == Brightness.light)
                               ? true
-                              : (screenBrightness == Brightness.light)
-                                  ? true
-                                  : false;
-                      return Image.asset(
-                        (isLight)
-                            ? 'assets/logo/logo.png'
-                            : 'assets/logo/logo_dark.png',
-                        height: 40.0,
-                      );
-                    },
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          // Text wait localization
-                          'Masuk',
-                          style: bHeading3.copyWith(
-                            color: Theme.of(context).colorScheme.tertiary,
-                          ),
-                        ),
-                        _buildForm(screenSize),
-                      ],
-                    ),
-                  )
-                ],
+                              : false;
+                  return Image.asset(
+                    (isLight)
+                        ? 'assets/logo/logo.png'
+                        : 'assets/logo/logo_dark.png',
+                    height: 40.0,
+                  );
+                },
               ),
-            ),
-          ],
+              Padding(
+                padding: const EdgeInsets.only(top: 20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      // Text wait localization
+                      AppLocalizations.of(context)!.signIn,
+                      style: bHeading3.copyWith(
+                        color: Theme.of(context).colorScheme.tertiary,
+                      ),
+                    ),
+                    _buildForm(screenSize),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
-      ),
+      ],
     );
   }
 
@@ -133,7 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         // Text wait localization
                         child: Text(
-                          "Lupa Password ?",
+                          AppLocalizations.of(context)!.forgotThePassword,
                           style: bSubtitle2.copyWith(
                             color: Theme.of(context).colorScheme.tertiary,
                           ),
@@ -152,7 +149,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: CustomPrimaryTextButton(
                   width: screenSize.width,
                   // Text wait localization
-                  text: 'Masuk',
+                  text: AppLocalizations.of(context)!.signIn,
                   // On tap Navigation needs to be replaced
                   onTap: () {
                     Navigator.pop(
@@ -163,7 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               // Text wait localization
               Text(
-                "Atau masuk dengan",
+                AppLocalizations.of(context)!.orSign,
                 style: bBody2.copyWith(
                   color: Theme.of(context).colorScheme.tertiary,
                 ),
@@ -202,19 +199,27 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               GestureDetector(
                 onTap: () {
-                  // On tap Navigation needs to be replaced
+                  Navigator.push(
+                    context,
+                    PageTransition(
+                      curve: Curves.easeInOut,
+                      type: PageTransitionType.rightToLeftJoined,
+                      childCurrent: widget,
+                      child: const RegistrationScreen(),
+                    ),
+                  );
                 },
                 child: RichText(
                   // Text wait localization
                   text: TextSpan(
-                    text: 'Belum punya akun? ',
+                    text: AppLocalizations.of(context)!.dontHaveAccount,
                     style: bBody2.copyWith(
                       color: Theme.of(context).colorScheme.tertiary,
                     ),
                     children: <TextSpan>[
                       // Text wait localization
                       TextSpan(
-                        text: 'Daftar',
+                        text: AppLocalizations.of(context)!.register,
                         style: bCaption3.copyWith(
                           color: Theme.of(context).colorScheme.tertiary,
                           fontSize: 11.0,
@@ -257,7 +262,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           // Text wait localization
           Text(
-            "Remember me",
+            AppLocalizations.of(context)!.rememberMe,
             style: bBody1.copyWith(
               color: Theme.of(context).colorScheme.tertiary,
             ),

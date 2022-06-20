@@ -6,6 +6,7 @@ import 'package:capstone_design/presentation/screens/error_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:theme/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
   const ForgotPasswordScreen({Key? key}) : super(key: key);
@@ -15,10 +16,10 @@ class ForgotPasswordScreen extends StatelessWidget {
     Size screenSize = MediaQuery.of(context).size;
 
     if (screenSize.width < 320.0 || screenSize.height < 650.0) {
-      return const ErrorScreen(
+      return ErrorScreen(
         // Text wait localization
-        title: "Error Layar",
-        message: "Aduh, Layar anda terlalu kecil",
+        title: AppLocalizations.of(context)!.screenError,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else if (screenSize.width > 500.0) {
       // Tablet Mode (Must be repair)
@@ -59,7 +60,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                   );
                 },
                 // Text wait localization
-                title: "Lupa Password",
+                title: AppLocalizations.of(context)!.forgotThePassword,
               ),
               Padding(
                 padding: EdgeInsets.only(
@@ -80,7 +81,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                 child: Center(
                   // Text wait localization
                   child: Text(
-                    'Lupa Password? Tidak perlu khawatir, Masukkan Email anda disini',
+                    AppLocalizations.of(context)!.forgotThePasswordDesc,
                     style: bSubtitle1.copyWith(
                       color: Theme.of(context).colorScheme.tertiary,
                     ),
@@ -101,7 +102,7 @@ class ForgotPasswordScreen extends StatelessWidget {
           CustomPrimaryTextButton(
             width: screenSize.width,
             // Text wait localization
-            text: 'Lanjut',
+            text: AppLocalizations.of(context)!.next,
             onTap: () {
               // On tap must be replace
               Navigator.pushReplacement(

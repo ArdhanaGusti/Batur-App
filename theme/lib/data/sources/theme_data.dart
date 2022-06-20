@@ -164,6 +164,17 @@ ThemeData lightTheme = ThemeData(
     ),
     fillColor: MaterialStateProperty.all(bPrimary),
   ),
+  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    elevation: 2.0,
+    backgroundColor: bTextPrimary,
+    selectedItemColor: bPrimary,
+    type: BottomNavigationBarType.fixed,
+    selectedLabelStyle: bCaption3.copyWith(color: bPrimary),
+    unselectedLabelStyle: bCaption1.copyWith(color: bGrey),
+    unselectedItemColor: bGrey,
+    selectedIconTheme: const IconThemeData(color: bPrimary),
+    unselectedIconTheme: const IconThemeData(color: bGrey),
+  ),
 );
 
 // dark theme
@@ -252,5 +263,16 @@ ThemeData darkTheme = ThemeData(
       borderRadius: BorderRadius.circular(5),
     ),
     fillColor: MaterialStateProperty.all(bGrey),
+  ),
+  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    elevation: 2.0,
+    backgroundColor: bDarkGrey,
+    selectedItemColor: bTextPrimary,
+    type: BottomNavigationBarType.fixed,
+    selectedLabelStyle: bCaption3.copyWith(color: bTextPrimary),
+    unselectedLabelStyle: bCaption1.copyWith(color: bGrey),
+    unselectedItemColor: bGrey,
+    selectedIconTheme: const IconThemeData(color: bTextPrimary),
+    unselectedIconTheme: const IconThemeData(color: bGrey),
   ),
 );

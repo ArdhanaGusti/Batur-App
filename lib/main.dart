@@ -11,6 +11,7 @@ import 'package:capstone_design/presentation/bloc/regis_form_bloc.dart';
 import 'package:capstone_design/presentation/bloc/verification_form_bloc.dart';
 import 'package:capstone_design/presentation/screens/dashboard_screen.dart';
 import 'package:capstone_design/presentation/screens/on_boarding_screen.dart';
+import 'package:capstone_design/utils/enum/language_enum.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:theme/presentation/injection/theme_injection.dart' as ti;
 import 'package:capstone_design/presentation/injection/injection.dart' as di;
 import 'package:theme/theme.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   ti.init();
@@ -106,21 +109,38 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
       builder: (context, state) {
-        return MaterialApp(
-          title: "Batur-App",
-          debugShowCheckedModeBanner: false,
-          theme: lightTheme,
-          darkTheme: darkTheme,
-          themeMode: (state.isDark == ThemeModeEnum.lightTheme)
-              ? ThemeMode.light
-              : (state.isDark == ThemeModeEnum.darkTheme)
-                  ? ThemeMode.dark
-                  : ThemeMode.system,
-          home: (_isFirst)
-              ? const OnBoardingScreen()
-              : (_isLogIn)
-                  ? Dashboard(user: user!)
-                  : const DashboardScreen(),
+        return BlocBuilder<LanguageBloc, LanguageState>(
+          builder: (context, snapshot) {
+            return MaterialApp(
+              title: "Batur-App",
+              debugShowCheckedModeBanner: false,
+              theme: lightTheme,
+              darkTheme: darkTheme,
+              themeMode: (state.isDark == ThemeModeEnum.lightTheme)
+                  ? ThemeMode.light
+                  : (state.isDark == ThemeModeEnum.darkTheme)
+                      ? ThemeMode.dark
+                      : ThemeMode.system,
+              localizationsDelegates: [
+                AppLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: [
+                Locale('id', ''),
+                Locale('en', ''),
+              ],
+              home: (_isFirst)
+                  ? const OnBoardingScreen()
+                  : (_isLogIn)
+                      ? Dashboard(user: user!)
+                      : const DashboardScreen(),
+              locale: (snapshot.language == LanguageEnum.england)
+                  ? Locale('en')
+                  : Locale('id'),
+            );
+          },
         );
       },
     );

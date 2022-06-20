@@ -33,7 +33,7 @@ class CardWisata extends StatelessWidget {
           onTap: onTap,
           child: Container(
             width: screenSize.width - 235,
-            height: screenSize.height - 530,
+            // height: 530,
             margin: EdgeInsets.only(left: 15, top: 15, bottom: 15),
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(

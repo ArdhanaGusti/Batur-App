@@ -7,8 +7,8 @@ import 'package:theme/theme.dart';
 import 'package:capstone_design/presentation/components/card/custom_card_transmetro.dart';
 import 'package:capstone_design/presentation/components/card/custom_card_wisata.dart';
 import 'package:capstone_design/presentation/components/card/custom_news_card.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -151,13 +151,13 @@ class HomeScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  'Berita',
+                                  AppLocalizations.of(context)!.titleNews,
                                   style: bHeading7.copyWith(
                                       color:
                                           (isLight) ? bPrimary : bTextPrimary),
                                 ),
                                 Text(
-                                  'Show all',
+                                  AppLocalizations.of(context)!.showAll,
                                   style: bBody1,
                                 )
                               ],

@@ -101,12 +101,12 @@ class _NewsScreenState extends State<NewsScreen> {
       return Center(
         child: Container(
           constraints: const BoxConstraints(maxWidth: 500.0),
-          child: _buildAccountScreen(context, screenSize),
+          child: _buildNewsScreen(context, screenSize),
         ),
       );
     } else {
       // Mobile Mode
-      return _buildAccountScreen(context, screenSize);
+      return _buildNewsScreen(context, screenSize);
     }
   }
 
@@ -147,7 +147,7 @@ class _NewsScreenState extends State<NewsScreen> {
     );
   }
 
-  Widget _buildAccountScreen(BuildContext context, Size screenSize) {
+  Widget _buildNewsScreen(BuildContext context, Size screenSize) {
     return NestedScrollView(
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
         return [
@@ -232,7 +232,7 @@ class _NewsScreenState extends State<NewsScreen> {
                       ),
                     );
                   },
-                  childCount: 15,
+                  childCount: 5,
                 ),
               ),
             ),

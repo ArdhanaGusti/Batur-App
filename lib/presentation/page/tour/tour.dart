@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:capstone_design/data/service/api_service.dart';
 import 'package:capstone_design/presentation/bloc/tour/tour_event.dart';
 import 'package:capstone_design/presentation/bloc/tour/tour_remove_bloc.dart';
@@ -39,7 +40,16 @@ class Tour extends StatelessWidget {
                     Text("Nama umkm: " + data[index]['name']),
                     Text("Nama umkm: " + data[index]['desc']),
                     Text("Jenis: " + data[index]['type']),
-                    Image.network("${data[index]['coverUrl']}"),
+                    CachedNetworkImage(
+                      imageUrl: '${data[index]['coverUrl']}',
+                      height: 50,
+                      width: 50,
+                      placeholder: (context, url) => Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
+                    ),
+                    // Image.network("${data[index]['coverUrl']}"),
                     Row(
                       children: [
                         ElevatedButton(
@@ -58,8 +68,34 @@ class Tour extends StatelessWidget {
                               ));
                             },
                             child: Text("Edit")),
-                        BlocBuilder<TourRemoveBloc, TourState>(
-                            builder: (context, state) {
+                        BlocConsumer<TourRemoveBloc, TourState>(
+                            listener: (context, state) async {
+                          if (state is TourLoading) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: CircularProgressIndicator(),
+                            ));
+                          } else if (state is TourUpdated) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(state.result),
+                            ));
+                          } else if (state is TourError) {
+                            await showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    content: Text(state.message),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text("Kembali"),
+                                      )
+                                    ],
+                                  );
+                                });
+                          }
+                        }, builder: (context, state) {
                           return ElevatedButton(
                               onPressed: () {
                                 context.read<TourRemoveBloc>().add(OnRemoveTour(

@@ -84,4 +84,10 @@ abstract class DataRepository {
       DateTime time,
       DocumentReference<Object?> index);
   Future<Either<Failure, String>> removeTrain(DocumentReference index);
+  Future<Either<Failure, String>> signInbyGoogle(BuildContext context);
+  Future<Either<Failure, String>> signInWithFacebook(BuildContext context);
+  Future<Either<Failure, String>> loginWithEmail(
+      BuildContext context, String email, String pass);
+  Future<Either<Failure, String>> signInWithEmail(
+      BuildContext context, String email, String pass);
 }

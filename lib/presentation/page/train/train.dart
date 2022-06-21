@@ -135,8 +135,34 @@ class TrainList extends StatelessWidget {
                       child: Text("Edit"),
                       color: Colors.green,
                     ),
-                    BlocBuilder<TrainRemoveBloc, TrainState>(
-                        builder: (context, state) {
+                    BlocConsumer<TrainRemoveBloc, TrainState>(
+                        listener: (context, state) async {
+                      if (state is TrainLoading) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: CircularProgressIndicator(),
+                        ));
+                      } else if (state is TrainRemoved) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(state.result),
+                        ));
+                      } else if (state is TrainError) {
+                        await showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                content: Text(state.message),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text("Kembali"),
+                                  )
+                                ],
+                              );
+                            });
+                      }
+                    }, builder: (context, state) {
                       return RaisedButton(
                         onPressed: () {
                           context.read<TrainRemoveBloc>().add(OnRemoveTrain(

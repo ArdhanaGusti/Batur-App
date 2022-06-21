@@ -26,7 +26,7 @@ class TourUpdateBloc extends Bloc<TourEvent, TourState> {
             emit(TourError(failure.message));
           },
           (data) {
-            emit(TourCreated(data));
+            emit(TourUpdated(data));
           },
         );
       },

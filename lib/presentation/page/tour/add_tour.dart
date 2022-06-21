@@ -163,7 +163,34 @@ class _AddTourState extends State<AddTour> {
               child: Text("Input Foto"),
             ),
             (image == null) ? Text("Tidak ada gambar") : Image.file(image!),
-            BlocBuilder<TourCreateBloc, TourState>(builder: (context, state) {
+            BlocConsumer<TourCreateBloc, TourState>(
+                listener: (context, state) async {
+              if (state is TourLoading) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: CircularProgressIndicator(),
+                ));
+              } else if (state is TourCreated) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(state.result),
+                ));
+              } else if (state is TourError) {
+                await showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        content: Text(state.message),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text("Kembali"),
+                          )
+                        ],
+                      );
+                    });
+              }
+            }, builder: (context, state) {
               return ElevatedButton(
                 onPressed: () {
                   if (name != null && type != null) {

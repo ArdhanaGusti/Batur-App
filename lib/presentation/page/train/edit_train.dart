@@ -129,14 +129,39 @@ class _EditTrainState extends State<EditTrain> {
                 ],
               ),
             ),
-            BlocBuilder<TrainUpdateBloc, TrainState>(builder: (context, state) {
+            BlocConsumer<TrainUpdateBloc, TrainState>(
+                listener: (context, state) async {
+              if (state is TrainLoading) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: CircularProgressIndicator(),
+                ));
+              } else if (state is TrainUpdated) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(state.result),
+                ));
+              } else if (state is TrainError) {
+                await showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        content: Text(state.message),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text("Kembali"),
+                          )
+                        ],
+                      );
+                    });
+              }
+            }, builder: (context, state) {
               return Hero(
                 tag: "change",
                 child: ElevatedButton(
                   onPressed: () async {
                     if (trainNameNow != null && stationNow != null) {
-                      // ApiService().editTrain(context, trainNameNow!, stationNow!,
-                      //     timeNow!, widget.index);
                       context.read<TrainUpdateBloc>().add(OnUpdateTrain(
                             context,
                             trainNameNow!,

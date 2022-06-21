@@ -117,13 +117,39 @@ class _AddTrainState extends State<AddTrain> {
                 ],
               ),
             ),
-            BlocBuilder<TrainCreateBloc, TrainState>(builder: (context, state) {
+            BlocConsumer<TrainCreateBloc, TrainState>(
+                listener: (context, state) async {
+              if (state is TrainLoading) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: CircularProgressIndicator(),
+                ));
+              } else if (state is TrainCreated) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(state.result),
+                ));
+              } else if (state is TrainError) {
+                await showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        content: Text(state.message),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text("Kembali"),
+                          )
+                        ],
+                      );
+                    });
+              }
+            }, builder: (context, state) {
               return Hero(
                 tag: "change",
                 child: ElevatedButton(
                   onPressed: () async {
                     if (trainName != null && station != null) {
-                      // ApiService().sendTrain(context, trainName, station, time);
                       context.read<TrainCreateBloc>().add(
                           OnCreateTrain(context, trainName, station, time));
                     } else {

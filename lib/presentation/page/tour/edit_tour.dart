@@ -207,8 +207,34 @@ class _EditTourState extends State<EditTour> {
                 (image == null)
                     ? Image.network(widget.coverUrl)
                     : Image.file(image!),
-                BlocBuilder<TourUpdateBloc, TourState>(
-                    builder: (context, state) {
+                BlocConsumer<TourUpdateBloc, TourState>(
+                    listener: (context, state) async {
+                  if (state is TourLoading) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: CircularProgressIndicator(),
+                    ));
+                  } else if (state is TourUpdated) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text(state.result),
+                    ));
+                  } else if (state is TourError) {
+                    await showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            content: Text(state.message),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text("Kembali"),
+                              )
+                            ],
+                          );
+                        });
+                  }
+                }, builder: (context, state) {
                   return ElevatedButton(
                     onPressed: () {
                       if (nameNow != null &&

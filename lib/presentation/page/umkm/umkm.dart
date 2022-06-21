@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:capstone_design/data/service/api_service.dart';
 import 'package:capstone_design/presentation/bloc/umkm/umkm_event.dart';
 import 'package:capstone_design/presentation/bloc/umkm/umkm_remove_bloc.dart';
@@ -35,7 +36,14 @@ class UMKM extends StatelessWidget {
                     Text("Nama umkm: " + data[index]['name']),
                     Text("Nama umkm: " + data[index]['desc']),
                     Text("Jenis: " + data[index]['type']),
-                    Image.network("${data[index]['coverUrl']}"),
+                    CachedNetworkImage(
+                      imageUrl: '${data[index]['coverUrl']}',
+                      placeholder: (context, url) => Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
+                    ),
+                    // Image.network("${data[index]['coverUrl']}"),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -55,8 +63,34 @@ class UMKM extends StatelessWidget {
                               ));
                             },
                             child: Text("Edit")),
-                        BlocBuilder<UmkmRemoveBloc, UmkmState>(
-                            builder: (context, state) {
+                        BlocConsumer<UmkmRemoveBloc, UmkmState>(
+                            listener: (context, state) async {
+                          if (state is UmkmLoading) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: CircularProgressIndicator(),
+                            ));
+                          } else if (state is UmkmRemoved) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(state.result),
+                            ));
+                          } else if (state is UmkmError) {
+                            await showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    content: Text(state.message),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text("Kembali"),
+                                      )
+                                    ],
+                                  );
+                                });
+                          }
+                        }, builder: (context, state) {
                           return ElevatedButton(
                               onPressed: () {
                                 context.read<UmkmRemoveBloc>().add(OnRemoveUmkm(

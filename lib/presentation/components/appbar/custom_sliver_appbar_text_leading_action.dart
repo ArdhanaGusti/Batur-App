@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:theme/theme.dart';
 
+// Review Check 1 (Done)
+
 class CustomSliverAppBarTextLeadingAction extends StatelessWidget {
   final String title;
   final String leadingIcon;
@@ -58,7 +60,7 @@ class CustomSliverAppBarTextLeadingAction extends StatelessWidget {
           ),
         ),
       ),
-      actions: [
+      actions: <Widget>[
         Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 20.0,

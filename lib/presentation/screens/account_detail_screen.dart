@@ -1,11 +1,17 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:capstone_design/presentation/bloc/profile_bloc.dart';
 import 'package:capstone_design/presentation/components/appbar/custom_sliver_appbar_text_leading_action.dart';
 import 'package:capstone_design/presentation/screens/edit_account_screen.dart';
 import 'package:capstone_design/presentation/screens/error_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:theme/theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// Review Check 1 (Done)
 
 class AccountDetailScreen extends StatelessWidget {
   const AccountDetailScreen({Key? key}) : super(key: key);
@@ -14,7 +20,7 @@ class AccountDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
 
-    if (screenSize.width < 320.0 || screenSize.height < 650.0) {
+    if (screenSize.width < 320.0 || screenSize.height < 600.0) {
       return ErrorScreen(
         // Text wait localization
         title: AppLocalizations.of(context)!.screenError,
@@ -41,26 +47,29 @@ class AccountDetailScreen extends StatelessWidget {
   Widget _buildAccountDetailScreen(BuildContext context, Size screenSize) {
     return BlocBuilder<ProfileBloc, ProfileState>(
       builder: (context, state) {
+        // Change hard code to BloC
         return CustomScrollView(
           physics: const BouncingScrollPhysics(),
           slivers: <Widget>[
             CustomSliverAppBarTextLeadingAction(
               // Text wait localization
               title: AppLocalizations.of(context)!.accountDetail,
-              leadingIcon: "assets/icon/back.svg",
-              // Navigation repair
+              leadingIcon: "assets/icon/regular/chevron-left.svg",
               leadingOnTap: () {
                 Navigator.pop(
                   context,
                 );
               },
-              actionIcon: "assets/icon/pen.svg",
-              // Navigation repair
+              actionIcon: "assets/icon/regular/pen.svg",
               actionOnTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => const EditAccountScreen(),
+                  PageTransition(
+                    curve: Curves.easeInOut,
+                    type: PageTransitionType.rightToLeft,
+                    child: const EditAccountScreen(),
+                    duration: const Duration(milliseconds: 150),
+                    reverseDuration: const Duration(milliseconds: 150),
                   ),
                 );
               },
@@ -68,9 +77,9 @@ class AccountDetailScreen extends StatelessWidget {
             SliverPadding(
               padding: const EdgeInsets.all(20.0),
               sliver: SliverToBoxAdapter(
-                // Parameter must change, depends on image use
                 // Parameter use Bloc
-                child: _customProfilePict("assets/image/profile.jpg"),
+                child: _customProfilePict(
+                    "https://akcdn.detik.net.id/api/wm/2020/03/13/60cf74a7-8cc1-4a24-8f9d-0772471f9fb1_169.jpeg"),
               ),
             ),
             SliverPadding(
@@ -127,12 +136,16 @@ class AccountDetailScreen extends StatelessWidget {
       padding: const EdgeInsets.all(20.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: <Widget>[
           Text(
             title,
             style: bSubtitle2.copyWith(
               color: Theme.of(context).colorScheme.tertiary,
             ),
+          ),
+          const SizedBox(
+            width: 10.0,
           ),
           Flexible(
             child: Text(
@@ -149,14 +162,28 @@ class AccountDetailScreen extends StatelessWidget {
     );
   }
 
-  // Parameter must change
   Widget _customProfilePict(String pict) {
     return Center(
       child: ClipRRect(
         borderRadius: BorderRadius.circular(50.0),
-        // Use image assets or network
-        child: Image.asset(
-          pict,
+        // Image must repair, still error if invalid URL
+        child: CachedNetworkImage(
+          imageUrl: pict,
+          placeholder: (context, url) {
+            return Center(
+              child: LoadingAnimationWidget.horizontalRotatingDots(
+                color: Theme.of(context).colorScheme.tertiary,
+                size: 10.0,
+              ),
+            );
+          },
+          errorWidget: (context, url, error) => SvgPicture.asset(
+            "assets/icon/fill/exclamation-circle.svg",
+            color: bGrey,
+            height: 14.0,
+          ),
+          fit: BoxFit.cover,
+          width: 100.0,
           height: 100.0,
         ),
       ),

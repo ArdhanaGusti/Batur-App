@@ -140,7 +140,7 @@ class _FavoriteScreenState extends State<FavoriteScreen>
           PageTransition(
             curve: Curves.easeInOut,
             type: PageTransitionType.rightToLeft,
-            child: const NotifikasiScreen(),
+            child: const NotificationScreen(),
             duration: const Duration(milliseconds: 150),
             reverseDuration: const Duration(milliseconds: 150),
           ),

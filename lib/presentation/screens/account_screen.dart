@@ -56,9 +56,9 @@ class AccountScreen extends StatelessWidget {
               PageTransition(
                 curve: Curves.easeInOut,
                 type: PageTransitionType.rightToLeft,
-                child: const NotifikasiScreen(),
-                duration: const Duration(milliseconds: 250),
-                reverseDuration: const Duration(milliseconds: 250),
+                child: const NotificationScreen(),
+                duration: const Duration(milliseconds: 150),
+                reverseDuration: const Duration(milliseconds: 150),
               ),
             );
           },
@@ -82,6 +82,7 @@ class AccountScreen extends StatelessWidget {
           sliver: SliverToBoxAdapter(
             child: ClipRRect(
               borderRadius: BorderRadius.circular(30.0),
+              // Fetch from Firebase
               child: const CustomProfileCard(
                 email: "Batur@gmail.com",
                 name: "Neida Aleida",
@@ -92,12 +93,132 @@ class AccountScreen extends StatelessWidget {
             ),
           ),
         ),
-        _buildContainerOne(context, screenSize),
-        _buildContainerTwo(context, screenSize),
+        _buildContainer(
+          context,
+          screenSize,
+          <Widget>[
+            _buildSmallContainer(
+              context,
+              () {
+                Navigator.push(
+                  context,
+                  PageTransition(
+                    curve: Curves.easeInOut,
+                    type: PageTransitionType.bottomToTop,
+                    child: const AccountDetailScreen(),
+                    duration: const Duration(milliseconds: 150),
+                    reverseDuration: const Duration(milliseconds: 150),
+                  ),
+                );
+              },
+              // Text wait localization
+              AppLocalizations.of(context)!.accountDetail,
+              "assets/icon/regular/user.svg",
+            ),
+            _buildSmallContainer(
+              context,
+              () {
+                Navigator.push(
+                  context,
+                  PageTransition(
+                    curve: Curves.easeInOut,
+                    type: PageTransitionType.bottomToTop,
+                    child: const SettingScreen(),
+                    duration: const Duration(milliseconds: 150),
+                    reverseDuration: const Duration(milliseconds: 150),
+                  ),
+                );
+              },
+              // Text wait localization
+              AppLocalizations.of(context)!.setting,
+              "assets/icon/regular/settings.svg",
+            ),
+            _buildSmallContainer(
+              context,
+              () {
+                Navigator.push(
+                  context,
+                  PageTransition(
+                    curve: Curves.easeInOut,
+                    type: PageTransitionType.bottomToTop,
+                    child: const AddUMKMScreen(),
+                    duration: const Duration(milliseconds: 150),
+                    reverseDuration: const Duration(milliseconds: 150),
+                  ),
+                );
+              },
+              // Text wait localization
+              AppLocalizations.of(context)!.registrationStatus,
+              "assets/icon/regular/check-circle.svg",
+            ),
+          ],
+        ),
+        _buildContainer(
+          context,
+          screenSize,
+          <Widget>[
+            _buildSmallContainer(
+              context,
+              () {
+                Navigator.push(
+                  context,
+                  PageTransition(
+                    curve: Curves.easeInOut,
+                    type: PageTransitionType.bottomToTop,
+                    child: const NewsWebScreen(),
+                    duration: const Duration(milliseconds: 150),
+                    reverseDuration: const Duration(milliseconds: 150),
+                  ),
+                );
+              },
+              // Text wait localization
+              AppLocalizations.of(context)!.help,
+              "assets/icon/regular/question-circle.svg",
+            ),
+            _buildSmallContainer(
+              context,
+              () {
+                Navigator.push(
+                  context,
+                  PageTransition(
+                    curve: Curves.easeInOut,
+                    type: PageTransitionType.bottomToTop,
+                    child: const TimeLineScreen(),
+                    duration: const Duration(milliseconds: 150),
+                    reverseDuration: const Duration(milliseconds: 150),
+                  ),
+                );
+              },
+              // Text wait localization
+              AppLocalizations.of(context)!.termsAndConditions,
+              "assets/icon/regular/file.svg",
+            ),
+            _buildSmallContainer(
+              context,
+              () {
+                Navigator.push(
+                  context,
+                  PageTransition(
+                    curve: Curves.easeInOut,
+                    type: PageTransitionType.bottomToTop,
+                    child: const AboutScreen(),
+                    duration: const Duration(milliseconds: 150),
+                    reverseDuration: const Duration(milliseconds: 150),
+                  ),
+                );
+              },
+              // Text wait localization
+              AppLocalizations.of(context)!.about,
+              "assets/icon/regular/info-circle.svg",
+            ),
+          ],
+        ),
         SliverPadding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 20.0,
-            vertical: 30.0,
+          padding: const EdgeInsets.only(
+            left: 20.0,
+            right: 20.0,
+            top: 20.0,
+            bottom: 30.0,
           ),
           sliver: SliverToBoxAdapter(
             child: CustomPrimaryIconTextButton(
@@ -114,12 +235,17 @@ class AccountScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildContainerOne(BuildContext context, Size screenSize) {
+  Widget _buildContainer(
+    BuildContext context,
+    Size screenSize,
+    List<Widget> list,
+  ) {
     return SliverPadding(
       padding: const EdgeInsets.only(
         left: 20.0,
         right: 20.0,
         top: 10.0,
+        bottom: 10.0,
       ),
       sliver: SliverToBoxAdapter(
         child: Container(
@@ -127,140 +253,7 @@ class AccountScreen extends StatelessWidget {
             color: Theme.of(context).colorScheme.secondaryContainer,
             borderRadius: BorderRadius.circular(15.0),
           ),
-          child: Column(
-            children: <Widget>[
-              _buildSmallContainer(
-                context,
-                () {
-                  Navigator.push(
-                    context,
-                    PageTransition(
-                      curve: Curves.easeInOut,
-                      type: PageTransitionType.bottomToTop,
-                      child: const AccountDetailScreen(),
-                      duration: const Duration(milliseconds: 150),
-                      reverseDuration: const Duration(milliseconds: 150),
-                    ),
-                  );
-                },
-                // Text wait localization
-                AppLocalizations.of(context)!.accountDetail,
-                "assets/icon/regular/user.svg",
-              ),
-              _buildSmallContainer(
-                context,
-                () {
-                  Navigator.push(
-                    context,
-                    PageTransition(
-                      curve: Curves.easeInOut,
-                      type: PageTransitionType.bottomToTop,
-                      child: const SettingScreen(),
-                      duration: const Duration(milliseconds: 150),
-                      reverseDuration: const Duration(milliseconds: 150),
-                    ),
-                  );
-                },
-                // Text wait localization
-                AppLocalizations.of(context)!.setting,
-                "assets/icon/regular/settings.svg",
-              ),
-              _buildSmallContainer(
-                context,
-                () {
-                  Navigator.push(
-                    context,
-                    PageTransition(
-                      curve: Curves.easeInOut,
-                      type: PageTransitionType.bottomToTop,
-                      child: const AddUMKMScreen(),
-                      duration: const Duration(milliseconds: 150),
-                      reverseDuration: const Duration(milliseconds: 150),
-                    ),
-                  );
-                },
-                // Text wait localization
-                AppLocalizations.of(context)!.registrationStatus,
-                "assets/icon/regular/check-circle.svg",
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildContainerTwo(BuildContext context, Size screenSize) {
-    return SliverPadding(
-      padding: const EdgeInsets.only(
-        left: 20.0,
-        right: 20.0,
-        top: 20.0,
-      ),
-      sliver: SliverToBoxAdapter(
-        child: Container(
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.secondaryContainer,
-            borderRadius: BorderRadius.circular(15.0),
-          ),
-          child: Column(
-            children: <Widget>[
-              _buildSmallContainer(
-                context,
-                () {
-                  Navigator.push(
-                    context,
-                    PageTransition(
-                      curve: Curves.easeInOut,
-                      type: PageTransitionType.bottomToTop,
-                      child: const NewsWebScreen(),
-                      duration: const Duration(milliseconds: 150),
-                      reverseDuration: const Duration(milliseconds: 150),
-                    ),
-                  );
-                },
-                // Text wait localization
-                AppLocalizations.of(context)!.help,
-                "assets/icon/regular/question-circle.svg",
-              ),
-              _buildSmallContainer(
-                context,
-                () {
-                  Navigator.push(
-                    context,
-                    PageTransition(
-                      curve: Curves.easeInOut,
-                      type: PageTransitionType.bottomToTop,
-                      child: const TimeLineScreen(),
-                      duration: const Duration(milliseconds: 150),
-                      reverseDuration: const Duration(milliseconds: 150),
-                    ),
-                  );
-                },
-                // Text wait localization
-                AppLocalizations.of(context)!.termsAndConditions,
-                "assets/icon/regular/file.svg",
-              ),
-              _buildSmallContainer(
-                context,
-                () {
-                  Navigator.push(
-                    context,
-                    PageTransition(
-                      curve: Curves.easeInOut,
-                      type: PageTransitionType.bottomToTop,
-                      child: const AboutScreen(),
-                      duration: const Duration(milliseconds: 150),
-                      reverseDuration: const Duration(milliseconds: 150),
-                    ),
-                  );
-                },
-                // Text wait localization
-                AppLocalizations.of(context)!.about,
-                "assets/icon/regular/info-circle.svg",
-              ),
-            ],
-          ),
+          child: Column(children: list),
         ),
       ),
     );
@@ -278,6 +271,7 @@ class AccountScreen extends StatelessWidget {
         padding: const EdgeInsets.all(20.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Row(
               children: <Widget>[

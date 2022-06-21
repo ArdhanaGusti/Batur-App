@@ -90,6 +90,7 @@ flutter:
     - assets/icon/bold/chevron-circle-up.svg
     - assets/icon/bold/exclamation-circle.svg
     - assets/icon/bold/map-marker.svg
+    - assets/icon/bold/envelope.svg
     - assets/icon/fill/map-marker.svg
     - assets/icon/fill/file.svg
     - assets/icon/fill/settings.svg
@@ -107,6 +108,7 @@ flutter:
     - assets/icon/fill/heart.svg
     - assets/icon/fill/exclamation-circle.svg
     - assets/icon/fill/plus-square.svg
+    - assets/icon/fill/envelope.svg
     - assets/icon/fill/check-circle.svg
     - assets/icon/fill/chevron-circle-down.svg
     - assets/icon/fill/chevron-circle-up.svg
@@ -122,6 +124,7 @@ flutter:
     - assets/icon/light/info-circle.svg
     - assets/icon/light/chevron-right.svg
     - assets/icon/light/log-out.svg
+    - assets/icon/light/envelope.svg
     - assets/icon/light/question-circle.svg
     - assets/icon/light/exclamation-circle.svg
     - assets/icon/light/map-marker.svg
@@ -140,6 +143,7 @@ flutter:
     - assets/icon/regular/heart.svg
     - assets/icon/regular/file.svg
     - assets/icon/regular/settings.svg
+    - assets/icon/regular/envelope.svg
     - assets/icon/regular/info-circle.svg
     - assets/icon/regular/log-out.svg
     - assets/icon/regular/question-circle.svg

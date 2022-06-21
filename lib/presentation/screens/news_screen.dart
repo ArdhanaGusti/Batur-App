@@ -119,7 +119,7 @@ class _NewsScreenState extends State<NewsScreen> {
           PageTransition(
             curve: Curves.easeInOut,
             type: PageTransitionType.rightToLeft,
-            child: const NotifikasiScreen(),
+            child: const NotificationScreen(),
             duration: const Duration(milliseconds: 150),
             reverseDuration: const Duration(milliseconds: 150),
           ),

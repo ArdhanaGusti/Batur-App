@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:theme/theme.dart';
 
+// Review Check 1 (Done)
+
 class CustomSliverAppBarDashboard extends StatelessWidget {
   final bool isDoubleAction;
   final Widget leading;
@@ -33,7 +35,7 @@ class CustomSliverAppBarDashboard extends StatelessWidget {
         padding: const EdgeInsets.only(left: 5.0),
         child: leading,
       ),
-      actions: [
+      actions: <Widget>[
         (isDoubleAction)
             ? GestureDetector(
                 onTap: actionOnTapSecondary,

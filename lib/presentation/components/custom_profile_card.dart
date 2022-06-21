@@ -4,6 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:theme/theme.dart';
 
+// Review Check 1 (Done)
+
 class CustomProfileCard extends StatelessWidget {
   final String name;
   final String username;
@@ -33,12 +35,12 @@ class CustomProfileCard extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Image.asset(
-                    'assets/logo/logo_dark.png',
+                    "assets/logo/logo_dark.png",
                     height: 25.0,
                   ),
                 ),
                 Image.asset(
-                  'assets/image/gd-sate-profile.png',
+                  "assets/image/gd-sate-profile.png",
                   height: 130.0,
                 ),
               ],
@@ -49,10 +51,10 @@ class CustomProfileCard extends StatelessWidget {
             height: 120.0,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
+              children: <Widget>[
                 ClipRRect(
                   borderRadius: BorderRadius.circular(50.0),
-                  // Image must repair, depands on image
+                  // Image must repair, still error if invalid URL
                   child: CachedNetworkImage(
                     imageUrl: profilePic,
                     placeholder: (context, url) {
@@ -80,7 +82,7 @@ class CustomProfileCard extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: <Widget>[
                       Expanded(
                         child: Text(
                           name,
@@ -90,62 +92,48 @@ class CustomProfileCard extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Expanded(
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            SvgPicture.asset(
-                              "assets/icon/user_outline.svg",
-                              color: bSecondary,
-                              height: 18.0,
-                            ),
-                            const SizedBox(
-                              width: 10.0,
-                            ),
-                            Expanded(
-                              child: Text(
-                                username,
-                                style: bBody1.copyWith(
-                                  color: bSecondary,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.start,
-                              ),
-                            ),
-                          ],
-                        ),
+                      _buildSmallContainer(
+                        "assets/icon/regular/user.svg",
+                        username,
                       ),
-                      Expanded(
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            SvgPicture.asset(
-                              "assets/icon/envelope.svg",
-                              color: bSecondary,
-                              height: 18.0,
-                            ),
-                            const SizedBox(
-                              width: 10.0,
-                            ),
-                            Expanded(
-                              child: Text(
-                                email,
-                                style: bBody1.copyWith(
-                                  color: bSecondary,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.start,
-                              ),
-                            ),
-                          ],
-                        ),
+                      _buildSmallContainer(
+                        "assets/icon/regular/envelope.svg",
+                        email,
                       ),
                     ],
                   ),
                 ),
               ],
             ),
-          )
+          ),
+        ],
+      ),
+    );
+  }
+
+  Expanded _buildSmallContainer(String icon, String title) {
+    return Expanded(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          SvgPicture.asset(
+            icon,
+            color: bSecondary,
+            height: 18.0,
+          ),
+          const SizedBox(
+            width: 10.0,
+          ),
+          Expanded(
+            child: Text(
+              title,
+              style: bBody1.copyWith(
+                color: bSecondary,
+              ),
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.start,
+            ),
+          ),
         ],
       ),
     );

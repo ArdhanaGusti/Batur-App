@@ -108,26 +108,26 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
-      builder: (context, state) {
+      builder: (context, theme) {
         return BlocBuilder<LanguageBloc, LanguageState>(
-          builder: (context, snapshot) {
+          builder: (context, localization) {
             return MaterialApp(
               title: "Batur-App",
               debugShowCheckedModeBanner: false,
               theme: lightTheme,
               darkTheme: darkTheme,
-              themeMode: (state.isDark == ThemeModeEnum.lightTheme)
+              themeMode: (theme.isDark == ThemeModeEnum.lightTheme)
                   ? ThemeMode.light
-                  : (state.isDark == ThemeModeEnum.darkTheme)
+                  : (theme.isDark == ThemeModeEnum.darkTheme)
                       ? ThemeMode.dark
                       : ThemeMode.system,
-              localizationsDelegates: [
+              localizationsDelegates: const [
                 AppLocalizations.delegate,
                 GlobalMaterialLocalizations.delegate,
                 GlobalWidgetsLocalizations.delegate,
                 GlobalCupertinoLocalizations.delegate,
               ],
-              supportedLocales: [
+              supportedLocales: const [
                 Locale('id', ''),
                 Locale('en', ''),
               ],
@@ -136,9 +136,9 @@ class _MyAppState extends State<MyApp> {
                   : (_isLogIn)
                       ? Dashboard(user: user!)
                       : const DashboardScreen(),
-              locale: (snapshot.language == LanguageEnum.england)
-                  ? Locale('en')
-                  : Locale('id'),
+              locale: (localization.language == LanguageEnum.england)
+                  ? const Locale('en')
+                  : const Locale('id'),
             );
           },
         );

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:capstone_design/data/datasources/crud_login.dart';
 import 'package:capstone_design/data/datasources/crud_news.dart';
 import 'package:capstone_design/data/datasources/crud_profile.dart';
 import 'package:capstone_design/data/datasources/crud_tour.dart';
@@ -18,6 +19,7 @@ class DataRepositoryImpl implements DataRepository {
   final CrudProfile crudProfile;
   final CrudTour crudTour;
   final CrudTrain crudTrain;
+  final CrudLogin crudLogin;
 
   DataRepositoryImpl({
     required this.crudUmkm,
@@ -25,6 +27,7 @@ class DataRepositoryImpl implements DataRepository {
     required this.crudProfile,
     required this.crudTour,
     required this.crudTrain,
+    required this.crudLogin,
   });
 
   @override
@@ -257,6 +260,49 @@ class DataRepositoryImpl implements DataRepository {
       DocumentReference<Object?> index, String coverUrl) async {
     try {
       final res = await crudUmkm.removeUmkm(index, coverUrl);
+      return Right(res);
+    } on DatabaseException catch (e) {
+      return Left(DatabaseFailure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> loginWithEmail(
+      BuildContext context, String email, String pass) async {
+    try {
+      final res = await crudLogin.loginWithEmail(context, email, pass);
+      return Right(res);
+    } on DatabaseException catch (e) {
+      return Left(DatabaseFailure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> signInWithEmail(
+      BuildContext context, String email, String pass) async {
+    try {
+      final res = await crudLogin.signInWithEmail(context, email, pass);
+      return Right(res);
+    } on DatabaseException catch (e) {
+      return Left(DatabaseFailure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> signInWithFacebook(
+      BuildContext context) async {
+    try {
+      final res = await crudLogin.signInWithFacebook(context);
+      return Right(res);
+    } on DatabaseException catch (e) {
+      return Left(DatabaseFailure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> signInbyGoogle(BuildContext context) async {
+    try {
+      final res = await crudLogin.signInbyGoogle(context);
       return Right(res);
     } on DatabaseException catch (e) {
       return Left(DatabaseFailure(e.message));

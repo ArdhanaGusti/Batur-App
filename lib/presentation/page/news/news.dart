@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:capstone_design/data/service/api_service.dart';
 import 'package:capstone_design/presentation/bloc/news/news_event.dart';
 import 'package:capstone_design/presentation/bloc/news/news_remove_bloc.dart';
@@ -78,10 +79,14 @@ class NewsList extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Image.network(
-                "${document[index]['coverUrl']}",
+              CachedNetworkImage(
+                imageUrl: '${document[index]['coverUrl']}',
                 height: 50,
                 width: 50,
+                placeholder: (context, url) => Center(
+                  child: CircularProgressIndicator(),
+                ),
+                errorWidget: (context, url, error) => Icon(Icons.error),
               ),
               Text("Nama: " + document[index]['username']),
               Text("Judul: " + document[index]['title']),
@@ -104,8 +109,34 @@ class NewsList extends StatelessWidget {
                     child: Text("Edit"),
                     color: Colors.green,
                   ),
-                  BlocBuilder<NewsRemoveBloc, NewsState>(
-                      builder: (context, state) {
+                  BlocConsumer<NewsRemoveBloc, NewsState>(
+                      listener: (context, state) async {
+                    if (state is NewsLoading) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: CircularProgressIndicator(),
+                      ));
+                    } else if (state is NewsRemoved) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(state.result),
+                      ));
+                    } else if (state is NewsError) {
+                      await showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              content: Text(state.message),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text("Kembali"),
+                                )
+                              ],
+                            );
+                          });
+                    }
+                  }, builder: (context, state) {
                     return RaisedButton(
                       onPressed: () {
                         context.read<NewsRemoveBloc>().add(OnRemoveNews(

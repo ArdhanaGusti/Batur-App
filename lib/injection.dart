@@ -1,3 +1,4 @@
+import 'package:capstone_design/data/datasources/crud_login.dart';
 import 'package:capstone_design/data/datasources/crud_news.dart';
 import 'package:capstone_design/data/datasources/crud_profile.dart';
 import 'package:capstone_design/data/datasources/crud_tour.dart';
@@ -11,14 +12,23 @@ import 'package:capstone_design/domain/usecase/create_profile.dart';
 import 'package:capstone_design/domain/usecase/create_tour.dart';
 import 'package:capstone_design/domain/usecase/create_train.dart';
 import 'package:capstone_design/domain/usecase/create_umkm.dart';
+import 'package:capstone_design/domain/usecase/login_email.dart';
+import 'package:capstone_design/domain/usecase/login_facebook.dart';
+import 'package:capstone_design/domain/usecase/login_google.dart';
 import 'package:capstone_design/domain/usecase/remove_news.dart';
 import 'package:capstone_design/domain/usecase/remove_tour.dart';
+import 'package:capstone_design/domain/usecase/remove_train.dart';
 import 'package:capstone_design/domain/usecase/remove_umkm.dart';
+import 'package:capstone_design/domain/usecase/sign_in_email.dart';
 import 'package:capstone_design/domain/usecase/update_news.dart';
 import 'package:capstone_design/domain/usecase/update_profile.dart';
 import 'package:capstone_design/domain/usecase/update_tour.dart';
 import 'package:capstone_design/domain/usecase/update_train.dart';
 import 'package:capstone_design/domain/usecase/update_umkm.dart';
+import 'package:capstone_design/presentation/bloc/login/login_email_bloc.dart';
+import 'package:capstone_design/presentation/bloc/login/login_facebook_bloc.dart';
+import 'package:capstone_design/presentation/bloc/login/login_google_bloc.dart';
+import 'package:capstone_design/presentation/bloc/login/sign_in_email_bloc.dart';
 import 'package:capstone_design/presentation/bloc/news/news_create_bloc.dart';
 import 'package:capstone_design/presentation/bloc/news/news_remove_bloc.dart';
 import 'package:capstone_design/presentation/bloc/news/news_update_bloc.dart';
@@ -109,6 +119,26 @@ void init() {
       locator(),
     ),
   );
+  locator.registerFactory(
+    () => LoginGoogleBloc(
+      locator(),
+    ),
+  );
+  locator.registerFactory(
+    () => LoginFacebookBloc(
+      locator(),
+    ),
+  );
+  locator.registerFactory(
+    () => SignInEmailBloc(
+      locator(),
+    ),
+  );
+  locator.registerFactory(
+    () => LoginEmailBloc(
+      locator(),
+    ),
+  );
   //Service
   locator.registerFactory(
     () => ApiService(),
@@ -127,6 +157,11 @@ void init() {
   locator.registerLazySingleton(() => RemoveTour(locator()));
   locator.registerLazySingleton(() => RemoveNews(locator()));
   locator.registerLazySingleton(() => RemoveUmkm(locator()));
+  locator.registerLazySingleton(() => RemoveTrain(locator()));
+  locator.registerLazySingleton(() => LoginEmail(locator()));
+  locator.registerLazySingleton(() => LoginFacebook(locator()));
+  locator.registerLazySingleton(() => LoginGoogle(locator()));
+  locator.registerLazySingleton(() => SignInEmail(locator()));
 
   //repository
   locator.registerLazySingleton<DataRepository>(
@@ -136,6 +171,7 @@ void init() {
       crudUmkm: locator(),
       crudTour: locator(),
       crudTrain: locator(),
+      crudLogin: locator(),
     ),
   );
   //datasource
@@ -161,6 +197,11 @@ void init() {
   );
   locator.registerLazySingleton<CrudTrain>(
     () => CrudTrainImpl(
+      apiService: locator(),
+    ),
+  );
+  locator.registerLazySingleton<CrudLogin>(
+    () => CrudLoginImpl(
       apiService: locator(),
     ),
   );

@@ -215,8 +215,34 @@ class _EditUmkmState extends State<EditUmkm> {
                 (image == null)
                     ? Image.network(widget.coverUrl)
                     : Image.file(image!),
-                BlocBuilder<UmkmUpdateBloc, UmkmState>(
-                    builder: (context, state) {
+                BlocConsumer<UmkmUpdateBloc, UmkmState>(
+                    listener: (context, state) async {
+                  if (state is UmkmLoading) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: CircularProgressIndicator(),
+                    ));
+                  } else if (state is UmkmUpdated) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text(state.result),
+                    ));
+                  } else if (state is UmkmError) {
+                    await showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            content: Text(state.message),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text("Kembali"),
+                              )
+                            ],
+                          );
+                        });
+                  }
+                }, builder: (context, state) {
                   return ElevatedButton(
                     onPressed: () {
                       if (nameNow != null &&

@@ -100,7 +100,34 @@ class _EditNewsState extends State<EditNews> {
                   pickImg();
                 },
                 child: Text("Pick IMG")),
-            BlocBuilder<NewsUpdateBloc, NewsState>(builder: (context, state) {
+            BlocConsumer<NewsUpdateBloc, NewsState>(
+                listener: (context, state) async {
+              if (state is NewsLoading) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: CircularProgressIndicator(),
+                ));
+              } else if (state is NewsUpdated) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(state.result),
+                ));
+              } else if (state is NewsError) {
+                await showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        content: Text(state.message),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text("Kembali"),
+                          )
+                        ],
+                      );
+                    });
+              }
+            }, builder: (context, state) {
               return Hero(
                 tag: "change",
                 child: ElevatedButton(
@@ -114,8 +141,7 @@ class _EditNewsState extends State<EditNews> {
                           kontenNow!,
                           urlNameNow!,
                           widget.index));
-                      apiService.editNews(context, imageNow, imageNameNow,
-                          judulNow!, kontenNow!, urlNameNow!, widget.index);
+
                       setState(() {
                         imageNow = null;
                         imageNameNow = null;

@@ -85,8 +85,34 @@ class _EditProfileState extends State<EditProfile> {
               },
               child: Text("Pick Image"),
             ),
-            BlocBuilder<ProfileUpdateBloc, ProfileState>(
-                builder: (context, state) {
+            BlocConsumer<ProfileUpdateBloc, ProfileState>(
+                listener: (context, state) async {
+              if (state is ProfileLoading) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: CircularProgressIndicator(),
+                ));
+              } else if (state is ProfileUpdated) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(state.result),
+                ));
+              } else if (state is ProfileError) {
+                await showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        content: Text(state.message),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text("Kembali"),
+                          )
+                        ],
+                      );
+                    });
+              }
+            }, builder: (context, state) {
               return ElevatedButton(
                 onPressed: () {
                   if (usernameNow != null && fullnameNow != null) {

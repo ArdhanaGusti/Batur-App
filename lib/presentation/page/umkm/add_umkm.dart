@@ -163,7 +163,34 @@ class _AddUmkmState extends State<AddUmkm> {
               child: Text("Input Foto"),
             ),
             (image == null) ? Text("Tidak ada gambar") : Image.file(image!),
-            BlocBuilder<UmkmCreateBloc, UmkmState>(builder: (context, state) {
+            BlocConsumer<UmkmCreateBloc, UmkmState>(
+                listener: (context, state) async {
+              if (state is UmkmLoading) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: CircularProgressIndicator(),
+                ));
+              } else if (state is UmkmCreated) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(state.result),
+                ));
+              } else if (state is UmkmError) {
+                await showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        content: Text(state.message),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text("Kembali"),
+                          )
+                        ],
+                      );
+                    });
+              }
+            }, builder: (context, state) {
               return ElevatedButton(
                 onPressed: () {
                   if (name != null && type != null && desc != null) {

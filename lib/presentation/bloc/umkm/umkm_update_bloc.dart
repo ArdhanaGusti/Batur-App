@@ -27,7 +27,7 @@ class UmkmUpdateBloc extends Bloc<UmkmEvent, UmkmState> {
             emit(UmkmError(failure.message));
           },
           (data) {
-            emit(UmkmCreated(data));
+            emit(UmkmUpdated(data));
           },
         );
       },

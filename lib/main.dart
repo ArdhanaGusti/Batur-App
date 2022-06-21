@@ -1,12 +1,20 @@
+import 'package:capstone_design/presentation/bloc/login/login_email_bloc.dart';
+import 'package:capstone_design/presentation/bloc/login/login_facebook_bloc.dart';
+import 'package:capstone_design/presentation/bloc/login/login_google_bloc.dart';
+import 'package:capstone_design/presentation/bloc/login/sign_in_email_bloc.dart';
 import 'package:capstone_design/presentation/bloc/news/news_create_bloc.dart';
+import 'package:capstone_design/presentation/bloc/news/news_remove_bloc.dart';
 import 'package:capstone_design/presentation/bloc/news/news_update_bloc.dart';
 import 'package:capstone_design/presentation/bloc/profile/profile_create_bloc.dart';
 import 'package:capstone_design/presentation/bloc/profile/profile_update_bloc.dart';
 import 'package:capstone_design/presentation/bloc/tour/tour_create_bloc.dart';
+import 'package:capstone_design/presentation/bloc/tour/tour_remove_bloc.dart';
 import 'package:capstone_design/presentation/bloc/tour/tour_update_bloc.dart';
 import 'package:capstone_design/presentation/bloc/train/train_create_bloc.dart';
+import 'package:capstone_design/presentation/bloc/train/train_remove_bloc.dart';
 import 'package:capstone_design/presentation/bloc/train/train_update_bloc.dart';
 import 'package:capstone_design/presentation/bloc/umkm/umkm_create_bloc.dart';
+import 'package:capstone_design/presentation/bloc/umkm/umkm_remove_bloc.dart';
 import 'package:capstone_design/presentation/bloc/umkm/umkm_update_bloc.dart';
 import 'package:capstone_design/presentation/page/dashboard.dart';
 import 'package:capstone_design/presentation/page/login.dart';
@@ -63,6 +71,9 @@ class _MyAppState extends State<MyApp> {
           create: (_) => di.locator<NewsUpdateBloc>(),
         ),
         BlocProvider(
+          create: (_) => di.locator<NewsRemoveBloc>(),
+        ),
+        BlocProvider(
           create: (_) => di.locator<ProfileCreateBloc>(),
         ),
         BlocProvider(
@@ -75,16 +86,37 @@ class _MyAppState extends State<MyApp> {
           create: (_) => di.locator<UmkmUpdateBloc>(),
         ),
         BlocProvider(
+          create: (_) => di.locator<UmkmRemoveBloc>(),
+        ),
+        BlocProvider(
           create: (_) => di.locator<TourUpdateBloc>(),
         ),
         BlocProvider(
           create: (_) => di.locator<TourCreateBloc>(),
         ),
         BlocProvider(
+          create: (_) => di.locator<TourRemoveBloc>(),
+        ),
+        BlocProvider(
           create: (_) => di.locator<TrainCreateBloc>(),
         ),
         BlocProvider(
           create: (_) => di.locator<TrainUpdateBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<TrainRemoveBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<LoginEmailBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<LoginGoogleBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<LoginFacebookBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<SignInEmailBloc>(),
         ),
       ],
       child: MaterialApp(

@@ -17,7 +17,7 @@ class TrainUpdateBloc extends Bloc<TrainEvent, TrainState> {
             emit(TrainError(failure.message));
           },
           (data) {
-            emit(TrainCreated(data));
+            emit(TrainUpdated(data));
           },
         );
       },

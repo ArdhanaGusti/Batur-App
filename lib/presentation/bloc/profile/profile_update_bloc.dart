@@ -25,7 +25,7 @@ class ProfileUpdateBloc extends Bloc<ProfileEvent, ProfileState> {
             emit(ProfileError(failure.message));
           },
           (data) {
-            emit(ProfileCreated(data));
+            emit(ProfileUpdated(data));
           },
         );
       },

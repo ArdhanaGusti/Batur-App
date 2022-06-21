@@ -28,7 +28,7 @@ class CrudProfileImpl implements CrudProfile {
     try {
       apiService.editProfile(context, usernameNow, fullnameNow, imageName,
           urlNameNow, image, index);
-      return "Profile berhasil dibuat";
+      return "Profile berhasil diedit";
     } catch (e) {
       throw DatabaseException(e.toString());
     }
@@ -40,7 +40,7 @@ class CrudProfileImpl implements CrudProfile {
     try {
       apiService.sendProfile(
           context, username, fullname, imageName, email, image, user);
-      return "Profile sudah diedit";
+      return "Profile sudah dibuat";
     } catch (e) {
       throw DatabaseException(e.toString());
     }

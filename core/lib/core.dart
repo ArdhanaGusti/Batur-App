@@ -32,3 +32,4 @@ export 'package:core/presentation/components/custom_profile_card.dart';
 export 'package:core/presentation/components/custom_text_button.dart';
 export 'package:core/presentation/components/custom_text_icon_button.dart';
 export 'package:core/presentation/components/custom_validation_button.dart';
+export 'package:core/presentation/screens/error_screen.dart';

@@ -1,6 +1,7 @@
 name: news
 description: A new Flutter package project.
 version: 0.0.1
+publish_to: none
 homepage:
 
 environment:
@@ -27,12 +28,16 @@ dev_dependencies:
   theme:
     path: ../theme
 
+  core:
+    path: ../core
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
 flutter:
   generate: true
+  uses-material-design: true
 
   # To add assets to your package, add an assets section, like this:
   # assets:

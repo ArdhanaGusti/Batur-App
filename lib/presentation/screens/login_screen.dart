@@ -28,7 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (screenSize.width < 320.0 || screenSize.height < 650.0) {
       return ErrorScreen(
         // Text wait localization
-        title: AppLocalizations.of(context)!.internetConnection,
+        title: AppLocalizations.of(context)!.screenError,
         message: AppLocalizations.of(context)!.screenSmall,
       );
     } else if (screenSize.width > 500.0) {

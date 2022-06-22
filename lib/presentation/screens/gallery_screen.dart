@@ -4,6 +4,7 @@ import 'package:capstone_design/presentation/components/appbar/custom_sliver_app
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class GalleryScreen extends StatefulWidget {
   final List<File> images;
@@ -34,7 +35,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
           return <Widget>[
             CustomSliverAppBarTextLeading(
               // Text wait localization
-              title: "Image Preview",
+              title: AppLocalizations.of(context)!.imagePreview,
               leadingIcon: "assets/icon/back.svg",
               // Navigation repair
               leadingOnTap: () {

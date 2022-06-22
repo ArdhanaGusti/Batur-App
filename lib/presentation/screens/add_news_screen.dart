@@ -6,6 +6,7 @@ import 'package:capstone_design/presentation/screens/error_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:theme/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddNewsScreen extends StatelessWidget {
   final bool isAddedImage = false;
@@ -16,10 +17,10 @@ class AddNewsScreen extends StatelessWidget {
     Size screenSize = MediaQuery.of(context).size;
 
     if (screenSize.width < 320.0 || screenSize.height < 650.0) {
-      return const ErrorScreen(
+      return ErrorScreen(
         // Text wait localization
-        title: "Error Layar",
-        message: "Aduh, Layar anda terlalu kecil",
+        title: AppLocalizations.of(context)!.screenError,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else if (screenSize.width > 500.0) {
       // Tablet Mode (Must be repair)
@@ -40,7 +41,7 @@ class AddNewsScreen extends StatelessWidget {
           child: CustomPrimaryTextButton(
             width: screenSize.width,
             // Text wait localization
-            text: 'Simpan',
+            text: AppLocalizations.of(context)!.save,
             // On tap Navigation needs to be replaced
             onTap: () {
               Navigator.pop(
@@ -59,7 +60,7 @@ class AddNewsScreen extends StatelessWidget {
       slivers: <Widget>[
         CustomSliverAppBarTextLeading(
           // Text wait localization
-          title: "Tambah Berita",
+          title: AppLocalizations.of(context)!.addNews,
           leadingIcon: "assets/icon/back.svg",
           // Navigation repair
           leadingOnTap: () {
@@ -71,19 +72,19 @@ class AddNewsScreen extends StatelessWidget {
         _customEditForm(
           context,
           // Text wait localization
-          "Judul Berita",
+          AppLocalizations.of(context)!.newsTitle,
           const CustomAddNewsTitleTextField(),
         ),
         _customEditFormDesc(
           context,
           // Text wait localization
-          "Berita",
+          AppLocalizations.of(context)!.news,
           const CustomAddNewsDescriptionTextField(),
         ),
         _customEditImage(
           context,
           // Text wait localization
-          "Gambar",
+          AppLocalizations.of(context)!.image,
           const CustomAddNewsDescriptionTextField(),
         ),
       ],
@@ -163,7 +164,7 @@ class AddNewsScreen extends StatelessWidget {
                                 height: 5.0,
                               ),
                               Text(
-                                "Masukkan Gambar",
+                                AppLocalizations.of(context)!.inputImage,
                                 style: bBody1.copyWith(
                                   color: Theme.of(context).colorScheme.tertiary,
                                 ),

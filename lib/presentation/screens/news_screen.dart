@@ -77,10 +77,10 @@ class _NewsScreenState extends State<NewsScreen> {
         ),
       );
     } else if (process == ScreenProcessEnum.failed) {
-      return const ErrorScreen(
+      return ErrorScreen(
         // Text wait localization
-        title: "Koneksi Internet",
-        message: "Aduh, Coba lagi nanti",
+        title: AppLocalizations.of(context)!.internetConnection,
+        message: AppLocalizations.of(context)!.tryAgain,
       );
     } else {
       return _buildLoaded(context);
@@ -91,10 +91,10 @@ class _NewsScreenState extends State<NewsScreen> {
     Size screenSize = MediaQuery.of(context).size;
 
     if (screenSize.width < 300.0 || screenSize.height < 600.0) {
-      return const ErrorScreen(
+      return ErrorScreen(
         // Text wait localization
-        title: "Error Layar",
-        message: "Aduh, Layar anda terlalu kecil",
+        title: AppLocalizations.of(context)!.screenError,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else if (screenSize.width > 500.0) {
       // Tablet Mode (Must be repair)
@@ -183,11 +183,11 @@ class _NewsScreenState extends State<NewsScreen> {
             color: Theme.of(context).colorScheme.tertiary,
             height: 20.0,
           ),
-          refreshingText: "Memperbarui...",
-          releaseText: "Lepas untuk memperbarui",
-          idleText: "Tarik kebawah untuk memperbarui",
-          failedText: "Gagal memperbarui",
-          completeText: "Selesai memperbarui",
+          refreshingText: AppLocalizations.of(context)!.refreshingText,
+          releaseText: AppLocalizations.of(context)!.releaseText,
+          idleText: AppLocalizations.of(context)!.idleText,
+          failedText: AppLocalizations.of(context)!.failedText,
+          completeText: AppLocalizations.of(context)!.completeText,
           textStyle: bBody1.copyWith(
             color: Theme.of(context).colorScheme.tertiary,
           ),

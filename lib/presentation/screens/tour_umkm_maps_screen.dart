@@ -3,6 +3,7 @@ import 'package:capstone_design/presentation/screens/error_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:theme/data/sources/theme_data.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TourUMKMMapsScreen extends StatefulWidget {
   const TourUMKMMapsScreen({Key? key}) : super(key: key);
@@ -17,10 +18,10 @@ class _TourUMKMMapsScreenState extends State<TourUMKMMapsScreen> {
     Size screenSize = MediaQuery.of(context).size;
 
     if (screenSize.width < 320.0 || screenSize.height < 650.0) {
-      return const ErrorScreen(
+      return ErrorScreen(
         // Text wait localization
-        title: "Error Layar",
-        message: "Aduh, Layar anda terlalu kecil",
+        title: AppLocalizations.of(context)!.screenError,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else if (screenSize.width > 500.0) {
       // Tablet Mode (Must be repair)
@@ -46,7 +47,7 @@ class _TourUMKMMapsScreenState extends State<TourUMKMMapsScreen> {
         return <Widget>[
           CustomSliverAppBarTextLeadingAction(
             // Text wait localization
-            title: "Wisata dan UMKM",
+            title: AppLocalizations.of(context)!.tourAndUmkm,
             leadingIcon: "assets/icon/back.svg",
             // Navigation repair
             leadingOnTap: () {
@@ -89,6 +90,13 @@ class _TourUMKMMapsScreenState extends State<TourUMKMMapsScreen> {
   }
 
   Widget _customDropDown(BuildContext context, Size screenSize) {
+    final List<String> _tags = [
+      AppLocalizations.of(context)!.tour,
+      AppLocalizations.of(context)!.umkm,
+      AppLocalizations.of(context)!.all,
+    ];
+    String _tag = AppLocalizations.of(context)!.all;
+
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: GestureDetector(
@@ -141,13 +149,6 @@ class _TourUMKMMapsScreenState extends State<TourUMKMMapsScreen> {
   late Offset _buttonPosition;
   bool _isMenuOpen = false;
 
-  final List<String> _tags = [
-    "Wisata",
-    "UMKM",
-    "Semua",
-  ];
-
-  String _tag = "Semua";
   Color _color = Colors.red;
 
   final List<Color> _colors = [
@@ -180,6 +181,12 @@ class _TourUMKMMapsScreenState extends State<TourUMKMMapsScreen> {
   OverlayEntry _overlayEntryBuilder() {
     return OverlayEntry(
       builder: (context) {
+        final List<String> _tags = [
+          AppLocalizations.of(context)!.tour,
+          AppLocalizations.of(context)!.umkm,
+          AppLocalizations.of(context)!.all,
+        ];
+        String _tag = AppLocalizations.of(context)!.all;
         return Positioned(
           top: _buttonPosition.dy + _buttonSize.height,
           left: _buttonPosition.dx,

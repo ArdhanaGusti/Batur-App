@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:theme/theme.dart';
 import 'package:timelines/timelines.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TimeLineScreen extends StatelessWidget {
   const TimeLineScreen({Key? key}) : super(key: key);
@@ -14,10 +15,10 @@ class TimeLineScreen extends StatelessWidget {
     Size screenSize = MediaQuery.of(context).size;
 
     if (screenSize.width < 320.0 || screenSize.height < 650.0) {
-      return const ErrorScreen(
+      return ErrorScreen(
         // Text wait localization
-        title: "Error Layar",
-        message: "Aduh, Layar anda terlalu kecil",
+        title: AppLocalizations.of(context)!.screenError,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else if (screenSize.width > 500.0) {
       // Tablet Mode (Must be repair)
@@ -125,7 +126,7 @@ class TitleContainer extends StatelessWidget {
                   height: 20.0,
                 ),
                 Text(
-                  '${hour.toString()} Jam ${min.toString()} Menit',
+                  '${hour.toString()} ${AppLocalizations.of(context)!.hour} ${min.toString()} ${AppLocalizations.of(context)!.minute}',
                   style: bSubtitle2.copyWith(
                     color: Theme.of(context).colorScheme.tertiary,
                   ),

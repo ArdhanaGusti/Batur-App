@@ -12,6 +12,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:theme/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // Review Check 1 (Done)
 
@@ -23,10 +24,10 @@ class EditAccountScreen extends StatelessWidget {
     Size screenSize = MediaQuery.of(context).size;
 
     if (screenSize.width < 320.0 || screenSize.height < 600.0) {
-      return const ErrorScreen(
+      return ErrorScreen(
         // Text wait localization
-        title: "Error Layar",
-        message: "Aduh, Layar anda terlalu kecil",
+        title: AppLocalizations.of(context)!.screenError,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else if (screenSize.width > 500.0) {
       // Tablet Mode (Must be repair)
@@ -54,7 +55,7 @@ class EditAccountScreen extends StatelessWidget {
       slivers: <Widget>[
         CustomSliverAppBarTextLeading(
           // Text wait localization
-          title: "Edit Akun",
+          title: AppLocalizations.of(context)!.editAccount,
           leadingIcon: "assets/icon/regular/chevron-left.svg",
           leadingOnTap: () {
             Navigator.pop(
@@ -76,7 +77,7 @@ class EditAccountScreen extends StatelessWidget {
         _customEditForm(
           context,
           // Text wait localization
-          "Nama Lengkap",
+          AppLocalizations.of(context)!.fullName,
           const CustomEditFullNameTextField(),
         ),
         _customEditForm(
@@ -101,7 +102,7 @@ class EditAccountScreen extends StatelessWidget {
             child: CustomSecondaryIconTextButton(
               width: screenSize.width,
               // Text wait localization
-              text: 'Ganti Password',
+              text: AppLocalizations.of(context)!.changePass,
               onTap: () {
                 Navigator.push(
                   context,
@@ -129,7 +130,7 @@ class EditAccountScreen extends StatelessWidget {
             child: CustomPrimaryTextButton(
               width: screenSize.width,
               // Text wait localization
-              text: 'Simpan',
+              text: AppLocalizations.of(context)!.save,
               // On tap Navigation needs to be replaced
               onTap: () {
                 Navigator.pop(
@@ -223,7 +224,7 @@ class EditAccountScreen extends StatelessWidget {
                   Flexible(
                     child: Text(
                       // Text wait localization
-                      "Edit Photo Profile",
+                      AppLocalizations.of(context)!.editPhotoProfile,
                       overflow: TextOverflow.ellipsis,
                       style: bBody1.copyWith(
                         color: Theme.of(context).colorScheme.tertiary,

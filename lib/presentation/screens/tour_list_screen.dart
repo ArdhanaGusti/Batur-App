@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:theme/theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TourListScreen extends StatefulWidget {
   const TourListScreen({Key? key}) : super(key: key);
@@ -57,8 +58,9 @@ class _TourListScreenState extends State<TourListScreen> {
             initialIndex: 0,
             child: Column(
               children: [
-                const CustomAppBar(
-                    title: "Wisata dan UMKM", hamburgerMenu: true),
+                CustomAppBar(
+                    title: AppLocalizations.of(context)!.tourAndUmkm,
+                    hamburgerMenu: true),
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 14),
                   child: Row(
@@ -69,7 +71,7 @@ class _TourListScreenState extends State<TourListScreen> {
                           child: TextField(
                             controller: nameController,
                             decoration: InputDecoration(
-                              labelText: 'Pencarian',
+                              labelText: AppLocalizations.of(context)!.search,
                             ),
                             style: bSubtitle1.copyWith(color: bGrey),
                             onChanged: (text) {
@@ -116,12 +118,13 @@ class _TourListScreenState extends State<TourListScreen> {
                     tabs: [
                       Padding(
                         padding: const EdgeInsets.all(2.0),
-                        child: Text('Wisata', style: bSubtitle3),
+                        child: Text(AppLocalizations.of(context)!.tour,
+                            style: bSubtitle3),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(2.0),
                         child: Text(
-                          'UMKM',
+                          AppLocalizations.of(context)!.umkm,
                           style: bSubtitle3,
                         ),
                       )

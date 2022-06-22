@@ -17,6 +17,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:theme/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddUMKMScreen extends StatefulWidget {
   const AddUMKMScreen({Key? key}) : super(key: key);
@@ -26,12 +27,6 @@ class AddUMKMScreen extends StatefulWidget {
 }
 
 class _AddUMKMScreenState extends State<AddUMKMScreen> {
-  List<String> days = [
-    "Senin",
-    "Selasa",
-    "Rabu",
-    "Kamis",
-  ];
   List<String> images = [
     "https://assets.pikiran-rakyat.com/crop/0x0:0x0/x/photo/2022/03/11/4072812075.jpg",
     "https://akcdn.detik.net.id/visual/2022/03/30/seulgi-red-velvet-1_169.jpeg?w=650",
@@ -55,10 +50,10 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
     Size screenSize = MediaQuery.of(context).size;
 
     if (screenSize.width < 320.0 || screenSize.height < 650.0) {
-      return const ErrorScreen(
+      return ErrorScreen(
         // Text wait localization
-        title: "Error Layar",
-        message: "Aduh, Layar anda terlalu kecil",
+        title: AppLocalizations.of(context)!.screenError,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else if (screenSize.width > 500.0) {
       // Tablet Mode (Must be repair)
@@ -79,12 +74,18 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
   }
 
   Widget _buildNewsDetailScreen(BuildContext context, Size screenSize) {
+    List<String> days = [
+      AppLocalizations.of(context)!.monday,
+      AppLocalizations.of(context)!.tuesday,
+      AppLocalizations.of(context)!.wednesday,
+      AppLocalizations.of(context)!.thursday,
+    ];
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: <Widget>[
         CustomSliverAppBarTextLeading(
           // Text wait localization
-          title: "Daftar UMKM",
+          title: AppLocalizations.of(context)!.listUMKM,
           leadingIcon: "assets/icon/back.svg",
           // Navigation repair
           leadingOnTap: () {
@@ -96,25 +97,25 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
         _customEditForm(
           context,
           // Text wait localization
-          "Nama Toko*",
+          AppLocalizations.of(context)!.shopName,
           const CustomAddUMKMNameTextField(),
         ),
         _customEditFormDesc(
           context,
           // Text wait localization
-          "Deskripsi Toko*",
+          AppLocalizations.of(context)!.shopDesc,
           const CustomAddUMKMDescriptionTextField(),
         ),
         _customEditForm(
           context,
           // Text wait localization
-          "No Telepon*",
+          AppLocalizations.of(context)!.phoneNumber,
           const CustomAddUMKMPhoneTextField(),
         ),
         _customEditForm(
           context,
           // Text wait localization
-          "Alamat*",
+          AppLocalizations.of(context)!.address,
           const CustomAddUMKMAddressTextField(),
         ),
         SliverPadding(
@@ -127,7 +128,7 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
             child: CustomPrimaryIconTextButton(
               icon: 'assets/icon/fill/map-marker.svg',
               onTap: () {},
-              text: 'Lokasi saya',
+              text: AppLocalizations.of(context)!.myLocation,
               width: screenSize.width,
             ),
           ),
@@ -143,7 +144,7 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  "Gambar",
+                  AppLocalizations.of(context)!.image,
                   style: bHeading7.copyWith(
                     color: Theme.of(context).colorScheme.tertiary,
                   ),
@@ -172,7 +173,7 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
                                 height: 5.0,
                               ),
                               Text(
-                                "Masukkan Gambar",
+                                AppLocalizations.of(context)!.inputImage,
                                 style: bBody1.copyWith(
                                   color: Theme.of(context).colorScheme.tertiary,
                                 ),
@@ -219,7 +220,7 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
                 CustomPrimaryIconTextButton(
                   icon: 'assets/icon/fill/log-out.svg',
                   onTap: () => pickImage(),
-                  text: 'Upload Gambar',
+                  text: AppLocalizations.of(context)!.uploadImage,
                   width: screenSize.width,
                 ),
                 const SizedBox(
@@ -240,7 +241,7 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  "Jadwal",
+                  AppLocalizations.of(context)!.timetable,
                   style: bHeading7.copyWith(
                     color: Theme.of(context).colorScheme.tertiary,
                   ),
@@ -269,7 +270,8 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
             ),
           ),
         ),
-        _customEditFormLink(context, "Link Online Shop", screenSize),
+        _customEditFormLink(
+            context, AppLocalizations.of(context)!.onlineShopLink, screenSize),
         SliverPadding(
           padding: const EdgeInsets.only(
             top: 20.0,
@@ -285,7 +287,7 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
           sliver: SliverToBoxAdapter(
             child: CustomPrimaryTextButton(
               onTap: () {},
-              text: 'Ajukan Toko',
+              text: AppLocalizations.of(context)!.applyShop,
               width: screenSize.width,
             ),
           ),
@@ -309,7 +311,7 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
         imageList = imageTemp;
       });
     } on PlatformException catch (e) {
-      print("Failed pick Image: $e");
+      print("${AppLocalizations.of(context)!.filedPickImage} $e");
     }
   }
 
@@ -448,7 +450,7 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
           // Text wait localization
           Flexible(
             child: Text(
-              "Dengan ini saya menyetujui persyaratan dan ketentuan yang ada",
+              AppLocalizations.of(context)!.terms,
               style: bBody1.copyWith(
                 color: Theme.of(context).colorScheme.tertiary,
               ),

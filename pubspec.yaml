@@ -41,7 +41,7 @@ dependencies:
   loading_animation_widget:
   cached_network_image: 
   pull_to_refresh: 
-  http: ^0.13.4
+  http: 
   fluttertoast: ^8.0.9
   carousel_slider: ^4.1.1
   flutter_slidable: ^1.3.0

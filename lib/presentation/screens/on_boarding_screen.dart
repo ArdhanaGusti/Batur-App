@@ -44,7 +44,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         body: SafeArea(
           child: Center(
             child: Container(
-              constraints: const BoxConstraints(maxWidth: 500),
+              constraints: const BoxConstraints(
+                maxWidth: 500.0,
+              ),
               child: _buildOnBoardingScreen(screenSize),
             ),
           ),
@@ -83,43 +85,38 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       (isLight)
                           ? "assets/logo/logo.png"
                           : "assets/logo/logo_dark.png",
-                      height: 40.0,
+                      height: screenSize.height * 0.05,
                     );
                   },
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.only(top: screenSize.height * 0.01),
-                child: Center(
-                  child: Image.asset(
-                    "assets/image/gedung_sate.png",
-                  ),
+              Center(
+                child: Image.asset(
+                  "assets/image/gedung_sate.png",
+                  height: screenSize.height * 0.4,
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.only(top: screenSize.height * 0.005),
-                child: Center(
-                  // Text wait localization
-                  child: Text(
-                    AppLocalizations.of(context)!.onBoardingScreenTitle,
-                    style: bHeading3.copyWith(
-                      color: Theme.of(context).colorScheme.tertiary,
-                    ),
-                    textAlign: TextAlign.center,
+              Center(
+                // Text wait localization
+                child: Text(
+                  AppLocalizations.of(context)!.onBoardingScreenTitle,
+                  style: bHeading3.copyWith(
+                    color: Theme.of(context).colorScheme.tertiary,
                   ),
+                  textAlign: TextAlign.center,
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.only(top: screenSize.height * 0.03),
-                child: Center(
-                  // Text wait localization
-                  child: Text(
-                    AppLocalizations.of(context)!.onBoardingScreenDesc,
-                    style: bSubtitle1.copyWith(
-                      color: Theme.of(context).colorScheme.tertiary,
-                    ),
-                    textAlign: TextAlign.center,
+              const SizedBox(
+                height: 20.0,
+              ),
+              Center(
+                // Text wait localization
+                child: Text(
+                  AppLocalizations.of(context)!.onBoardingScreenDesc,
+                  style: bSubtitle1.copyWith(
+                    color: Theme.of(context).colorScheme.tertiary,
                   ),
+                  textAlign: TextAlign.center,
                 ),
               ),
             ],

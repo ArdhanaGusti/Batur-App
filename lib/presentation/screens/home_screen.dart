@@ -7,7 +7,8 @@ import 'package:capstone_design/presentation/components/card/custom_umkm_card.da
 import 'package:capstone_design/presentation/screens/UMKM/umkm_detail_screen.dart';
 import 'package:capstone_design/presentation/screens/error_screen.dart';
 import 'package:capstone_design/presentation/screens/filter_tour_list_screen.dart';
-import 'package:capstone_design/presentation/screens/news_detail_screen.dart';
+// import 'package:capstone_design/presentation/screens/news_detail_screen.dart';
+import 'package:news/news.dart';
 import 'package:capstone_design/presentation/screens/notifikasi/notifikasi_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,7 +17,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:theme/theme.dart';
-import 'package:capstone_design/presentation/components/card/custom_news_card.dart';
+import 'package:news/presentation/components/card/custom_news_card.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

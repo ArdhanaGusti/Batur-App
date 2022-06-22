@@ -1,0 +1,11 @@
+{
+  "@_account_news_screen": {},
+  "screenError": "Screen error",
+  "screenSmall": "Oops, your screen is too small",
+  "save": "Save",
+  "addNews": "Add News",
+  "newsTitle": "News Title",
+  "news": "News",
+  "image": "Gamabar",
+  "inputImage": "Input Image"
+}

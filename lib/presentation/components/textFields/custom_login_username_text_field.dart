@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:theme/theme.dart';
 
+// Review Check 1 (Done)
+
 class CustomLoginUsernameTextField extends StatelessWidget {
   const CustomLoginUsernameTextField({
     Key? key,
@@ -15,12 +17,15 @@ class CustomLoginUsernameTextField extends StatelessWidget {
       builder: (context, loginForm) {
         return TextFormField(
           initialValue: loginForm.email,
+          cursorColor: Theme.of(context).colorScheme.tertiary,
           style: bSubtitle1.copyWith(
             color: Theme.of(context).colorScheme.tertiary,
           ),
           decoration: InputDecoration(
+            // Wait Localization
             labelText: "Username / Email",
             errorStyle: bCaption1.copyWith(color: bError),
+            // Wait Localization
             hintText: "batur / Batur@gmail.com",
             prefixIcon: Padding(
               padding: const EdgeInsets.only(
@@ -28,7 +33,7 @@ class CustomLoginUsernameTextField extends StatelessWidget {
                 right: 15.0,
               ),
               child: SvgPicture.asset(
-                "assets/icon/user_outline.svg",
+                "assets/icon/regular/user.svg",
                 color: Theme.of(context).colorScheme.tertiary,
                 height: 24.0,
               ),
@@ -37,7 +42,8 @@ class CustomLoginUsernameTextField extends StatelessWidget {
           // Validator must be check
           validator: (text) {
             if (text == null || text.isEmpty) {
-              return 'Please enter some text';
+              // Wait Localization
+              return "Please enter some text";
             }
             return null;
           },

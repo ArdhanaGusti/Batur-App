@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:theme/theme.dart';
 
+// Review Check 1 (Done)
+
 class CustomMultipleIconButton extends StatelessWidget {
   final List<String> icons;
   final List<Function()> onTap;
@@ -34,12 +36,12 @@ class CustomMultipleIconButton extends StatelessWidget {
             final tap = onTap[index];
 
             return BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
-              builder: (context, state) {
+              builder: (context, theme) {
                 Brightness screenBrightness =
                     MediaQuery.platformBrightnessOf(context);
-                bool isLight = (state.isDark == ThemeModeEnum.darkTheme)
+                bool isLight = (theme.isDark == ThemeModeEnum.darkTheme)
                     ? false
-                    : (state.isDark == ThemeModeEnum.lightTheme)
+                    : (theme.isDark == ThemeModeEnum.lightTheme)
                         ? true
                         : (screenBrightness == Brightness.light)
                             ? true

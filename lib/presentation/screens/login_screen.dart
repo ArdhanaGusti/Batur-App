@@ -4,12 +4,16 @@ import 'package:capstone_design/presentation/components/button/custom_primary_te
 import 'package:capstone_design/presentation/components/textFields/custom_login_password_text_field.dart';
 import 'package:capstone_design/presentation/components/textFields/custom_login_username_text_field.dart';
 import 'package:capstone_design/presentation/screens/error_screen.dart';
+import 'package:capstone_design/presentation/screens/forgot_password.dart';
 import 'package:capstone_design/presentation/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:theme/theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// Review Check 1 (Done)
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -25,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
 
-    if (screenSize.width < 320.0 || screenSize.height < 650.0) {
+    if (screenSize.width < 320.0 || screenSize.height < 600.0) {
       return ErrorScreen(
         // Text wait localization
         title: AppLocalizations.of(context)!.screenError,
@@ -33,11 +37,13 @@ class _LoginScreenState extends State<LoginScreen> {
       );
     } else if (screenSize.width > 500.0) {
       // Tablet Mode (Must be repair)
-      return SafeArea(
-        child: Center(
-          child: Container(
-            constraints: const BoxConstraints(maxWidth: 500.0),
-            child: _buildLoginScreen(screenSize),
+      return Scaffold(
+        body: SafeArea(
+          child: Center(
+            child: Container(
+              constraints: const BoxConstraints(maxWidth: 500.0),
+              child: _buildLoginScreen(screenSize),
+            ),
           ),
         ),
       );
@@ -51,8 +57,57 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  Widget _buildLoginScreen(Size screenSize) {
+  Widget _buildAppBar(Size screenSize) {
     Brightness screenBrightness = MediaQuery.platformBrightnessOf(context);
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        const SizedBox(
+          width: 40.0,
+        ),
+        BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
+          builder: (context, state) {
+            bool isLight = (state.isDark == ThemeModeEnum.darkTheme)
+                ? false
+                : (state.isDark == ThemeModeEnum.lightTheme)
+                    ? true
+                    : (screenBrightness == Brightness.light)
+                        ? true
+                        : false;
+            return Image.asset(
+              (isLight) ? "assets/logo/logo.png" : "assets/logo/logo_dark.png",
+              height: screenSize.height * 0.05,
+            );
+          },
+        ),
+        GestureDetector(
+          onTap: () {
+            Navigator.pop(
+              context,
+            );
+          },
+          child: Container(
+            height: 40.0,
+            width: 40.0,
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.primaryContainer,
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            child: Center(
+              child: SvgPicture.asset(
+                "assets/icon/regular/times-square.svg",
+                color: Theme.of(context).colorScheme.tertiary,
+                height: 24.0,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLoginScreen(Size screenSize) {
     return ListView(
       physics: const BouncingScrollPhysics(),
       children: <Widget>[
@@ -61,25 +116,9 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
-                builder: (context, state) {
-                  bool isLight = (state.isDark == ThemeModeEnum.darkTheme)
-                      ? false
-                      : (state.isDark == ThemeModeEnum.lightTheme)
-                          ? true
-                          : (screenBrightness == Brightness.light)
-                              ? true
-                              : false;
-                  return Image.asset(
-                    (isLight)
-                        ? 'assets/logo/logo.png'
-                        : 'assets/logo/logo_dark.png',
-                    height: 40.0,
-                  );
-                },
-              ),
+              _buildAppBar(screenSize),
               Padding(
-                padding: const EdgeInsets.only(top: 20.0),
+                padding: const EdgeInsets.only(top: 30.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -93,7 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     _buildForm(screenSize),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -103,7 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _buildForm(Size screenSize) {
     return BlocBuilder<LoginFormBloc, LoginFormState>(
-      builder: (context, state) {
+      builder: (context, loginForm) {
         return Form(
           key: _loginFormKey,
           child: Column(
@@ -115,8 +154,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: CustomLoginUsernameTextField(),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 20.0,
+                padding: const EdgeInsets.only(
+                  bottom: 20.0,
+                  top: 10.0,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -127,6 +167,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: GestureDetector(
                         onTap: () {
                           // Navigate to Forgot Password Page
+                          Navigator.pushReplacement(
+                            context,
+                            PageTransition(
+                              curve: Curves.easeOutCirc,
+                              type: PageTransitionType.bottomToTop,
+                              child: const ForgotPasswordScreen(),
+                              duration: const Duration(milliseconds: 250),
+                              reverseDuration:
+                                  const Duration(milliseconds: 250),
+                            ),
+                          );
                         },
                         // Text wait localization
                         child: Text(
@@ -136,11 +187,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
-              _buildCheckBox(state),
+              _buildCheckBox(loginForm),
               Padding(
                 padding: const EdgeInsets.only(
                   bottom: 30.0,

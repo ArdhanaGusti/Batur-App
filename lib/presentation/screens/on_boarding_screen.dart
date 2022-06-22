@@ -6,8 +6,11 @@ import 'package:capstone_design/presentation/screens/error_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:theme/theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// Review Check 1 (Done)
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({Key? key}) : super(key: key);
@@ -28,7 +31,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-    if (screenSize.width < 320.0 || screenSize.height < 650.0) {
+
+    if (screenSize.width < 320.0 || screenSize.height < 600.0) {
       return ErrorScreen(
         // Text wait localization
         title: AppLocalizations.of(context)!.internetConnection,
@@ -62,23 +66,23 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       padding: const EdgeInsets.all(20.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
+        children: <Widget>[
           Column(
             children: <Widget>[
               Center(
                 child: BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
-                  builder: (context, state) {
-                    bool isLight = (state.isDark == ThemeModeEnum.darkTheme)
+                  builder: (context, theme) {
+                    bool isLight = (theme.isDark == ThemeModeEnum.darkTheme)
                         ? false
-                        : (state.isDark == ThemeModeEnum.lightTheme)
+                        : (theme.isDark == ThemeModeEnum.lightTheme)
                             ? true
                             : (screenBrightness == Brightness.light)
                                 ? true
                                 : false;
                     return Image.asset(
                       (isLight)
-                          ? 'assets/logo/logo.png'
-                          : 'assets/logo/logo_dark.png',
+                          ? "assets/logo/logo.png"
+                          : "assets/logo/logo_dark.png",
                       height: 40.0,
                     );
                   },
@@ -88,12 +92,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 padding: EdgeInsets.only(top: screenSize.height * 0.01),
                 child: Center(
                   child: Image.asset(
-                    'assets/image/gedung_sate.png',
+                    "assets/image/gedung_sate.png",
                   ),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: screenSize.height * 0.01),
+                padding: EdgeInsets.only(top: screenSize.height * 0.005),
                 child: Center(
                   // Text wait localization
                   child: Text(
@@ -106,7 +110,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: screenSize.height * 0.05),
+                padding: EdgeInsets.only(top: screenSize.height * 0.03),
                 child: Center(
                   // Text wait localization
                   child: Text(
@@ -127,8 +131,14 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             onTap: () {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => const DashboardScreen(),
+                PageTransition(
+                  type: PageTransitionType.scale,
+                  // Paramater in Dashboard
+                  child: const DashboardScreen(),
+                  alignment: Alignment.center,
+                  curve: Curves.easeInOut,
+                  duration: const Duration(milliseconds: 850),
+                  reverseDuration: const Duration(milliseconds: 850),
                 ),
               );
             },

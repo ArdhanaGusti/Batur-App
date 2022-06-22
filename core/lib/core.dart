@@ -33,3 +33,8 @@ export 'package:core/presentation/components/custom_text_button.dart';
 export 'package:core/presentation/components/custom_text_icon_button.dart';
 export 'package:core/presentation/components/custom_validation_button.dart';
 export 'package:core/presentation/screens/error_screen.dart';
+export 'package:core/presentation/screens/dashboard_screen.dart';
+export 'package:core/presentation/screens/account_screen.dart';
+export 'package:core/presentation/screens/favorite_screen.dart';
+export 'package:core/presentation/screens/home_screen.dart';
+export 'package:core/presentation/screens/news_screen.dart';

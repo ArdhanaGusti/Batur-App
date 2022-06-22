@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:capstone_design/presentation/components/appbar/custom_sliver_appbar_dashboard.dart';
-import 'package:capstone_design/presentation/screens/add_news_screen.dart';
+import 'add_news_screen.dart';
 import 'package:capstone_design/presentation/screens/error_screen.dart';
-import 'package:capstone_design/presentation/screens/news_detail_screen.dart';
-import 'package:capstone_design/presentation/components/card/custom_news_card.dart';
+import 'news_detail_screen.dart';
+import '../components/card/custom_news_card.dart';
 import 'package:capstone_design/presentation/screens/notifikasi/notifikasi_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

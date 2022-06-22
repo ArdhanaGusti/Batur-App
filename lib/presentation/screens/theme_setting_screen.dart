@@ -103,7 +103,7 @@ class ThemeSettingScreen extends StatelessWidget {
                 context,
                 ThemeModeEnum.systemTheme,
                 // Text wait localization
-                AppLocalizations.of(context)!.system,
+                AppLocalizations.of(context)!.sistem,
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 20.0, top: 10.0),

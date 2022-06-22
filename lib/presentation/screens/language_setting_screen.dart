@@ -93,7 +93,7 @@ class LanguageSettingScreen extends StatelessWidget {
                 context,
                 LanguageEnum.indonesia,
                 // Text wait localization
-                "Indonesia",
+                AppLocalizations.of(context)!.indonesia,
               ),
               _customListTileLanguage(
                 context,

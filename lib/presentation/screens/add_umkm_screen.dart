@@ -76,9 +76,9 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
   Widget _buildNewsDetailScreen(BuildContext context, Size screenSize) {
     List<String> days = [
       AppLocalizations.of(context)!.monday,
-      "Selasa",
-      "Rabu",
-      "Kamis",
+      AppLocalizations.of(context)!.tuesday,
+      AppLocalizations.of(context)!.wednesday,
+      AppLocalizations.of(context)!.thursday,
     ];
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
@@ -311,7 +311,7 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
         imageList = imageTemp;
       });
     } on PlatformException catch (e) {
-      print("Failed pick Image: $e");
+      print("${AppLocalizations.of(context)!.filedPickImage} $e");
     }
   }
 

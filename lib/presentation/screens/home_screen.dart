@@ -80,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     } else if (process == ScreenProcessEnum.failed) {
       return ErrorScreen(
         // Text wait localization
-        title: AppLocalizations.of(context)!.internetConnection,
+        title: AppLocalizations.of(context)!.screenError,
         message: AppLocalizations.of(context)!.screenSmall,
       );
     } else {
@@ -131,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     if (screenSize.width < 300.0 || screenSize.height < 600.0) {
       return ErrorScreen(
         // Text wait localization
-        title: AppLocalizations.of(context)!.internetConnection,
+        title: AppLocalizations.of(context)!.screenError,
         message: AppLocalizations.of(context)!.screenSmall,
       );
     } else if (screenSize.width > 500.0) {

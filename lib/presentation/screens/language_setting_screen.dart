@@ -5,6 +5,7 @@ import 'package:capstone_design/utils/enum/language_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:theme/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LanguageSettingScreen extends StatelessWidget {
   const LanguageSettingScreen({Key? key}) : super(key: key);
@@ -14,10 +15,10 @@ class LanguageSettingScreen extends StatelessWidget {
     Size screenSize = MediaQuery.of(context).size;
 
     if (screenSize.width < 320.0 || screenSize.height < 650.0) {
-      return const ErrorScreen(
+      return ErrorScreen(
         // Text wait localization
-        title: "Error Layar",
-        message: "Aduh, Layar anda terlalu kecil",
+        title: AppLocalizations.of(context)!.screenError,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else if (screenSize.width > 500.0) {
       // Tablet Mode (Must be repair)
@@ -43,7 +44,7 @@ class LanguageSettingScreen extends StatelessWidget {
       slivers: <Widget>[
         CustomSliverAppBarTextLeading(
           // Text wait localization
-          title: "Bahasa",
+          title: AppLocalizations.of(context)!.language,
           leadingIcon: "assets/icon/back.svg",
           // Navigation repair
           leadingOnTap: () {
@@ -79,7 +80,7 @@ class LanguageSettingScreen extends StatelessWidget {
             children: <Widget>[
               Text(
                 // Text wait localization
-                "Pilih bahasa yang Anda gunakan di aplikasi Bandung Tourism Anda pada perangkat ini.",
+                AppLocalizations.of(context)!.selectLanguage,
                 style: bSubtitle2.copyWith(
                   color: Theme.of(context).colorScheme.tertiary,
                 ),
@@ -98,7 +99,7 @@ class LanguageSettingScreen extends StatelessWidget {
                 context,
                 LanguageEnum.england,
                 // Text wait localization
-                "Inggris",
+                AppLocalizations.of(context)!.inggris,
               ),
             ],
           ),

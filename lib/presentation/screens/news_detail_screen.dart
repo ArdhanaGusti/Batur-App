@@ -3,6 +3,7 @@ import 'package:capstone_design/presentation/components/button/custom_primary_te
 import 'package:capstone_design/presentation/screens/error_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:theme/data/sources/theme_data.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NewsDetailScreen extends StatelessWidget {
   const NewsDetailScreen({Key? key}) : super(key: key);
@@ -12,10 +13,10 @@ class NewsDetailScreen extends StatelessWidget {
     Size screenSize = MediaQuery.of(context).size;
 
     if (screenSize.width < 320.0 || screenSize.height < 650.0) {
-      return const ErrorScreen(
+      return ErrorScreen(
         // Text wait localization
-        title: "Error Layar",
-        message: "Aduh, Layar anda terlalu kecil",
+        title: AppLocalizations.of(context)!.screenError,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else if (screenSize.width > 500.0) {
       // Tablet Mode (Must be repair)
@@ -41,7 +42,7 @@ class NewsDetailScreen extends StatelessWidget {
       slivers: <Widget>[
         CustomSliverAppBarTextLeading(
           // Text wait localization
-          title: "Berita",
+          title: AppLocalizations.of(context)!.news,
           leadingIcon: "assets/icon/back.svg",
           // Navigation repair
           leadingOnTap: () {
@@ -62,7 +63,7 @@ class NewsDetailScreen extends StatelessWidget {
             child: CustomPrimaryTextButton(
               width: screenSize.width,
               // Text wait localization
-              text: 'Lihat Berita',
+              text: AppLocalizations.of(context)!.viewNews,
               // On tap Navigation needs to be replaced
               onTap: () {
                 Navigator.pop(
@@ -103,7 +104,7 @@ class NewsDetailScreen extends StatelessWidget {
                   height: 30.0,
                 ),
                 Text(
-                  "Judul Disini",
+                  AppLocalizations.of(context)!.titleHere,
                   style: bHeading7.copyWith(
                     color: Theme.of(context).colorScheme.tertiaryContainer,
                   ),
@@ -131,7 +132,7 @@ class NewsDetailScreen extends StatelessWidget {
                           ),
                           Flexible(
                             child: Text(
-                              "Penulis",
+                              AppLocalizations.of(context)!.writer,
                               overflow: TextOverflow.ellipsis,
                               style: bBody1.copyWith(
                                 color: Theme.of(context)

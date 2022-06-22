@@ -2,6 +2,7 @@ import 'package:capstone_design/presentation/components/toast/custom_alert_toast
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:theme/data/sources/theme_data.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ToastScreen extends StatefulWidget {
   const ToastScreen({Key? key}) : super(key: key);

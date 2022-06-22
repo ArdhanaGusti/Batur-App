@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:theme/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FilterTourListScreen extends StatefulWidget {
   const FilterTourListScreen({Key? key}) : super(key: key);
@@ -42,7 +43,7 @@ class _FilterTourListScreenState extends State<FilterTourListScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Suka",
+                    AppLocalizations.of(context)!.like,
                     style: bSubtitle3.copyWith(
                         color: isLight ? bPrimary : bTextPrimary),
                   ),
@@ -68,7 +69,7 @@ class _FilterTourListScreenState extends State<FilterTourListScreen> {
                               width: 5,
                             ),
                             Text(
-                              "Disukai",
+                              AppLocalizations.of(context)!.dislike,
                               style: bSubtitle2.copyWith(color: bTextPrimary),
                             ),
                             SizedBox(
@@ -106,7 +107,7 @@ class _FilterTourListScreenState extends State<FilterTourListScreen> {
                               width: 5,
                             ),
                             Text(
-                              "Tidak Disukai",
+                              AppLocalizations.of(context)!.dislike,
                               style: bSubtitle2.copyWith(color: bGrey),
                             ),
                             SizedBox(

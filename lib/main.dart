@@ -9,10 +9,10 @@ import 'package:capstone_design/presentation/bloc/notification_bloc.dart';
 import 'package:capstone_design/presentation/bloc/profile_bloc.dart';
 import 'package:capstone_design/presentation/bloc/regis_form_bloc.dart';
 import 'package:capstone_design/presentation/bloc/verification_form_bloc.dart';
-import 'package:capstone_design/presentation/screens/on_boarding_screen.dart';
 import 'package:capstone_design/utils/enum/language_enum.dart';
 import 'package:core/core.dart';
-import 'package:umkm/umkm.dart';
+import 'package:core/presentation/bloc/dashboard_bloc.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -37,6 +37,9 @@ void main() async {
       providers: [
         BlocProvider(
           create: (context) => ti.locator<ThemeManagerBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => DashboardBloc(),
         ),
         BlocProvider(
           create: (context) => LoginFormBloc(),

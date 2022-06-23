@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:core/presentation/bloc/dashboard_bloc.dart';
 import 'package:core/presentation/components/appbar/custom_sliver_appbar_dashboard.dart';
 import 'package:core/presentation/components/card/custom_news_card.dart';
 import 'package:core/presentation/components/card/custom_tour_card.dart';
@@ -181,6 +182,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   void onTapNewsList() {
     // Navigate to News List
+    context.read<DashboardBloc>().add(
+          const IndexBottomNavChange(newIndex: 1),
+        );
   }
 
   void onTapUMKMList() {

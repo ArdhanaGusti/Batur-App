@@ -35,24 +35,38 @@ class _EditTrainState extends State<EditTrain> {
     stationNow = widget.station;
     timeNow = widget.time;
     setState(() {
-      date = "${timeNow!.day}.${timeNow!.month}.${timeNow!.year}";
+      date =
+          "${timeNow!.day}.${timeNow!.month}.${timeNow!.year}  ${timeNow!.hour}:${timeNow!.minute}";
     });
     super.initState();
   }
 
-  Future _selectDueDate(BuildContext context) async {
-    final picked = await showDatePicker(
+  Future pickDateAndTime() async {
+    DateTime? dataDate = await showDatePicker(
         context: context,
         initialDate: timeNow!,
         firstDate: DateTime(2022),
         lastDate: DateTime(2040));
-
-    if (picked != null) {
-      setState(() {
-        timeNow = picked;
-        date = "${picked.day}.${picked.month}.${picked.year}";
-      });
+    if (dataDate == null) {
+      return;
     }
+    TimeOfDay? dataTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay(hour: timeNow!.hour, minute: timeNow!.minute));
+    if (dataTime == null) {
+      return;
+    }
+    setState(() {
+      timeNow = DateTime(
+        dataDate.year,
+        dataDate.month,
+        dataDate.day,
+        dataTime.hour,
+        dataTime.minute,
+      );
+      date =
+          "${timeNow!.day}.${timeNow!.month}.${timeNow!.year}  ${timeNow!.hour}:${timeNow!.minute}";
+    });
   }
 
   @override
@@ -123,7 +137,7 @@ class _EditTrainState extends State<EditTrain> {
                   Icon(Icons.calendar_month),
                   GestureDetector(
                       onTap: () {
-                        _selectDueDate(context);
+                        pickDateAndTime();
                       },
                       child: Text(date)),
                 ],

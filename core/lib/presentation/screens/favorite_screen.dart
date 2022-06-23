@@ -3,15 +3,14 @@ import 'dart:async';
 import 'package:core/presentation/components/appbar/custom_sliver_appbar_dashboard.dart';
 import 'package:core/presentation/components/card/custom_favorite_tour_card.dart';
 import 'package:core/presentation/components/card/custom_favorite_umkm_card.dart';
+import 'package:core/presentation/components/custom_smart_refresh.dart';
 import 'package:core/presentation/screens/error_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:theme/theme.dart';
 
-enum ScreenProcessEnum {
+enum FavScreenProcessEnum {
   loading,
   loaded,
   failed,
@@ -26,7 +25,7 @@ class FavoriteScreen extends StatefulWidget {
 
 class _FavoriteScreenState extends State<FavoriteScreen>
     with TickerProviderStateMixin {
-  ScreenProcessEnum process = ScreenProcessEnum.loading;
+  FavScreenProcessEnum process = FavScreenProcessEnum.loading;
   late TabController _controller;
 
   final RefreshController _refreshController =
@@ -65,9 +64,11 @@ class _FavoriteScreenState extends State<FavoriteScreen>
     );
 
     // Must be repair
+    // Change with to fetch data
     Timer(const Duration(seconds: 3), () {
       setState(() {
-        process = ScreenProcessEnum.loaded;
+        // Change state value if data loaded or failed
+        process = FavScreenProcessEnum.loaded;
       });
     });
   }
@@ -80,10 +81,10 @@ class _FavoriteScreenState extends State<FavoriteScreen>
 
   @override
   Widget build(BuildContext context) {
-    if (process == ScreenProcessEnum.loading) {
+    if (process == FavScreenProcessEnum.loading) {
       return NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return [
+          return <Widget>[
             _buildAppBar(),
           ];
         },
@@ -94,7 +95,7 @@ class _FavoriteScreenState extends State<FavoriteScreen>
           ),
         ),
       );
-    } else if (process == ScreenProcessEnum.failed) {
+    } else if (process == FavScreenProcessEnum.failed) {
       return const ErrorScreen(
         // Text wait localization
         title: "Koneksi Internet",
@@ -133,16 +134,7 @@ class _FavoriteScreenState extends State<FavoriteScreen>
       actionIcon: "assets/icon/regular/bell.svg",
       // Must add on Tap
       actionOnTap: () {
-        // Navigator.push(
-        //   context,
-        //   PageTransition(
-        //     curve: Curves.easeInOut,
-        //     type: PageTransitionType.rightToLeft,
-        //     child: const NotificationScreen(),
-        //     duration: const Duration(milliseconds: 150),
-        //     reverseDuration: const Duration(milliseconds: 150),
-        //   ),
-        // );
+        // Navigate to Notification Page
       },
       leading: const Text(
         // Text wait localization
@@ -160,7 +152,7 @@ class _FavoriteScreenState extends State<FavoriteScreen>
   Widget _buildFavoriteScreen(BuildContext context, Size screenSize) {
     return NestedScrollView(
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-        return [
+        return <Widget>[
           _buildAppBar(),
         ];
       },
@@ -212,7 +204,7 @@ class _FavoriteScreenState extends State<FavoriteScreen>
             child: TabBarView(
               physics: const BouncingScrollPhysics(),
               controller: _controller,
-              children: [
+              children: <Widget>[
                 CustomSmartRefresh(
                   onLoading: _onLoading,
                   onRefresh: _onRefresh,
@@ -230,7 +222,7 @@ class _FavoriteScreenState extends State<FavoriteScreen>
                         sliver: SliverList(
                           delegate: SliverChildBuilderDelegate(
                             (BuildContext context, int index) {
-                              // Use Data News
+                              // Use Data Tour
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: 15.0),
                                 child: CustomFavoriteTourCard(
@@ -242,7 +234,9 @@ class _FavoriteScreenState extends State<FavoriteScreen>
                                       "Jl. Diponegoro No.57, Cihaur Geulis, Kec. Cibeunying Kaler, Kota Bandung, Jawa Barat 40122",
                                   open: "Buka (07:00 WIB -16:00 WIB",
                                   rating: "4,5",
-                                  onTap: () {},
+                                  onTap: () {
+                                    // Navigate to Tour Detail
+                                  },
                                 ),
                               );
                             },
@@ -270,7 +264,7 @@ class _FavoriteScreenState extends State<FavoriteScreen>
                         sliver: SliverList(
                           delegate: SliverChildBuilderDelegate(
                             (BuildContext context, int index) {
-                              // Use Data News
+                              // Use Data UMKM
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: 15.0),
                                 child: CustomFavoriteUMKMCard(
@@ -282,7 +276,9 @@ class _FavoriteScreenState extends State<FavoriteScreen>
                                       "Jl. Diponegoro No.57, Cihaur Geulis, Kec. Cibeunying Kaler, Kota Bandung, Jawa Barat 40122",
                                   open: "Buka (07:00 WIB -16:00 WIB",
                                   rating: "4,5",
-                                  onTap: () {},
+                                  onTap: () {
+                                    // Navigate to UMKM Detail
+                                  },
                                 ),
                               );
                             },
@@ -298,64 +294,6 @@ class _FavoriteScreenState extends State<FavoriteScreen>
           ),
         ],
       ),
-    );
-  }
-}
-
-class CustomSmartRefresh extends StatelessWidget {
-  final RefreshController refreshController;
-  final Function() onRefresh;
-  final Function() onLoading;
-  final Widget child;
-  const CustomSmartRefresh({
-    Key? key,
-    required this.refreshController,
-    required this.onRefresh,
-    required this.onLoading,
-    required this.child,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SmartRefresher(
-      controller: refreshController,
-      onRefresh: onRefresh,
-      onLoading: onLoading,
-      header: ClassicHeader(
-        refreshingIcon: LoadingAnimationWidget.horizontalRotatingDots(
-          color: Theme.of(context).colorScheme.tertiary,
-          size: 20.0,
-        ),
-        failedIcon: SvgPicture.asset(
-          "assets/icon/fill/exclamation-circle.svg",
-          color: Theme.of(context).colorScheme.tertiary,
-          height: 20.0,
-        ),
-        completeIcon: SvgPicture.asset(
-          "assets/icon/fill/check-circle.svg",
-          color: Theme.of(context).colorScheme.tertiary,
-          height: 20.0,
-        ),
-        releaseIcon: SvgPicture.asset(
-          "assets/icon/fill/chevron-circle-up.svg",
-          color: Theme.of(context).colorScheme.tertiary,
-          height: 20.0,
-        ),
-        idleIcon: SvgPicture.asset(
-          "assets/icon/fill/chevron-circle-down.svg",
-          color: Theme.of(context).colorScheme.tertiary,
-          height: 20.0,
-        ),
-        refreshingText: "AppLocalizations.of(context)!.refreshingText",
-        releaseText: "AppLocalizations.of(context)!.releaseText",
-        idleText: "AppLocalizations.of(context)!.idleText",
-        failedText: "AppLocalizations.of(context)!.failedText",
-        completeText: "AppLocalizations.of(context)!.completeText",
-        textStyle: bBody1.copyWith(
-          color: Theme.of(context).colorScheme.tertiary,
-        ),
-      ),
-      child: child,
     );
   }
 }

@@ -11,11 +11,11 @@ class AboutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
 
-    if (screenSize.width < 320.0 || screenSize.height < 650.0) {
+    if (screenSize.width < 300.0 || screenSize.height < 600.0) {
       return const ErrorScreen(
         // Text wait localization
-        title: "AppLocalizations.of(context)!.screenError",
-        message: "AppLocalizations.of(context)!.screenSmall",
+        title: "Aduh...",
+        message: "Layar terlalu kecil, coba di perangkat lain.",
       );
     } else if (screenSize.width > 500.0) {
       // Tablet Mode (Must be repair)
@@ -42,8 +42,8 @@ class AboutScreen extends StatelessWidget {
       slivers: <Widget>[
         CustomSliverAppBarTextLeading(
           // Text wait localization
-          title: "AppLocalizations.of(context)!.about",
-          leadingIcon: "assets/icon/back.svg",
+          title: "Tentang",
+          leadingIcon: "assets/icon/regular/chevron-left.svg",
           // Navigation repair
           leadingOnTap: () {
             Navigator.pop(
@@ -64,10 +64,10 @@ class AboutScreen extends StatelessWidget {
                 children: <Widget>[
                   Center(
                     child: BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
-                      builder: (context, state) {
-                        bool isLight = (state.isDark == ThemeModeEnum.darkTheme)
+                      builder: (context, theme) {
+                        bool isLight = (theme.isDark == ThemeModeEnum.darkTheme)
                             ? false
-                            : (state.isDark == ThemeModeEnum.lightTheme)
+                            : (theme.isDark == ThemeModeEnum.lightTheme)
                                 ? true
                                 : (screenBrightness == Brightness.light)
                                     ? true
@@ -81,17 +81,56 @@ class AboutScreen extends StatelessWidget {
                       },
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(top: screenSize.height * 0.05),
-                    child: Center(
-                      // Text wait localization
-                      child: Text(
-                        'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s.',
-                        style: bSubtitle1.copyWith(
-                          color: Theme.of(context).colorScheme.tertiary,
-                        ),
-                        textAlign: TextAlign.center,
+                  const SizedBox(
+                    height: 30.0,
+                  ),
+                  Center(
+                    // Text wait localization
+                    child: Text(
+                      'Versi 1.0.0',
+                      style: bSubtitle4.copyWith(
+                        color: Theme.of(context).colorScheme.tertiary,
                       ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  Center(
+                    // Text wait localization
+                    child: Text(
+                      'Bandung Tourism (BATUR) merupakan platform aplikasi mobile yang menyediakan layanan Berita, Wisata, UMKM, dan Transportasi yang ada di Ibu Kota Jawa Barat yaitu Bandung.',
+                      style: bSubtitle1.copyWith(
+                        color: Theme.of(context).colorScheme.tertiary,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 30.0,
+                  ),
+                  Center(
+                    // Text wait localization
+                    child: Text(
+                      'Tim Pengembang \n(BATUR TEAM)',
+                      style: bSubtitle4.copyWith(
+                        color: Theme.of(context).colorScheme.tertiary,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 30.0,
+                  ),
+                  Center(
+                    // Text wait localization
+                    child: Text(
+                      'P2237A189 - Achmad Syeful Mujab\nP2394A397 - Asep Ridwan\nP2012A055 - Hafid Ikhsan Arifin\nP2312A296 - Muhammad Ardhana Gusti Syahputra',
+                      style: bSubtitle1.copyWith(
+                        color: Theme.of(context).colorScheme.tertiary,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
                   ),
                 ],

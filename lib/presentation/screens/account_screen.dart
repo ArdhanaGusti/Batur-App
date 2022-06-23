@@ -3,7 +3,7 @@ import 'package:capstone_design/presentation/components/button/custom_primary_ic
 import 'package:capstone_design/presentation/components/custom_profile_card.dart';
 import 'package:capstone_design/presentation/screens/about_screen.dart';
 import 'package:capstone_design/presentation/screens/account_detail_screen.dart';
-import 'package:capstone_design/presentation/screens/add_umkm_screen.dart';
+// import '../../../umkm/lib/presentation/screen/add_umkm_screen.dart';
 import 'package:capstone_design/presentation/screens/error_screen.dart';
 // import 'package:capstone_design/presentation/screens/news_web_screen.dart';
 // import 'package:news/news.dart';
@@ -137,16 +137,16 @@ class AccountScreen extends StatelessWidget {
             _buildSmallContainer(
               context,
               () {
-                Navigator.push(
-                  context,
-                  PageTransition(
-                    curve: Curves.easeInOut,
-                    type: PageTransitionType.bottomToTop,
-                    child: const AddUMKMScreen(),
-                    duration: const Duration(milliseconds: 150),
-                    reverseDuration: const Duration(milliseconds: 150),
-                  ),
-                );
+                // Navigator.push(
+                //   context,
+                //   PageTransition(
+                //     curve: Curves.easeInOut,
+                //     type: PageTransitionType.bottomToTop,
+                //     child: const AddUMKMScreen(),
+                //     duration: const Duration(milliseconds: 150),
+                //     reverseDuration: const Duration(milliseconds: 150),
+                //   ),
+                // );
               },
               // Text wait localization
               AppLocalizations.of(context)!.registrationStatus,

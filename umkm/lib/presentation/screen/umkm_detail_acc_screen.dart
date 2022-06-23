@@ -1,8 +1,4 @@
-import 'package:capstone_design/login.dart';
-import 'package:capstone_design/presentation/components/card/custom_detail_umkm_card.dart';
-import 'package:capstone_design/presentation/components/custom_app_bar.dart';
-import 'package:capstone_design/presentation/components/custom_text_icon_button.dart';
-import 'package:capstone_design/presentation/components/custom_validation_button.dart';
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:theme/theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -273,12 +269,12 @@ class _UmkmDetailAccScreenState extends State<UmkmDetailAccScreen> {
                               width: width,
                               text: "Tokopedia",
                               onTap: () {
-                                Navigator.pop(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const Login(),
-                                  ),
-                                );
+                                // Navigator.pop(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (context) => const Login(),
+                                //   ),
+                                // );
                               },
                             ),
                           ),
@@ -290,12 +286,12 @@ class _UmkmDetailAccScreenState extends State<UmkmDetailAccScreen> {
                               width: width,
                               text: "Shopee",
                               onTap: () {
-                                Navigator.pop(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const Login(),
-                                  ),
-                                );
+                                // Navigator.pop(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (context) => const Login(),
+                                //   ),
+                                // );
                               },
                             ),
                           ),
@@ -306,21 +302,21 @@ class _UmkmDetailAccScreenState extends State<UmkmDetailAccScreen> {
                               color: colorOne,
                               width: width,
                               onTapAcc: () {
-                                Navigator.pop(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const Login(),
-                                  ),
-                                );
+                                // Navigator.pop(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (context) => const Login(),
+                                //   ),
+                                // );
                               },
                               isLight: isLight,
                               onTapDec: () {
-                                Navigator.pop(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const Login(),
-                                  ),
-                                );
+                                // Navigator.pop(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (context) => const Login(),
+                                //   ),
+                                // );
                               },
                             ),
                           ),

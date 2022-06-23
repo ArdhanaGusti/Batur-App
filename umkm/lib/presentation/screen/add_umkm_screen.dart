@@ -1,23 +1,20 @@
 import 'dart:io';
 
-import 'package:capstone_design/presentation/components/appbar/custom_sliver_appbar_text_leading.dart';
-import 'package:capstone_design/presentation/components/button/custom_primary_icon_text_button.dart';
-import 'package:capstone_design/presentation/components/button/custom_primary_text_button.dart';
-import 'package:capstone_design/presentation/components/textFields/custom_add_umkm_address_text_field.dart';
-import 'package:capstone_design/presentation/components/textFields/custom_add_umkm_description_text_field.dart';
-import 'package:capstone_design/presentation/components/textFields/custom_add_umkm_name_text_field.dart';
-import 'package:capstone_design/presentation/components/textFields/custom_add_umkm_phone_text_field.dart';
-import 'package:capstone_design/presentation/components/textFields/custom_add_umkm_shopee_text_field.dart';
-import 'package:capstone_design/presentation/components/textFields/custom_add_umkm_tokopedia_text_field.dart';
-import 'package:capstone_design/presentation/components/textFields/custom_add_umkm_website_text_field.dart';
-import 'package:capstone_design/presentation/screens/error_screen.dart';
-import 'package:capstone_design/presentation/screens/gallery_screen.dart';
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:theme/theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../components/textFields/custom_add_umkm_address_text_field.dart';
+import '../components/textFields/custom_add_umkm_description_text_field.dart';
+import '../components/textFields/custom_add_umkm_name_text_field.dart';
+import '../components/textFields/custom_add_umkm_phone_text_field.dart';
+import '../components/textFields/custom_add_umkm_shopee_text_field.dart';
+import '../components/textFields/custom_add_umkm_tokopedia_text_field.dart';
+import '../components/textFields/custom_add_umkm_website_text_field.dart';
 
 class AddUMKMScreen extends StatefulWidget {
   const AddUMKMScreen({Key? key}) : super(key: key);
@@ -193,15 +190,15 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
                               padding: const EdgeInsets.only(right: 10.0),
                               child: GestureDetector(
                                 onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => GalleryScreen(
-                                        images: imageList!,
-                                        index: index,
-                                      ),
-                                    ),
-                                  );
+                                  // Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //     builder: (context) => GalleryScreen(
+                                  //       images: imageList!,
+                                  //       index: index,
+                                  //     ),
+                                  //   ),
+                                  // );
                                 },
                                 child: Image.file(
                                   imageList![index],

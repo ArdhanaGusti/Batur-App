@@ -27,5 +27,8 @@
   "tourAndUmkm": "Wisata dan UMKM",
   "tour": "Wisata",
   "umkm": "UMKM",
-  "all": "Semua"
+  "all": "Semua",
+
+  "@_gallery_screen": {},
+  "imagePreview": "Pertinjau Gambar"
 }

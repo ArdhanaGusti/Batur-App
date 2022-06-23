@@ -6,7 +6,6 @@ import 'package:core/presentation/screens/error_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:theme/theme.dart';
 
@@ -44,8 +43,10 @@ class _NewsScreenState extends State<NewsScreen> {
     super.initState();
 
     // Must be repair
+    // Load Data
     Timer(const Duration(seconds: 3), () {
       setState(() {
+        // Change state
         process = NewsScreenProcessEnum.loaded;
       });
     });
@@ -75,8 +76,8 @@ class _NewsScreenState extends State<NewsScreen> {
     } else if (process == NewsScreenProcessEnum.failed) {
       return const ErrorScreen(
         // Text wait localization
-        title: "AppLocalizations.of(context)!.internetConnection",
-        message: "AppLocalizations.of(context)!.tryAgain",
+        title: "Opps...",
+        message: "Tidak ada internet, Coba lagi nanti.",
       );
     } else {
       return _buildLoaded(context);
@@ -89,8 +90,8 @@ class _NewsScreenState extends State<NewsScreen> {
     if (screenSize.width < 300.0 || screenSize.height < 600.0) {
       return const ErrorScreen(
         // Text wait localization
-        title: "AppLocalizations.of(context)!.screenError",
-        message: "AppLocalizations.of(context)!.screenSmall",
+        title: "Aduh...",
+        message: "Layar terlalu kecil, coba di perangkat lain.",
       );
     } else if (screenSize.width > 500.0) {
       // Tablet Mode (Must be repair)
@@ -110,34 +111,16 @@ class _NewsScreenState extends State<NewsScreen> {
     return CustomSliverAppBarDashboard(
       actionIcon: "assets/icon/regular/bell.svg",
       actionOnTap: () {
-        // Navigator.push(
-        //   context,
-        //   PageTransition(
-        //     curve: Curves.easeInOut,
-        //     type: PageTransitionType.rightToLeft,
-        //     child: const NotificationScreen(),
-        //     duration: const Duration(milliseconds: 150),
-        //     reverseDuration: const Duration(milliseconds: 150),
-        //   ),
-        // );
+        // Navigate to Notification Page
       },
       leading: const Text(
         // Text wait localization
-        "AppLocalizations.of(context)!.news",
+        "Berita",
         textAlign: TextAlign.center,
       ),
       actionIconSecondary: "assets/icon/regular/plus-square.svg",
       actionOnTapSecondary: () {
-        // Navigator.push(
-        //   context,
-        //   PageTransition(
-        //     curve: Curves.easeInOut,
-        //     type: PageTransitionType.rightToLeft,
-        //     child: const AddNewsScreen(),
-        //     duration: const Duration(milliseconds: 150),
-        //     reverseDuration: const Duration(milliseconds: 150),
-        //   ),
-        // );
+        // Navigate to Add News
       },
       isDoubleAction: true,
     );
@@ -146,7 +129,7 @@ class _NewsScreenState extends State<NewsScreen> {
   Widget _buildNewsScreen(BuildContext context, Size screenSize) {
     return NestedScrollView(
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-        return [
+        return <Widget>[
           _buildAppBar(),
         ];
       },
@@ -179,11 +162,11 @@ class _NewsScreenState extends State<NewsScreen> {
             color: Theme.of(context).colorScheme.tertiary,
             height: 20.0,
           ),
-          refreshingText: "AppLocalizations.of(context)!.refreshingText",
-          releaseText: "AppLocalizations.of(context)!.releaseText",
-          idleText: "AppLocalizations.of(context)!.idleText",
-          failedText: "AppLocalizations.of(context)!.failedText",
-          completeText: "AppLocalizations.of(context)!.completeText",
+          refreshingText: "Memperbarui...",
+          releaseText: "Lepas Untuk Memperbarui...",
+          idleText: "Tarik ke bawah Untuk Memperbarui...",
+          failedText: "Memperbarui gagal",
+          completeText: "Behasil Memperbarui",
           textStyle: bBody1.copyWith(
             color: Theme.of(context).colorScheme.tertiary,
           ),
@@ -213,17 +196,6 @@ class _NewsScreenState extends State<NewsScreen> {
                         date: "Jumat, 13 Mei 2022",
                         onTap: () {
                           // To detail News
-                          // Navigator.push(
-                          //   context,
-                          //   PageTransition(
-                          //     curve: Curves.easeOut,
-                          //     type: PageTransitionType.bottomToTop,
-                          //     child: const NewsDetailScreen(),
-                          //     duration: const Duration(milliseconds: 150),
-                          //     reverseDuration:
-                          //         const Duration(milliseconds: 150),
-                          //   ),
-                          // );
                         },
                       ),
                     );

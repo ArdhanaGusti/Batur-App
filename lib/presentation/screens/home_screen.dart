@@ -8,7 +8,7 @@ import 'package:capstone_design/presentation/components/card/custom_umkm_card.da
 import 'package:capstone_design/presentation/screens/error_screen.dart';
 import 'package:capstone_design/presentation/screens/filter_tour_list_screen.dart';
 // import 'package:capstone_design/presentation/screens/news_detail_screen.dart';
-import 'package:news/news.dart';
+// import 'package:news/news.dart';
 import 'package:capstone_design/presentation/screens/notifikasi/notifikasi_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,7 +17,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:theme/theme.dart';
-import 'package:news/presentation/components/card/custom_news_card.dart';
+// import 'package:news/presentation/components/card/custom_news_card.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -436,42 +436,42 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               AppLocalizations.of(context)!.news,
               onTapNewsList,
             ),
-            SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              sliver: SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                    // Use Data News
-                    return Padding(
-                      padding: const EdgeInsets.only(top: 15.0),
-                      child: CustomNewsCard(
-                        img:
-                            "https://cdn1-production-images-kly.akamaized.net/lMHji7xE4GI7YHCWAQumKfFm9Ew=/1200x900/smart/filters:quality(75):strip_icc():format(jpeg)/kly-media-production/medias/3554482/original/037161700_1630219411-bandung-5319951_1920.jpg",
-                        title:
-                            "Prabowo Atau Anies, Siapa Capres yang Paling Kuat?",
-                        writer: "Udin Saparudin",
-                        date: "Jumat, 13 Mei 2022",
-                        onTap: () {
-                          // To detail News
-                          Navigator.push(
-                            context,
-                            PageTransition(
-                              curve: Curves.easeOut,
-                              type: PageTransitionType.bottomToTop,
-                              child: const NewsDetailScreen(),
-                              duration: const Duration(milliseconds: 150),
-                              reverseDuration:
-                                  const Duration(milliseconds: 150),
-                            ),
-                          );
-                        },
-                      ),
-                    );
-                  },
-                  childCount: 4,
-                ),
-              ),
-            ),
+            // SliverPadding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            //   sliver: SliverList(
+            //     delegate: SliverChildBuilderDelegate(
+            //       (BuildContext context, int index) {
+            //         // Use Data News
+            //         return Padding(
+            //           padding: const EdgeInsets.only(top: 15.0),
+            //           child: CustomNewsCard(
+            //             img:
+            //                 "https://cdn1-production-images-kly.akamaized.net/lMHji7xE4GI7YHCWAQumKfFm9Ew=/1200x900/smart/filters:quality(75):strip_icc():format(jpeg)/kly-media-production/medias/3554482/original/037161700_1630219411-bandung-5319951_1920.jpg",
+            //             title:
+            //                 "Prabowo Atau Anies, Siapa Capres yang Paling Kuat?",
+            //             writer: "Udin Saparudin",
+            //             date: "Jumat, 13 Mei 2022",
+            //             onTap: () {
+            //               // To detail News
+            //               Navigator.push(
+            //                 context,
+            //                 PageTransition(
+            //                   curve: Curves.easeOut,
+            //                   type: PageTransitionType.bottomToTop,
+            //                   child: const NewsDetailScreen(),
+            //                   duration: const Duration(milliseconds: 150),
+            //                   reverseDuration:
+            //                       const Duration(milliseconds: 150),
+            //                 ),
+            //               );
+            //             },
+            //           ),
+            //         );
+            //       },
+            //       childCount: 4,
+            //     ),
+            //   ),
+            // ),
             _buildTitle(
               20.0,
               20.0,

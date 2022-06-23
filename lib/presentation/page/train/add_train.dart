@@ -20,25 +20,39 @@ class _AddTrainState extends State<AddTrain> {
   DateTime time = DateTime.now();
   String date = "";
 
-  Future _selectDueDate(BuildContext context) async {
-    final picked = await showDatePicker(
+  Future pickDateAndTime() async {
+    DateTime? dataDate = await showDatePicker(
         context: context,
         initialDate: time,
         firstDate: DateTime(2022),
         lastDate: DateTime(2040));
-
-    if (picked != null) {
-      setState(() {
-        time = picked;
-        date = "${picked.day}.${picked.month}.${picked.year}";
-      });
+    if (dataDate == null) {
+      return;
     }
+    TimeOfDay? dataTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay(hour: time.hour, minute: time.minute));
+    if (dataTime == null) {
+      return;
+    }
+    setState(() {
+      time = DateTime(
+        dataDate.year,
+        dataDate.month,
+        dataDate.day,
+        dataTime.hour,
+        dataTime.minute,
+      );
+      date =
+          "${time.day}.${time.month}.${time.year}  ${time.hour}:${time.minute}";
+    });
   }
 
   @override
   void initState() {
     setState(() {
-      date = "${time.day}.${time.month}.${time.year}";
+      date =
+          "${time.day}.${time.month}.${time.year}.${time.hour}.${time.minute}";
     });
     super.initState();
   }
@@ -111,7 +125,7 @@ class _AddTrainState extends State<AddTrain> {
                   Icon(Icons.calendar_month),
                   GestureDetector(
                       onTap: () {
-                        _selectDueDate(context);
+                        pickDateAndTime();
                       },
                       child: Text(date)),
                 ],
@@ -152,6 +166,7 @@ class _AddTrainState extends State<AddTrain> {
                     if (trainName != null && station != null) {
                       context.read<TrainCreateBloc>().add(
                           OnCreateTrain(context, trainName, station, time));
+                      // ApiService().sendTrain(context, trainName, station, s!);
                     } else {
                       AlertDialog alert = AlertDialog(
                         title: Text("Silahkan lengkapi data"),

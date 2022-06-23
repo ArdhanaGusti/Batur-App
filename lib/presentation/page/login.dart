@@ -113,7 +113,6 @@ class _LoginState extends State<Login> {
                         context
                             .read<LoginEmailBloc>()
                             .add(OnLoginEmail(context, email!, pass!));
-                        // apiservice.loginWithEmail(context, email!, pass!);
                       } else {
                         AlertDialog alert = AlertDialog(
                           title: Text("Silahkan lengkapi data"),

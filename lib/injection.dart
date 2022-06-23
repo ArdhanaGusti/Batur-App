@@ -5,13 +5,18 @@ import 'package:capstone_design/data/datasources/crud_tour.dart';
 import 'package:capstone_design/data/datasources/crud_train.dart';
 import 'package:capstone_design/data/datasources/crud_umkm.dart';
 import 'package:capstone_design/data/repositories/data_repository_impl.dart';
+import 'package:capstone_design/data/repositories/repository_impl.dart';
 import 'package:capstone_design/data/service/api_service.dart';
+import 'package:capstone_design/data/sources/local_data_source.dart';
+import 'package:capstone_design/data/sources/shared_preferences_helper.dart';
+import 'package:capstone_design/domain/repositories/repository.dart';
 import 'package:capstone_design/domain/repository/data_repository.dart';
 import 'package:capstone_design/domain/usecase/create_news.dart';
 import 'package:capstone_design/domain/usecase/create_profile.dart';
 import 'package:capstone_design/domain/usecase/create_tour.dart';
 import 'package:capstone_design/domain/usecase/create_train.dart';
 import 'package:capstone_design/domain/usecase/create_umkm.dart';
+import 'package:capstone_design/domain/usecase/get_first_open.dart';
 import 'package:capstone_design/domain/usecase/login_email.dart';
 import 'package:capstone_design/domain/usecase/login_facebook.dart';
 import 'package:capstone_design/domain/usecase/login_google.dart';
@@ -48,6 +53,9 @@ import 'package:get_it/get_it.dart';
 final locator = GetIt.instance;
 
 void init() {
+  //helper
+  locator.registerLazySingleton<SharedPreferencesHelper>(
+      () => SharedPreferencesHelper());
   //factory
   locator.registerFactory(
     () => NewsCreateBloc(
@@ -162,6 +170,7 @@ void init() {
   locator.registerLazySingleton(() => LoginFacebook(locator()));
   locator.registerLazySingleton(() => LoginGoogle(locator()));
   locator.registerLazySingleton(() => SignInEmail(locator()));
+  locator.registerLazySingleton(() => GetIsFirstOpen(locator()));
 
   //repository
   locator.registerLazySingleton<DataRepository>(
@@ -172,6 +181,11 @@ void init() {
       crudTour: locator(),
       crudTrain: locator(),
       crudLogin: locator(),
+    ),
+  );
+  locator.registerLazySingleton<Repository>(
+    () => RepositoryImpl(
+      localDataSource: locator(),
     ),
   );
   //datasource
@@ -205,4 +219,6 @@ void init() {
       apiService: locator(),
     ),
   );
+  locator.registerLazySingleton<LocalDataSource>(
+      () => LocalDataSourceImpl(databaseHelper: locator()));
 }

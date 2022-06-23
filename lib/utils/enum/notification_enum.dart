@@ -1,0 +1,4 @@
+enum NotificationEnum {
+  on,
+  off,
+}

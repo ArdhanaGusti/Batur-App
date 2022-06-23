@@ -4,7 +4,8 @@ import 'package:capstone_design/presentation/screens/account_screen.dart';
 import 'package:capstone_design/presentation/screens/favorite_screen.dart';
 import 'package:capstone_design/presentation/screens/home_screen.dart';
 import 'package:capstone_design/presentation/screens/login_screen.dart';
-import 'package:capstone_design/presentation/screens/news_screen.dart';
+// import 'package:capstone_design/presentation/screens/news_screen.dart';
+// import 'package:news/news.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -27,7 +28,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   final List<Widget> _listWidget = [
     const HomeScreen(),
-    const NewsScreen(),
+    // const NewsScreen(),
     const FavoriteScreen(),
     const AccountScreen(),
   ];

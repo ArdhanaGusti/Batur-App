@@ -17,6 +17,16 @@ dependencies:
 
   theme:
     path: theme
+  core:
+    path: core
+  news:
+    path: news
+  umkm:
+    path: umkm
+  account:
+    path: account
+  transportation:
+    path: transportation
 
   cupertino_icons: ^1.0.2
   shared_preferences:
@@ -75,125 +85,14 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/
-    - assets/icon/bold/map.svg
-    - assets/icon/bold/menu.svg
-    - assets/icon/bold/copy.svg
-    - assets/icon/bold/home.svg
-    - assets/icon/bold/star.svg
-    - assets/icon/bold/user.svg
-    - assets/icon/bold/bell.svg
-    - assets/icon/bold/clock.svg
-    - assets/icon/bold/heart.svg
-    - assets/icon/bold/file.svg
-    - assets/icon/bold/settings.svg
-    - assets/icon/bold/pen.svg
-    - assets/icon/bold/lock.svg
-    - assets/icon/bold/eye.svg
-    - assets/icon/bold/eye-slash.svg
-    - assets/icon/bold/chevron-left.svg
-    - assets/icon/bold/info-circle.svg
-    - assets/icon/bold/log-out.svg
-    - assets/icon/bold/question-circle.svg
-    - assets/icon/bold/chevron-right.svg
-    - assets/icon/bold/plus-square.svg
-    - assets/icon/bold/check-circle.svg
-    - assets/icon/bold/chevron-circle-down.svg
-    - assets/icon/bold/chevron-circle-up.svg
-    - assets/icon/bold/exclamation-circle.svg
-    - assets/icon/bold/times-square.svg
-    - assets/icon/bold/map-marker.svg
-    - assets/icon/bold/envelope.svg
-    - assets/icon/fill/map-marker.svg
-    - assets/icon/fill/file.svg
-    - assets/icon/fill/settings.svg
-    - assets/icon/fill/info-circle.svg
-    - assets/icon/fill/log-out.svg
-    - assets/icon/fill/question-circle.svg
-    - assets/icon/fill/chevron-right.svg
-    - assets/icon/fill/train.svg
-    - assets/icon/fill/user.svg
-    - assets/icon/fill/star.svg
-    - assets/icon/fill/home.svg
-    - assets/icon/fill/copy.svg
-    - assets/icon/fill/bell.svg
-    - assets/icon/fill/clock.svg
-    - assets/icon/fill/heart.svg
-    - assets/icon/fill/pen.svg
-    - assets/icon/fill/lock.svg
-    - assets/icon/fill/chevron-left.svg
-    - assets/icon/fill/eye.svg
-    - assets/icon/fill/eye-slash.svg
-    - assets/icon/fill/exclamation-circle.svg
-    - assets/icon/fill/plus-square.svg
-    - assets/icon/fill/envelope.svg
-    - assets/icon/fill/check-circle.svg
-    - assets/icon/fill/chevron-circle-down.svg
-    - assets/icon/fill/chevron-circle-up.svg
-    - assets/icon/fill/times-square.svg
-    - assets/icon/light/user.svg
-    - assets/icon/light/star.svg
-    - assets/icon/light/home.svg
-    - assets/icon/light/copy.svg
-    - assets/icon/light/bell.svg
-    - assets/icon/light/clock.svg
-    - assets/icon/light/heart.svg
-    - assets/icon/light/file.svg
-    - assets/icon/light/settings.svg
-    - assets/icon/light/info-circle.svg
-    - assets/icon/light/chevron-right.svg
-    - assets/icon/light/log-out.svg
-    - assets/icon/light/envelope.svg
-    - assets/icon/light/pen.svg
-    - assets/icon/light/lock.svg
-    - assets/icon/light/chevron-left.svg
-    - assets/icon/light/question-circle.svg
-    - assets/icon/light/exclamation-circle.svg
-    - assets/icon/light/map-marker.svg
-    - assets/icon/light/check-circle.svg
-    - assets/icon/light/chevron-circle-down.svg
-    - assets/icon/light/chevron-circle-up.svg
-    - assets/icon/light/plus-square.svg
-    - assets/icon/light/eye.svg
-    - assets/icon/light/eye-slash.svg
-    - assets/icon/light/times-square.svg
-    - assets/icon/regular/user.svg
-    - assets/icon/regular/star.svg
-    - assets/icon/regular/home.svg
-    - assets/icon/regular/copy.svg
-    - assets/icon/regular/map.svg
-    - assets/icon/regular/menu.svg
-    - assets/icon/regular/bell.svg
-    - assets/icon/regular/clock.svg
-    - assets/icon/regular/heart.svg
-    - assets/icon/regular/file.svg
-    - assets/icon/regular/settings.svg
-    - assets/icon/regular/envelope.svg
-    - assets/icon/regular/info-circle.svg
-    - assets/icon/regular/log-out.svg
-    - assets/icon/regular/pen.svg
-    - assets/icon/regular/lock.svg
-    - assets/icon/regular/chevron-left.svg
-    - assets/icon/regular/question-circle.svg
-    - assets/icon/regular/exclamation-circle.svg
-    - assets/icon/regular/chevron-right.svg
-    - assets/icon/regular/plus-square.svg
-    - assets/icon/regular/times-square.svg
-    - assets/icon/regular/chevron-down.svg
-    - assets/icon/regular/eye.svg
-    - assets/icon/regular/eye-slash.svg
-    - assets/icon/regular/map-marker.svg
-    - assets/icon/regular/check-circle.svg
-    - assets/icon/regular/chevron-circle-down.svg
-    - assets/icon/regular/chevron-circle-up.svg
-    - assets/icon/menu/icon-bus.png
-    - assets/icon/menu/icon-news.png
-    - assets/icon/menu/icon-tour.png
-    - assets/icon/menu/icon-umkm.png
-    - assets/icon/menu/icon-bus-dark.png
-    - assets/icon/menu/icon-news-dark.png
-    - assets/icon/menu/icon-tour-dark.png
-    - assets/icon/menu/icon-umkm-dark.png
+    - assets/icon/bold/
+    - assets/icon/fill/
+    - assets/icon/regular/
+    - assets/icon/light/
+    - assets/icon/menu/
+    - assets/splashscreen/
+    - assets/image/
+    - assets/logo/
     - assets/icon/coupon.svg
     - assets/icon/upload.svg
     - assets/icon/map-marker.svg

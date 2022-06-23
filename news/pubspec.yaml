@@ -1,6 +1,7 @@
 name: news
 description: A new Flutter package project.
 version: 0.0.1
+publish_to: none
 homepage:
 
 environment:
@@ -10,17 +11,33 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_svg:
+  flutter_localizations:
+    sdk: flutter
+  intl:
+  webview_flutter:
+  page_transition:
+  loading_animation_widget:
+  pull_to_refresh:
+  cached_network_image:
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+  theme:
+    path: ../theme
+
+  core:
+    path: ../core
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
 flutter:
+  generate: true
+  uses-material-design: true
 
   # To add assets to your package, add an assets section, like this:
   # assets:

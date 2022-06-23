@@ -1,8 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:capstone_design/presentation/bloc/profile_bloc.dart';
-import 'package:capstone_design/presentation/components/appbar/custom_sliver_appbar_text_leading_action.dart';
 import 'package:capstone_design/presentation/screens/edit_account_screen.dart';
-import 'package:capstone_design/presentation/screens/error_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -10,6 +8,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:theme/theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:core/core.dart';
 
 // Review Check 1 (Done)
 

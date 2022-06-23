@@ -1,3 +1,7 @@
+import 'dart:async';
+
+import 'package:account/account.dart';
+import 'package:capstone_design/domain/usecase/get_first_open.dart';
 import 'package:capstone_design/presentation/bloc/login/login_email_bloc.dart';
 import 'package:capstone_design/presentation/bloc/login/login_facebook_bloc.dart';
 import 'package:capstone_design/presentation/bloc/login/login_google_bloc.dart';
@@ -17,28 +21,21 @@ import 'package:capstone_design/presentation/bloc/umkm/umkm_create_bloc.dart';
 import 'package:capstone_design/presentation/bloc/umkm/umkm_remove_bloc.dart';
 import 'package:capstone_design/presentation/bloc/umkm/umkm_update_bloc.dart';
 import 'package:capstone_design/presentation/page/dashboard.dart';
-import 'package:capstone_design/presentation/page/login.dart';
-import 'dart:async';
-import 'package:capstone_design/domain/usecase/get_first_open.dart';
-import 'package:capstone_design/presentation/bloc/forgot_password_bloc.dart';
-import 'package:capstone_design/presentation/bloc/language_bloc.dart';
-import 'package:capstone_design/presentation/bloc/login_form_bloc.dart';
-import 'package:capstone_design/presentation/bloc/notification_bloc.dart';
-import 'package:capstone_design/presentation/bloc/profile_bloc.dart';
-import 'package:capstone_design/presentation/bloc/regis_form_bloc.dart';
-import 'package:capstone_design/presentation/bloc/verification_form_bloc.dart';
-import 'package:capstone_design/presentation/screens/dashboard_screen.dart';
-import 'package:capstone_design/presentation/screens/on_boarding_screen.dart';
-import 'package:capstone_design/utils/enum/language_enum.dart';
+
+import 'package:core/core.dart';
+import 'package:core/presentation/bloc/dashboard_bloc.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:capstone_design/injection.dart' as di;
 import 'package:theme/presentation/injection/theme_injection.dart' as ti;
-import 'package:theme/presentation/bloc/theme_manager_bloc.dart';
+import 'package:capstone_design/presentation/injection/injection.dart' as di;
+import 'package:theme/theme.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   ti.init();
@@ -51,6 +48,9 @@ void main() async {
       providers: [
         BlocProvider(
           create: (context) => ti.locator<ThemeManagerBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => DashboardBloc(),
         ),
         BlocProvider(
           create: (context) => LoginFormBloc(),
@@ -176,10 +176,42 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "Batur-App",
-      debugShowCheckedModeBanner: false,
-      home: _isLogIn == true ? Dashboard(user: user!) : const Login(),
+    return BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
+      builder: (context, theme) {
+        return BlocBuilder<LanguageBloc, LanguageState>(
+          builder: (context, localization) {
+            return MaterialApp(
+              title: "Batur-App",
+              debugShowCheckedModeBanner: false,
+              theme: lightTheme,
+              darkTheme: darkTheme,
+              themeMode: (theme.isDark == ThemeModeEnum.lightTheme)
+                  ? ThemeMode.light
+                  : (theme.isDark == ThemeModeEnum.darkTheme)
+                      ? ThemeMode.dark
+                      : ThemeMode.system,
+              localizationsDelegates: const [
+                AppLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: const [
+                Locale('id', ''),
+                Locale('en', ''),
+              ],
+              home: (_isFirst)
+                  ? const OnBoardingScreen()
+                  : (_isLogIn)
+                      ? Dashboard(user: user!)
+                      : const DashboardScreen(),
+              locale: (localization.language == LanguageEnum.england)
+                  ? const Locale('en')
+                  : const Locale('id'),
+            );
+          },
+        );
+      },
     );
   }
 }

@@ -5,9 +5,6 @@ import 'package:capstone_design/presentation/screens/error_screen.dart';
 import 'package:capstone_design/presentation/screens/icon_button_screen.dart';
 import 'package:capstone_design/presentation/screens/login_screen.dart';
 import 'package:capstone_design/presentation/screens/on_boarding_screen.dart';
-import 'package:capstone_design/presentation/screens/UMKM/status_register_umkm_screen.dart';
-import 'package:capstone_design/presentation/screens/UMKM/umkm_detail_acc_screen.dart';
-import 'package:capstone_design/presentation/screens/UMKM/umkm_detail_screen.dart';
 import 'package:capstone_design/presentation/screens/card_screen.dart';
 import 'package:capstone_design/presentation/screens/favorite/favorite_screen.dart';
 import 'package:capstone_design/presentation/screens/home_screen.dart';
@@ -17,8 +14,6 @@ import 'package:capstone_design/presentation/screens/text_button_screen.dart';
 import 'package:capstone_design/presentation/screens/text_icon_button_screen.dart';
 import 'package:capstone_design/presentation/screens/theme_setting_screen.dart';
 import 'package:capstone_design/presentation/screens/toast_screen.dart';
-import 'package:capstone_design/presentation/screens/tour/tour_detail_screen.dart';
-import 'package:capstone_design/presentation/screens/tour_list_screen.dart';
 import 'package:capstone_design/presentation/screens/transportasi/maps_transportasi.dart';
 import 'package:capstone_design/presentation/screens/transportasi/transportasi_screen.dart';
 import 'package:capstone_design/presentation/screens/transportasi/transportation_detail_screen.dart';
@@ -174,29 +169,29 @@ class _LoginState extends State<Login> {
                     },
                     child: const Text("Toast Screen"),
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              const StatusRegisterUmkmScreen(),
-                        ),
-                      );
-                    },
-                    child: const Text("Status Register UMKM Screen"),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const UmkmDetailAccScreen(),
-                        ),
-                      );
-                    },
-                    child: const Text("UMKM detail acc"),
-                  ),
+                  // ElevatedButton(
+                  //   onPressed: () {
+                  //     Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(
+                  //         builder: (context) =>
+                  //             const StatusRegisterUmkmScreen(),
+                  //       ),
+                  //     );
+                  //   },
+                  //   child: const Text("Status Register UMKM Screen"),
+                  // ),
+                  // ElevatedButton(
+                  //   onPressed: () {
+                  //     Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(
+                  //         builder: (context) => const UmkmDetailAccScreen(),
+                  //       ),
+                  //     );
+                  //   },
+                  //   child: const Text("UMKM detail acc"),
+                  // ),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -264,39 +259,39 @@ class _LoginState extends State<Login> {
                     },
                     child: const Text("Map Transportasi Detail Screen"),
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const TourListScreen(),
-                        ),
-                      );
-                    },
-                    child: const Text("Tour List Screen"),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const TourDetailScreen(),
-                        ),
-                      );
-                    },
-                    child: const Text("Tour Detail Screen"),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const UmkmDetailScreen(),
-                        ),
-                      );
-                    },
-                    child: const Text("UMKM Detail Screen"),
-                  ),
+                  // ElevatedButton(
+                  //   onPressed: () {
+                  //     Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(
+                  //         builder: (context) => const TourListScreen(),
+                  //       ),
+                  //     );
+                  //   },
+                  //   child: const Text("Tour List Screen"),
+                  // ),
+                  // ElevatedButton(
+                  //   onPressed: () {
+                  //     Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(
+                  //         builder: (context) => const TourDetailScreen(),
+                  //       ),
+                  //     );
+                  //   },
+                  //   child: const Text("Tour Detail Screen"),
+                  // ),
+                  // ElevatedButton(
+                  //   onPressed: () {
+                  //     Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(
+                  //         builder: (context) => const UmkmDetailScreen(),
+                  //       ),
+                  //     );
+                  //   },
+                  //   child: const Text("UMKM Detail Screen"),
+                  // ),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(

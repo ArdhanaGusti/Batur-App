@@ -1,0 +1,31 @@
+{
+  "@_account_news_screen": {},
+  "screenError": "Layar error",
+  "screenSmall": "Aduh, Layar anda terlalu kecil",
+  "save": "Simpan",
+  "addNews": "Tambah Berita",
+  "newsTitle": "Tambah Judul",
+  "news": "Berita",
+  "image": "Gamabar",
+  "inputImage": "Tambah Gambar",
+
+  "@_news_detail_screen": {},
+  "screenError": "Layar error",
+  "screenSmall": "Aduh, Layar anda terlalu kecil",
+  "news": "Berita",
+  "viewNews": "Lihat Berita",
+  "titleHere": "Judul Disini",
+  "writer": "Penulis",
+
+  "@_news_screen": {},
+  "internetConnection": "Koneksi Internet",
+  "tryAgain": "Aduh, Coba lagi nanti",
+  "screenError": "Layar error",
+  "screenSmall": "Aduh, Layar anda terlalu kecil",
+  "news": "Berita",
+  "refreshingText": "Memperbarui",
+  "releaseText": "Lepas untuk memperbarui",
+  "idleText": "Tarik kebawah untuk memperbarui",
+  "failedText": "Gagal memperbarui",
+  "completeText": "Selesai memperbarui"
+}

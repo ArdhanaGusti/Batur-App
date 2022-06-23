@@ -7,6 +7,7 @@ import 'package:core/presentation/components/card/custom_tour_card.dart';
 import 'package:core/presentation/components/card/custom_transport_card.dart';
 import 'package:core/presentation/components/card/custom_umkm_card.dart';
 import 'package:core/presentation/screens/error_screen.dart';
+import 'package:core/presentation/screens/news_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -44,7 +45,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
 
     // Must be repair
+    // Change with to fetch data
     Timer(const Duration(seconds: 3), () {
+      // Change state value if data loaded or failed
       setState(() {
         process = HomeScreenProcessEnum.loaded;
       });
@@ -76,8 +79,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     } else if (process == HomeScreenProcessEnum.failed) {
       return const ErrorScreen(
         // Text wait localization
-        title: "AppLocalizations.of(context)!.screenError",
-        message: "AppLocalizations.of(context)!.screenSmall",
+        title: "Opps...",
+        message: "Tidak ada internet, Coba lagi nanti.",
       );
     } else {
       return _buildLoaded(context);
@@ -89,22 +92,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return CustomSliverAppBarDashboard(
       actionIcon: "assets/icon/regular/bell.svg",
       actionOnTap: () {
-        // Navigator.push(
-        //   context,
-        //   PageTransition(
-        //     curve: Curves.easeInOut,
-        //     type: PageTransitionType.rightToLeft,
-        //     child: const NotificationScreen(),
-        //     duration: const Duration(milliseconds: 250),
-        //     reverseDuration: const Duration(milliseconds: 250),
-        //   ),
-        // );
+        // Navigate to Notification Page
+        print("Go to Notification Page");
       },
       leading: BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
-        builder: (context, state) {
-          bool isLight = (state.isDark == ThemeModeEnum.darkTheme)
+        builder: (context, theme) {
+          bool isLight = (theme.isDark == ThemeModeEnum.darkTheme)
               ? false
-              : (state.isDark == ThemeModeEnum.lightTheme)
+              : (theme.isDark == ThemeModeEnum.lightTheme)
                   ? true
                   : (screenBrightness == Brightness.light)
                       ? true
@@ -127,8 +122,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     if (screenSize.width < 300.0 || screenSize.height < 600.0) {
       return const ErrorScreen(
         // Text wait localization
-        title: "AppLocalizations.of(context)!.screenError",
-        message: "AppLocalizations.of(context)!.screenSmall",
+        title: "Aduh...",
+        message: "Layar terlalu kecil, coba di perangkat lain.",
       );
     } else if (screenSize.width > 500.0) {
       // Tablet Mode (Must be repair)
@@ -154,25 +149,26 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   // Must be repair and Can it be save in Firebase ?
   final List<Widget> onTapCarouselList = [
+    // Navigate to Tour List
     const ErrorScreen(
       // Text wait localization
-      title: "AppLocalizations.of(context)!.screenError",
-      message: "AppLocalizations.of(context)!.screenSmall",
+      title: "Tour",
+      message: "Tour List",
     ),
+    // Navigate to UMKM List
     const ErrorScreen(
       // Text wait localization
-      title: "AppLocalizations.of(context)!.screenError",
-      message: "AppLocalizations.of(context)!.screenSmall",
+      title: "UMKM",
+      message: "UMKM List",
     ),
+    // Navigate to News List
+    // Not Working
+    const NewsScreen(),
+    // Navigate to Transport List
     const ErrorScreen(
       // Text wait localization
-      title: "AppLocalizations.of(context)!.screenError",
-      message: "AppLocalizations.of(context)!.screenSmall",
-    ),
-    const ErrorScreen(
-      // Text wait localization
-      title: "AppLocalizations.of(context)!.screenError",
-      message: "AppLocalizations.of(context)!.screenSmall",
+      title: "Transport",
+      message: "Transport List",
     ),
   ];
 
@@ -209,16 +205,21 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             builder: (BuildContext context) {
               return GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    PageTransition(
-                      curve: Curves.easeInOut,
-                      type: PageTransitionType.bottomToTop,
-                      child: onTapCarouselList[imgCarouselList.indexOf(image)],
-                      duration: const Duration(milliseconds: 150),
-                      reverseDuration: const Duration(milliseconds: 150),
-                    ),
-                  );
+                  if (imgCarouselList.indexOf(image) == 2) {
+                    onTapNewsList();
+                  } else {
+                    Navigator.push(
+                      context,
+                      PageTransition(
+                        curve: Curves.easeInOut,
+                        type: PageTransitionType.bottomToTop,
+                        child:
+                            onTapCarouselList[imgCarouselList.indexOf(image)],
+                        duration: const Duration(milliseconds: 150),
+                        reverseDuration: const Duration(milliseconds: 150),
+                      ),
+                    );
+                  }
                 },
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(15.0),
@@ -301,10 +302,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               onTap: onTap,
               child: Text(
                 // Wait Localization
-                "AppLocalizations.of(context)!.showAll",
+                "Lihat Semua",
                 style: bBody1.copyWith(color: bGrey),
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -361,11 +362,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             color: Theme.of(context).colorScheme.tertiary,
             height: 20.0,
           ),
-          refreshingText: "AppLocalizations.of(context)!.refreshingText",
-          releaseText: "AppLocalizations.of(context)!.releaseText",
-          idleText: "AppLocalizations.of(context)!.idleText",
-          failedText: "AppLocalizations.of(context)!.failedText",
-          completeText: "AppLocalizations.of(context)!.completeText",
+          refreshingText: "Memperbarui...",
+          releaseText: "Lepas Untuk Memperbarui...",
+          idleText: "Tarik ke bawah Untuk Memperbarui...",
+          failedText: "Memperbarui gagal",
+          completeText: "Behasil Memperbarui",
           textStyle: bBody1.copyWith(
             color: Theme.of(context).colorScheme.tertiary,
           ),
@@ -380,10 +381,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ),
             ),
             BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
-              builder: (context, state) {
-                bool isLight = (state.isDark == ThemeModeEnum.darkTheme)
+              builder: (context, theme) {
+                bool isLight = (theme.isDark == ThemeModeEnum.darkTheme)
                     ? false
-                    : (state.isDark == ThemeModeEnum.lightTheme)
+                    : (theme.isDark == ThemeModeEnum.lightTheme)
                         ? true
                         : (screenBrightness == Brightness.light)
                             ? true
@@ -408,7 +409,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           "assets/icon/menu/icon-tour.png",
                           "assets/icon/menu/icon-tour-dark.png",
                           // Wait Localization
-                          "AppLocalizations.of(context)!.tour",
+                          "Wisata",
                           onTapTourList,
                         ),
                         _buildIconMenuColumn(
@@ -416,7 +417,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           "assets/icon/menu/icon-news.png",
                           "assets/icon/menu/icon-news-dark.png",
                           // Wait Localization
-                          "AppLocalizations.of(context)!.news",
+                          "Berita",
                           onTapNewsList,
                         ),
                         _buildIconMenuColumn(
@@ -424,7 +425,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           "assets/icon/menu/icon-umkm.png",
                           "assets/icon/menu/icon-umkm-dark.png",
                           // Wait Localization
-                          "AppLocalizations.of(context)!.umkm",
+                          "UMKM",
                           onTapUMKMList,
                         ),
                         _buildIconMenuColumn(
@@ -432,7 +433,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           "assets/icon/menu/icon-bus.png",
                           "assets/icon/menu/icon-bus-dark.png",
                           // Wait Localization
-                          "AppLocalizations.of(context)!.publicTransportation",
+                          "Transportasi Umum",
                           onTapTransportList,
                         ),
                       ],
@@ -447,7 +448,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               0,
               0,
               // Wait Localization
-              "AppLocalizations.of(context)!.news",
+              "Berita",
               onTapNewsList,
             ),
             SliverPadding(
@@ -467,17 +468,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         date: "Jumat, 13 Mei 2022",
                         onTap: () {
                           // To detail News
-                          // Navigator.push(
-                          //   context,
-                          //   PageTransition(
-                          //     curve: Curves.easeOut,
-                          //     type: PageTransitionType.bottomToTop,
-                          //     child: const NewsDetailScreen(),
-                          //     duration: const Duration(milliseconds: 150),
-                          //     reverseDuration:
-                          //         const Duration(milliseconds: 150),
-                          //   ),
-                          // );
                         },
                       ),
                     );
@@ -492,7 +482,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               30.0,
               0,
               // Wait Localization
-              "AppLocalizations.of(context)!.tour",
+              "Wisata",
               onTapTourList,
             ),
             SliverToBoxAdapter(
@@ -519,7 +509,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 isFavourited: true,
                                 description:
                                     "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
-                                onTap: () {},
+                                onTap: () {
+                                  // To detail Tour
+                                },
                               ),
                             );
                           },
@@ -537,7 +529,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               10.0,
               0,
               // Wait Localization
-              "AppLocalizations.of(context)!.umkm",
+              "UMKM",
               onTapUMKMList,
             ),
             SliverToBoxAdapter(
@@ -562,7 +554,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 isFavourited: false,
                                 description:
                                     "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
-                                onTap: () {},
+                                onTap: () {
+                                  // To detail UMKM
+                                },
                               ),
                             );
                           },
@@ -580,7 +574,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               10.0,
               0,
               // Wait Localization
-              "AppLocalizations.of(context)!.publicTransportation",
+              "Transportasi Umum",
               onTapTransportList,
             ),
             SliverPadding(
@@ -606,7 +600,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           padding: const EdgeInsets.all(2.0),
                           child: Text(
                             // Wait Localization
-                            "AppLocalizations.of(context)!.station",
+                            "Kereta",
                             style: bSubtitle3,
                           ),
                         ),
@@ -614,7 +608,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           padding: const EdgeInsets.all(2.0),
                           child: Text(
                             // Wait Localization
-                            "AppLocalizations.of(context)!.terminal",
+                            "Bus",
                             style: bSubtitle3,
                           ),
                         )
@@ -648,7 +642,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               // Process the string of route
                               route: "Cibiru – Cibeureum",
                               time: "07.00 WIB -16.00 WIB",
-                              onTap: () {},
+                              onTap: () {
+                                // To detail Train
+                              },
                             ),
                           );
                         },
@@ -672,7 +668,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               route:
                                   "Cibiru – Cibeureumaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                               time: "07.00 WIB -16.00 WIB",
-                              onTap: () {},
+                              onTap: () {
+                                // To detail Bus
+                              },
                             ),
                           );
                         },

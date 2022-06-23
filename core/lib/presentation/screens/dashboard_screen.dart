@@ -52,7 +52,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   void initState() {
     super.initState();
-    // Change with to fetch data
     Timer(const Duration(seconds: 1), () {
       FlutterNativeSplash.remove();
     });

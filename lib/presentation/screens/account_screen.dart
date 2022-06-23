@@ -6,7 +6,7 @@ import 'package:capstone_design/presentation/screens/account_detail_screen.dart'
 import 'package:capstone_design/presentation/screens/add_umkm_screen.dart';
 import 'package:capstone_design/presentation/screens/error_screen.dart';
 // import 'package:capstone_design/presentation/screens/news_web_screen.dart';
-import 'package:news/news.dart';
+// import 'package:news/news.dart';
 import 'package:capstone_design/presentation/screens/notifikasi/notifikasi_screen.dart';
 import 'package:capstone_design/presentation/screens/setting_screen.dart';
 import 'package:capstone_design/presentation/screens/timeline_screen.dart';
@@ -161,16 +161,16 @@ class AccountScreen extends StatelessWidget {
             _buildSmallContainer(
               context,
               () {
-                Navigator.push(
-                  context,
-                  PageTransition(
-                    curve: Curves.easeInOut,
-                    type: PageTransitionType.bottomToTop,
-                    child: const NewsWebScreen(),
-                    duration: const Duration(milliseconds: 150),
-                    reverseDuration: const Duration(milliseconds: 150),
-                  ),
-                );
+                // Navigator.push(
+                //   context,
+                //   PageTransition(
+                //     curve: Curves.easeInOut,
+                //     type: PageTransitionType.bottomToTop,
+                //     child: const NewsWebScreen(),
+                //     duration: const Duration(milliseconds: 150),
+                //     reverseDuration: const Duration(milliseconds: 150),
+                //   ),
+                // );
               },
               // Text wait localization
               AppLocalizations.of(context)!.help,

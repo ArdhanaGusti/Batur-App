@@ -1,7 +1,5 @@
 import 'package:capstone_design/login.dart';
-import 'package:capstone_design/presentation/components/card/custom_card_detail_tour_screen.dart';
-import 'package:capstone_design/presentation/components/custom_app_bar.dart';
-import 'package:capstone_design/presentation/components/custom_text_icon_button.dart';
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:theme/theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

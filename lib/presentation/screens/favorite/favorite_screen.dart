@@ -1,4 +1,4 @@
-import 'package:capstone_design/presentation/components/card/custom_wisata_card_list.dart';
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';

@@ -1,5 +1,4 @@
-import 'package:capstone_design/presentation/components/card/custom_card_status_registrasi.dart';
-import 'package:capstone_design/presentation/components/custom_app_bar.dart';
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 
 class StatusRegisterUmkmScreen extends StatelessWidget {

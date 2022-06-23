@@ -1,5 +1,4 @@
-import 'package:capstone_design/presentation/components/card/custom_list_notifikasi.dart';
-import 'package:capstone_design/presentation/components/custom_app_bar.dart';
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:theme/theme.dart';

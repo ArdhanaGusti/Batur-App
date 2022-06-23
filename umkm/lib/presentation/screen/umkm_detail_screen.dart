@@ -1,10 +1,4 @@
-import 'package:capstone_design/login.dart';
-import 'package:capstone_design/presentation/components/card/custom_card_detail_stasiun.dart';
-import 'package:capstone_design/presentation/components/card/custom_card_detail_tour_screen.dart';
-import 'package:capstone_design/presentation/components/card/custom_detail_umkm_card.dart';
-import 'package:capstone_design/presentation/components/custom_app_bar.dart';
-import 'package:capstone_design/presentation/components/custom_text_icon_button.dart';
-import 'package:capstone_design/presentation/components/custom_validation_button.dart';
+import 'package:core/core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -244,12 +238,12 @@ class _UmkmDetailScreenState extends State<UmkmDetailScreen> {
                           width: width,
                           text: "Shopee",
                           onTap: () {
-                            Navigator.pop(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const Login(),
-                              ),
-                            );
+                            // Navigator.pop(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => const Login(),
+                            //   ),
+                            // );
                           },
                         ),
                       ),
@@ -264,12 +258,12 @@ class _UmkmDetailScreenState extends State<UmkmDetailScreen> {
                           width: width,
                           text: "Tokopedia",
                           onTap: () {
-                            Navigator.pop(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const Login(),
-                              ),
-                            );
+                            // Navigator.pop(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => const Login(),
+                            //   ),
+                            // );
                           },
                         ),
                       ),
@@ -284,12 +278,12 @@ class _UmkmDetailScreenState extends State<UmkmDetailScreen> {
                           width: width,
                           text: "Petunjuk Arah",
                           onTap: () {
-                            Navigator.pop(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const Login(),
-                              ),
-                            );
+                            // Navigator.pop(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => const Login(),
+                            //   ),
+                            // );
                           },
                         ),
                       ),

@@ -4,7 +4,7 @@ import 'package:capstone_design/presentation/components/appbar/custom_sliver_app
 import 'package:capstone_design/presentation/components/card/custom_transport_card.dart';
 import 'package:capstone_design/presentation/components/card/custom_tour_card.dart';
 import 'package:capstone_design/presentation/components/card/custom_umkm_card.dart';
-import 'package:capstone_design/presentation/screens/UMKM/umkm_detail_screen.dart';
+// import 'package:capstone_design/presentation/screens/UMKM/umkm_detail_screen.dart';
 import 'package:capstone_design/presentation/screens/error_screen.dart';
 import 'package:capstone_design/presentation/screens/filter_tour_list_screen.dart';
 // import 'package:capstone_design/presentation/screens/news_detail_screen.dart';
@@ -158,12 +158,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   ];
 
   // Must be repair and Can it be save in Firebase ?
-  final List<Widget> onTapCarouselList = [
-    const UmkmDetailScreen(),
-    const FilterTourListScreen(),
-    const FilterTourListScreen(),
-    const UmkmDetailScreen(),
-  ];
+  // final List<Widget> onTapCarouselList = [
+  //   const UmkmDetailScreen(),
+  //   const FilterTourListScreen(),
+  //   const FilterTourListScreen(),
+  //   const UmkmDetailScreen(),
+  // ];
 
   void onTapTourList() {
     // Navigate to Tour List
@@ -194,18 +194,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           return Builder(
             builder: (BuildContext context) {
               return GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    PageTransition(
-                      curve: Curves.easeInOut,
-                      type: PageTransitionType.bottomToTop,
-                      child: onTapCarouselList[imgCarouselList.indexOf(image)],
-                      duration: const Duration(milliseconds: 150),
-                      reverseDuration: const Duration(milliseconds: 150),
-                    ),
-                  );
-                },
+                // onTap: () {
+                //   Navigator.push(
+                //     context,
+                //     PageTransition(
+                //       curve: Curves.easeInOut,
+                //       type: PageTransitionType.bottomToTop,
+                //       child: onTapCarouselList[imgCarouselList.indexOf(image)],
+                //       duration: const Duration(milliseconds: 150),
+                //       reverseDuration: const Duration(milliseconds: 150),
+                //     ),
+                //   );
+                // },
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(15.0),
                   child: Image.asset(

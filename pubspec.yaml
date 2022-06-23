@@ -1,47 +1,33 @@
 name: capstone_design
 description: A new Flutter project.
 
-# The following line prevents the package from being accidentally published to
-# pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none"
 
-# The following defines the version and build number for your application.
-# A version number is three numbers separated by dots, like 1.2.43
-# followed by an optional build number separated by a +.
-# Both the version and the builder number may be overridden in flutter
-# build by specifying --build-name and --build-number, respectively.
-# In Android, build-name is used as versionName while build-number used as versionCode.
-# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
-# In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
-# Read more about iOS versioning at
-# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 version: 1.0.0+1
 
 environment:
   sdk: ">=2.16.1 <3.0.0"
 
-# Dependencies specify other packages that your package needs in order to work.
-# To automatically upgrade your package dependencies to the latest versions
-# consider running `flutter pub upgrade --major-versions`. Alternatively,
-# dependencies can be manually updated by changing the version numbers below to
-# the latest version available on pub.dev. To see which dependencies have newer
-# versions available, run `flutter pub outdated`.
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl:
 
+  theme:
+    path: theme
 
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   shared_preferences:
   curved_navigation_bar:
-  firebase_auth: 
-  google_sign_in: 
+  firebase_auth:
+  google_sign_in:
   cloud_firestore:
-  firebase_storage: 
-  firebase_core: 
+  firebase_storage:
+  firebase_core:
   firebase_analytics:
+
   image_picker:
   geolocator:
   geocoding:
@@ -56,55 +42,233 @@ dependencies:
   internet_connection_checker:
   cached_network_image: 
 
+  flutter_bloc:
+  flutter_native_splash:
+  get_it:
+  flutter_svg:
+  equatable:
+  image_picker:
+  photo_view:
+  path_provider:
+  timelines:
+  webview_flutter:
+  page_transition:
+  loading_animation_widget:
+  cached_network_image: 
+  pull_to_refresh: 
+  http: 
+  fluttertoast: ^8.0.9
+  carousel_slider: ^4.1.1
+  flutter_slidable: ^1.3.0
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
   flutter_lints: ^1.0.0
 
-# For information on the generic Dart part of this file, see the
-# following page: https://dart.dev/tools/pub/pubspec
+flutter_native_splash:
+  image: assets/splashscreen/logo.png
+  background_image: assets/splashscreen/bgsplashscreen.png
+  background_image_dark: assets/splashscreen/bgsplashscreen_dark.png
+  image_dark: assets/splashscreen/logo_dark.png
+  android_12:
+    image: assets/splashscreen/logo.png
+    image_dark: assets/splashscreen/logo_dark.png
 
-# The following section is specific to Flutter.
+  web: false
+
 flutter:
-
-  # The following line ensures that the Material Icons font is
-  # included with your application, so that you can use the icons in
-  # the material Icons class.
+  generate: true
   uses-material-design: true
 
-  # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
-
-  # An image asset can refer to one or more resolution-specific "variants", see
-  # https://flutter.dev/assets-and-images/#resolution-aware.
-
-  # For details regarding adding assets from package dependencies, see
-  # https://flutter.dev/assets-and-images/#from-packages
-
-  # To add custom fonts to your application, add a fonts section here,
-  # in this "flutter" section. Each entry in this list should have a
-  # "family" key with the font family name, and a "fonts" key with a
-  # list giving the asset and other descriptors for the font. For
-  # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
-  # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/custom-fonts/#from-packages
+  assets:
+    - assets/
+    - assets/icon/bold/map.svg
+    - assets/icon/bold/menu.svg
+    - assets/icon/bold/copy.svg
+    - assets/icon/bold/home.svg
+    - assets/icon/bold/star.svg
+    - assets/icon/bold/user.svg
+    - assets/icon/bold/bell.svg
+    - assets/icon/bold/clock.svg
+    - assets/icon/bold/heart.svg
+    - assets/icon/bold/file.svg
+    - assets/icon/bold/settings.svg
+    - assets/icon/bold/pen.svg
+    - assets/icon/bold/lock.svg
+    - assets/icon/bold/eye.svg
+    - assets/icon/bold/eye-slash.svg
+    - assets/icon/bold/chevron-left.svg
+    - assets/icon/bold/info-circle.svg
+    - assets/icon/bold/log-out.svg
+    - assets/icon/bold/question-circle.svg
+    - assets/icon/bold/chevron-right.svg
+    - assets/icon/bold/plus-square.svg
+    - assets/icon/bold/check-circle.svg
+    - assets/icon/bold/chevron-circle-down.svg
+    - assets/icon/bold/chevron-circle-up.svg
+    - assets/icon/bold/exclamation-circle.svg
+    - assets/icon/bold/times-square.svg
+    - assets/icon/bold/map-marker.svg
+    - assets/icon/bold/envelope.svg
+    - assets/icon/fill/map-marker.svg
+    - assets/icon/fill/file.svg
+    - assets/icon/fill/settings.svg
+    - assets/icon/fill/info-circle.svg
+    - assets/icon/fill/log-out.svg
+    - assets/icon/fill/question-circle.svg
+    - assets/icon/fill/chevron-right.svg
+    - assets/icon/fill/train.svg
+    - assets/icon/fill/user.svg
+    - assets/icon/fill/star.svg
+    - assets/icon/fill/home.svg
+    - assets/icon/fill/copy.svg
+    - assets/icon/fill/bell.svg
+    - assets/icon/fill/clock.svg
+    - assets/icon/fill/heart.svg
+    - assets/icon/fill/pen.svg
+    - assets/icon/fill/lock.svg
+    - assets/icon/fill/chevron-left.svg
+    - assets/icon/fill/eye.svg
+    - assets/icon/fill/eye-slash.svg
+    - assets/icon/fill/exclamation-circle.svg
+    - assets/icon/fill/plus-square.svg
+    - assets/icon/fill/envelope.svg
+    - assets/icon/fill/check-circle.svg
+    - assets/icon/fill/chevron-circle-down.svg
+    - assets/icon/fill/chevron-circle-up.svg
+    - assets/icon/fill/times-square.svg
+    - assets/icon/light/user.svg
+    - assets/icon/light/star.svg
+    - assets/icon/light/home.svg
+    - assets/icon/light/copy.svg
+    - assets/icon/light/bell.svg
+    - assets/icon/light/clock.svg
+    - assets/icon/light/heart.svg
+    - assets/icon/light/file.svg
+    - assets/icon/light/settings.svg
+    - assets/icon/light/info-circle.svg
+    - assets/icon/light/chevron-right.svg
+    - assets/icon/light/log-out.svg
+    - assets/icon/light/envelope.svg
+    - assets/icon/light/pen.svg
+    - assets/icon/light/lock.svg
+    - assets/icon/light/chevron-left.svg
+    - assets/icon/light/question-circle.svg
+    - assets/icon/light/exclamation-circle.svg
+    - assets/icon/light/map-marker.svg
+    - assets/icon/light/check-circle.svg
+    - assets/icon/light/chevron-circle-down.svg
+    - assets/icon/light/chevron-circle-up.svg
+    - assets/icon/light/plus-square.svg
+    - assets/icon/light/eye.svg
+    - assets/icon/light/eye-slash.svg
+    - assets/icon/light/times-square.svg
+    - assets/icon/regular/user.svg
+    - assets/icon/regular/star.svg
+    - assets/icon/regular/home.svg
+    - assets/icon/regular/copy.svg
+    - assets/icon/regular/map.svg
+    - assets/icon/regular/menu.svg
+    - assets/icon/regular/bell.svg
+    - assets/icon/regular/clock.svg
+    - assets/icon/regular/heart.svg
+    - assets/icon/regular/file.svg
+    - assets/icon/regular/settings.svg
+    - assets/icon/regular/envelope.svg
+    - assets/icon/regular/info-circle.svg
+    - assets/icon/regular/log-out.svg
+    - assets/icon/regular/pen.svg
+    - assets/icon/regular/lock.svg
+    - assets/icon/regular/chevron-left.svg
+    - assets/icon/regular/question-circle.svg
+    - assets/icon/regular/exclamation-circle.svg
+    - assets/icon/regular/chevron-right.svg
+    - assets/icon/regular/plus-square.svg
+    - assets/icon/regular/times-square.svg
+    - assets/icon/regular/chevron-down.svg
+    - assets/icon/regular/eye.svg
+    - assets/icon/regular/eye-slash.svg
+    - assets/icon/regular/map-marker.svg
+    - assets/icon/regular/check-circle.svg
+    - assets/icon/regular/chevron-circle-down.svg
+    - assets/icon/regular/chevron-circle-up.svg
+    - assets/icon/menu/icon-bus.png
+    - assets/icon/menu/icon-news.png
+    - assets/icon/menu/icon-tour.png
+    - assets/icon/menu/icon-umkm.png
+    - assets/icon/menu/icon-bus-dark.png
+    - assets/icon/menu/icon-news-dark.png
+    - assets/icon/menu/icon-tour-dark.png
+    - assets/icon/menu/icon-umkm-dark.png
+    - assets/icon/coupon.svg
+    - assets/icon/upload.svg
+    - assets/icon/map-marker.svg
+    - assets/icon/tokopedia.svg
+    - assets/icon/shopee.svg
+    - assets/icon/twitter.svg
+    - assets/icon/facebook.svg
+    - assets/icon/google.svg
+    - assets/icon/check.svg
+    - assets/icon/uncheck.svg
+    - assets/icon/back.svg
+    - assets/icon/menu.svg
+    - assets/icon/cross.svg
+    - assets/icon/user_outline.svg
+    - assets/icon/user.svg
+    - assets/icon/star_outline.svg
+    - assets/icon/star.svg
+    - assets/icon/home_outline.svg
+    - assets/icon/home.svg
+    - assets/icon/copy_outline.svg
+    - assets/icon/copy.svg
+    - assets/icon/lock.svg
+    - assets/icon/eye.svg
+    - assets/icon/eye-slash.svg
+    - assets/icon/envelope.svg
+    - assets/icon/envelope-fill.svg
+    - assets/icon/pen.svg
+    - assets/icon/pen-Light.svg
+    - assets/icon/shield.svg
+    - assets/icon/check-circle.svg
+    - assets/icon/file.svg
+    - assets/icon/bell.svg
+    - assets/icon/bell-Light.svg
+    - assets/icon/trash-Light.svg
+    - assets/icon/camera-Light.svg
+    - assets/icon/info-circle.svg
+    - assets/icon/question-circle.svg
+    - assets/icon/plus-circle.svg
+    - assets/icon/settings.svg
+    - assets/icon/globe.svg
+    - assets/icon/mode.svg
+    - assets/icon/log-out.svg
+    - assets/icon/chevron-right.svg
+    - assets/logo/logo.png
+    - assets/logo/logo_dark.png
+    - assets/image/gedung_sate.png
+    - assets/image/gd-sate.png
+    - assets/image/gd-sate-profile.png
+    - assets/image/404.svg
+    - assets/image/profile.jpg
+    - assets/image/hero-tour.png
+    - assets/image/hero-craft.png
+    - assets/image/hero-news.png
+    - assets/image/hero-transport.png
+    - assets/splashscreen/logo.png
+    - assets/icon/bell-Bold.svg
+    - assets/icon/news.png
+    - assets/icon/transport.png
+    - assets/icon/umkm.png
+    - assets/icon/wisata.png
+    - assets/splashscreen/image6.png
+    - assets/splashscreen/image1.webp
+    - assets/splashscreen/logo_dark.png
+    - assets/splashscreen/map.jpg
+    - assets/icon/bell.svg
+    - assets/icon/star.svg
+    - assets/icon/star_outline.svg
+    - assets/icon/map.svg
+    - assets/icon/search.svg

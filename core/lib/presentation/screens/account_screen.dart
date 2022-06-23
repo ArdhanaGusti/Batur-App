@@ -3,6 +3,7 @@ import 'package:core/presentation/components/button/custom_primary_icon_text_but
 import 'package:core/presentation/components/custom_profile_card.dart';
 import 'package:core/presentation/screens/about_screen.dart';
 import 'package:core/presentation/screens/error_screen.dart';
+import 'package:core/presentation/screens/help_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:page_transition/page_transition.dart';
@@ -117,7 +118,16 @@ class AccountScreen extends StatelessWidget {
             _buildSmallContainer(
               context,
               () {
-                // Navigate to Help Page
+                Navigator.push(
+                  context,
+                  PageTransition(
+                    curve: Curves.easeInOut,
+                    type: PageTransitionType.bottomToTop,
+                    child: const HelpScreen(),
+                    duration: const Duration(milliseconds: 150),
+                    reverseDuration: const Duration(milliseconds: 150),
+                  ),
+                );
               },
               // Text wait localization
               "Bantuan",

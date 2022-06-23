@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:account/account.dart';
 import 'package:core/presentation/bloc/dashboard_bloc.dart';
 import 'package:core/presentation/screens/account_screen.dart';
 import 'package:core/presentation/screens/favorite_screen.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:theme/theme.dart';
 
 // Check
@@ -40,7 +42,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
             );
       } else {
         // Change to login screen
-        print("Not Login");
+        Navigator.push(
+          context,
+          PageTransition(
+            curve: Curves.easeInOut,
+            type: PageTransitionType.bottomToTop,
+            child: const LoginScreen(),
+            duration: const Duration(milliseconds: 150),
+            reverseDuration: const Duration(milliseconds: 150),
+          ),
+        );
       }
     } else {
       context.read<DashboardBloc>().add(

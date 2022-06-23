@@ -1,3 +1,4 @@
+import 'package:account/account.dart';
 import 'package:core/presentation/components/appbar/custom_sliver_appbar_dashboard.dart';
 import 'package:core/presentation/components/button/custom_primary_icon_text_button.dart';
 import 'package:core/presentation/components/custom_profile_card.dart';
@@ -87,6 +88,16 @@ class AccountScreen extends StatelessWidget {
               context,
               () {
                 // Navigate to Detail Page
+                Navigator.push(
+                  context,
+                  PageTransition(
+                    curve: Curves.easeInOut,
+                    type: PageTransitionType.bottomToTop,
+                    child: const AccountDetailScreen(),
+                    duration: const Duration(milliseconds: 150),
+                    reverseDuration: const Duration(milliseconds: 150),
+                  ),
+                );
               },
               // Text wait localization
               "Detail Akun",
@@ -96,6 +107,16 @@ class AccountScreen extends StatelessWidget {
               context,
               () {
                 // Navigate to Setting Page
+                Navigator.push(
+                  context,
+                  PageTransition(
+                    curve: Curves.easeInOut,
+                    type: PageTransitionType.bottomToTop,
+                    child: const SettingScreen(),
+                    duration: const Duration(milliseconds: 150),
+                    reverseDuration: const Duration(milliseconds: 150),
+                  ),
+                );
               },
               // Text wait localization
               "Pengaturan",

@@ -20,6 +20,9 @@ dependencies:
   core:
     path: core
 
+  news:
+    path: news
+
   cupertino_icons: ^1.0.2
   shared_preferences:
   curved_navigation_bar:
@@ -41,9 +44,9 @@ dependencies:
   webview_flutter:
   page_transition:
   loading_animation_widget:
-  cached_network_image: 
-  pull_to_refresh: 
-  http: 
+  cached_network_image:
+  pull_to_refresh:
+  http:
   fluttertoast: ^8.0.9
   carousel_slider: ^4.1.1
   flutter_slidable: ^1.3.0

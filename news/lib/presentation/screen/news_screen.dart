@@ -1,11 +1,9 @@
 import 'dart:async';
 
-import 'package:capstone_design/presentation/components/appbar/custom_sliver_appbar_dashboard.dart';
-import 'package:capstone_design/presentation/screens/add_news_screen.dart';
-import 'package:capstone_design/presentation/screens/error_screen.dart';
-import 'package:capstone_design/presentation/screens/news_detail_screen.dart';
-import 'package:capstone_design/presentation/components/card/custom_news_card.dart';
-import 'package:capstone_design/presentation/screens/notifikasi/notifikasi_screen.dart';
+import 'package:core/core.dart';
+import 'add_news_screen.dart';
+import 'news_detail_screen.dart';
+import '../components/card/custom_news_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -114,16 +112,16 @@ class _NewsScreenState extends State<NewsScreen> {
     return CustomSliverAppBarDashboard(
       actionIcon: "assets/icon/regular/bell.svg",
       actionOnTap: () {
-        Navigator.push(
-          context,
-          PageTransition(
-            curve: Curves.easeInOut,
-            type: PageTransitionType.rightToLeft,
-            child: const NotificationScreen(),
-            duration: const Duration(milliseconds: 150),
-            reverseDuration: const Duration(milliseconds: 150),
-          ),
-        );
+        // Navigator.push(
+        //   context,
+        //   PageTransition(
+        //     curve: Curves.easeInOut,
+        //     type: PageTransitionType.rightToLeft,
+        //     child: const NotificationScreen(),
+        //     duration: const Duration(milliseconds: 150),
+        //     reverseDuration: const Duration(milliseconds: 150),
+        //   ),
+        // );
       },
       leading: Text(
         // Text wait localization

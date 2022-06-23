@@ -18,7 +18,7 @@ export 'package:core/presentation/components/card/custom_card_status_registrasi.
 export 'package:core/presentation/components/card/custom_detail_umkm_card.dart';
 export 'package:core/presentation/components/card/custom_favorite_tour_card.dart';
 export 'package:core/presentation/components/card/custom_favorite_umkm_card.dart';
-export 'package:core/presentation/components/card/custom_news_card.dart';
+// export 'package:core/presentation/components/card/custom_news_card.dart';
 export 'package:core/presentation/components/card/custom_tour_card.dart';
 export 'package:core/presentation/components/card/custom_transport_card.dart';
 export 'package:core/presentation/components/card/custom_umkm_card.dart';

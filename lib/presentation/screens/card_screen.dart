@@ -6,7 +6,7 @@ import 'package:capstone_design/presentation/components/card/custom_transport_ca
 import 'package:capstone_design/presentation/components/card/custom_tour_card.dart';
 import 'package:capstone_design/presentation/components/card/custom_detail_umkm_card.dart';
 import 'package:capstone_design/presentation/components/card/custom_list_notifikasi.dart';
-import 'package:capstone_design/presentation/components/card/custom_news_card.dart';
+import 'package:news/presentation/components/card/custom_news_card.dart';
 import 'package:capstone_design/presentation/components/card/custom_wisata_card.dart';
 import 'package:capstone_design/presentation/components/card/custom_wisata_card_list.dart';
 import 'package:flutter/material.dart';

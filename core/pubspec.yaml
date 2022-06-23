@@ -18,6 +18,10 @@ dependencies:
 
   theme:
     path: ../theme
+  account:
+    path: ../account
+  transportation:
+    path: ../transportation
 
   loading_animation_widget:
   cached_network_image:

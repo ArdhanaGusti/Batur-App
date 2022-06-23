@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:theme/theme.dart';
 
-class AboutScreen extends StatelessWidget {
-  const AboutScreen({Key? key}) : super(key: key);
+class TermAndConditionScreen extends StatelessWidget {
+  const TermAndConditionScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,26 +23,26 @@ class AboutScreen extends StatelessWidget {
         body: Center(
           child: Container(
             constraints: const BoxConstraints(maxWidth: 500.0),
-            child: _buildNewsDetailScreen(context, screenSize),
+            child: _buildTermAndConditionScreen(context, screenSize),
           ),
         ),
       );
     } else {
       // Mobile Mode
       return Scaffold(
-        body: _buildNewsDetailScreen(context, screenSize),
+        body: _buildTermAndConditionScreen(context, screenSize),
       );
     }
   }
 
-  Widget _buildNewsDetailScreen(BuildContext context, Size screenSize) {
+  Widget _buildTermAndConditionScreen(BuildContext context, Size screenSize) {
     Brightness screenBrightness = MediaQuery.platformBrightnessOf(context);
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: <Widget>[
         CustomSliverAppBarTextLeading(
           // Text wait localization
-          title: "Tentang",
+          title: "Syarat dan Ketentuan",
           leadingIcon: "assets/icon/regular/chevron-left.svg",
           // Navigation repair
           leadingOnTap: () {
@@ -100,7 +100,8 @@ class AboutScreen extends StatelessWidget {
                   Center(
                     // Text wait localization
                     child: Text(
-                      'Bandung Tourism (BATUR) merupakan platform aplikasi mobile yang menyediakan layanan Berita, Wisata, UMKM, dan Transportasi yang ada di Ibu Kota Jawa Barat yaitu Bandung.',
+                      '''Syarat dan ketentuan yang ditetapkan dibawah ini digunakan untuk mengatur penggunaan layanan yang disediakan oleh Bandung Tourism, baik itu berupa informasi, teks, grafik, gambar, dan data lainnya. Syarat dan ketentuan ini berlaku bagi seluruh pengguna aplikasi Bandung Tourism.
+                      Dengan mendaftar atau menggunakan aplikasi Bandung Tourism mama pengguna dianggap telah membaca, mengerti dan memahami Syarat dan Ketentuan aplikasi Bandung Tourism.''',
                       style: bSubtitle1.copyWith(
                         color: Theme.of(context).colorScheme.tertiary,
                       ),
@@ -113,7 +114,85 @@ class AboutScreen extends StatelessWidget {
                   Center(
                     // Text wait localization
                     child: Text(
-                      'Tim Pengembang \n(BATUR TEAM)',
+                      'Informasi Data Pengguna',
+                      style: bSubtitle4.copyWith(
+                        color: Theme.of(context).colorScheme.tertiary,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  Center(
+                    // Text wait localization
+                    child: Text(
+                      '''Kami mengumpukan informasi mengenai nama dan alamat email pengguna. Kami tidak mengambil informasi pribadi yang bersifat penting seperti No Telepon atau No Rekening. Sehingga apabila ada pihak yang mengatas namakan kami dan memeinta informasi tersebut, maka dapat dipastikan pihak tersebut bukan pihak Bandung Tourism. Kami mengumpulkan informasi pribadi dengan tujuan untuk dapat data dan proses legalitas hukum lainnya (Jika diperlukan).''',
+                      style: bSubtitle1.copyWith(
+                        color: Theme.of(context).colorScheme.tertiary,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 30.0,
+                  ),
+                  Center(
+                    // Text wait localization
+                    child: Text(
+                      "Penggunaan Aplikasi",
+                      style: bSubtitle4.copyWith(
+                        color: Theme.of(context).colorScheme.tertiary,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  Center(
+                    // Text wait localization
+                    child: Text(
+                      '''Pengguna wajib menggunakan layanan Bandung Tourism dengan bijak dan baik yaitu menghindari kata-kata seperti Hinaan, Kata Kasar, SARA, Pornografi, dan Mengundang Provokasi. Jika hal hal yang dilarang diatas dilanggal maka akan berakibat penghapusan konten yang dipublikasi di Bandung Tourism.''',
+                      style: bSubtitle1.copyWith(
+                        color: Theme.of(context).colorScheme.tertiary,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 30.0,
+                  ),
+                  Center(
+                    // Text wait localization
+                    child: Text(
+                      "Cara menghubungi kami",
+                      style: bSubtitle4.copyWith(
+                        color: Theme.of(context).colorScheme.tertiary,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  Center(
+                    // Text wait localization
+                    child: Text(
+                      '''Pengguna dapat menghubungi Bandung Tourism melalui halaman Bantuan. Dalam Halaman Bantuan pengguna dapat melakukan contang melalui Tim Bandung Tourism melalui Email. Dan kami akan selalu siap sedia menjawab pertanyaan dari pengguna.''',
+                      style: bSubtitle1.copyWith(
+                        color: Theme.of(context).colorScheme.tertiary,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 30.0,
+                  ),
+                  Center(
+                    // Text wait localization
+                    child: Text(
+                      'Hormat Kami, Tim Pengembang \n(BATUR TEAM)',
                       style: bSubtitle4.copyWith(
                         color: Theme.of(context).colorScheme.tertiary,
                       ),

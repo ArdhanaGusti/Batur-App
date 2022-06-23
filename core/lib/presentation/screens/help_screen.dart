@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:theme/theme.dart';
 
-class AboutScreen extends StatelessWidget {
-  const AboutScreen({Key? key}) : super(key: key);
+class HelpScreen extends StatelessWidget {
+  const HelpScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,26 +23,26 @@ class AboutScreen extends StatelessWidget {
         body: Center(
           child: Container(
             constraints: const BoxConstraints(maxWidth: 500.0),
-            child: _buildNewsDetailScreen(context, screenSize),
+            child: _buildHelpScreen(context, screenSize),
           ),
         ),
       );
     } else {
       // Mobile Mode
       return Scaffold(
-        body: _buildNewsDetailScreen(context, screenSize),
+        body: _buildHelpScreen(context, screenSize),
       );
     }
   }
 
-  Widget _buildNewsDetailScreen(BuildContext context, Size screenSize) {
+  Widget _buildHelpScreen(BuildContext context, Size screenSize) {
     Brightness screenBrightness = MediaQuery.platformBrightnessOf(context);
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: <Widget>[
         CustomSliverAppBarTextLeading(
           // Text wait localization
-          title: "Tentang",
+          title: "Bantuan",
           leadingIcon: "assets/icon/regular/chevron-left.svg",
           // Navigation repair
           leadingOnTap: () {
@@ -100,7 +100,7 @@ class AboutScreen extends StatelessWidget {
                   Center(
                     // Text wait localization
                     child: Text(
-                      'Bandung Tourism (BATUR) merupakan platform aplikasi mobile yang menyediakan layanan Berita, Wisata, UMKM, dan Transportasi yang ada di Ibu Kota Jawa Barat yaitu Bandung.',
+                      'Jika anda mengalami kesulitan dalam mengakses aplikasi kami, anda dapat mengajukan pertanyaan ke alamat email tim kami',
                       style: bSubtitle1.copyWith(
                         color: Theme.of(context).colorScheme.tertiary,
                       ),
@@ -126,8 +126,18 @@ class AboutScreen extends StatelessWidget {
                   Center(
                     // Text wait localization
                     child: Text(
-                      'P2237A189 - Achmad Syeful Mujab\nP2394A397 - Asep Ridwan\nP2012A055 - Hafid Ikhsan Arifin\nP2312A296 - Muhammad Ardhana Gusti Syahputra',
+                      '- P2012A055 - Hafid Ikhsan Arifin',
                       style: bSubtitle1.copyWith(
+                        color: Theme.of(context).colorScheme.tertiary,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  Center(
+                    // Text wait localization
+                    child: Text(
+                      'p2012a055@dicoding.org',
+                      style: bSubtitle3.copyWith(
                         color: Theme.of(context).colorScheme.tertiary,
                       ),
                       textAlign: TextAlign.center,

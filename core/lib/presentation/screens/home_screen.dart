@@ -16,6 +16,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:theme/theme.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:transportation/transportation.dart';
 
 enum HomeScreenProcessEnum {
   loading,
@@ -189,6 +190,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   void onTapTransportList() {
     // Navigate to Transport List
+    Navigator.push(
+      context,
+      PageTransition(
+        curve: Curves.easeInOut,
+        type: PageTransitionType.bottomToTop,
+        child: const TransportasiScreen(),
+        duration: const Duration(milliseconds: 150),
+        reverseDuration: const Duration(milliseconds: 150),
+      ),
+    );
   }
 
   Widget _buildCarousel(Size screenSize) {

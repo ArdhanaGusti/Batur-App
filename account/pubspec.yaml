@@ -18,6 +18,8 @@ dependencies:
     path: ../news
   core:
     path: ../core
+  transportation:
+    path: ../transportation
 
   flutter_bloc:
   equatable:

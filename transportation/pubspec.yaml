@@ -1,6 +1,7 @@
 name: transportation
 description: A new Flutter package project.
 version: 0.0.1
+publish_to: "none"
 homepage:
 
 environment:
@@ -10,6 +11,24 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  
+  theme:
+    path: ../theme
+  account:
+    path: ../account
+  umkm:
+    path: ../umkm
+  core:
+    path: ../core
+
+  intl:
+  photo_view:
+  flutter_bloc:
+  flutter_svg:
+  equatable:
+  timelines:
+  page_transition:
+  
 
 dev_dependencies:
   flutter_test:

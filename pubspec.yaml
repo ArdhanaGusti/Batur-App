@@ -25,6 +25,8 @@ dependencies:
     path: umkm
   account:
     path: account
+  transportation:
+    path: transportation
 
   cupertino_icons: ^1.0.2
   shared_preferences:

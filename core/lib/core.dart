@@ -38,3 +38,5 @@ export 'package:core/presentation/screens/account_screen.dart';
 export 'package:core/presentation/screens/favorite_screen.dart';
 export 'package:core/presentation/screens/home_screen.dart';
 export 'package:core/presentation/screens/news_screen.dart';
+export 'package:core/presentation/screens/on_boarding_screen.dart';
+export 'package:core/presentation/screens/about_screen.dart';

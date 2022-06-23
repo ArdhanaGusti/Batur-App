@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:core/presentation/bloc/dashboard_bloc.dart';
 import 'package:core/presentation/screens/account_screen.dart';
 import 'package:core/presentation/screens/favorite_screen.dart';
 import 'package:core/presentation/screens/home_screen.dart';
@@ -8,11 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:theme/theme.dart';
-// import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// Check
 
 class DashboardScreen extends StatefulWidget {
+  // Add parameter from Main
   const DashboardScreen({Key? key}) : super(key: key);
 
   @override
@@ -20,8 +22,7 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  int _selectedIndex = 0;
-  // Change with shared preferences
+  // Change with shared preferences (Delete if parameter Added)
   bool isLogin = true;
 
   final List<Widget> _listWidget = [
@@ -31,35 +32,27 @@ class _DashboardScreenState extends State<DashboardScreen> {
     const AccountScreen(),
   ];
 
-  void _onItemTapped(int index) {
-    setState(() {
-      if (index == 2 || index == 3) {
-        if (isLogin) {
-          _selectedIndex = index;
-        } else {
-          // Chnge to login screen
-          _selectedIndex = index;
-
-          // Navigator.push(
-          //   context,
-          //   PageTransition(
-          //     curve: Curves.easeOutCirc,
-          //     type: PageTransitionType.bottomToTop,
-          //     child: const LoginScreen(),
-          //     duration: const Duration(milliseconds: 250),
-          //     reverseDuration: const Duration(milliseconds: 250),
-          //   ),
-          // );
-        }
+  void _bottomNavIndexChange(int index) {
+    if (index == 2 || index == 3) {
+      if (isLogin) {
+        context.read<DashboardBloc>().add(
+              IndexBottomNavChange(newIndex: index),
+            );
       } else {
-        _selectedIndex = index;
+        // Change to login screen
+        print("Not Login");
       }
-    });
+    } else {
+      context.read<DashboardBloc>().add(
+            IndexBottomNavChange(newIndex: index),
+          );
+    }
   }
 
   @override
   void initState() {
     super.initState();
+    // Change with to fetch data
     Timer(const Duration(seconds: 1), () {
       FlutterNativeSplash.remove();
     });
@@ -67,81 +60,89 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _listWidget[_selectedIndex],
-      bottomNavigationBar: BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
-        builder: (context, state) {
-          Brightness screenBrightness =
-              MediaQuery.platformBrightnessOf(context);
-          Color activeBottomNav = (state.isDark == ThemeModeEnum.darkTheme)
-              ? bTextPrimary
-              : (state.isDark == ThemeModeEnum.lightTheme)
-                  ? bPrimary
-                  : (screenBrightness == Brightness.light)
+    return BlocBuilder<DashboardBloc, DashboardState>(
+      builder: (context, bottomNav) {
+        return Scaffold(
+          body: _listWidget[bottomNav.indexBottomNav],
+          bottomNavigationBar: BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
+            builder: (context, theme) {
+              Brightness screenBrightness =
+                  MediaQuery.platformBrightnessOf(context);
+              Color activeBottomNav = (theme.isDark == ThemeModeEnum.darkTheme)
+                  ? bTextPrimary
+                  : (theme.isDark == ThemeModeEnum.lightTheme)
                       ? bPrimary
-                      : bTextPrimary;
-          return BottomNavigationBar(
-            items: [
-              BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  "assets/icon/light/home.svg",
-                  color: bGrey,
-                  height: 24.0,
-                ),
-                activeIcon: SvgPicture.asset(
-                  "assets/icon/fill/home.svg",
-                  color: activeBottomNav,
-                  height: 24.0,
-                ),
-                label: "Beranda",
-              ),
-              BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  "assets/icon/light/copy.svg",
-                  color: bGrey,
-                  height: 24.0,
-                ),
-                activeIcon: SvgPicture.asset(
-                  "assets/icon/fill/copy.svg",
-                  color: activeBottomNav,
-                  height: 24.0,
-                ),
-                label: "Berita",
-              ),
-              BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  "assets/icon/light/star.svg",
-                  color: bGrey,
-                  height: 24.0,
-                ),
-                activeIcon: SvgPicture.asset(
-                  "assets/icon/fill/star.svg",
-                  color: activeBottomNav,
-                  height: 24.0,
-                ),
-                label: "Favorite",
-              ),
-              BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  "assets/icon/light/user.svg",
-                  color: bGrey,
-                  height: 24.0,
-                ),
-                activeIcon: SvgPicture.asset(
-                  "assets/icon/fill/user.svg",
-                  color: activeBottomNav,
-                  height: 24.0,
-                ),
-                label: "Akun",
-              ),
-            ],
-            currentIndex: _selectedIndex,
-            onTap: _onItemTapped,
-            selectedFontSize: 10.0,
-            unselectedFontSize: 10.0,
-          );
-        },
-      ),
+                      : (screenBrightness == Brightness.light)
+                          ? bPrimary
+                          : bTextPrimary;
+              return BottomNavigationBar(
+                items: <BottomNavigationBarItem>[
+                  BottomNavigationBarItem(
+                    icon: SvgPicture.asset(
+                      "assets/icon/light/home.svg",
+                      color: bGrey,
+                      height: 24.0,
+                    ),
+                    activeIcon: SvgPicture.asset(
+                      "assets/icon/fill/home.svg",
+                      color: activeBottomNav,
+                      height: 24.0,
+                    ),
+                    // Wait Localization
+                    label: "Beranda",
+                  ),
+                  BottomNavigationBarItem(
+                    icon: SvgPicture.asset(
+                      "assets/icon/light/copy.svg",
+                      color: bGrey,
+                      height: 24.0,
+                    ),
+                    activeIcon: SvgPicture.asset(
+                      "assets/icon/fill/copy.svg",
+                      color: activeBottomNav,
+                      height: 24.0,
+                    ),
+                    // Wait Localization
+                    label: "Berita",
+                  ),
+                  BottomNavigationBarItem(
+                    icon: SvgPicture.asset(
+                      "assets/icon/light/star.svg",
+                      color: bGrey,
+                      height: 24.0,
+                    ),
+                    activeIcon: SvgPicture.asset(
+                      "assets/icon/fill/star.svg",
+                      color: activeBottomNav,
+                      height: 24.0,
+                    ),
+                    // Wait Localization
+                    label: "Favorite",
+                  ),
+                  BottomNavigationBarItem(
+                    icon: SvgPicture.asset(
+                      "assets/icon/light/user.svg",
+                      color: bGrey,
+                      height: 24.0,
+                    ),
+                    activeIcon: SvgPicture.asset(
+                      "assets/icon/fill/user.svg",
+                      color: activeBottomNav,
+                      height: 24.0,
+                    ),
+                    // Wait Localization
+                    label: "Akun",
+                  ),
+                ],
+                currentIndex: bottomNav.indexBottomNav,
+                onTap: _bottomNavIndexChange,
+                selectedFontSize: 10.0,
+                unselectedFontSize: 10.0,
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }

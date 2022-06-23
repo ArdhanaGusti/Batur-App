@@ -4,6 +4,7 @@ import 'package:core/presentation/components/custom_profile_card.dart';
 import 'package:core/presentation/screens/about_screen.dart';
 import 'package:core/presentation/screens/error_screen.dart';
 import 'package:core/presentation/screens/help_screen.dart';
+import 'package:core/presentation/screens/term_and_condition_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:page_transition/page_transition.dart';
@@ -136,10 +137,19 @@ class AccountScreen extends StatelessWidget {
             _buildSmallContainer(
               context,
               () {
-                // Navigate to Term And Condition Page
+                Navigator.push(
+                  context,
+                  PageTransition(
+                    curve: Curves.easeInOut,
+                    type: PageTransitionType.bottomToTop,
+                    child: const TermAndConditionScreen(),
+                    duration: const Duration(milliseconds: 150),
+                    reverseDuration: const Duration(milliseconds: 150),
+                  ),
+                );
               },
               // Text wait localization
-              "Term an Condition",
+              "Term and Condition",
               "assets/icon/regular/file.svg",
             ),
             _buildSmallContainer(

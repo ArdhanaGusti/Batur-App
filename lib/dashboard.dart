@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:capstone_design/dua.dart';
 import 'package:capstone_design/login.dart';
+import 'package:capstone_design/main.dart';
 import 'package:capstone_design/satu.dart';
 import 'package:capstone_design/tiga.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
@@ -53,7 +54,7 @@ class _DashboardState extends State<Dashboard> {
               prefs.setBool('isLogIn', false);
               Navigator.of(context)
                   .pushReplacement(MaterialPageRoute(builder: (context) {
-                return Login();
+                return MyApp();
               }));
             },
             icon: Icon(Icons.output_sharp),

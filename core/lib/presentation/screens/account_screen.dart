@@ -1,12 +1,12 @@
 import 'package:core/presentation/components/appbar/custom_sliver_appbar_dashboard.dart';
 import 'package:core/presentation/components/button/custom_primary_icon_text_button.dart';
 import 'package:core/presentation/components/custom_profile_card.dart';
+import 'package:core/presentation/screens/about_screen.dart';
 import 'package:core/presentation/screens/error_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:theme/theme.dart';
-// import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // Review Check 1 (Done)
 
@@ -44,20 +44,11 @@ class AccountScreen extends StatelessWidget {
         CustomSliverAppBarDashboard(
           actionIcon: "assets/icon/regular/bell.svg",
           actionOnTap: () {
-            // Navigator.push(
-            //   context,
-            //   PageTransition(
-            //     curve: Curves.easeInOut,
-            //     type: PageTransitionType.rightToLeft,
-            //     child: const NotificationScreen(),
-            //     duration: const Duration(milliseconds: 150),
-            //     reverseDuration: const Duration(milliseconds: 150),
-            //   ),
-            // );
+            // Navigate to Notification Page
           },
           leading: const Text(
             // Text wait localization
-            "AKun",
+            "Akun",
             textAlign: TextAlign.center,
           ),
           actionIconSecondary: "",
@@ -93,16 +84,7 @@ class AccountScreen extends StatelessWidget {
             _buildSmallContainer(
               context,
               () {
-                // Navigator.push(
-                //   context,
-                //   PageTransition(
-                //     curve: Curves.easeInOut,
-                //     type: PageTransitionType.bottomToTop,
-                //     child: const AccountDetailScreen(),
-                //     duration: const Duration(milliseconds: 150),
-                //     reverseDuration: const Duration(milliseconds: 150),
-                //   ),
-                // );
+                // Navigate to Detail Page
               },
               // Text wait localization
               "Detail Akun",
@@ -111,16 +93,7 @@ class AccountScreen extends StatelessWidget {
             _buildSmallContainer(
               context,
               () {
-                // Navigator.push(
-                //   context,
-                //   PageTransition(
-                //     curve: Curves.easeInOut,
-                //     type: PageTransitionType.bottomToTop,
-                //     child: const SettingScreen(),
-                //     duration: const Duration(milliseconds: 150),
-                //     reverseDuration: const Duration(milliseconds: 150),
-                //   ),
-                // );
+                // Navigate to Setting Page
               },
               // Text wait localization
               "Pengaturan",
@@ -129,16 +102,7 @@ class AccountScreen extends StatelessWidget {
             _buildSmallContainer(
               context,
               () {
-                // Navigator.push(
-                //   context,
-                //   PageTransition(
-                //     curve: Curves.easeInOut,
-                //     type: PageTransitionType.bottomToTop,
-                //     child: const AddUMKMScreen(),
-                //     duration: const Duration(milliseconds: 150),
-                //     reverseDuration: const Duration(milliseconds: 150),
-                //   ),
-                // );
+                // Navigate to Status Regis Page
               },
               // Text wait localization
               "Status Registrasi",
@@ -153,16 +117,7 @@ class AccountScreen extends StatelessWidget {
             _buildSmallContainer(
               context,
               () {
-                // Navigator.push(
-                //   context,
-                //   PageTransition(
-                //     curve: Curves.easeInOut,
-                //     type: PageTransitionType.bottomToTop,
-                //     child: const NewsWebScreen(),
-                //     duration: const Duration(milliseconds: 150),
-                //     reverseDuration: const Duration(milliseconds: 150),
-                //   ),
-                // );
+                // Navigate to Help Page
               },
               // Text wait localization
               "Bantuan",
@@ -171,16 +126,7 @@ class AccountScreen extends StatelessWidget {
             _buildSmallContainer(
               context,
               () {
-                // Navigator.push(
-                //   context,
-                //   PageTransition(
-                //     curve: Curves.easeInOut,
-                //     type: PageTransitionType.bottomToTop,
-                //     child: const TimeLineScreen(),
-                //     duration: const Duration(milliseconds: 150),
-                //     reverseDuration: const Duration(milliseconds: 150),
-                //   ),
-                // );
+                // Navigate to Term And Condition Page
               },
               // Text wait localization
               "Term an Condition",
@@ -189,16 +135,16 @@ class AccountScreen extends StatelessWidget {
             _buildSmallContainer(
               context,
               () {
-                // Navigator.push(
-                //   context,
-                //   PageTransition(
-                //     curve: Curves.easeInOut,
-                //     type: PageTransitionType.bottomToTop,
-                //     child: const AboutScreen(),
-                //     duration: const Duration(milliseconds: 150),
-                //     reverseDuration: const Duration(milliseconds: 150),
-                //   ),
-                // );
+                Navigator.push(
+                  context,
+                  PageTransition(
+                    curve: Curves.easeInOut,
+                    type: PageTransitionType.bottomToTop,
+                    child: const AboutScreen(),
+                    duration: const Duration(milliseconds: 150),
+                    reverseDuration: const Duration(milliseconds: 150),
+                  ),
+                );
               },
               // Text wait localization
               "Tentang",

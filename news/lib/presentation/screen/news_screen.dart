@@ -76,7 +76,6 @@ class _NewsScreenState extends State<NewsScreen> {
       );
     } else if (process == ScreenProcessEnum.failed) {
       return ErrorScreen(
-        // Text wait localization
         title: AppLocalizations.of(context)!.internetConnection,
         message: AppLocalizations.of(context)!.tryAgain,
       );
@@ -90,7 +89,6 @@ class _NewsScreenState extends State<NewsScreen> {
 
     if (screenSize.width < 300.0 || screenSize.height < 600.0) {
       return ErrorScreen(
-        // Text wait localization
         title: AppLocalizations.of(context)!.screenError,
         message: AppLocalizations.of(context)!.screenSmall,
       );
@@ -124,7 +122,6 @@ class _NewsScreenState extends State<NewsScreen> {
         // );
       },
       leading: Text(
-        // Text wait localization
         AppLocalizations.of(context)!.news,
         textAlign: TextAlign.center,
       ),

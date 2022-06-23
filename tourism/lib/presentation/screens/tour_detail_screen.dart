@@ -1,4 +1,4 @@
-import 'package:capstone_design/login.dart';
+// import 'package:capstone_design/login.dart';
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:theme/theme.dart';
@@ -235,12 +235,12 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                           width: width,
                           text: "Petunjuk Arah",
                           onTap: () {
-                            Navigator.pop(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const Login(),
-                              ),
-                            );
+                            // Navigator.pop(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => const Login(),
+                            //   ),
+                            // );
                           },
                         ),
                       ),
@@ -252,12 +252,12 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                           width: width,
                           text: "Dapatkan Tiket",
                           onTap: () {
-                            Navigator.pop(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const Login(),
-                              ),
-                            );
+                            // Navigator.pop(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => const Login(),
+                            //   ),
+                            // );
                           },
                         ),
                       ),

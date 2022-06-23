@@ -12,7 +12,6 @@ class NewsWebScreen extends StatelessWidget {
 
     if (screenSize.width < 320.0 || screenSize.height < 650.0) {
       return ErrorScreen(
-        // Text wait localization
         title: AppLocalizations.of(context)!.screenError,
         message: AppLocalizations.of(context)!.screenSmall,
       );
@@ -39,7 +38,6 @@ class NewsWebScreen extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       slivers: <Widget>[
         CustomSliverAppBarTextLeading(
-          // Text wait localization
           title: "Detail",
           leadingIcon: "assets/icon/back.svg",
           // Navigation repair

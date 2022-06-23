@@ -34,7 +34,6 @@ class _GalleryScreenState extends State<GalleryScreen> {
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             CustomSliverAppBarTextLeading(
-              // Text wait localization
               title: AppLocalizations.of(context)!.imagePreview,
               leadingIcon: "assets/icon/back.svg",
               // Navigation repair

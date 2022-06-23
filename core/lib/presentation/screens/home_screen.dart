@@ -16,6 +16,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:theme/theme.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum HomeScreenProcessEnum {
   loading,
@@ -77,10 +78,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         ),
       );
     } else if (process == HomeScreenProcessEnum.failed) {
-      return const ErrorScreen(
-        // Text wait localization
-        title: "Opps...",
-        message: "Tidak ada internet, Coba lagi nanti.",
+      return ErrorScreen(
+        title: AppLocalizations.of(context)!.oops,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else {
       return _buildLoaded(context);
@@ -120,10 +120,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     Size screenSize = MediaQuery.of(context).size;
 
     if (screenSize.width < 300.0 || screenSize.height < 600.0) {
-      return const ErrorScreen(
+      return ErrorScreen(
         // Text wait localization
-        title: "Aduh...",
-        message: "Layar terlalu kecil, coba di perangkat lain.",
+        title: AppLocalizations.of(context)!.oops,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else if (screenSize.width > 500.0) {
       // Tablet Mode (Must be repair)
@@ -150,26 +150,29 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   // Must be repair and Can it be save in Firebase ?
   final List<Widget> onTapCarouselList = [
     // Navigate to Tour List
-    const ErrorScreen(
-      // Text wait localization
-      title: "Tour",
-      message: "Tour List",
-    ),
+    Builder(builder: (context) {
+      return ErrorScreen(
+        title: AppLocalizations.of(context)!.tour,
+        message: AppLocalizations.of(context)!.tourList,
+      );
+    }),
     // Navigate to UMKM List
-    const ErrorScreen(
-      // Text wait localization
-      title: "UMKM",
-      message: "UMKM List",
-    ),
+    Builder(builder: (context) {
+      return ErrorScreen(
+        title: AppLocalizations.of(context)!.umkm,
+        message: AppLocalizations.of(context)!.umkmList,
+      );
+    }),
     // Navigate to News List
     // Not Working
     const NewsScreen(),
     // Navigate to Transport List
-    const ErrorScreen(
-      // Text wait localization
-      title: "Transport",
-      message: "Transport List",
-    ),
+    Builder(builder: (context) {
+      return ErrorScreen(
+        title: AppLocalizations.of(context)!.transport,
+        message: AppLocalizations.of(context)!.listTransport,
+      );
+    }),
   ];
 
   void onTapTourList() {
@@ -302,7 +305,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               onTap: onTap,
               child: Text(
                 // Wait Localization
-                "Lihat Semua",
+                AppLocalizations.of(context)!.showAll,
                 style: bBody1.copyWith(color: bGrey),
               ),
             ),
@@ -362,11 +365,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             color: Theme.of(context).colorScheme.tertiary,
             height: 20.0,
           ),
-          refreshingText: "Memperbarui...",
-          releaseText: "Lepas Untuk Memperbarui...",
-          idleText: "Tarik ke bawah Untuk Memperbarui...",
-          failedText: "Memperbarui gagal",
-          completeText: "Behasil Memperbarui",
+          refreshingText: AppLocalizations.of(context)!.refreshingText,
+          releaseText: AppLocalizations.of(context)!.releaseText,
+          idleText: AppLocalizations.of(context)!.idleText,
+          failedText: AppLocalizations.of(context)!.failedText,
+          completeText: AppLocalizations.of(context)!.completeText,
           textStyle: bBody1.copyWith(
             color: Theme.of(context).colorScheme.tertiary,
           ),
@@ -409,7 +412,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           "assets/icon/menu/icon-tour.png",
                           "assets/icon/menu/icon-tour-dark.png",
                           // Wait Localization
-                          "Wisata",
+                          AppLocalizations.of(context)!.tour,
                           onTapTourList,
                         ),
                         _buildIconMenuColumn(
@@ -417,7 +420,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           "assets/icon/menu/icon-news.png",
                           "assets/icon/menu/icon-news-dark.png",
                           // Wait Localization
-                          "Berita",
+                          AppLocalizations.of(context)!.news,
                           onTapNewsList,
                         ),
                         _buildIconMenuColumn(
@@ -425,7 +428,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           "assets/icon/menu/icon-umkm.png",
                           "assets/icon/menu/icon-umkm-dark.png",
                           // Wait Localization
-                          "UMKM",
+                          AppLocalizations.of(context)!.umkm,
                           onTapUMKMList,
                         ),
                         _buildIconMenuColumn(
@@ -433,7 +436,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           "assets/icon/menu/icon-bus.png",
                           "assets/icon/menu/icon-bus-dark.png",
                           // Wait Localization
-                          "Transportasi Umum",
+                          AppLocalizations.of(context)!.publicTransportation,
                           onTapTransportList,
                         ),
                       ],
@@ -448,7 +451,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               0,
               0,
               // Wait Localization
-              "Berita",
+              AppLocalizations.of(context)!.news,
               onTapNewsList,
             ),
             SliverPadding(
@@ -482,7 +485,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               30.0,
               0,
               // Wait Localization
-              "Wisata",
+              AppLocalizations.of(context)!.tour,
               onTapTourList,
             ),
             SliverToBoxAdapter(
@@ -529,7 +532,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               10.0,
               0,
               // Wait Localization
-              "UMKM",
+              AppLocalizations.of(context)!.umkm,
               onTapUMKMList,
             ),
             SliverToBoxAdapter(
@@ -574,7 +577,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               10.0,
               0,
               // Wait Localization
-              "Transportasi Umum",
+              AppLocalizations.of(context)!.publicTransportation,
               onTapTransportList,
             ),
             SliverPadding(
@@ -600,7 +603,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           padding: const EdgeInsets.all(2.0),
                           child: Text(
                             // Wait Localization
-                            "Kereta",
+                            AppLocalizations.of(context)!.train,
                             style: bSubtitle3,
                           ),
                         ),
@@ -608,7 +611,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           padding: const EdgeInsets.all(2.0),
                           child: Text(
                             // Wait Localization
-                            "Bus",
+                            AppLocalizations.of(context)!.bus,
                             style: bSubtitle3,
                           ),
                         )

@@ -27,5 +27,8 @@
   "tourAndUmkm": "Tour dan UMKM",
   "tour": "Tour",
   "umkm": "UMKM",
-  "all": "All"
+  "all": "All",
+
+  "@_gallery_screen": {},
+  "imagePreview": "Image Preview"
 }

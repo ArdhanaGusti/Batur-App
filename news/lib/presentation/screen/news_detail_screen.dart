@@ -12,7 +12,6 @@ class NewsDetailScreen extends StatelessWidget {
 
     if (screenSize.width < 320.0 || screenSize.height < 650.0) {
       return ErrorScreen(
-        // Text wait localization
         title: AppLocalizations.of(context)!.screenError,
         message: AppLocalizations.of(context)!.screenSmall,
       );
@@ -39,7 +38,6 @@ class NewsDetailScreen extends StatelessWidget {
       physics: const BouncingScrollPhysics(),
       slivers: <Widget>[
         CustomSliverAppBarTextLeading(
-          // Text wait localization
           title: AppLocalizations.of(context)!.news,
           leadingIcon: "assets/icon/back.svg",
           // Navigation repair
@@ -60,7 +58,7 @@ class NewsDetailScreen extends StatelessWidget {
           sliver: SliverToBoxAdapter(
             child: CustomPrimaryTextButton(
               width: screenSize.width,
-              // Text wait localization
+
               text: AppLocalizations.of(context)!.viewNews,
               // On tap Navigation needs to be replaced
               onTap: () {

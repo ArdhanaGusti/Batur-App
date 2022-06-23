@@ -18,7 +18,6 @@ class _TourUMKMMapsScreenState extends State<TourUMKMMapsScreen> {
 
     if (screenSize.width < 320.0 || screenSize.height < 650.0) {
       return ErrorScreen(
-        // Text wait localization
         title: AppLocalizations.of(context)!.screenError,
         message: AppLocalizations.of(context)!.screenSmall,
       );
@@ -45,7 +44,6 @@ class _TourUMKMMapsScreenState extends State<TourUMKMMapsScreen> {
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
         return <Widget>[
           CustomSliverAppBarTextLeadingAction(
-            // Text wait localization
             title: AppLocalizations.of(context)!.tourAndUmkm,
             leadingIcon: "assets/icon/back.svg",
             // Navigation repair

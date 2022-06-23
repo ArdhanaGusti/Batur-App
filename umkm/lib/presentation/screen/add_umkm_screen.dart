@@ -48,7 +48,6 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
 
     if (screenSize.width < 320.0 || screenSize.height < 650.0) {
       return ErrorScreen(
-        // Text wait localization
         title: AppLocalizations.of(context)!.screenError,
         message: AppLocalizations.of(context)!.screenSmall,
       );
@@ -81,7 +80,6 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
       physics: const BouncingScrollPhysics(),
       slivers: <Widget>[
         CustomSliverAppBarTextLeading(
-          // Text wait localization
           title: AppLocalizations.of(context)!.listUMKM,
           leadingIcon: "assets/icon/back.svg",
           // Navigation repair
@@ -93,25 +91,21 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
         ),
         _customEditForm(
           context,
-          // Text wait localization
           AppLocalizations.of(context)!.shopName,
           const CustomAddUMKMNameTextField(),
         ),
         _customEditFormDesc(
           context,
-          // Text wait localization
           AppLocalizations.of(context)!.shopDesc,
           const CustomAddUMKMDescriptionTextField(),
         ),
         _customEditForm(
           context,
-          // Text wait localization
           AppLocalizations.of(context)!.phoneNumber,
           const CustomAddUMKMPhoneTextField(),
         ),
         _customEditForm(
           context,
-          // Text wait localization
           AppLocalizations.of(context)!.address,
           const CustomAddUMKMAddressTextField(),
         ),
@@ -444,7 +438,6 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
           const SizedBox(
             width: 10.0,
           ),
-          // Text wait localization
           Flexible(
             child: Text(
               AppLocalizations.of(context)!.terms,

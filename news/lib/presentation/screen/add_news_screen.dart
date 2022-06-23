@@ -16,12 +16,10 @@ class AddNewsScreen extends StatelessWidget {
 
     if (screenSize.width < 320.0 || screenSize.height < 650.0) {
       return ErrorScreen(
-        // Text wait localization
         title: AppLocalizations.of(context)!.screenError,
         message: AppLocalizations.of(context)!.screenSmall,
       );
     } else if (screenSize.width > 500.0) {
-      // Tablet Mode (Must be repair)
       return Scaffold(
         body: Center(
           child: Container(
@@ -38,9 +36,7 @@ class AddNewsScreen extends StatelessWidget {
           padding: const EdgeInsets.all(20.0),
           child: CustomPrimaryTextButton(
             width: screenSize.width,
-            // Text wait localization
             text: AppLocalizations.of(context)!.save,
-            // On tap Navigation needs to be replaced
             onTap: () {
               Navigator.pop(
                 context,
@@ -57,7 +53,6 @@ class AddNewsScreen extends StatelessWidget {
       physics: const BouncingScrollPhysics(),
       slivers: <Widget>[
         CustomSliverAppBarTextLeading(
-          // Text wait localization
           title: AppLocalizations.of(context)!.addNews,
           leadingIcon: "assets/icon/back.svg",
           // Navigation repair
@@ -69,19 +64,16 @@ class AddNewsScreen extends StatelessWidget {
         ),
         _customEditForm(
           context,
-          // Text wait localization
           AppLocalizations.of(context)!.newsTitle,
           const CustomAddNewsTitleTextField(),
         ),
         _customEditFormDesc(
           context,
-          // Text wait localization
           AppLocalizations.of(context)!.news,
           const CustomAddNewsDescriptionTextField(),
         ),
         _customEditImage(
           context,
-          // Text wait localization
           AppLocalizations.of(context)!.image,
           const CustomAddNewsDescriptionTextField(),
         ),

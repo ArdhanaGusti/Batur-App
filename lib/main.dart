@@ -21,6 +21,8 @@ import 'package:capstone_design/presentation/bloc/umkm/umkm_create_bloc.dart';
 import 'package:capstone_design/presentation/bloc/umkm/umkm_remove_bloc.dart';
 import 'package:capstone_design/presentation/bloc/umkm/umkm_update_bloc.dart';
 import 'package:capstone_design/presentation/page/dashboard.dart';
+import 'package:capstone_design/presentation/page/news/add_news.dart';
+import 'package:capstone_design/presentation/page/train/add_train.dart';
 
 import 'package:core/core.dart';
 import 'package:core/presentation/bloc/dashboard_bloc.dart';
@@ -40,6 +42,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 void main() async {
   ti.init();
   di.init();
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);

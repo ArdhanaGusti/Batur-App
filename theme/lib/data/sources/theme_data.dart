@@ -75,7 +75,7 @@ final TextStyle bButton1 =
     GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w500);
 final TextStyle bButton2 =
     GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.w600);
-final TextStyle bButton3 =
+final TextStyle bPopup =
     GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w700);
 
 // light theme
@@ -83,6 +83,48 @@ ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
   scaffoldBackgroundColor: bBackgroundPrimary,
   primaryColor: bPrimary,
+  backgroundColor: bBackgroundPrimary,
+  colorScheme: const ColorScheme(
+    brightness: Brightness.light,
+    // button color primary
+    primary: bPrimary,
+    onPrimary: bTextPrimary,
+    // container color primary
+    primaryContainer: bLightGrey,
+    onPrimaryContainer: bPrimary,
+    // button secondary
+    secondary: bSecondary,
+    onSecondary: bTextPrimary,
+    // container color secondary
+    secondaryContainer: bTextPrimary,
+    onSecondaryContainer: bPrimary,
+    // text color primary
+    tertiary: bPrimary,
+    // text color secondary
+    onTertiary: bGrey,
+    // text color primary in container
+    tertiaryContainer: bTextSecondary,
+    // text color secondary in container
+    onTertiaryContainer: bGrey,
+    // error
+    error: bError,
+    onError: bTextPrimary,
+    // error in container
+    errorContainer: bError,
+    onErrorContainer: bTextPrimary,
+    // background color
+    background: bBackgroundPrimary,
+    onBackground: bPrimary,
+    // card primary
+    surface: bPrimary,
+    onSurface: bTextPrimary,
+    // card secondary
+    surfaceVariant: bTextPrimary,
+    onSurfaceVariant: bTextSecondary,
+    // drop down
+    inverseSurface: bPrimaryVariant1,
+    onInverseSurface: bTextPrimary,
+  ),
   inputDecorationTheme: InputDecorationTheme(
     contentPadding: const EdgeInsets.all(16),
     floatingLabelBehavior: FloatingLabelBehavior.never,
@@ -112,12 +154,76 @@ ThemeData lightTheme = ThemeData(
       ),
     ),
   ),
+  checkboxTheme: CheckboxThemeData(
+    side: const BorderSide(
+      width: 1.0,
+      color: bPrimary,
+    ),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(5),
+    ),
+    fillColor: MaterialStateProperty.all(bPrimary),
+  ),
+  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    elevation: 2.0,
+    backgroundColor: bTextPrimary,
+    selectedItemColor: bPrimary,
+    type: BottomNavigationBarType.fixed,
+    selectedLabelStyle: bCaption3.copyWith(color: bPrimary),
+    unselectedLabelStyle: bCaption1.copyWith(color: bGrey),
+    unselectedItemColor: bGrey,
+    selectedIconTheme: const IconThemeData(color: bPrimary),
+    unselectedIconTheme: const IconThemeData(color: bGrey),
+  ),
 );
 
 // dark theme
 ThemeData darkTheme = ThemeData(
   brightness: Brightness.dark,
   scaffoldBackgroundColor: const Color(0xff1B222A),
+  primaryColor: bTextPrimary,
+  backgroundColor: bBackgroundSecondary,
+  colorScheme: const ColorScheme(
+    brightness: Brightness.dark,
+    // button color primary
+    primary: bPrimary,
+    onPrimary: bTextPrimary,
+    // container color primary
+    primaryContainer: bDarkGrey,
+    onPrimaryContainer: bTextPrimary,
+    // button secondary
+    secondary: bDarkGrey,
+    onSecondary: bTextPrimary,
+    // container color secondary
+    secondaryContainer: bDarkGrey,
+    onSecondaryContainer: bTextPrimary,
+    // text color primary
+    tertiary: bTextPrimary,
+    // text color secondary
+    onTertiary: bGrey,
+    // text color primary in container
+    tertiaryContainer: bTextPrimary,
+    // text color secondary in container
+    onTertiaryContainer: bGrey,
+    // error
+    error: bError,
+    onError: bTextPrimary,
+    // error in container
+    errorContainer: bError,
+    onErrorContainer: bTextPrimary,
+    // background color
+    background: bBackgroundSecondary,
+    onBackground: bTextPrimary,
+    // card primary
+    surface: bDarkGrey,
+    onSurface: bTextPrimary,
+    // card secondary
+    surfaceVariant: bGrey,
+    onSurfaceVariant: bTextPrimary,
+    // drop down
+    inverseSurface: bGrey,
+    onInverseSurface: bTextPrimary,
+  ),
   inputDecorationTheme: InputDecorationTheme(
     contentPadding: const EdgeInsets.all(16),
     floatingLabelBehavior: FloatingLabelBehavior.never,
@@ -147,5 +253,26 @@ ThemeData darkTheme = ThemeData(
         ),
       ),
     ),
+  ),
+  checkboxTheme: CheckboxThemeData(
+    side: const BorderSide(
+      width: 1.0,
+      color: bGrey,
+    ),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(5),
+    ),
+    fillColor: MaterialStateProperty.all(bGrey),
+  ),
+  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    elevation: 2.0,
+    backgroundColor: bDarkGrey,
+    selectedItemColor: bTextPrimary,
+    type: BottomNavigationBarType.fixed,
+    selectedLabelStyle: bCaption3.copyWith(color: bTextPrimary),
+    unselectedLabelStyle: bCaption1.copyWith(color: bGrey),
+    unselectedItemColor: bGrey,
+    selectedIconTheme: const IconThemeData(color: bTextPrimary),
+    unselectedIconTheme: const IconThemeData(color: bGrey),
   ),
 );

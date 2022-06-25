@@ -1,8 +1,9 @@
 import 'dart:io';
 import 'package:capstone_design/data/service/api_service.dart';
-import 'package:capstone_design/presentation/bloc/news/news_create_bloc.dart';
-import 'package:capstone_design/presentation/bloc/news/news_event.dart';
-import 'package:capstone_design/presentation/bloc/news/news_state.dart';
+// import 'package:capstone_design/presentation/bloc/news/news_create_bloc.dart';
+import 'package:news/news.dart';
+// import 'package:capstone_design/presentation/bloc/news/news_event.dart';
+// import 'package:capstone_design/presentation/bloc/news/news_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';

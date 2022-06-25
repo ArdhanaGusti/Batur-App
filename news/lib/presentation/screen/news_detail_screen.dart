@@ -37,15 +37,12 @@ class NewsDetailScreen extends StatelessWidget {
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: <Widget>[
-        CustomSliverAppBarTextLeading(
-          title: AppLocalizations.of(context)!.news,
-          leadingIcon: "assets/icon/back.svg",
-          // Navigation repair
-          leadingOnTap: () {
-            Navigator.pop(
-              context,
-            );
-          },
+        CustomSliverAppBarTextLeadingAction(
+          title: "Berita",
+          leadingIcon: "assets/icon/bold/chevron-left.svg",
+          leadingOnTap: () {},
+          actionIcon: "assets/icon/trash.svg",
+          actionOnTap: () {},
         ),
         _customContainerNewsDetail(context, screenSize),
         SliverPadding(

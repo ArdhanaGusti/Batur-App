@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:theme/theme.dart';
 
 class CustomAddNewsDescriptionTextField extends StatelessWidget {
-  const CustomAddNewsDescriptionTextField({Key? key}) : super(key: key);
+  final Function(String item) onChange;
+  const CustomAddNewsDescriptionTextField({Key? key, required this.onChange})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,7 @@ class CustomAddNewsDescriptionTextField extends StatelessWidget {
         return null;
       },
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      onChanged: (text) {},
+      onChanged: onChange,
     );
   }
 }

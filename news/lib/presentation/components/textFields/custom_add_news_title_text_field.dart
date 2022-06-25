@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:theme/theme.dart';
 
 class CustomAddNewsTitleTextField extends StatelessWidget {
-  const CustomAddNewsTitleTextField({Key? key}) : super(key: key);
+  final Function(String item) onChange;
+  const CustomAddNewsTitleTextField({Key? key, required this.onChange})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ class CustomAddNewsTitleTextField extends StatelessWidget {
         return null;
       },
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      onChanged: (text) {},
+      onChanged: (onChange) {},
     );
   }
 }

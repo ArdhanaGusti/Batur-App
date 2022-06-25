@@ -1,14 +1,47 @@
+import 'dart:io';
+
 import 'package:core/core.dart';
+import 'package:news/presentation/bloc/news_create_bloc.dart';
+import 'package:news/presentation/bloc/news_event.dart';
+import 'package:news/presentation/bloc/news_state.dart';
 import '../components/textFields/custom_add_news_description_text_field.dart';
 import '../components/textFields/custom_add_news_title_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:theme/theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AddNewsScreen extends StatelessWidget {
-  final bool isAddedImage = false;
+class AddNewsScreen extends StatefulWidget {
   const AddNewsScreen({Key? key}) : super(key: key);
+
+  @override
+  State<AddNewsScreen> createState() => _AddNewsScreenState();
+}
+
+class _AddNewsScreenState extends State<AddNewsScreen> {
+  final bool isAddedImage = false;
+
+  File? image;
+
+  String? imageName, judul, konten, urlName;
+
+  @override
+  void initState() {
+    setState(() {});
+    super.initState();
+  }
+
+  void pickImg() async {
+    var selectedImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    setState(() {
+      image = File(selectedImage!.path);
+      imageName = basename(image!.path);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,12 +67,69 @@ class AddNewsScreen extends StatelessWidget {
         body: _buildSettingScreen(context, screenSize),
         bottomNavigationBar: Container(
           padding: const EdgeInsets.all(20.0),
-          child: CustomPrimaryTextButton(
-            width: screenSize.width,
-            text: AppLocalizations.of(context)!.save,
-            onTap: () {
-              Navigator.pop(
-                context,
+          child: BlocConsumer<NewsCreateBloc, NewsState>(
+            listener: (context, state) async {
+              if (state is NewsLoading) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: CircularProgressIndicator(),
+                ));
+              } else if (state is NewsCreated) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(state.result),
+                ));
+              } else if (state is NewsError) {
+                await showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        content: Text(state.message),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text("Kembali"),
+                          )
+                        ],
+                      );
+                    });
+              }
+            },
+            builder: (context, state) {
+              return CustomPrimaryTextButton(
+                width: screenSize.width,
+                text: AppLocalizations.of(context)!.save,
+                onTap: () async {
+                  if (image == null) {
+                    pickImg();
+                  } else {
+                    if (judul != null && konten != null && image != null) {
+                      context.read<NewsCreateBloc>().add(OnCreateNews(
+                          context, image!, imageName!, judul!, konten!));
+                      // setState(() {
+                      //   image = null;
+                      //   imageName = null;
+                      // });
+                    } else {
+                      AlertDialog alert = AlertDialog(
+                        title: Text("Silahkan lengkapi data"),
+                        actions: [
+                          TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text("Ok"))
+                        ],
+                      );
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return alert;
+                        },
+                      );
+                    }
+                  }
+                },
               );
             },
           ),
@@ -65,17 +155,37 @@ class AddNewsScreen extends StatelessWidget {
         _customEditForm(
           context,
           AppLocalizations.of(context)!.newsTitle,
-          const CustomAddNewsTitleTextField(),
+          CustomAddNewsTitleTextField(
+            onChange: (item) {
+              setState(() {
+                judul = item;
+              });
+              print(judul);
+            },
+          ),
         ),
         _customEditFormDesc(
           context,
           AppLocalizations.of(context)!.news,
-          const CustomAddNewsDescriptionTextField(),
+          CustomAddNewsDescriptionTextField(
+            onChange: (item) {
+              setState(() {
+                konten = item;
+              });
+              print(konten);
+            },
+          ),
         ),
         _customEditImage(
           context,
           AppLocalizations.of(context)!.image,
-          const CustomAddNewsDescriptionTextField(),
+          CustomAddNewsDescriptionTextField(
+            onChange: (item) {
+              setState(() {
+                konten = item;
+              });
+            },
+          ),
         ),
       ],
     );
@@ -180,7 +290,7 @@ class AddNewsScreen extends StatelessWidget {
                           width: 20.0,
                         ),
                         GestureDetector(
-                          onTap: () {},
+                          onTap: pickImg,
                           child: Center(
                             child: Container(
                               height: 40.0,

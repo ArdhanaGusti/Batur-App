@@ -1,8 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:capstone_design/data/service/api_service.dart';
-import 'package:capstone_design/presentation/bloc/news/news_event.dart';
-import 'package:capstone_design/presentation/bloc/news/news_remove_bloc.dart';
-import 'package:capstone_design/presentation/bloc/news/news_state.dart';
+// import 'package:capstone_design/presentation/bloc/news/news_event.dart';
+// import 'package:capstone_design/presentation/bloc/news/news_remove_bloc.dart';
+import 'package:news/news.dart';
+// import 'package:capstone_design/presentation/bloc/news/news_state.dart';
 import 'package:capstone_design/presentation/page/dashboard.dart';
 import 'package:capstone_design/presentation/page/news/edit_news.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

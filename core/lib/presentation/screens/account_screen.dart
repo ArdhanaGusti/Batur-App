@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:theme/theme.dart';
+import 'package:umkm/umkm.dart';
 
 // Review Check 1 (Done)
 
@@ -121,6 +122,25 @@ class AccountScreen extends StatelessWidget {
               // Text wait localization
               "Pengaturan",
               "assets/icon/regular/settings.svg",
+            ),
+            _buildSmallContainer(
+              context,
+              () {
+                // Navigate to Status Regis Page
+                Navigator.push(
+                  context,
+                  PageTransition(
+                    curve: Curves.easeInOut,
+                    type: PageTransitionType.bottomToTop,
+                    child: const AddUMKMScreen(),
+                    duration: const Duration(milliseconds: 150),
+                    reverseDuration: const Duration(milliseconds: 150),
+                  ),
+                );
+              },
+              // Text wait localization
+              "Status Registrasi",
+              "assets/icon/regular/check-circle.svg",
             ),
             _buildSmallContainer(
               context,

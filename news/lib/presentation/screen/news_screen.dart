@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:core/presentation/components/appbar/custom_sliver_appbar_dashboard.dart';
 import 'package:core/presentation/components/card/custom_news_card.dart';
 import 'package:core/presentation/components/card/custom_favorite_umkm_card.dart';
@@ -204,7 +205,7 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                       padding: const EdgeInsets.all(2.0),
                       child: Text(
                         // Wait Localization
-                        "News Api",
+                        "Terkini",
                         style: bSubtitle3,
                       ),
                     ),
@@ -212,7 +213,7 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                       padding: const EdgeInsets.all(2.0),
                       child: Text(
                         // Wait Localization
-                        "Local",
+                        "News",
                         style: bSubtitle3,
                       ),
                     )
@@ -240,39 +241,54 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                           left: 20.0,
                           right: 20.0,
                         ),
-                        sliver: SliverList(
-                          delegate: SliverChildBuilderDelegate(
-                            (BuildContext context, int index) {
-                              // Use Data News
-                              return Padding(
-                                padding: const EdgeInsets.only(bottom: 15.0),
-                                child: CustomNewsCard(
-                                  img:
-                                      "https://cdn1-production-images-kly.akamaized.net/lMHji7xE4GI7YHCWAQumKfFm9Ew=/1200x900/smart/filters:quality(75):strip_icc():format(jpeg)/kly-media-production/medias/3554482/original/037161700_1630219411-bandung-5319951_1920.jpg",
-                                  title:
-                                      "Prabowo Atau Anies, Siapa Capres yang Paling Kuat?",
-                                  writer: "Udin Saparudin",
-                                  date: "Jumat, 13 Mei 2022",
-                                  onTap: () {
-                                    // To detail News
-                                    Navigator.push(
-                                      context,
-                                      PageTransition(
-                                        curve: Curves.easeOut,
-                                        type: PageTransitionType.bottomToTop,
-                                        child: const NewsDetailScreen(),
-                                        duration:
-                                            const Duration(milliseconds: 150),
-                                        reverseDuration:
-                                            const Duration(milliseconds: 150),
+                        sliver: SliverToBoxAdapter(
+                          child: StreamBuilder<QuerySnapshot>(
+                              stream: FirebaseFirestore.instance
+                                  .collection("News")
+                                  .snapshots(),
+                              builder: (context, snapshot) {
+                                if (!snapshot.hasData) {
+                                  return CircularProgressIndicator();
+                                }
+                                return ListView.builder(
+                                  shrinkWrap: true,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    // Use Data News
+                                    return Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 15.0),
+                                      child: CustomNewsCard(
+                                        img:
+                                            '${snapshot.data!.docs[index]['coverUrl']}',
+                                        title: snapshot.data!.docs[index]
+                                            ['title'],
+                                        writer: snapshot.data!.docs[index]
+                                            ['username'],
+                                        date: snapshot.data!.docs[index]
+                                            ['date'],
+                                        onTap: () {
+                                          // To detail News
+                                          Navigator.push(
+                                            context,
+                                            PageTransition(
+                                              curve: Curves.easeOut,
+                                              type: PageTransitionType
+                                                  .bottomToTop,
+                                              child: const NewsDetailScreen(),
+                                              duration: const Duration(
+                                                  milliseconds: 150),
+                                              reverseDuration: const Duration(
+                                                  milliseconds: 150),
+                                            ),
+                                          );
+                                        },
                                       ),
                                     );
                                   },
-                                ),
-                              );
-                            },
-                            childCount: 5,
-                          ),
+                                  itemCount: snapshot.data!.docs.length,
+                                );
+                              }),
                         ),
                       ),
                     ],

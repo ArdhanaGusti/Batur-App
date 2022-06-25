@@ -57,3 +57,4 @@ export 'package:core/presentation/screens/about_screen.dart';
 export 'package:core/presentation/screens/term_and_condition_screen.dart';
 export 'package:core/presentation/screens/help_screen.dart';
 export 'package:core/presentation/components/custom_smart_refresh.dart';
+export 'package:core/presentation/components/appbar/custom_appbar_detail.dart';

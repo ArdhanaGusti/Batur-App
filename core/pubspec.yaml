@@ -24,6 +24,8 @@ dependencies:
     path: ../transportation
   news:
     path: ../news
+  tourism:
+    path: ../tourism
 
   loading_animation_widget:
   cached_network_image:

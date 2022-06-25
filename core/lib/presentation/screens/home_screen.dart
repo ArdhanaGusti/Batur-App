@@ -18,6 +18,7 @@ import 'package:theme/theme.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:transportation/transportation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tourism/tourism.dart';
 
 enum HomeScreenProcessEnum {
   loading,
@@ -178,6 +179,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   void onTapTourList() {
     // Navigate to Tour List
+    // Navigator.push(context,
+    //     MaterialPageRoute(builder: (context) => const TourListScreen()));
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const TourListScreen()));
   }
 
   void onTapNewsList() {

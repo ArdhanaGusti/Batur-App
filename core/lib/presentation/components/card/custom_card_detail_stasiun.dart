@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:theme/theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:transportation/presentation/screens/gallery_screen.dart';
 
 class CustomCardDetailStasiun extends StatelessWidget {
-  final String img;
+  final String imgList;
   final String telephone;
   final String title;
   final String like;
@@ -12,164 +14,180 @@ class CustomCardDetailStasiun extends StatelessWidget {
   final String description;
   final Function() onTap;
 
-  const CustomCardDetailStasiun(
-      {Key? key,
-      required this.img,
-      required this.telephone,
-      required this.title,
-      required this.like,
-      required this.address,
-      required this.description,
-      required this.onTap})
-      : super(key: key);
+  const CustomCardDetailStasiun({
+    Key? key,
+    required this.imgList,
+    required this.telephone,
+    required this.title,
+    required this.like,
+    required this.address,
+    required this.description,
+    required this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     double width = screenSize.width - 40;
-    List carouselImages = [
-      'assets/splashscreen/image1.webp',
-      'assets/splashscreen/image1.webp',
+    List<String> carouselImages = [
+      'https://terkinni.com/wp-content/uploads/2022/06/red_velvet-20220322-001-non_fotografer_kly.jpg',
+      'https://www.jd.id/news/wp-content/uploads/2022/03/Album-Blackpink-min.jpg',
+      'https://img.celebrities.id/okz/900/yE79u7/master_w524V5OHB5_1654_twice.jpg',
     ];
     return BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
-        builder: (context, state) {
-      Brightness screenBrightness = MediaQuery.platformBrightnessOf(context);
-      bool isLight = (state.isDark == ThemeModeEnum.darkTheme)
-          ? false
-          : (state.isDark == ThemeModeEnum.lightTheme)
-              ? true
-              : (screenBrightness == Brightness.light)
-                  ? true
-                  : false;
-      return Column(
-        children: [
-          GestureDetector(
-            onTap: onTap,
-            child: Container(
+      builder: (context, state) {
+        Brightness screenBrightness = MediaQuery.platformBrightnessOf(context);
+        bool isLight = (state.isDark == ThemeModeEnum.darkTheme)
+            ? false
+            : (state.isDark == ThemeModeEnum.lightTheme)
+                ? true
+                : (screenBrightness == Brightness.light)
+                    ? true
+                    : false;
+        return Column(
+          children: <Widget>[
+            Container(
               width: width,
-              padding: EdgeInsets.all(15),
+              padding: const EdgeInsets.all(15.0),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: (state.isDark == ThemeModeEnum.darkTheme)
-                      ? bDarkGrey
-                      : (state.isDark == ThemeModeEnum.lightTheme)
-                          ? bTextPrimary
-                          : (screenBrightness == Brightness.light)
-                              ? bTextPrimary
-                              : bDarkGrey,
-                  boxShadow: [
-                    BoxShadow(
-                      color: bStroke,
-                      spreadRadius: 2,
-                      blurRadius: 10,
-                      offset: Offset(0, 0),
-                    ),
-                  ]),
+                borderRadius: BorderRadius.circular(10),
+                color: Theme.of(context).colorScheme.secondaryContainer,
+                boxShadow: const [
+                  BoxShadow(
+                    color: bStroke,
+                    spreadRadius: 2,
+                    blurRadius: 10,
+                    offset: Offset(0, 0),
+                  ),
+                ],
+              ),
               child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: width - 30,
-                      child: CarouselSlider(
-                        options: CarouselOptions(
-                          viewportFraction: 1,
-                          enlargeCenterPage: true,
-                          autoPlay: true,
-                        ),
-                        items: carouselImages.map((i) {
-                          return Builder(
-                            builder: (BuildContext context) {
-                              return Container(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  CarouselSlider(
+                    options: CarouselOptions(
+                      viewportFraction: 1,
+                      enlargeCenterPage: true,
+                      autoPlay: true,
+                    ),
+                    items: carouselImages.map((i) {
+                      return Builder(
+                        builder: (BuildContext context) {
+                          return Hero(
+                            tag: carouselImages[carouselImages.indexOf(i)],
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => GalleryScreen(
+                                      images: carouselImages,
+                                      index: carouselImages.indexOf(i),
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Container(
                                 width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
                                 child: ClipRRect(
                                     borderRadius: BorderRadius.circular(10),
-                                    child: Image.asset(
+                                    child: Image.network(
                                       i,
                                       fit: BoxFit.cover,
                                     )),
-                              );
-                            },
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          width: width - 50,
-                          child: Text(
-                            title,
-                            maxLines: 2,
-                            style: bHeading7.copyWith(
-                              color: (isLight) ? bPrimary : bTextPrimary,
+                              ),
                             ),
-                          ),
-                        ),
-                        Column(
-                          children: [
-                            Icon(
-                              Icons.thumb_up,
-                              color: (isLight) ? bPrimary : bTextPrimary,
-                              size: 20,
+                          );
+                        },
+                      );
+                    }).toList(),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Flexible(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              title,
+                              maxLines: 2,
+                              style: bHeading7.copyWith(
+                                color: Theme.of(context).colorScheme.tertiary,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 15,
                             ),
                             Text(
-                              like,
-                              style: bCaption1,
+                              address,
+                              style: bCaption1.copyWith(
+                                color: bGrey,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.call,
+                                  color: bGrey,
+                                  size: 11,
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                Flexible(
+                                  child: Text(
+                                    telephone,
+                                    maxLines: 1,
+                                    style: bCaption1,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                SvgPicture.asset(
+                                  "assets/icon/regular/copy.svg",
+                                  color: bGrey,
+                                  height: 14,
+                                ),
+                              ],
                             ),
                           ],
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Text(
-                      description,
-                      style: bCaption1,
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Container(
-                      width: width - 50,
-                      child: Text(
-                        address,
-                        maxLines: 1,
-                        style: bCaption1,
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.call,
-                          color: (isLight) ? bPrimary : bTextPrimary,
-                          size: 11,
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Container(
-                          width: width - 50,
-                          child: Text(
-                            telephone,
-                            maxLines: 1,
-                            style: bCaption1,
+                      Column(
+                        children: [
+                          SvgPicture.asset(
+                            "assets/icon/fill/star.svg",
+                            color: bSecondary,
+                            height: 24,
                           ),
-                        ),
-                      ],
-                    ),
-                  ]),
+                          Text(
+                            like,
+                            style: bCaption1.copyWith(
+                              color: Theme.of(context).colorScheme.tertiary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
-      );
-    });
+          ],
+        );
+      },
+    );
   }
 }

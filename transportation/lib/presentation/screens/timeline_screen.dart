@@ -1,42 +1,109 @@
+import 'dart:async';
+
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:theme/theme.dart';
 import 'package:timelines/timelines.dart';
 
-class TimeLineScreen extends StatelessWidget {
-  const TimeLineScreen({Key? key}) : super(key: key);
+// Check
+
+enum TimelineScreenProcessEnum {
+  loading,
+  loaded,
+  failed,
+}
+
+class TimeLineScreen extends StatefulWidget {
+  // Add Parameter Data Train
+  final bool isTrain;
+  const TimeLineScreen({
+    Key? key,
+    required this.isTrain,
+  }) : super(key: key);
+
+  @override
+  State<TimeLineScreen> createState() => _TimeLineScreenState();
+}
+
+class _TimeLineScreenState extends State<TimeLineScreen> {
+  // State for loading
+  TimelineScreenProcessEnum process = TimelineScreenProcessEnum.loading;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Change with to fetch data
+    Timer(const Duration(seconds: 2), () {
+      // Change state value if data loaded or failed
+      setState(() {
+        process = TimelineScreenProcessEnum.loaded;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
 
-    if (screenSize.width < 320.0 || screenSize.height < 650.0) {
-      return ErrorScreen(
+    if (process == TimelineScreenProcessEnum.loading) {
+      return NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return [
+            _buildAppBar(),
+          ];
+        },
+        body: Scaffold(
+          body: Center(
+            child: LoadingAnimationWidget.horizontalRotatingDots(
+              color: Theme.of(context).colorScheme.tertiary,
+              size: 50.0,
+            ),
+          ),
+        ),
+      );
+    } else if (process == TimelineScreenProcessEnum.failed) {
+      return const ErrorScreen(
+        title: "AppLocalizations.of(context)!.oops",
+        message: "AppLocalizations.of(context)!.screenSmall",
+      );
+    } else {
+      return _buildScreen(context, screenSize);
+    }
+  }
+
+  Widget _buildAppBar() {
+    return CustomSliverAppBarTextLeading(
+      // Change with data
+      title: "KA 105",
+      leadingIcon: "assets/icon/regular/chevron-left.svg",
+      leadingOnTap: () {
+        Navigator.pop(
+          context,
+        );
+      },
+    );
+  }
+
+  Widget _buildScreen(BuildContext context, Size screenSize) {
+    if (screenSize.width < 300.0 || screenSize.height < 600.0) {
+      return const ErrorScreen(
         // Text wait localization
         title: "AppLocalizations.of(context)!.screenError",
         message: "AppLocalizations.of(context)!.screenSmall",
       );
-    } else if (screenSize.width > 500.0) {
-      // Tablet Mode (Must be repair)
-      return Scaffold(
-        body: Center(
-          child: Container(
-            constraints: const BoxConstraints(maxWidth: 500.0),
-            child: _buildNewsDetailScreen(context, screenSize),
-          ),
-        ),
-      );
     } else {
       // Mobile Mode
       return Scaffold(
-        body: _buildNewsDetailScreen(context, screenSize),
+        body: _buildLoaded(context, screenSize),
       );
     }
   }
 
-  Widget _buildNewsDetailScreen(BuildContext context, Size screenSize) {
+  Widget _buildLoaded(BuildContext context, Size screenSize) {
     final data = _data(1);
     return Stack(
       children: <Widget>[
@@ -44,7 +111,9 @@ class TimeLineScreen extends StatelessWidget {
           child: Align(
             alignment: Alignment.bottomRight,
             child: SvgPicture.asset(
-              "assets/icon/fill/train.svg",
+              (widget.isTrain)
+                  ? "assets/icon/fill/train.svg"
+                  : "assets/icon/fill/bus.svg",
               height: 300.0,
             ),
           ),
@@ -52,21 +121,13 @@ class TimeLineScreen extends StatelessWidget {
         CustomScrollView(
           physics: const BouncingScrollPhysics(),
           slivers: <Widget>[
-            CustomSliverAppBarTextLeading(
-              // Text wait localization
-              title: "KA 105",
-              leadingIcon: "assets/icon/back.svg",
-              // Navigation repair
-              leadingOnTap: () {
-                Navigator.pop(
-                  context,
-                );
-              },
-            ),
+            _buildAppBar(),
             TitleContainer(
               data: data,
             ),
-            Process(processes: data.processes),
+            Process(
+              processes: data.processes,
+            ),
           ],
         ),
       ],
@@ -74,8 +135,10 @@ class TimeLineScreen extends StatelessWidget {
   }
 }
 
+// Make self component
 class TitleContainer extends StatelessWidget {
   const TitleContainer({Key? key, required this.data}) : super(key: key);
+
   final _TransportInfo data;
 
   @override
@@ -99,45 +162,63 @@ class TitleContainer extends StatelessWidget {
         top: 20.0,
       ),
       sliver: SliverToBoxAdapter(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Column(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  data.name,
-                  style: bHeading7.copyWith(
-                    color: Theme.of(context).colorScheme.tertiary,
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        data.name,
+                        style: bHeading7.copyWith(
+                          color: Theme.of(context).colorScheme.tertiary,
+                        ),
+                        textAlign: TextAlign.left,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        data.classTransport,
+                        style: bSubtitle2.copyWith(
+                          color: Theme.of(context).colorScheme.tertiary,
+                        ),
+                        textAlign: TextAlign.left,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
                   ),
-                  textAlign: TextAlign.center,
                 ),
-                Text(
-                  data.classTransport,
-                  style: bSubtitle2.copyWith(
-                    color: Theme.of(context).colorScheme.tertiary,
+                Flexible(
+                  child: Text(
+                    // Change with data
+                    'Rp. 25.000',
+                    style: bHeading7.copyWith(
+                      color: Theme.of(context).colorScheme.tertiary,
+                    ),
+                    textAlign: TextAlign.right,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(
-                  height: 20.0,
-                ),
-                Text(
-                  '${hour.toString()} ${"AppLocalizations.of(context)!.hour"} ${min.toString()} ${"AppLocalizations.of(context)!.minute"}',
-                  style: bSubtitle2.copyWith(
-                    color: Theme.of(context).colorScheme.tertiary,
-                  ),
-                  textAlign: TextAlign.center,
                 ),
               ],
             ),
+            const SizedBox(
+              height: 20.0,
+            ),
             Text(
-              'Rp. 25.000',
-              style: bHeading7.copyWith(
+              '${hour.toString()} ${"AppLocalizations.of(context)!.hour"} ${min.toString()} ${"AppLocalizations.of(context)!.minute"}',
+              style: bSubtitle2.copyWith(
                 color: Theme.of(context).colorScheme.tertiary,
               ),
-              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
           ],
         ),
@@ -146,8 +227,12 @@ class TitleContainer extends StatelessWidget {
   }
 }
 
+// Make self component
 class Process extends StatelessWidget {
-  const Process({Key? key, required this.processes}) : super(key: key);
+  const Process({
+    Key? key,
+    required this.processes,
+  }) : super(key: key);
 
   final List<_Process> processes;
   @override
@@ -233,7 +318,9 @@ class Process extends StatelessWidget {
                                 ? Theme.of(context).colorScheme.tertiary
                                 : bGrey,
                       ),
-                      textAlign: TextAlign.center,
+                      textAlign: TextAlign.left,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(
                       height: 5.0,
@@ -247,7 +334,9 @@ class Process extends StatelessWidget {
                                 ? Theme.of(context).colorScheme.tertiary
                                 : bGrey,
                       ),
-                      textAlign: TextAlign.center,
+                      textAlign: TextAlign.left,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),

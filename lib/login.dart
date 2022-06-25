@@ -14,9 +14,6 @@ import 'package:capstone_design/presentation/screens/text_button_screen.dart';
 import 'package:capstone_design/presentation/screens/text_icon_button_screen.dart';
 import 'package:capstone_design/presentation/screens/theme_setting_screen.dart';
 import 'package:capstone_design/presentation/screens/toast_screen.dart';
-import 'package:capstone_design/presentation/screens/transportasi/maps_transportasi.dart';
-import 'package:capstone_design/presentation/screens/transportasi/transportasi_screen.dart';
-import 'package:capstone_design/presentation/screens/transportasi/transportation_detail_screen.dart';
 import 'package:capstone_design/presentation/screens/validation_button_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -225,40 +222,7 @@ class _LoginState extends State<Login> {
                     },
                     child: const Text("Notifikasi Screen"),
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const TransportasiScreen(),
-                        ),
-                      );
-                    },
-                    child: const Text("Transportasi Screen"),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const MapTransportasiScreen(),
-                        ),
-                      );
-                    },
-                    child: const Text("Map Transportasi Screen"),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              const TransportationDetailScreen(),
-                        ),
-                      );
-                    },
-                    child: const Text("Map Transportasi Detail Screen"),
-                  ),
+
                   // ElevatedButton(
                   //   onPressed: () {
                   //     Navigator.push(

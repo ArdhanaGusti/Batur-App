@@ -198,7 +198,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       PageTransition(
         curve: Curves.easeInOut,
         type: PageTransitionType.bottomToTop,
-        child: const TransportasiScreen(),
+        child: const TransportationMapScreen(),
         duration: const Duration(milliseconds: 150),
         reverseDuration: const Duration(milliseconds: 150),
       ),

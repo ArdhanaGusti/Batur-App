@@ -40,6 +40,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 void main() async {
   ti.init();
   di.init();
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);

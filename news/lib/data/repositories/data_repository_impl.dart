@@ -8,10 +8,10 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class DataRepositoryImpl implements DataRepository {
+class DataRepositoryImplNews implements DataRepositoryNews {
   final CrudNews crudNews;
 
-  DataRepositoryImpl({
+  DataRepositoryImplNews({
     required this.crudNews,
   });
 

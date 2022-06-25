@@ -26,7 +26,7 @@ class CustomAddNewsTitleTextField extends StatelessWidget {
         return null;
       },
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      onChanged: (onChange) {},
+      onChanged: onChange,
     );
   }
 }

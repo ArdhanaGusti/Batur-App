@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:core/core.dart';
+import 'package:news/data/service/api_service.dart';
 import 'package:news/presentation/bloc/news_create_bloc.dart';
 import 'package:news/presentation/bloc/news_event.dart';
 import 'package:news/presentation/bloc/news_state.dart';
@@ -22,7 +23,7 @@ class AddNewsScreen extends StatefulWidget {
 }
 
 class _AddNewsScreenState extends State<AddNewsScreen> {
-  final bool isAddedImage = false;
+  bool isAddedImage = true;
 
   File? image;
 
@@ -40,6 +41,7 @@ class _AddNewsScreenState extends State<AddNewsScreen> {
     setState(() {
       image = File(selectedImage!.path);
       imageName = basename(image!.path);
+      isAddedImage = false;
     });
   }
 
@@ -100,34 +102,32 @@ class _AddNewsScreenState extends State<AddNewsScreen> {
                 width: screenSize.width,
                 text: AppLocalizations.of(context)!.save,
                 onTap: () async {
-                  if (image == null) {
-                    pickImg();
+                  if (judul != null && konten != null && image != null) {
+                    // context.read<NewsCreateBloc>().add(OnCreateNews(
+                    //     context, image!, imageName!, judul!, konten!));
+                    // setState(() {
+                    //   image = null;
+                    //   imageName = null;
+                    // });
+                    ApiServiceNews()
+                        .sendNews(context, image!, imageName!, judul, konten);
                   } else {
-                    if (judul != null && konten != null && image != null) {
-                      context.read<NewsCreateBloc>().add(OnCreateNews(
-                          context, image!, imageName!, judul!, konten!));
-                      // setState(() {
-                      //   image = null;
-                      //   imageName = null;
-                      // });
-                    } else {
-                      AlertDialog alert = AlertDialog(
-                        title: Text("Silahkan lengkapi data"),
-                        actions: [
-                          TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text("Ok"))
-                        ],
-                      );
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return alert;
-                        },
-                      );
-                    }
+                    AlertDialog alert = AlertDialog(
+                      title: Text("Silahkan lengkapi data"),
+                      actions: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text("Ok"))
+                      ],
+                    );
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return alert;
+                      },
+                    );
                   }
                 },
               );
@@ -160,7 +160,9 @@ class _AddNewsScreenState extends State<AddNewsScreen> {
               setState(() {
                 judul = item;
               });
-              print(judul);
+              if (judul != null) {
+                print(judul);
+              }
             },
           ),
         ),
@@ -172,20 +174,16 @@ class _AddNewsScreenState extends State<AddNewsScreen> {
               setState(() {
                 konten = item;
               });
-              print(konten);
+              if (konten != null) {
+                print(konten);
+              }
             },
           ),
         ),
         _customEditImage(
           context,
           AppLocalizations.of(context)!.image,
-          CustomAddNewsDescriptionTextField(
-            onChange: (item) {
-              setState(() {
-                konten = item;
-              });
-            },
-          ),
+          // CustomAddNewsDescriptionTextField(),
         ),
       ],
     );
@@ -218,8 +216,7 @@ class _AddNewsScreenState extends State<AddNewsScreen> {
     );
   }
 
-  Widget _customEditImage(
-      BuildContext context, String title, Widget textField) {
+  Widget _customEditImage(BuildContext context, String title) {
     return SliverPadding(
       padding: const EdgeInsets.only(
         top: 20.0,
@@ -240,7 +237,7 @@ class _AddNewsScreenState extends State<AddNewsScreen> {
               padding: const EdgeInsets.only(top: 10.0),
               child: (isAddedImage)
                   ? GestureDetector(
-                      onTap: () {},
+                      onTap: pickImg,
                       child: Container(
                         width: 180.0,
                         height: 100.0,
@@ -278,19 +275,25 @@ class _AddNewsScreenState extends State<AddNewsScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(15.0),
-                          child: Image.network(
-                            "https://cdn-2.tstatic.net/tribunnews/foto/bank/images/indonesiatravel-gedung-sate-salah-satu-ikon-kota-bandung.jpg",
-                            width: 180.0,
-                            height: 100.0,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
+                            borderRadius: BorderRadius.circular(15.0),
+                            child: (image == null)
+                                ? Image.network(
+                                    "https://cdn-2.tstatic.net/tribunnews/foto/bank/images/indonesiatravel-gedung-sate-salah-satu-ikon-kota-bandung.jpg",
+                                    width: 180.0,
+                                    height: 100.0,
+                                    fit: BoxFit.cover,
+                                  )
+                                : Image.file(
+                                    image!,
+                                    width: 180.0,
+                                    height: 100.0,
+                                    fit: BoxFit.cover,
+                                  )),
                         const SizedBox(
                           width: 20.0,
                         ),
                         GestureDetector(
-                          onTap: pickImg,
+                          // onTap: pickImg,
                           child: Center(
                             child: Container(
                               height: 40.0,

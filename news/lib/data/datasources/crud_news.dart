@@ -19,9 +19,9 @@ abstract class CrudNews {
 }
 
 class CrudNewsImpl implements CrudNews {
-  final ApiService apiService;
+  final ApiServiceNews apiServiceNews;
 
-  CrudNewsImpl({required this.apiService});
+  CrudNewsImpl({required this.apiServiceNews});
   @override
   Future<String> editNews(
       BuildContext context,
@@ -32,8 +32,8 @@ class CrudNewsImpl implements CrudNews {
       String urlNameNow,
       DocumentReference<Object?> index) async {
     try {
-      apiService.editNews(context, imageNow, imageNameNow, judulNow, kontenNow,
-          urlNameNow, index);
+      apiServiceNews.editNews(context, imageNow, imageNameNow, judulNow,
+          kontenNow, urlNameNow, index);
       return "Berita sudah di edit";
     } catch (e) {
       throw DatabaseException(e.toString());
@@ -44,7 +44,7 @@ class CrudNewsImpl implements CrudNews {
   Future<String> sendNews(BuildContext context, File image, String imageName,
       String judul, String konten) async {
     try {
-      apiService.sendNews(context, image, imageName, judul, konten);
+      apiServiceNews.sendNews(context, image, imageName, judul, konten);
       return "Berita sudah di buat";
     } catch (e) {
       throw DatabaseException(e.toString());
@@ -54,7 +54,7 @@ class CrudNewsImpl implements CrudNews {
   @override
   Future<String> removeNews(DocumentReference index, String coverUrl) async {
     try {
-      apiService.deleteNews(index, coverUrl);
+      apiServiceNews.deleteNews(index, coverUrl);
       return "Berita sudah dihapus";
     } catch (e) {
       throw DatabaseException(e.toString());

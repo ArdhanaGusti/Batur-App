@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:capstone_design/data/datasources/crud_login.dart';
-import 'package:capstone_design/data/datasources/crud_news.dart';
+// import 'package:capstone_design/data/datasources/crud_news.dart';
 import 'package:capstone_design/data/datasources/crud_profile.dart';
 import 'package:capstone_design/data/datasources/crud_tour.dart';
 import 'package:capstone_design/data/datasources/crud_train.dart';
@@ -12,10 +12,11 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:news/data/datasources/crud_news.dart';
 
 class DataRepositoryImpl implements DataRepository {
   final CrudUmkm crudUmkm;
-  final CrudNews crudNews;
+  // final CrudNews crudNews;
   final CrudProfile crudProfile;
   final CrudTour crudTour;
   final CrudTrain crudTrain;
@@ -23,30 +24,30 @@ class DataRepositoryImpl implements DataRepository {
 
   DataRepositoryImpl({
     required this.crudUmkm,
-    required this.crudNews,
+    // required this.crudNews,
     required this.crudProfile,
     required this.crudTour,
     required this.crudTrain,
     required this.crudLogin,
   });
 
-  @override
-  Future<Either<Failure, String>> editNews(
-      BuildContext context,
-      File? imageNow,
-      String? imageNameNow,
-      String judulNow,
-      kontenNow,
-      urlNameNow,
-      DocumentReference<Object?> index) async {
-    try {
-      final res = await crudNews.editNews(context, imageNow, imageNameNow,
-          judulNow, kontenNow, urlNameNow, index);
-      return Right(res);
-    } on DatabaseException catch (e) {
-      return Left(DatabaseFailure(e.message));
-    }
-  }
+  // @override
+  // Future<Either<Failure, String>> editNews(
+  //     BuildContext context,
+  //     File? imageNow,
+  //     String? imageNameNow,
+  //     String judulNow,
+  //     kontenNow,
+  //     urlNameNow,
+  //     DocumentReference<Object?> index) async {
+  //   try {
+  //     final res = await crudNews.editNews(context, imageNow, imageNameNow,
+  //         judulNow, kontenNow, urlNameNow, index);
+  //     return Right(res);
+  //   } on DatabaseException catch (e) {
+  //     return Left(DatabaseFailure(e.message));
+  //   }
+  // }
 
   @override
   Future<Either<Failure, String>> editProfile(
@@ -87,17 +88,17 @@ class DataRepositoryImpl implements DataRepository {
     }
   }
 
-  @override
-  Future<Either<Failure, String>> sendNews(
-      BuildContext context, File image, String imageName, judul, konten) async {
-    try {
-      final res =
-          await crudNews.sendNews(context, image, imageName, judul, konten);
-      return Right(res);
-    } on DatabaseException catch (e) {
-      return Left(DatabaseFailure(e.message));
-    }
-  }
+  // @override
+  // Future<Either<Failure, String>> sendNews(
+  //     BuildContext context, File image, String imageName, judul, konten) async {
+  //   try {
+  //     final res =
+  //         await crudNews.sendNews(context, image, imageName, judul, konten);
+  //     return Right(res);
+  //   } on DatabaseException catch (e) {
+  //     return Left(DatabaseFailure(e.message));
+  //   }
+  // }
 
   @override
   Future<Either<Failure, String>> sendProfile(
@@ -222,16 +223,16 @@ class DataRepositoryImpl implements DataRepository {
     }
   }
 
-  @override
-  Future<Either<Failure, String>> removeNews(
-      DocumentReference<Object?> index, String coverUrl) async {
-    try {
-      final res = await crudNews.removeNews(index, coverUrl);
-      return Right(res);
-    } on DatabaseException catch (e) {
-      return Left(DatabaseFailure(e.message));
-    }
-  }
+  // @override
+  // Future<Either<Failure, String>> removeNews(
+  //     DocumentReference<Object?> index, String coverUrl) async {
+  //   try {
+  //     final res = await crudNews.removeNews(index, coverUrl);
+  //     return Right(res);
+  //   } on DatabaseException catch (e) {
+  //     return Left(DatabaseFailure(e.message));
+  //   }
+  // }
 
   @override
   Future<Either<Failure, String>> removeTour(

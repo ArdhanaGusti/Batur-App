@@ -6,7 +6,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 
 class UpdateNews {
-  final DataRepository repository;
+  final DataRepositoryNews repository;
 
   UpdateNews(this.repository);
 

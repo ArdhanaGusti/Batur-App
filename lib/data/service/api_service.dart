@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:capstone_design/presentation/page/train/train.dart';
+import 'package:core/core.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:capstone_design/presentation/page/dashboard.dart';
 import 'package:capstone_design/presentation/page/login.dart';
@@ -76,7 +77,7 @@ class ApiService {
     );
     Navigator.of(context).pushReplacement(MaterialPageRoute(
       builder: (context) {
-        return Dashboard(user: user.user!);
+        return DashboardScreen();
       },
     ));
   }
@@ -92,32 +93,6 @@ class ApiService {
         return Login();
       },
     ));
-  }
-
-  Future<void> sendNews(
-      BuildContext context, File image, String imageName, judul, konten) async {
-    Reference ref = FirebaseStorage.instance
-        .ref()
-        .child(imageName + DateTime.now().toString());
-    UploadTask uploadTask = ref.putFile(image);
-    User user = FirebaseAuth.instance.currentUser!;
-    FirebaseFirestore.instance.runTransaction((transaction) async {
-      CollectionReference reference =
-          FirebaseFirestore.instance.collection("News");
-      uploadTask.then((res) async {
-        String urlName = await res.ref.getDownloadURL();
-        await reference.add({
-          "username": user.email,
-          "date": DateTime.now().toString(),
-          "coverUrl": urlName,
-          "title": judul,
-          "content": konten,
-        });
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-          return News();
-        }));
-      });
-    });
   }
 
   Future<void> sendTrain(BuildContext context, String trainName, String station,
@@ -151,60 +126,6 @@ class ApiService {
           .pushReplacement(MaterialPageRoute(builder: (context) {
         return Train();
       }));
-    });
-  }
-
-  Future<void> editNews(
-      BuildContext context,
-      File? imageNow,
-      String? imageNameNow,
-      String judulNow,
-      String kontenNow,
-      String urlNameNow,
-      DocumentReference index) async {
-    UploadTask? uploadTask;
-    if (imageNow != null) {
-      Reference ref = FirebaseStorage.instance
-          .ref()
-          .child(imageNameNow! + DateTime.now().toString());
-      uploadTask = ref.putFile(imageNow);
-    } else {
-      uploadTask = null;
-    }
-    FirebaseFirestore.instance.runTransaction((transaction) async {
-      CollectionReference reference =
-          FirebaseFirestore.instance.collection("News");
-      if (imageNow != null) {
-        FirebaseStorage.instance.refFromURL(urlNameNow).delete();
-        uploadTask!.then((res) async {
-          urlNameNow = await res.ref.getDownloadURL();
-          reference.doc(index.id).update({
-            "coverUrl": urlNameNow,
-            "title": judulNow,
-            "content": kontenNow,
-          });
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-            return News();
-          }));
-        });
-      } else {
-        reference.doc(index.id).update({
-          "coverUrl": urlNameNow,
-          "title": judulNow,
-          "content": kontenNow,
-        });
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-          return News();
-        }));
-      }
-    });
-  }
-
-  Future<void> deleteNews(DocumentReference index, String coverUrl) async {
-    FirebaseFirestore.instance.runTransaction((transaction) async {
-      DocumentSnapshot snapshot = await transaction.get(index);
-      FirebaseStorage.instance.refFromURL(coverUrl).delete();
-      transaction.delete(snapshot.reference);
     });
   }
 

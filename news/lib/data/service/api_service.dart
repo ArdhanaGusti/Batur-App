@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:core/core.dart';
 
 // class Resource {
 //   final Status status;
@@ -12,7 +13,7 @@ import 'package:flutter/material.dart';
 
 // enum Status { success, error, cancelled }
 
-class ApiService {
+class ApiServiceNews {
   final FirebaseAuth firebaseauth = FirebaseAuth.instance;
 
   Future<void> sendNews(
@@ -21,21 +22,21 @@ class ApiService {
         .ref()
         .child(imageName + DateTime.now().toString());
     UploadTask uploadTask = ref.putFile(image);
-    User user = FirebaseAuth.instance.currentUser!;
+    // User user = FirebaseAuth.instance.currentUser!;
     FirebaseFirestore.instance.runTransaction((transaction) async {
       CollectionReference reference =
           FirebaseFirestore.instance.collection("News");
       uploadTask.then((res) async {
         String urlName = await res.ref.getDownloadURL();
         await reference.add({
-          "username": user.email,
+          "username": "udin",
           "date": DateTime.now().toString(),
           "coverUrl": urlName,
           "title": judul,
           "content": konten,
         });
         Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-          return NewsScreen();
+          return DashboardScreen();
         }));
       });
     });

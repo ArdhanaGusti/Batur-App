@@ -5,7 +5,7 @@ import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-abstract class DataRepository {
+abstract class DataRepositoryNews {
   Future<Either<Failure, String>> sendNews(
       BuildContext context, File image, String imageName, judul, konten);
   Future<Either<Failure, String>> editNews(

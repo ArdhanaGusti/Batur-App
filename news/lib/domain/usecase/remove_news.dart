@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 
 class RemoveNews {
-  final DataRepository repository;
+  final DataRepositoryNews repository;
 
   RemoveNews(this.repository);
 

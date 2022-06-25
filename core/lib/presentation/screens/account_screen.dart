@@ -11,7 +11,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:theme/theme.dart';
 
-// Review Check 1 (Done)
+// Check
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({Key? key}) : super(key: key);
@@ -47,7 +47,16 @@ class AccountScreen extends StatelessWidget {
         CustomSliverAppBarDashboard(
           actionIcon: "assets/icon/regular/bell.svg",
           actionOnTap: () {
-            // Navigate to Notification Page
+            Navigator.push(
+              context,
+              PageTransition(
+                curve: Curves.easeInOut,
+                type: PageTransitionType.bottomToTop,
+                child: const NotificationScreen(),
+                duration: const Duration(milliseconds: 150),
+                reverseDuration: const Duration(milliseconds: 150),
+              ),
+            );
           },
           leading: const Text(
             // Text wait localization

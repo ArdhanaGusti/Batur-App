@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:account/account.dart';
 import 'package:capstone_design/domain/usecase/get_first_open.dart';
+import 'package:capstone_design/login.dart';
 import 'package:capstone_design/presentation/bloc/login/login_email_bloc.dart';
 import 'package:capstone_design/presentation/bloc/login/login_facebook_bloc.dart';
 import 'package:capstone_design/presentation/bloc/login/login_google_bloc.dart';
@@ -22,7 +23,9 @@ import 'package:capstone_design/presentation/bloc/umkm/umkm_remove_bloc.dart';
 import 'package:capstone_design/presentation/bloc/umkm/umkm_update_bloc.dart';
 import 'package:capstone_design/presentation/page/dashboard.dart';
 import 'package:capstone_design/presentation/page/news/add_news.dart';
+import 'package:capstone_design/presentation/page/news/news.dart';
 import 'package:capstone_design/presentation/page/train/add_train.dart';
+import 'package:news/news.dart';
 
 import 'package:core/core.dart';
 import 'package:core/presentation/bloc/dashboard_bloc.dart';
@@ -34,7 +37,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:theme/presentation/injection/theme_injection.dart' as ti;
-import 'package:capstone_design/presentation/injection/injection.dart' as di;
+import 'package:capstone_design/injection.dart' as di;
 import 'package:theme/theme.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

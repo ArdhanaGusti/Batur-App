@@ -7,7 +7,7 @@ import 'package:core/presentation/components/card/custom_tour_card.dart';
 import 'package:core/presentation/components/card/custom_transport_card.dart';
 import 'package:core/presentation/components/card/custom_umkm_card.dart';
 import 'package:core/presentation/screens/error_screen.dart';
-import 'package:core/presentation/screens/news_screen.dart';
+import 'package:news/news.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';

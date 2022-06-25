@@ -22,6 +22,8 @@ dependencies:
     path: ../account
   transportation:
     path: ../transportation
+  news:
+    path: ../news
 
   loading_animation_widget:
   cached_network_image:

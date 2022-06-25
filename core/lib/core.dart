@@ -21,6 +21,7 @@ export 'package:core/presentation/components/card/custom_favorite_umkm_card.dart
 export 'package:core/presentation/components/card/custom_tour_card.dart';
 export 'package:core/presentation/components/card/custom_transport_card.dart';
 export 'package:core/presentation/components/card/custom_umkm_card.dart';
+export 'package:core/presentation/components/card/custom_news_card.dart';
 export 'package:core/presentation/components/card/custom_wisata_card.dart';
 export 'package:core/presentation/components/card/custom_wisata_card_list.dart';
 export 'package:core/presentation/components/card/custom_list_notifikasi.dart';
@@ -50,8 +51,9 @@ export 'package:core/presentation/screens/dashboard_screen.dart';
 export 'package:core/presentation/screens/account_screen.dart';
 export 'package:core/presentation/screens/favorite_screen.dart';
 export 'package:core/presentation/screens/home_screen.dart';
-export 'package:core/presentation/screens/news_screen.dart';
+// export 'package:core/presentation/screens/news_screen.dart';
 export 'package:core/presentation/screens/on_boarding_screen.dart';
 export 'package:core/presentation/screens/about_screen.dart';
 export 'package:core/presentation/screens/term_and_condition_screen.dart';
 export 'package:core/presentation/screens/help_screen.dart';
+export 'package:core/presentation/components/custom_smart_refresh.dart';

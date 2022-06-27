@@ -15,7 +15,8 @@ abstract class CrudNews {
       String kontenNow,
       String urlNameNow,
       DocumentReference index);
-  Future<String> removeNews(DocumentReference index, String coverUrl);
+  Future<String> removeNews(
+      BuildContext context, DocumentReference index, String coverUrl);
 }
 
 class CrudNewsImpl implements CrudNews {
@@ -52,9 +53,10 @@ class CrudNewsImpl implements CrudNews {
   }
 
   @override
-  Future<String> removeNews(DocumentReference index, String coverUrl) async {
+  Future<String> removeNews(
+      BuildContext context, DocumentReference index, String coverUrl) async {
     try {
-      apiServiceNews.deleteNews(index, coverUrl);
+      apiServiceNews.deleteNews(context, index, coverUrl);
       return "Berita sudah dihapus";
     } catch (e) {
       throw DatabaseException(e.toString());

@@ -3,12 +3,15 @@ import 'package:theme/theme.dart';
 
 class CustomAddNewsDescriptionTextField extends StatelessWidget {
   final Function(String item) onChange;
-  const CustomAddNewsDescriptionTextField({Key? key, required this.onChange})
+  final TextEditingController? controller;
+  const CustomAddNewsDescriptionTextField(
+      {Key? key, required this.onChange, this.controller})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,
       style: bSubtitle1.copyWith(
         color: Theme.of(context).colorScheme.tertiary,
       ),

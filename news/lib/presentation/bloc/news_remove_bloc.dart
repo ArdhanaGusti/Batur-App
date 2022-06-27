@@ -10,7 +10,8 @@ class NewsRemoveBloc extends Bloc<NewsEvent, NewsState> {
     on<OnRemoveNews>(
       (event, emit) async {
         emit(NewsLoading());
-        final result = await removeNews.execute(event.index, event.coverUrl);
+        final result = await removeNews.execute(
+            event.context, event.index, event.coverUrl);
 
         result.fold(
           (failure) {

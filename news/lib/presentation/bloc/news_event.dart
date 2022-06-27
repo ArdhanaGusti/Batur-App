@@ -37,10 +37,11 @@ class OnUpdateNews extends NewsEvent {
 }
 
 class OnRemoveNews extends NewsEvent {
+  final BuildContext context;
   final DocumentReference index;
   final String coverUrl;
 
-  const OnRemoveNews(this.coverUrl, this.index);
+  const OnRemoveNews(this.context, this.coverUrl, this.index);
   @override
   List<Object> get props => [];
 }

@@ -72,7 +72,7 @@ class ApiServiceNews {
             "content": kontenNow,
           });
           Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-            return NewsScreen();
+            return DashboardScreen();
           }));
         });
       } else {
@@ -82,17 +82,21 @@ class ApiServiceNews {
           "content": kontenNow,
         });
         Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-          return NewsScreen();
+          return DashboardScreen();
         }));
       }
     });
   }
 
-  Future<void> deleteNews(DocumentReference index, String coverUrl) async {
+  Future<void> deleteNews(
+      BuildContext context, DocumentReference index, String coverUrl) async {
     FirebaseFirestore.instance.runTransaction((transaction) async {
       DocumentSnapshot snapshot = await transaction.get(index);
       FirebaseStorage.instance.refFromURL(coverUrl).delete();
       transaction.delete(snapshot.reference);
     });
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      return DashboardScreen();
+    }));
   }
 }

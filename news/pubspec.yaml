@@ -23,6 +23,7 @@ dependencies:
   cloud_firestore:
   firebase_auth:
   firebase_storage:
+  translator:
 
 dev_dependencies:
   flutter_test:

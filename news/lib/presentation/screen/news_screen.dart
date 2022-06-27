@@ -15,6 +15,7 @@ import 'news_detail_screen.dart';
 import 'add_news_screen.dart';
 import 'package:account/account.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:intl/intl.dart';
 
 enum ScreenProcessEnum {
   loading,
@@ -189,7 +190,7 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
             child: Align(
               alignment: Alignment.topLeft,
               child: SizedBox(
-                height: 30.0,
+                // height: 30.0,
                 width: 230.0,
                 child: TabBar(
                   controller: _controller,
@@ -231,67 +232,92 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                   onLoading: _onLoading,
                   onRefresh: _onRefresh,
                   refreshController: _refreshController,
-                  child: CustomScrollView(
-                    shrinkWrap: true,
-                    // physics: const BouncingScrollPhysics(),
-                    slivers: <Widget>[
-                      SliverPadding(
-                        padding: const EdgeInsets.only(
-                          top: 20.0,
-                          left: 20.0,
-                          right: 20.0,
-                        ),
-                        sliver: SliverToBoxAdapter(
-                          child: StreamBuilder<QuerySnapshot>(
-                              stream: FirebaseFirestore.instance
-                                  .collection("News")
-                                  .snapshots(),
-                              builder: (context, snapshot) {
-                                if (!snapshot.hasData) {
-                                  return CircularProgressIndicator();
-                                }
-                                return ListView.builder(
-                                  shrinkWrap: true,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    // Use Data News
-                                    return Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 15.0),
-                                      child: CustomNewsCard(
-                                        img:
-                                            '${snapshot.data!.docs[index]['coverUrl']}',
-                                        title: snapshot.data!.docs[index]
-                                            ['title'],
-                                        writer: snapshot.data!.docs[index]
-                                            ['username'],
-                                        date: snapshot.data!.docs[index]
-                                            ['date'],
-                                        onTap: () {
-                                          // To detail News
-                                          Navigator.push(
-                                            context,
-                                            PageTransition(
-                                              curve: Curves.easeOut,
-                                              type: PageTransitionType
-                                                  .bottomToTop,
-                                              child: const NewsDetailScreen(),
-                                              duration: const Duration(
-                                                  milliseconds: 150),
-                                              reverseDuration: const Duration(
-                                                  milliseconds: 150),
-                                            ),
-                                          );
-                                        },
+                  child: Expanded(
+                    child: CustomScrollView(
+                      shrinkWrap: true,
+                      // physics: const BouncingScrollPhysics(),
+                      slivers: <Widget>[
+                        SliverPadding(
+                          padding: const EdgeInsets.only(
+                            top: 20.0,
+                            left: 20.0,
+                            right: 20.0,
+                          ),
+                          sliver: SliverToBoxAdapter(
+                            child: StreamBuilder<QuerySnapshot>(
+                                stream: FirebaseFirestore.instance
+                                    .collection("News")
+                                    .snapshots(),
+                                builder: (context, snapshot) {
+                                  if (!snapshot.hasData) {
+                                    return Center(
+                                      child: LoadingAnimationWidget
+                                          .horizontalRotatingDots(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .tertiary,
+                                        size: 50.0,
                                       ),
                                     );
-                                  },
-                                  itemCount: snapshot.data!.docs.length,
-                                );
-                              }),
+                                  }
+                                  return ListView.builder(
+                                    shrinkWrap: true,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      // Use Data News
+                                      return Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 15.0),
+                                        child: CustomNewsCard(
+                                          img:
+                                              '${snapshot.data!.docs[index]['coverUrl']}',
+                                          title: snapshot.data!.docs[index]
+                                              ['title'],
+                                          writer: snapshot.data!.docs[index]
+                                              ['username'],
+                                          date: DateFormat(
+                                                  "EEEE, d MMMM yyyy", "id_ID")
+                                              .format(DateTime.parse(snapshot
+                                                  .data!.docs[index]['date'])),
+                                          onTap: () {
+                                            // To detail News
+                                            Navigator.push(
+                                              context,
+                                              PageTransition(
+                                                curve: Curves.easeOut,
+                                                type: PageTransitionType
+                                                    .bottomToTop,
+                                                child: NewsDetailScreen(
+                                                  title: snapshot.data!
+                                                      .docs[index]['title'],
+                                                  konten: snapshot.data!
+                                                      .docs[index]['content'],
+                                                  index: snapshot.data!
+                                                      .docs[index].reference,
+                                                  urlName: snapshot.data!
+                                                      .docs[index]['coverUrl'],
+                                                  writer: snapshot.data!
+                                                      .docs[index]['username'],
+                                                  date: snapshot.data!
+                                                      .docs[index]['date'],
+                                                ),
+                                                duration: const Duration(
+                                                    milliseconds: 150),
+                                                reverseDuration: const Duration(
+                                                    milliseconds: 150),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      );
+                                    },
+                                    itemCount: snapshot.data!.docs.length,
+                                  );
+                                }),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 CustomSmartRefresh(
@@ -323,18 +349,18 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                                   date: "Jumat, 13 Mei 2022",
                                   onTap: () {
                                     // To detail News
-                                    Navigator.push(
-                                      context,
-                                      PageTransition(
-                                        curve: Curves.easeOut,
-                                        type: PageTransitionType.bottomToTop,
-                                        child: const NewsDetailScreen(),
-                                        duration:
-                                            const Duration(milliseconds: 150),
-                                        reverseDuration:
-                                            const Duration(milliseconds: 150),
-                                      ),
-                                    );
+                                    // Navigator.push(
+                                    //   context,
+                                    //   PageTransition(
+                                    //     curve: Curves.easeOut,
+                                    //     type: PageTransitionType.bottomToTop,
+                                    //     child: const NewsDetailScreen(),
+                                    //     duration:
+                                    //         const Duration(milliseconds: 150),
+                                    //     reverseDuration:
+                                    //         const Duration(milliseconds: 150),
+                                    //   ),
+                                    // );
                                   },
                                 ),
                               );

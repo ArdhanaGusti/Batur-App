@@ -140,9 +140,9 @@ class NewsList extends StatelessWidget {
                   }, builder: (context, state) {
                     return RaisedButton(
                       onPressed: () {
-                        context.read<NewsRemoveBloc>().add(OnRemoveNews(
-                            document[index]['coverUrl'],
-                            document[index].reference));
+                        // context.read<NewsRemoveBloc>().add(OnRemoveNews(
+                        //     document[index]['coverUrl'],
+                        //     document[index].reference));
                       },
                       child: Text("Delete"),
                       color: Colors.red,

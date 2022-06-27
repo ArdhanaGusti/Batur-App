@@ -23,6 +23,7 @@ import 'package:capstone_design/presentation/bloc/umkm/umkm_create_bloc.dart';
 import 'package:capstone_design/presentation/bloc/umkm/umkm_remove_bloc.dart';
 import 'package:capstone_design/presentation/bloc/umkm/umkm_update_bloc.dart';
 import 'package:capstone_design/presentation/page/dashboard.dart';
+import 'package:capstone_design/presentation/page/news/news.dart';
 // import 'package:capstone_design/presentation/page/news/add_news.dart';
 // import 'package:capstone_design/presentation/page/news/news.dart';
 // import 'package:capstone_design/presentation/page/train/add_train.dart';

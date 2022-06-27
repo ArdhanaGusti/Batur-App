@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import '../../domain/repositories/data_repository.dart';
 import '../../utils/failure.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,7 +11,7 @@ class RemoveNews {
   RemoveNews(this.repository);
 
   Future<Either<Failure, String>> execute(
-      DocumentReference<Object?> index, String coverUrl) {
-    return repository.removeNews(index, coverUrl);
+      BuildContext context, DocumentReference<Object?> index, String coverUrl) {
+    return repository.removeNews(context, index, coverUrl);
   }
 }

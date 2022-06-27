@@ -1,10 +1,28 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
+import 'package:news/news.dart';
+import 'package:news/presentation/screen/edit_news_screen.dart';
 import 'package:theme/data/sources/theme_data.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:intl/intl.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:capstone_design/data/service/api_service.dart';
 
 class NewsDetailScreen extends StatelessWidget {
-  const NewsDetailScreen({Key? key}) : super(key: key);
+  final String title, konten, urlName, writer;
+  final String date;
+  final DocumentReference index;
+  const NewsDetailScreen(
+      {Key? key,
+      required this.title,
+      required this.konten,
+      required this.urlName,
+      required this.index,
+      required this.date,
+      required this.writer})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,13 +55,30 @@ class NewsDetailScreen extends StatelessWidget {
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: <Widget>[
-        CustomSliverAppBarTextLeadingAction(
-          title: "Berita",
-          leadingIcon: "assets/icon/bold/chevron-left.svg",
-          leadingOnTap: () {},
-          actionIcon: "assets/icon/trash.svg",
-          actionOnTap: () {},
-        ),
+        StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance.collection("News").snapshots(),
+            builder: (context, snapshot) {
+              return CustomSliverAppBarTextLeadingAction(
+                title: "Berita",
+                leadingIcon: "assets/icon/bold/chevron-left.svg",
+                leadingOnTap: () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) {
+                    return EditNewsScreen(
+                        judul: title,
+                        konten: konten,
+                        urlName: urlName,
+                        index: index);
+                  }));
+                },
+                actionIcon: "assets/icon/trash.svg",
+                actionOnTap: () {
+                  context
+                      .read<NewsRemoveBloc>()
+                      .add(OnRemoveNews(context, urlName, index));
+                },
+              );
+            }),
         _customContainerNewsDetail(context, screenSize),
         SliverPadding(
           padding: const EdgeInsets.only(
@@ -88,8 +123,8 @@ class NewsDetailScreen extends StatelessWidget {
               children: <Widget>[
                 ClipRRect(
                   borderRadius: BorderRadius.circular(15.0),
-                  child: Image.network(
-                    "https://cdn-2.tstatic.net/tribunnews/foto/bank/images/indonesiatravel-gedung-sate-salah-satu-ikon-kota-bandung.jpg",
+                  child: CachedNetworkImage(
+                    imageUrl: urlName,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -97,7 +132,7 @@ class NewsDetailScreen extends StatelessWidget {
                   height: 30.0,
                 ),
                 Text(
-                  AppLocalizations.of(context)!.titleHere,
+                  title,
                   style: bHeading7.copyWith(
                     color: Theme.of(context).colorScheme.tertiaryContainer,
                   ),
@@ -112,14 +147,25 @@ class NewsDetailScreen extends StatelessWidget {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(15.0),
-                            // Use image assets or network
-                            child: Image.asset(
-                              "assets/image/profile.jpg",
-                              height: 30.0,
-                            ),
-                          ),
+                          //wait profile
+                          // ClipRRect(
+                          //   borderRadius: BorderRadius.circular(15.0),
+                          //   // Use image assets or network
+                          //   child: StreamBuilder<QuerySnapshot>(
+                          //       stream: FirebaseFirestore.instance
+                          //           .collection('Profile')
+                          //           .where('email', isEqualTo: writer)
+                          //           .snapshots(),
+                          //       builder: (context, snapshot) {
+                          //         if (!snapshot.hasData) {
+                          //           return CircularProgressIndicator();
+                          //         }
+                          //         return Image.network(
+                          //           "${snapshot.data!.docs[0]["imgUrl"]}",
+                          //           height: 30.0,
+                          //         );
+                          //       }),
+                          // ),
                           const SizedBox(
                             width: 10.0,
                           ),
@@ -139,7 +185,8 @@ class NewsDetailScreen extends StatelessWidget {
                     ),
                     Expanded(
                       child: Text(
-                        "Jumat, 31, Mei 2022",
+                        DateFormat("EEEE, d MMMM yyyy", "id_ID")
+                            .format(DateTime.parse(date)),
                         overflow: TextOverflow.ellipsis,
                         style: bCaption1.copyWith(
                           color:
@@ -154,13 +201,7 @@ class NewsDetailScreen extends StatelessWidget {
                   height: 20.0,
                 ),
                 Text(
-                  '''Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web and a sites still in their infancy. Various versions have evolved over than to do the years, sometimes by accident, sometimes on off the purpose (injected humour and the like).It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. 
-
-The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as oppo.
-
-It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to. 
-
-Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.''',
+                  konten,
                   style: bSubtitle2.copyWith(
                     color: Theme.of(context).colorScheme.tertiaryContainer,
                   ),

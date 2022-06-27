@@ -740,6 +740,13 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
+  translator:
+    dependency: "direct main"
+    description:
+      name: translator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.7"
   transportation:
     dependency: transitive
     description:

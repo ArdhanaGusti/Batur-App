@@ -17,5 +17,5 @@ abstract class DataRepositoryNews {
       urlNameNow,
       DocumentReference index);
   Future<Either<Failure, String>> removeNews(
-      DocumentReference index, String coverUrl);
+      BuildContext context, DocumentReference index, String coverUrl);
 }

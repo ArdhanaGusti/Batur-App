@@ -46,10 +46,10 @@ class DataRepositoryImplNews implements DataRepositoryNews {
   }
 
   @override
-  Future<Either<Failure, String>> removeNews(
+  Future<Either<Failure, String>> removeNews(BuildContext context,
       DocumentReference<Object?> index, String coverUrl) async {
     try {
-      final res = await crudNews.removeNews(index, coverUrl);
+      final res = await crudNews.removeNews(context, index, coverUrl);
       return Right(res);
     } on DatabaseException catch (e) {
       return Left(DatabaseFailure(e.message));

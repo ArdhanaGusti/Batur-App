@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:theme/theme.dart';
@@ -8,15 +9,18 @@ class CustomSecondaryContainerDetail extends StatelessWidget {
   final String title;
   final double width;
   final bool isTrain;
-  const CustomSecondaryContainerDetail({
-    Key? key,
-    required this.width,
-    required this.isTrain,
-    required this.title,
-  }) : super(key: key);
+  final String station;
+  const CustomSecondaryContainerDetail(
+      {Key? key,
+      required this.width,
+      required this.isTrain,
+      required this.title,
+      required this.station})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    print(station);
     return Container(
       width: width,
       padding: const EdgeInsets.all(15.0),
@@ -43,137 +47,170 @@ class CustomSecondaryContainerDetail extends StatelessWidget {
               color: Theme.of(context).colorScheme.tertiary,
             ),
           ),
-          ListView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (BuildContext context, int index) {
-              // Use Data
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 15.0),
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      PageTransition(
-                        curve: Curves.easeInOut,
-                        type: PageTransitionType.rightToLeft,
-                        // Add parameter Train
-                        child: TimeLineScreen(
-                          isTrain: isTrain,
-                        ),
-                        duration: const Duration(milliseconds: 150),
-                        reverseDuration: const Duration(milliseconds: 150),
-                      ),
-                    );
-                  },
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Flexible(
-                            child: Text(
-                              // Data Train
-                              "KA 105",
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: bSubtitle4.copyWith(
-                                color: Theme.of(context).colorScheme.tertiary,
+          StreamBuilder<QuerySnapshot>(
+              stream: (isTrain)
+                  ? FirebaseFirestore.instance
+                      .collection("Train")
+                      .where("station", isEqualTo: station)
+                      // .orderBy('date', descending: false)
+                      .snapshots()
+                  : FirebaseFirestore.instance
+                      .collection("Bus")
+                      .where("transit", isEqualTo: station)
+                      // .orderBy('date', descending: false)
+                      .snapshots(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                var trans = snapshot.data!.docs;
+
+                return ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (BuildContext context, int index) {
+                    // Use Data
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 15.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            PageTransition(
+                              curve: Curves.easeInOut,
+                              type: PageTransitionType.rightToLeft,
+                              // Add parameter Train
+                              child: TimeLineScreen(
+                                name: (isTrain)
+                                    ? trans[index]['trainName']
+                                    : trans[index]['name'],
+                                isTrain: isTrain,
                               ),
+                              duration: const Duration(milliseconds: 150),
+                              reverseDuration:
+                                  const Duration(milliseconds: 150),
                             ),
-                          ),
-                          Flexible(
-                            child: Text(
-                              // Data Train
-                              "Rp.25.000",
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: bSubtitle4.copyWith(
-                                color: Theme.of(context).colorScheme.tertiary,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Text(
-                        // Data Train
-                        "Ekonomi",
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: bCaption1.copyWith(color: bGrey),
-                      ),
-                      const SizedBox(
-                        height: 5.0,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Flexible(
-                            child: Column(
+                          );
+                        },
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                Text(
-                                  // Data Train
-                                  "BDG",
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: bCaption3.copyWith(
-                                    color:
-                                        Theme.of(context).colorScheme.tertiary,
+                                Flexible(
+                                  child: Text(
+                                    // Data Train
+                                    (isTrain)
+                                        ? trans[index]['trainName']
+                                        : trans[index]['name'],
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: bSubtitle4.copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .tertiary,
+                                    ),
                                   ),
                                 ),
-                                Text(
-                                  // Data Train
-                                  "14.50",
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: bCaption1.copyWith(color: bGrey),
+                                Flexible(
+                                  child: Text(
+                                    // Data Train
+                                    "Rp.25.000",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: bSubtitle4.copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .tertiary,
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
-                          ),
-                          Flexible(
-                            child: Text(
+                            Text(
                               // Data Train
-                              // Proces the data
-                              "1 Jam 5 Menit",
+                              (isTrain)
+                                  ? trans[index]['station']
+                                  : trans[index]['transit'],
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: bCaption1.copyWith(color: bGrey),
                             ),
-                          ),
-                          Flexible(
-                            child: Column(
+                            const SizedBox(
+                              height: 5.0,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                Text(
-                                  // Data Train
-                                  "BDG",
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: bCaption3.copyWith(
-                                    color:
-                                        Theme.of(context).colorScheme.tertiary,
+                                Flexible(
+                                  child: Column(
+                                    children: <Widget>[
+                                      Text(
+                                        // Data Train
+                                        "BDG",
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: bCaption3.copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .tertiary,
+                                        ),
+                                      ),
+                                      Text(
+                                        // Data Train
+                                        "${trans[index]['date'].toDate().hour.toString().padLeft(2, '0')}:${trans[index]['date'].toDate().minute.toString().padLeft(2, '0')}",
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: bCaption1.copyWith(color: bGrey),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                Text(
-                                  // Data Train
-                                  "14.50",
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: bCaption1.copyWith(color: bGrey),
+                                Flexible(
+                                  child: Text(
+                                    // Data Train
+                                    // Proces the data
+                                    "1 Jam 5 Menit",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: bCaption1.copyWith(color: bGrey),
+                                  ),
+                                ),
+                                Flexible(
+                                  child: Column(
+                                    children: <Widget>[
+                                      Text(
+                                        // Data Train
+                                        "BDG",
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: bCaption3.copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .tertiary,
+                                        ),
+                                      ),
+                                      Text(
+                                        // Data Train
+                                        "14.50",
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: bCaption1.copyWith(color: bGrey),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ],
-                  ),
-                ),
-              );
-            },
-            itemCount: 6,
-          ),
+                    );
+                  },
+                  itemCount: trans.length,
+                );
+              }),
         ],
       ),
     );

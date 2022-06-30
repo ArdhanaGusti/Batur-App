@@ -17,9 +17,11 @@ enum TransportationDetailScreenProcessEnum {
 class TransportationDetailScreen extends StatefulWidget {
   // Add Parameter Data Train Detail
   final bool isTrain;
+  final String? station;
   const TransportationDetailScreen({
     Key? key,
     required this.isTrain,
+    this.station,
   }) : super(key: key);
 
   @override
@@ -106,12 +108,12 @@ class _TransportationDetailScreenState
     } else {
       // Mobile Mode
       return Scaffold(
-        body: _buildLoaded(context, screenSize),
+        body: _buildLoaded(context, screenSize, widget.isTrain),
       );
     }
   }
 
-  Widget _buildLoaded(BuildContext context, Size screenSize) {
+  Widget _buildLoaded(BuildContext context, Size screenSize, bool isTrain) {
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: <Widget>[
@@ -134,8 +136,9 @@ class _TransportationDetailScreenState
           padding: const EdgeInsets.all(20.0),
           sliver: SliverToBoxAdapter(
             child: CustomSecondaryContainerDetail(
+              station: widget.station!,
               isTrain: widget.isTrain,
-              title: "Jadwal Kereta",
+              title: (isTrain) ? "Jadwal Kereta" : "Jadwal Bus",
               width: screenSize.width - 40.0,
             ),
           ),

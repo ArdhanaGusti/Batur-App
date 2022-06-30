@@ -16,6 +16,13 @@ dependencies:
 
   image_picker:
   photo_view:
+  firebase_storage:
+  cloud_firestore:
+  firebase_core:
+  flutter_bloc:
+  equatable:
+  dartz:
+  get_it:
 
 dev_dependencies:
   flutter_test:

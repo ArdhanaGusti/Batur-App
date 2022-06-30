@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -26,6 +27,19 @@ class TransportationListScreen extends StatefulWidget {
 }
 
 class _TransportationListScreenState extends State<TransportationListScreen> {
+  List<String> title = [
+    "Cimahi",
+    "Cicalengka",
+    "Padalarang",
+    "Haurpugur",
+    "Rancaekek",
+    "Cimekar",
+    "Gedebage",
+    "Cikudapateuh",
+    "Ciroyom",
+    "Cimindi",
+    "Gadobangkong"
+  ];
   final RefreshController _refreshControllerTrain =
       RefreshController(initialRefresh: false);
 
@@ -193,43 +207,57 @@ class _TransportationListScreenState extends State<TransportationListScreen> {
                   onRefresh: _onRefreshTrain,
                   child: Padding(
                     padding: const EdgeInsets.only(top: 0.0),
-                    child: ListView.builder(
-                      physics: const BouncingScrollPhysics(),
-                      shrinkWrap: true,
-                      itemBuilder: (BuildContext context, int index) {
-                        // Use Data Train
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 15.0),
-                          child: CustomCardStasiunList(
-                            image:
-                                "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
-                            title: "Stasiun Bandung Kota",
-                            description:
-                                "Stasiun Bandung, juga dikenal sebagai Stasiun Hall, adalah stasiun kereta api kelas besar tipe A yang terletak di Jalan Stasiun Timur dan Jalan Kebon Kawung",
-                            address:
-                                "Jl. Stasiun Barat, Kb. Jeruk, Kec. Andir, Bandung",
-                            rating: '4.5',
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                PageTransition(
-                                  curve: Curves.easeInOut,
-                                  type: PageTransitionType.bottomToTop,
-                                  // Add Parameter Data Train Detail
-                                  child: const TransportationDetailScreen(
-                                    isTrain: true,
-                                  ),
-                                  duration: const Duration(milliseconds: 150),
-                                  reverseDuration:
-                                      const Duration(milliseconds: 150),
+                    child: StreamBuilder<QuerySnapshot>(
+                        stream: FirebaseFirestore.instance
+                            .collection("Station")
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData) {
+                            return CircularProgressIndicator();
+                          }
+                          // else if (snapshot.data!.docs.length <= 0) {
+                          //   return Center(
+                          //     child: Text("Tidak ada data"),
+                          //   );
+                          // }
+                          final station = snapshot.data!.docs;
+                          return ListView.builder(
+                            physics: const BouncingScrollPhysics(),
+                            shrinkWrap: true,
+                            itemBuilder: (BuildContext context, int index) {
+                              // Use Data Train
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 15.0),
+                                child: CustomCardStasiunList(
+                                  image: "${station[index]['image']}",
+                                  title: station[index]['title'],
+                                  description: station[index]['desc'],
+                                  address: station[index]['address'],
+                                  rating: station[index]['rating'].toString(),
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      PageTransition(
+                                        curve: Curves.easeInOut,
+                                        type: PageTransitionType.bottomToTop,
+                                        // Add Parameter Data Train Detail
+                                        child: TransportationDetailScreen(
+                                          isTrain: true,
+                                          station: "Kiaracondong",
+                                        ),
+                                        duration:
+                                            const Duration(milliseconds: 150),
+                                        reverseDuration:
+                                            const Duration(milliseconds: 150),
+                                      ),
+                                    );
+                                  },
                                 ),
                               );
                             },
-                          ),
-                        );
-                      },
-                      itemCount: 5,
-                    ),
+                            itemCount: station.length,
+                          );
+                        }),
                   ),
                 ),
                 CustomSmartRefresh(
@@ -262,6 +290,7 @@ class _TransportationListScreenState extends State<TransportationListScreen> {
                                   type: PageTransitionType.bottomToTop,
                                   child: const TransportationDetailScreen(
                                     isTrain: false,
+                                    station: "Jalan Soekarno Hatta 517",
                                   ),
                                   duration: const Duration(milliseconds: 150),
                                   reverseDuration:

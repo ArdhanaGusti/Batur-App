@@ -12,8 +12,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:theme/theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart';
+import 'package:path/path.dart' as path;
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class AddNewsScreen extends StatefulWidget {
   const AddNewsScreen({Key? key}) : super(key: key);
@@ -24,6 +26,7 @@ class AddNewsScreen extends StatefulWidget {
 
 class _AddNewsScreenState extends State<AddNewsScreen> {
   bool isAddedImage = true;
+  final toast = FToast();
 
   File? image;
 
@@ -40,8 +43,9 @@ class _AddNewsScreenState extends State<AddNewsScreen> {
         await ImagePicker().pickImage(source: ImageSource.gallery);
     setState(() {
       image = File(selectedImage!.path);
-      imageName = basename(image!.path);
+      imageName = path.basename(image!.path);
       isAddedImage = false;
+      toast.init(context);
     });
   }
 
@@ -72,13 +76,23 @@ class _AddNewsScreenState extends State<AddNewsScreen> {
           child: BlocConsumer<NewsCreateBloc, NewsState>(
             listener: (context, state) async {
               if (state is NewsLoading) {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: CircularProgressIndicator(),
-                ));
+                Center(
+                  child: LoadingAnimationWidget.horizontalRotatingDots(
+                    color: Theme.of(context).colorScheme.tertiary,
+                    size: 50.0,
+                  ),
+                );
+                print("sudah terloading");
               } else if (state is NewsCreated) {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(state.result),
-                ));
+                toast.showToast(
+                    child: CustomToast(
+                      message: state.result,
+                      toastColor: bToastSuccess,
+                      bgToastColor: bBgToastSuccess,
+                      borderToastColor: bBorderToastSuccess,
+                    ),
+                    gravity: ToastGravity.BOTTOM,
+                    toastDuration: Duration(seconds: 3));
               } else if (state is NewsError) {
                 await showDialog(
                     context: context,
@@ -103,14 +117,12 @@ class _AddNewsScreenState extends State<AddNewsScreen> {
                 text: AppLocalizations.of(context)!.save,
                 onTap: () async {
                   if (judul != null && konten != null && image != null) {
-                    // context.read<NewsCreateBloc>().add(OnCreateNews(
-                    //     context, image!, imageName!, judul!, konten!));
+                    context.read<NewsCreateBloc>().add(OnCreateNews(
+                        context, image!, imageName!, judul!, konten!));
                     // setState(() {
                     //   image = null;
                     //   imageName = null;
                     // });
-                    ApiServiceNews()
-                        .sendNews(context, image!, imageName!, judul, konten);
                   } else {
                     AlertDialog alert = AlertDialog(
                       title: Text("Silahkan lengkapi data"),
@@ -291,28 +303,6 @@ class _AddNewsScreenState extends State<AddNewsScreen> {
                                   )),
                         const SizedBox(
                           width: 20.0,
-                        ),
-                        GestureDetector(
-                          // onTap: pickImg,
-                          child: Center(
-                            child: Container(
-                              height: 40.0,
-                              width: 40.0,
-                              decoration: BoxDecoration(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .primaryContainer,
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              child: Center(
-                                child: SvgPicture.asset(
-                                  "assets/icon/trash-Light.svg",
-                                  color: bError,
-                                  height: 24.0,
-                                ),
-                              ),
-                            ),
-                          ),
                         ),
                       ],
                     ),

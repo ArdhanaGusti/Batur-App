@@ -1,14 +1,13 @@
-import 'package:account/presentation/bloc/login_form_bloc.dart';
-import 'package:account/presentation/screens/forgot_password.dart';
-import 'package:account/presentation/screens/registration_screen.dart';
+import 'package:account/account.dart';
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:theme/theme.dart';
 
-// Review Check 1 (Done)
+// Check (Done)
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -19,16 +18,58 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _loginFormKey = GlobalKey<FormState>();
+  final toast = FToast();
+  int bottomNavIndex = 0;
+
+  void toastError(String message) => toast.showToast(
+      child: CustomToast(
+        logo: "assets/icon/fill/exclamation-circle.svg",
+        message: message,
+        toastColor: bToastFiled,
+        bgToastColor: bBgToastFiled,
+        borderToastColor: bBorderToastFiled,
+      ),
+      gravity: ToastGravity.TOP,
+      toastDuration: const Duration(seconds: 3));
+
+  void toastSuccess(String message) {
+    toast.showToast(
+        child: CustomToast(
+          logo: "assets/icon/fill/check-circle.svg",
+          message: message,
+          toastColor: bToastSuccess,
+          bgToastColor: bBgToastSuccess,
+          borderToastColor: bBorderToastSuccess,
+        ),
+        gravity: ToastGravity.TOP,
+        toastDuration: const Duration(seconds: 3));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    toast.init(context);
+    bottomNavIndex = context.read<DashboardBloc>().state.indexBottomNav;
+    if (bottomNavIndex == 2 || bottomNavIndex == 3) {
+      Future.microtask(() {
+        context.read<DashboardBloc>().add(
+              const IndexBottomNavChange(
+                newIndex: 0,
+              ),
+            );
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
 
-    if (screenSize.width < 320.0 || screenSize.height < 600.0) {
+    if (screenSize.width < 300.0 || screenSize.height < 600.0) {
       return const ErrorScreen(
         // Text wait localization
-        title: "AppLocalizations.of(context)!.screenError",
-        message: "AppLocalizations.of(context)!.screenSmall",
+        title: "Aduh...",
+        message: "Layar terlalu kecil",
       );
     } else if (screenSize.width > 500.0) {
       // Tablet Mode (Must be repair)
@@ -45,23 +86,25 @@ class _LoginScreenState extends State<LoginScreen> {
     } else {
       // Mobile Mode
       return Scaffold(
-        body: SafeArea(
-          child: _buildLoginScreen(screenSize),
-        ),
+        body: _buildLoginScreen(screenSize),
       );
     }
   }
 
   Widget _buildAppBar(Size screenSize) {
     Brightness screenBrightness = MediaQuery.platformBrightnessOf(context);
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        const SizedBox(
-          width: 40.0,
-        ),
-        BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
+    return SliverAppBar(
+      pinned: true,
+      toolbarHeight: 60.0,
+      backgroundColor: Theme.of(context).colorScheme.background,
+      elevation: 2.0,
+      titleTextStyle: bHeading4.copyWith(
+        color: Theme.of(context).colorScheme.tertiary,
+      ),
+      centerTitle: true,
+      title: Padding(
+        padding: const EdgeInsets.only(left: 5.0),
+        child: BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
           builder: (context, state) {
             bool isLight = (state.isDark == ThemeModeEnum.darkTheme)
                 ? false
@@ -76,24 +119,33 @@ class _LoginScreenState extends State<LoginScreen> {
             );
           },
         ),
-        GestureDetector(
-          onTap: () {
-            Navigator.pop(
-              context,
-            );
-          },
-          child: Container(
-            height: 40.0,
-            width: 40.0,
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primaryContainer,
-              borderRadius: BorderRadius.circular(8.0),
-            ),
+      ),
+      actions: <Widget>[
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 20.0,
+          ),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.pop(
+                context,
+              );
+            },
             child: Center(
-              child: SvgPicture.asset(
-                "assets/icon/regular/times-square.svg",
-                color: Theme.of(context).colorScheme.tertiary,
-                height: 24.0,
+              child: Container(
+                height: 40.0,
+                width: 40.0,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primaryContainer,
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Center(
+                  child: SvgPicture.asset(
+                    "assets/icon/regular/times-square.svg",
+                    color: Theme.of(context).colorScheme.tertiary,
+                    height: 30.0,
+                  ),
+                ),
               ),
             ),
           ),
@@ -103,32 +155,26 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _buildLoginScreen(Size screenSize) {
-    return ListView(
+    return CustomScrollView(
       physics: const BouncingScrollPhysics(),
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              _buildAppBar(screenSize),
-              Padding(
-                padding: const EdgeInsets.only(top: 30.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      // Text wait localization
-                      "AppLocalizations.of(context)!.signIn",
-                      style: bHeading3.copyWith(
-                        color: Theme.of(context).colorScheme.tertiary,
-                      ),
-                    ),
-                    _buildForm(screenSize),
-                  ],
-                ),
+      slivers: <Widget>[
+        _buildAppBar(screenSize),
+        SliverPadding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+          sliver: SliverToBoxAdapter(
+            child: Text(
+              // Text wait localization
+              "Masuk",
+              style: bHeading3.copyWith(
+                color: Theme.of(context).colorScheme.tertiary,
               ),
-            ],
+            ),
+          ),
+        ),
+        SliverPadding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          sliver: SliverToBoxAdapter(
+            child: _buildForm(screenSize),
           ),
         ),
       ],
@@ -136,185 +182,218 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _buildForm(Size screenSize) {
-    return BlocBuilder<LoginFormBloc, LoginFormState>(
-      builder: (context, loginForm) {
-        return Form(
-          key: _loginFormKey,
-          child: Column(
-            children: <Widget>[
-              const Padding(
-                padding: EdgeInsets.symmetric(
-                  vertical: 20.0,
-                ),
-                child: CustomLoginUsernameTextField(),
+    return BlocListener<LoginFormBloc, LoginFormState>(
+      listenWhen: (previous, current) {
+        if (previous.formStatus == FormStatusEnum.submittingForm) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      listener: (context, state) {
+        if (state.formStatus == FormStatusEnum.failedSubmission) {
+          toastError(state.message);
+        } else if (state.formStatus == FormStatusEnum.successSubmission) {
+          Future(() {
+            toastSuccess(state.message);
+          }).then((value) {
+            context.read<DashboardBloc>().add(const IsLogInSave(value: true));
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const DashboardScreen(),
               ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  bottom: 20.0,
-                  top: 10.0,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: <Widget>[
-                    const CustomLoginPasswordTextField(),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: GestureDetector(
-                        onTap: () {
-                          // Navigate to Forgot Password Page
-                          Navigator.pushReplacement(
-                            context,
-                            PageTransition(
-                              curve: Curves.easeOutCirc,
-                              type: PageTransitionType.bottomToTop,
-                              child: const ForgotPasswordScreen(),
-                              duration: const Duration(milliseconds: 250),
-                              reverseDuration:
-                                  const Duration(milliseconds: 250),
-                            ),
-                          );
-                        },
-                        // Text wait localization
-                        child: Text(
-                          "AppLocalizations.of(context)!.forgotThePassword",
-                          style: bSubtitle2.copyWith(
-                            color: Theme.of(context).colorScheme.tertiary,
+            );
+          });
+        }
+      },
+      child: Form(
+        key: _loginFormKey,
+        child: Column(
+          children: <Widget>[
+            const Padding(
+              padding: EdgeInsets.symmetric(
+                vertical: 20.0,
+              ),
+              child: CustomLoginUsernameTextField(),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                bottom: 20.0,
+                top: 10.0,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  const CustomLoginPasswordTextField(),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pushReplacement(
+                          context,
+                          PageTransition(
+                            curve: Curves.easeInOut,
+                            type: PageTransitionType.bottomToTop,
+                            child: const ForgotPasswordScreen(),
+                            duration: const Duration(milliseconds: 150),
+                            reverseDuration: const Duration(milliseconds: 150),
                           ),
+                        );
+                      },
+                      // Text wait localization
+                      child: Text(
+                        "Lupa Password",
+                        style: bSubtitle2.copyWith(
+                          color: Theme.of(context).colorScheme.tertiary,
                         ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            _buildCheckBox(),
+            Padding(
+              padding: const EdgeInsets.only(
+                bottom: 30.0,
+                top: 10.0,
+              ),
+              child: CustomPrimaryTextButton(
+                width: screenSize.width,
+                // Text wait localization
+                text: "Masuk",
+                onTap: () {
+                  if (_loginFormKey.currentState!.validate()) {
+                    context.read<LoginFormBloc>().add(const OnEmailSignIn());
+                    print("object");
+                    // });
+                  } else {
+                    // Text wait localization
+                    toastError("Lengkapi Data Anda Terlebih Dahulu");
+                  }
+                },
+              ),
+            ),
+            // Text wait localization
+            Text(
+              "Atau Masuk Menggunakan",
+              style: bBody2.copyWith(
+                color: Theme.of(context).colorScheme.tertiary,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 30.0,
+              ),
+              child: CustomMultipleIconButton(
+                icons: const <String>[
+                  "assets/icon/facebook.svg",
+                  "assets/icon/google.svg",
+                ],
+                onTap: <Function()>[
+                  () {
+                    Future(() {
+                      context
+                          .read<LoginFormBloc>()
+                          .add(const OnFacebookSignIn());
+                    }).onError((error, stackTrace) {
+                      // Text wait localization
+                      toastError("Error saat Masuk");
+                    });
+                  },
+                  () {
+                    Future(() {
+                      context.read<LoginFormBloc>().add(const OnGoogleSignIn());
+                    }).onError((error, stackTrace) {
+                      // Text wait localization
+                      toastError("Error saat Masuk");
+                    });
+                  },
+                ],
+                width: (screenSize.width > 500.0)
+                    ? (500.0 - 40.0)
+                    : (screenSize.width - 40.0),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  PageTransition(
+                    curve: Curves.easeInOut,
+                    type: PageTransitionType.rightToLeftJoined,
+                    childCurrent: widget,
+                    child: const RegistrationScreen(),
+                  ),
+                );
+              },
+              child: RichText(
+                // Text wait localization
+                text: TextSpan(
+                  text: "Tidak Punya Akun, ",
+                  style: bBody2.copyWith(
+                    color: Theme.of(context).colorScheme.tertiary,
+                  ),
+                  children: <TextSpan>[
+                    // Text wait localization
+                    TextSpan(
+                      text: "Daftar Sekarang",
+                      style: bCaption3.copyWith(
+                        color: Theme.of(context).colorScheme.tertiary,
+                        fontSize: 11.0,
                       ),
                     ),
                   ],
                 ),
               ),
-              _buildCheckBox(loginForm),
-              Padding(
-                padding: const EdgeInsets.only(
-                  bottom: 30.0,
-                  top: 10.0,
+            ),
+            const SizedBox(
+              height: 30.0,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCheckBox() {
+    return BlocBuilder<LoginFormBloc, LoginFormState>(
+      builder: (context, state) {
+        return GestureDetector(
+          onTap: (() => context.read<LoginFormBloc>().add(
+                LoginFormRememberMeChanged(
+                  rememberMe: !state.rememberMe,
                 ),
-                child: CustomPrimaryTextButton(
-                  width: screenSize.width,
-                  // Text wait localization
-                  text: "AppLocalizations.of(context)!.signIn",
-                  // On tap Navigation needs to be replaced
-                  onTap: () {
-                    Navigator.pop(
-                      context,
-                    );
-                  },
+              )),
+          child: Row(
+            children: <Widget>[
+              SizedBox(
+                height: 24.0,
+                width: 24.0,
+                child: Checkbox(
+                  value: state.rememberMe,
+                  onChanged: (value) => context.read<LoginFormBloc>().add(
+                        LoginFormRememberMeChanged(
+                          rememberMe: value!,
+                        ),
+                      ),
                 ),
+              ),
+              const SizedBox(
+                width: 10.0,
               ),
               // Text wait localization
               Text(
-                "AppLocalizations.of(context)!.orSign",
-                style: bBody2.copyWith(
+                "Ingat Saya",
+                style: bBody1.copyWith(
                   color: Theme.of(context).colorScheme.tertiary,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 30.0,
-                ),
-                child: CustomMultipleIconButton(
-                  icons: const [
-                    "assets/icon/facebook.svg",
-                    "assets/icon/twitter.svg",
-                    "assets/icon/google.svg",
-                  ],
-                  onTap: [
-                    () {
-                      Navigator.pop(
-                        context,
-                      );
-                    },
-                    () {
-                      Navigator.pop(
-                        context,
-                      );
-                    },
-                    () {
-                      Navigator.pop(
-                        context,
-                      );
-                    },
-                  ],
-                  width: (screenSize.width > 500.0)
-                      ? (500.0 - 40.0)
-                      : (screenSize.width - 40.0),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    PageTransition(
-                      curve: Curves.easeInOut,
-                      type: PageTransitionType.rightToLeftJoined,
-                      childCurrent: widget,
-                      child: const RegistrationScreen(),
-                    ),
-                  );
-                },
-                child: RichText(
-                  // Text wait localization
-                  text: TextSpan(
-                    text: "AppLocalizations.of(context)!.dontHaveAccount",
-                    style: bBody2.copyWith(
-                      color: Theme.of(context).colorScheme.tertiary,
-                    ),
-                    children: <TextSpan>[
-                      // Text wait localization
-                      TextSpan(
-                        text: "AppLocalizations.of(context)!.register",
-                        style: bCaption3.copyWith(
-                          color: Theme.of(context).colorScheme.tertiary,
-                          fontSize: 11.0,
-                        ),
-                      ),
-                    ],
-                  ),
                 ),
               ),
             ],
           ),
         );
       },
-    );
-  }
-
-  Widget _buildCheckBox(LoginFormState state) {
-    return GestureDetector(
-      onTap: (() => context.read<LoginFormBloc>().add(
-            LoginFormRememberMeChanged(
-              rememberMe: !state.rememberMe,
-            ),
-          )),
-      child: Row(
-        children: <Widget>[
-          SizedBox(
-            height: 24.0,
-            width: 24.0,
-            child: Checkbox(
-              value: state.rememberMe,
-              onChanged: (value) => context.read<LoginFormBloc>().add(
-                    LoginFormRememberMeChanged(
-                      rememberMe: value!,
-                    ),
-                  ),
-            ),
-          ),
-          const SizedBox(
-            width: 10.0,
-          ),
-          // Text wait localization
-          Text(
-            "AppLocalizations.of(context)!.rememberMe",
-            style: bBody1.copyWith(
-              color: Theme.of(context).colorScheme.tertiary,
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

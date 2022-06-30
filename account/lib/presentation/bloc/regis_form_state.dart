@@ -10,9 +10,16 @@ class RegisFormState extends Equatable {
   final bool isVerif;
   final bool obsecurePassword;
   final bool obsecurePasswordConf;
+  final bool rememberMe;
   final FormStatusEnum formStatus;
+  final String imageName;
+  final File image;
+  User? user;
+  final bool isGoogle;
+  final bool isEmail;
+  final bool isFacebook;
 
-  const RegisFormState({
+  RegisFormState({
     required this.email,
     required this.password,
     required this.passwordConf,
@@ -20,9 +27,16 @@ class RegisFormState extends Equatable {
     required this.fullName,
     required this.message,
     required this.isVerif,
+    required this.rememberMe,
     required this.obsecurePassword,
     required this.obsecurePasswordConf,
     required this.formStatus,
+    required this.image,
+    required this.imageName,
+    required this.isEmail,
+    required this.isGoogle,
+    required this.isFacebook,
+    this.user,
   });
 
   RegisFormState copyWith({
@@ -32,9 +46,16 @@ class RegisFormState extends Equatable {
     String? username,
     String? fullName,
     String? message,
+    String? imageName,
     bool? isVerif,
+    bool? rememberMe,
     bool? obsecurePassword,
     bool? obsecurePasswordConf,
+    bool? isEmail,
+    bool? isGoogle,
+    bool? isFacebook,
+    File? image,
+    User? user,
     FormStatusEnum? formStatus,
   }) {
     return RegisFormState(
@@ -45,24 +66,38 @@ class RegisFormState extends Equatable {
       fullName: fullName ?? this.fullName,
       message: message ?? this.message,
       isVerif: isVerif ?? this.isVerif,
+      rememberMe: rememberMe ?? this.rememberMe,
       formStatus: formStatus ?? this.formStatus,
       obsecurePassword: obsecurePassword ?? this.obsecurePassword,
       obsecurePasswordConf: obsecurePasswordConf ?? this.obsecurePasswordConf,
+      imageName: imageName ?? this.imageName,
+      image: image ?? this.image,
+      isGoogle: isGoogle ?? this.isGoogle,
+      isEmail: isEmail ?? this.isEmail,
+      isFacebook: isFacebook ?? this.isFacebook,
+      user: user,
     );
   }
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         email,
         password,
         passwordConf,
         isVerif,
+        rememberMe,
         username,
         fullName,
         message,
         formStatus,
         obsecurePasswordConf,
         obsecurePassword,
+        imageName,
+        image,
+        isEmail,
+        isFacebook,
+        isGoogle,
+        user,
       ];
 }
 
@@ -73,7 +108,9 @@ class RegisFormInitial extends RegisFormState {
   static String usernameInit = '';
   static String fullNameInit = '';
   static String messageInit = '';
+  static String imageNameInit = '';
   static bool isVerifInit = false;
+  static bool rememberMeInit = false;
   static bool obsecurePasswordInit = true;
   static bool obsecurePasswordConfInit = true;
   static FormStatusEnum formStatusInit = FormStatusEnum.initForm;
@@ -90,5 +127,12 @@ class RegisFormInitial extends RegisFormState {
           obsecurePassword: obsecurePasswordInit,
           obsecurePasswordConf: obsecurePasswordConfInit,
           formStatus: formStatusInit,
+          image: File('file.jpg'),
+          rememberMe: false,
+          isEmail: false,
+          isFacebook: false,
+          isGoogle: false,
+          imageName: imageNameInit,
+          user: null,
         );
 }

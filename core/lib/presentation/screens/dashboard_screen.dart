@@ -6,17 +6,18 @@ import 'package:core/presentation/screens/account_screen.dart';
 import 'package:core/presentation/screens/favorite_screen.dart';
 import 'package:core/presentation/screens/home_screen.dart';
 import 'package:core/presentation/screens/news_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:theme/theme.dart';
 
 // Check
 
 class DashboardScreen extends StatefulWidget {
-  // Add parameter from Main
   const DashboardScreen({Key? key}) : super(key: key);
 
   @override
@@ -24,8 +25,8 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  // Change with shared preferences (Delete if parameter Added)
-  bool isLogin = true;
+  User? user = FirebaseAuth.instance.currentUser;
+  final toast = FToast();
 
   final List<Widget> _listWidget = [
     const HomeScreen(),
@@ -35,10 +36,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
   ];
 
   void _bottomNavIndexChange(int index) {
+    bool isLogin = context.read<DashboardBloc>().state.isLogIn;
     if (index == 2 || index == 3) {
-      if (isLogin) {
+      if (isLogin && user != null) {
         context.read<DashboardBloc>().add(
-              IndexBottomNavChange(newIndex: index),
+              IndexBottomNavChange(
+                newIndex: index,
+              ),
             );
       } else {
         // Change to login screen
@@ -63,7 +67,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(seconds: 1), () {
+    if (user != null) {
+      context.read<DashboardBloc>().add(OnIsHaveProfile(email: user!.email!));
+    }
+    context.read<DashboardBloc>().add(const IsLogInChange());
+    Timer(const Duration(seconds: 2), () {
       FlutterNativeSplash.remove();
     });
   }

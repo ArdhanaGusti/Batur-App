@@ -62,3 +62,44 @@ class RegisFormFullNameChanged extends RegisFormEvent {
   @override
   List<Object> get props => [fullName];
 }
+
+class RegisFormRememberMeChanged extends RegisFormEvent {
+  final bool rememberMe;
+  const RegisFormRememberMeChanged({required this.rememberMe});
+
+  @override
+  List<Object> get props => [rememberMe];
+}
+
+class OnEmailSignUp extends RegisFormEvent {
+  const OnEmailSignUp();
+  @override
+  List<Object> get props => [];
+}
+
+class OnGoogleSignUp extends RegisFormEvent {
+  const OnGoogleSignUp();
+  @override
+  List<Object> get props => [];
+}
+
+class OnFacebookSignUp extends RegisFormEvent {
+  const OnFacebookSignUp();
+  @override
+  List<Object> get props => [];
+}
+
+class OnDeleteAuth extends RegisFormEvent {
+  const OnDeleteAuth();
+  @override
+  List<Object> get props => [];
+}
+
+class OnSignUp extends RegisFormEvent {
+  final String imageName;
+  final File image;
+  const OnSignUp(this.image, this.imageName);
+
+  @override
+  List<Object> get props => [image, imageName];
+}

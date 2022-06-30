@@ -100,12 +100,12 @@ class ForgotPasswordScreen extends StatelessWidget {
             text: "AppLocalizations.of(context)!.next",
             onTap: () {
               // On tap must be replace
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const DashboardScreen(),
-                ),
-              );
+              // Navigator.pushReplacement(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) => const DashboardScreen(),
+              //   ),
+              // );
             },
           ),
         ],

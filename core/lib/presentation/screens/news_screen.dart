@@ -1,13 +1,19 @@
 import 'dart:async';
 
+import 'package:account/account.dart';
+import 'package:core/presentation/bloc/dashboard_bloc.dart';
 import 'package:core/presentation/components/appbar/custom_sliver_appbar_dashboard.dart';
 import 'package:core/presentation/components/card/custom_news_card.dart';
+import 'package:core/presentation/components/custom_smart_refresh.dart';
 import 'package:core/presentation/screens/error_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:theme/theme.dart';
+
+// Check
 
 enum NewsScreenProcessEnum {
   loading,
@@ -23,33 +29,49 @@ class NewsScreen extends StatefulWidget {
 }
 
 class _NewsScreenState extends State<NewsScreen> {
+  User? user = FirebaseAuth.instance.currentUser;
   NewsScreenProcessEnum process = NewsScreenProcessEnum.loading;
 
+  // Refresh
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
+  // Refresh
   void _onRefresh() async {
+    setState(() {
+      process = NewsScreenProcessEnum.loading;
+    });
     await Future.delayed(const Duration(milliseconds: 1000));
     _refreshController.refreshCompleted();
+    setState(() {
+      process = NewsScreenProcessEnum.loaded;
+    });
   }
 
+  // Refresh
   void _onLoading() async {
+    setState(() {
+      process = NewsScreenProcessEnum.loading;
+    });
     await Future.delayed(const Duration(milliseconds: 1000));
     _refreshController.loadComplete();
+    setState(() {
+      process = NewsScreenProcessEnum.loaded;
+    });
   }
 
   @override
   void initState() {
     super.initState();
+    if (user != null) {
+      context.read<DashboardBloc>().add(OnIsAdmin(email: user!.email!));
+    }
 
-    // Must be repair
-    // Load Data
-    Timer(const Duration(seconds: 3), () {
+    if (mounted) {
       setState(() {
-        // Change state
         process = NewsScreenProcessEnum.loaded;
       });
-    });
+    }
   }
 
   @override
@@ -62,7 +84,7 @@ class _NewsScreenState extends State<NewsScreen> {
     if (process == NewsScreenProcessEnum.loading) {
       return NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return [
+          return <Widget>[
             _buildAppBar(),
           ];
         },
@@ -108,21 +130,54 @@ class _NewsScreenState extends State<NewsScreen> {
   }
 
   Widget _buildAppBar() {
-    return CustomSliverAppBarDashboard(
-      actionIcon: "assets/icon/regular/bell.svg",
-      actionOnTap: () {
-        // Navigate to Notification Page
+    return BlocBuilder<DashboardBloc, DashboardState>(
+      builder: (context, state) {
+        return CustomSliverAppBarDashboard(
+          actionIcon: "assets/icon/regular/bell.svg",
+          actionOnTap: () {
+            if (user != null) {
+              if (state.isHaveProfile) {
+                Navigator.push(
+                  context,
+                  PageTransition(
+                    curve: Curves.easeInOut,
+                    type: PageTransitionType.rightToLeft,
+                    child: const NotificationScreen(),
+                  ),
+                );
+              } else {
+                Navigator.push(
+                  context,
+                  PageTransition(
+                    curve: Curves.easeInOut,
+                    type: PageTransitionType.bottomToTop,
+                    child: const RegistrationSettingScreen(),
+                  ),
+                );
+              }
+            } else {
+              Navigator.push(
+                context,
+                PageTransition(
+                  curve: Curves.easeInOut,
+                  type: PageTransitionType.bottomToTop,
+                  child: const LoginScreen(),
+                ),
+              );
+            }
+          },
+          leading: const Text(
+            // Text wait localization
+            "Berita",
+            textAlign: TextAlign.center,
+          ),
+          actionIconSecondary: "assets/icon/regular/plus-square.svg",
+          actionOnTapSecondary: () {
+            // Navigate to Add News
+          },
+          isDoubleAction: state.isAdmin,
+        );
       },
-      leading: const Text(
-        // Text wait localization
-        "Berita",
-        textAlign: TextAlign.center,
-      ),
-      actionIconSecondary: "assets/icon/regular/plus-square.svg",
-      actionOnTapSecondary: () {
-        // Navigate to Add News
-      },
-      isDoubleAction: true,
     );
   }
 
@@ -133,44 +188,10 @@ class _NewsScreenState extends State<NewsScreen> {
           _buildAppBar(),
         ];
       },
-      body: SmartRefresher(
-        controller: _refreshController,
+      body: CustomSmartRefresh(
+        refreshController: _refreshController,
         onRefresh: _onRefresh,
         onLoading: _onLoading,
-        header: ClassicHeader(
-          refreshingIcon: LoadingAnimationWidget.horizontalRotatingDots(
-            color: Theme.of(context).colorScheme.tertiary,
-            size: 20.0,
-          ),
-          failedIcon: SvgPicture.asset(
-            "assets/icon/fill/exclamation-circle.svg",
-            color: Theme.of(context).colorScheme.tertiary,
-            height: 20.0,
-          ),
-          completeIcon: SvgPicture.asset(
-            "assets/icon/fill/check-circle.svg",
-            color: Theme.of(context).colorScheme.tertiary,
-            height: 20.0,
-          ),
-          releaseIcon: SvgPicture.asset(
-            "assets/icon/fill/chevron-circle-up.svg",
-            color: Theme.of(context).colorScheme.tertiary,
-            height: 20.0,
-          ),
-          idleIcon: SvgPicture.asset(
-            "assets/icon/fill/chevron-circle-down.svg",
-            color: Theme.of(context).colorScheme.tertiary,
-            height: 20.0,
-          ),
-          refreshingText: "Memperbarui...",
-          releaseText: "Lepas Untuk Memperbarui...",
-          idleText: "Tarik ke bawah Untuk Memperbarui...",
-          failedText: "Memperbarui gagal",
-          completeText: "Behasil Memperbarui",
-          textStyle: bBody1.copyWith(
-            color: Theme.of(context).colorScheme.tertiary,
-          ),
-        ),
         child: CustomScrollView(
           physics: const BouncingScrollPhysics(),
           slivers: <Widget>[

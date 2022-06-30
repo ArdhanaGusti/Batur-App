@@ -23,16 +23,22 @@ dependencies:
   transportation:
     path: ../transportation
 
+  google_sign_in:
   loading_animation_widget:
+  cloud_firestore:
   cached_network_image:
   flutter_bloc:
   get_it:
   flutter_svg:
   equatable:
+  firebase_auth:
+  shared_preferences:
+  internet_connection_checker: 
   carousel_slider: ^4.1.1
   page_transition: ^2.0.9
   flutter_native_splash: ^2.2.3+1
   pull_to_refresh: ^2.0.0
+  fluttertoast: 
 
 dev_dependencies:
   flutter_test:

@@ -17,6 +17,7 @@ class CustomEditEmailTextField extends StatelessWidget {
       builder: (context, editForm) {
         return TextFormField(
           keyboardType: TextInputType.emailAddress,
+          enabled: false,
           initialValue: editForm.email,
           style: bSubtitle1.copyWith(
             color: Theme.of(context).colorScheme.tertiary,
@@ -41,23 +42,6 @@ class CustomEditEmailTextField extends StatelessWidget {
               ),
             ),
           ),
-          // Validator must be check if Email Valid
-          validator: (text) {
-            if (text == null || text.isEmpty) {
-              // Text wait localization
-              return 'Please enter some text';
-            }
-            return null;
-          },
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          onChanged: (text) {
-            // BloC
-            context.read<ProfileBloc>().add(
-                  ProfileFormEmailChanged(
-                    email: text,
-                  ),
-                );
-          },
         );
       },
     );

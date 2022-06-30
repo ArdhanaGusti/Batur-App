@@ -1,5 +1,12 @@
 library core;
 
+export 'package:core/data/helper/shared_preferences_helper.dart';
+export 'package:core/data/repositories/repository_impl.dart';
+export 'package:core/data/sources/local_data_service.dart';
+export 'package:core/domain/repositories/repositories.dart';
+export 'package:core/domain/usecase/get_first_open.dart';
+export 'package:core/domain/usecase/get_remember_me.dart';
+export 'package:core/domain/usecase/set_remember_me.dart';
 export 'package:core/presentation/components/appbar/custom_appbar.dart';
 export 'package:core/presentation/components/appbar/custom_appbar_title_notification.dart';
 export 'package:core/presentation/components/appbar/custom_sliver_appbar_dashboard.dart';
@@ -54,3 +61,7 @@ export 'package:core/presentation/screens/on_boarding_screen.dart';
 export 'package:core/presentation/screens/about_screen.dart';
 export 'package:core/presentation/screens/term_and_condition_screen.dart';
 export 'package:core/presentation/screens/help_screen.dart';
+export 'package:core/presentation/bloc/dashboard_bloc.dart';
+export 'package:core/utils/exception.dart';
+export 'package:core/utils/failure.dart';
+export 'package:core/utils/network_info.dart';

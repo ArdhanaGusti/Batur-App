@@ -1,12 +1,18 @@
 import 'dart:async';
 
+import 'package:account/account.dart';
+import 'package:core/presentation/bloc/dashboard_bloc.dart';
 import 'package:core/presentation/components/appbar/custom_sliver_appbar_dashboard.dart';
+import 'package:core/presentation/components/button/custom_primary_text_button.dart';
 import 'package:core/presentation/components/card/custom_favorite_tour_card.dart';
 import 'package:core/presentation/components/card/custom_favorite_umkm_card.dart';
 import 'package:core/presentation/components/custom_smart_refresh.dart';
 import 'package:core/presentation/screens/error_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:theme/theme.dart';
 
@@ -23,32 +29,37 @@ class FavoriteScreen extends StatefulWidget {
   State<FavoriteScreen> createState() => _FavoriteScreenState();
 }
 
-class _FavoriteScreenState extends State<FavoriteScreen>
-    with TickerProviderStateMixin {
+class _FavoriteScreenState extends State<FavoriteScreen> {
+  User? user = FirebaseAuth.instance.currentUser;
   FavScreenProcessEnum process = FavScreenProcessEnum.loading;
-  late TabController _controller;
 
+// Refresh
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
+  // Refresh
   void _onRefresh() async {
     await Future.delayed(const Duration(milliseconds: 1000));
     _refreshController.refreshCompleted();
   }
 
+  // Refresh
   void _onLoading() async {
     await Future.delayed(const Duration(milliseconds: 1000));
     _refreshController.loadComplete();
   }
 
+  // Refresh
   final RefreshController _refreshController2 =
       RefreshController(initialRefresh: false);
 
+  // Refresh
   void _onRefresh2() async {
     await Future.delayed(const Duration(milliseconds: 1000));
     _refreshController2.refreshCompleted();
   }
 
+  // Refresh
   void _onLoading2() async {
     await Future.delayed(const Duration(milliseconds: 1000));
     _refreshController2.loadComplete();
@@ -56,12 +67,10 @@ class _FavoriteScreenState extends State<FavoriteScreen>
 
   @override
   void initState() {
+    if (user != null) {
+      context.read<DashboardBloc>().add(OnIsHaveProfile(email: user!.email!));
+    }
     super.initState();
-
-    _controller = TabController(
-      vsync: this,
-      length: 2,
-    );
 
     // Must be repair
     // Change with to fetch data
@@ -75,7 +84,6 @@ class _FavoriteScreenState extends State<FavoriteScreen>
 
   @override
   void dispose() {
-    _controller.dispose();
     super.dispose();
   }
 
@@ -130,166 +138,238 @@ class _FavoriteScreenState extends State<FavoriteScreen>
   }
 
   Widget _buildAppBar() {
-    return CustomSliverAppBarDashboard(
-      actionIcon: "assets/icon/regular/bell.svg",
-      // Must add on Tap
-      actionOnTap: () {
-        // Navigate to Notification Page
+    return BlocBuilder<DashboardBloc, DashboardState>(
+      builder: (context, state) {
+        return CustomSliverAppBarDashboard(
+          actionIcon: "assets/icon/regular/bell.svg",
+          // Must add on Tap
+          actionOnTap: () {
+            if (user != null) {
+              if (state.isHaveProfile) {
+                Navigator.push(
+                  context,
+                  PageTransition(
+                    curve: Curves.easeInOut,
+                    type: PageTransitionType.rightToLeft,
+                    child: const NotificationScreen(),
+                  ),
+                );
+              } else {
+                Navigator.push(
+                  context,
+                  PageTransition(
+                    curve: Curves.easeInOut,
+                    type: PageTransitionType.bottomToTop,
+                    child: const RegistrationSettingScreen(),
+                  ),
+                );
+              }
+            } else {
+              Navigator.push(
+                context,
+                PageTransition(
+                  curve: Curves.easeInOut,
+                  type: PageTransitionType.bottomToTop,
+                  child: const LoginScreen(),
+                ),
+              );
+            }
+          },
+          leading: const Text(
+            // Text wait localization
+            "Favorite",
+            textAlign: TextAlign.center,
+          ),
+          actionIconSecondary: "",
+          // Must add on Tap
+          actionOnTapSecondary: () {},
+          // Becarefull with this
+          isDoubleAction: false,
+        );
       },
-      leading: const Text(
-        // Text wait localization
-        "Favorite",
-        textAlign: TextAlign.center,
-      ),
-      actionIconSecondary: "",
-      // Must add on Tap
-      actionOnTapSecondary: () {},
-      // Becarefull with this
-      isDoubleAction: false,
     );
   }
 
   Widget _buildFavoriteScreen(BuildContext context, Size screenSize) {
-    return NestedScrollView(
-      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-        return <Widget>[
+    return DefaultTabController(
+      length: 2, // Length of tabs
+      initialIndex: 0,
+      child: CustomScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        slivers: <Widget>[
           _buildAppBar(),
-        ];
-      },
-      body: Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(
-              left: 20.0,
-              right: 20.0,
-              top: 10.0,
-            ),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: SizedBox(
-                height: 30.0,
-                width: 230.0,
-                child: TabBar(
-                  controller: _controller,
-                  indicator: BoxDecoration(
-                    color: Theme.of(context).colorScheme.tertiary,
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  splashBorderRadius: BorderRadius.circular(10.0),
-                  unselectedLabelColor:
-                      Theme.of(context).colorScheme.tertiaryContainer,
-                  tabs: <Widget>[
-                    Container(
-                      padding: const EdgeInsets.all(2.0),
-                      child: Text(
-                        // Wait Localization
-                        "Tour",
-                        style: bSubtitle3,
+          BlocBuilder<DashboardBloc, DashboardState>(
+            builder: (context, state) {
+              if (state.isHaveProfile) {
+                return SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0,
+                      vertical: 10.0,
+                    ),
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: SizedBox(
+                        height: 30.0,
+                        width: 230.0,
+                        child: TabBar(
+                          indicator: BoxDecoration(
+                            color: Theme.of(context).colorScheme.tertiary,
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          splashBorderRadius: BorderRadius.circular(10.0),
+                          unselectedLabelColor:
+                              Theme.of(context).colorScheme.tertiaryContainer,
+                          tabs: <Widget>[
+                            Container(
+                              padding: const EdgeInsets.all(2.0),
+                              child: Text(
+                                // Wait Localization
+                                "Wisata",
+                                style: bSubtitle3,
+                              ),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.all(2.0),
+                              child: Text(
+                                // Wait Localization
+                                "UMKM",
+                                style: bSubtitle3,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    Container(
-                      padding: const EdgeInsets.all(2.0),
-                      child: Text(
-                        // Wait Localization
-                        "UMKM",
-                        style: bSubtitle3,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
+                  ),
+                );
+              } else {
+                return const SliverToBoxAdapter(child: SizedBox());
+              }
+            },
           ),
-          Flexible(
-            child: TabBarView(
-              physics: const BouncingScrollPhysics(),
-              controller: _controller,
-              children: <Widget>[
-                CustomSmartRefresh(
-                  onLoading: _onLoading,
-                  onRefresh: _onRefresh,
-                  refreshController: _refreshController,
-                  child: CustomScrollView(
-                    shrinkWrap: true,
-                    // physics: const BouncingScrollPhysics(),
-                    slivers: <Widget>[
-                      SliverPadding(
-                        padding: const EdgeInsets.only(
-                          top: 20.0,
-                          left: 20.0,
-                          right: 20.0,
-                        ),
-                        sliver: SliverList(
-                          delegate: SliverChildBuilderDelegate(
-                            (BuildContext context, int index) {
-                              // Use Data Tour
-                              return Padding(
-                                padding: const EdgeInsets.only(bottom: 15.0),
-                                child: CustomFavoriteTourCard(
-                                  img:
-                                      "https://cdn1-production-images-kly.akamaized.net/lMHji7xE4GI7YHCWAQumKfFm9Ew=/1200x900/smart/filters:quality(75):strip_icc():format(jpeg)/kly-media-production/medias/3554482/original/037161700_1630219411-bandung-5319951_1920.jpg",
-                                  title:
-                                      "Museum Geologi Bandung Bandung Jawa Barat",
-                                  address:
-                                      "Jl. Diponegoro No.57, Cihaur Geulis, Kec. Cibeunying Kaler, Kota Bandung, Jawa Barat 40122",
-                                  open: "Buka (07:00 WIB -16:00 WIB",
-                                  rating: "4,5",
-                                  onTap: () {
-                                    // Navigate to Tour Detail
-                                  },
-                                ),
-                              );
-                            },
-                            childCount: 10,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                CustomSmartRefresh(
-                  refreshController: _refreshController2,
-                  onLoading: _onLoading2,
-                  onRefresh: _onRefresh2,
-                  child: CustomScrollView(
-                    shrinkWrap: true,
+          SliverFillRemaining(
+            child: BlocBuilder<DashboardBloc, DashboardState>(
+              builder: (context, state) {
+                if (state.isHaveProfile) {
+                  return TabBarView(
                     physics: const BouncingScrollPhysics(),
-                    slivers: <Widget>[
-                      SliverPadding(
-                        padding: const EdgeInsets.only(
-                          top: 20.0,
-                          left: 20.0,
-                          right: 20.0,
-                        ),
-                        sliver: SliverList(
-                          delegate: SliverChildBuilderDelegate(
-                            (BuildContext context, int index) {
-                              // Use Data UMKM
-                              return Padding(
-                                padding: const EdgeInsets.only(bottom: 15.0),
-                                child: CustomFavoriteUMKMCard(
-                                  img:
-                                      "https://cdn1-production-images-kly.akamaized.net/lMHji7xE4GI7YHCWAQumKfFm9Ew=/1200x900/smart/filters:quality(75):strip_icc():format(jpeg)/kly-media-production/medias/3554482/original/037161700_1630219411-bandung-5319951_1920.jpg",
-                                  title:
-                                      "Museum Geologi Bandung Bandung Jawa Barat",
-                                  address:
-                                      "Jl. Diponegoro No.57, Cihaur Geulis, Kec. Cibeunying Kaler, Kota Bandung, Jawa Barat 40122",
-                                  open: "Buka (07:00 WIB -16:00 WIB",
-                                  rating: "4,5",
-                                  onTap: () {
-                                    // Navigate to UMKM Detail
+                    children: <Widget>[
+                      CustomSmartRefresh(
+                        onLoading: _onLoading,
+                        onRefresh: _onRefresh,
+                        refreshController: _refreshController,
+                        child: CustomScrollView(
+                          shrinkWrap: true,
+                          physics: const BouncingScrollPhysics(),
+                          slivers: <Widget>[
+                            SliverPadding(
+                              padding: const EdgeInsets.only(
+                                top: 20.0,
+                                left: 20.0,
+                                right: 20.0,
+                              ),
+                              sliver: SliverList(
+                                delegate: SliverChildBuilderDelegate(
+                                  (BuildContext context, int index) {
+                                    // Use Data Tour
+                                    return Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 15.0),
+                                      child: CustomFavoriteTourCard(
+                                        img:
+                                            "https://cdn1-production-images-kly.akamaized.net/lMHji7xE4GI7YHCWAQumKfFm9Ew=/1200x900/smart/filters:quality(75):strip_icc():format(jpeg)/kly-media-production/medias/3554482/original/037161700_1630219411-bandung-5319951_1920.jpg",
+                                        title:
+                                            "Museum Geologi Bandung Bandung Jawa Barat",
+                                        address:
+                                            "Jl. Diponegoro No.57, Cihaur Geulis, Kec. Cibeunying Kaler, Kota Bandung, Jawa Barat 40122",
+                                        open: "Buka (07:00 WIB -16:00 WIB",
+                                        rating: "4,5",
+                                        onTap: () {
+                                          // Navigate to Tour Detail
+                                        },
+                                      ),
+                                    );
                                   },
+                                  childCount: 10,
                                 ),
-                              );
-                            },
-                            childCount: 4,
-                          ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      CustomSmartRefresh(
+                        refreshController: _refreshController2,
+                        onLoading: _onLoading2,
+                        onRefresh: _onRefresh2,
+                        child: CustomScrollView(
+                          shrinkWrap: true,
+                          physics: const BouncingScrollPhysics(),
+                          slivers: <Widget>[
+                            SliverPadding(
+                              padding: const EdgeInsets.only(
+                                top: 20.0,
+                                left: 20.0,
+                                right: 20.0,
+                              ),
+                              sliver: SliverList(
+                                delegate: SliverChildBuilderDelegate(
+                                  (BuildContext context, int index) {
+                                    // Use Data UMKM
+                                    return Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 15.0),
+                                      child: CustomFavoriteUMKMCard(
+                                        img:
+                                            "https://cdn1-production-images-kly.akamaized.net/lMHji7xE4GI7YHCWAQumKfFm9Ew=/1200x900/smart/filters:quality(75):strip_icc():format(jpeg)/kly-media-production/medias/3554482/original/037161700_1630219411-bandung-5319951_1920.jpg",
+                                        title:
+                                            "Museum Geologi Bandung Bandung Jawa Barat",
+                                        address:
+                                            "Jl. Diponegoro No.57, Cihaur Geulis, Kec. Cibeunying Kaler, Kota Bandung, Jawa Barat 40122",
+                                        open: "Buka (07:00 WIB -16:00 WIB",
+                                        rating: "4,5",
+                                        onTap: () {
+                                          // Navigate to UMKM Detail
+                                        },
+                                      ),
+                                    );
+                                  },
+                                  childCount: 4,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
-                  ),
-                ),
-              ],
+                  );
+                } else {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          "Anda belum mempunyai profile\nKelik disini untuk registrasi profile",
+                          overflow: TextOverflow.ellipsis,
+                          style: bSubtitle2.copyWith(
+                            color: Theme.of(context).colorScheme.tertiary,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        CustomPrimaryTextButton(
+                          width: screenSize.width - 40,
+                          // Text wait localization
+                          text: "Daftar Profile",
+                          onTap: () {},
+                        ),
+                      ],
+                    ),
+                  );
+                }
+              },
             ),
           ),
         ],

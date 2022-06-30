@@ -9,7 +9,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:theme/theme.dart';
 
-// Review Check 1 (Done)
+// Check
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({Key? key}) : super(key: key);
@@ -129,7 +129,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 context,
                 PageTransition(
                   type: PageTransitionType.scale,
-                  // Paramater in Dashboard
                   child: const DashboardScreen(),
                   alignment: Alignment.center,
                   curve: Curves.easeInOut,

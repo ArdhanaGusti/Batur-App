@@ -161,12 +161,12 @@ class VerificationScreen extends StatelessWidget {
             text: "AppLocalizations.of(context)!.verification",
             onTap: () {
               // On tap must be replace
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const DashboardScreen(),
-                ),
-              );
+              // Navigator.pushReplacement(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) => const DashboardScreen(),
+              //   ),
+              // );
             },
           ),
         ],

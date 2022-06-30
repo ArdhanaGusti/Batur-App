@@ -21,6 +21,15 @@ dependencies:
   transportation:
     path: ../transportation
 
+  firebase_auth:
+  google_sign_in:
+  flutter_facebook_auth:
+  cloud_firestore:
+  firebase_storage:
+  firebase_core:
+  firebase_analytics:
+  shared_preferences:
+  dartz:
   flutter_bloc:
   equatable:
   flutter_svg:
@@ -28,6 +37,9 @@ dependencies:
   cached_network_image:
   page_transition:
   loading_animation_widget:
+  fluttertoast: 
+  image_picker:
+  path: 
 
 dev_dependencies:
   flutter_test:

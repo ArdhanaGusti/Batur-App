@@ -8,6 +8,10 @@ class ProfileState extends Equatable {
   final String fullName;
   final String message;
   final FormStatusEnum formStatus;
+  final File? image;
+  final String? imageName;
+  final String imageUrl;
+  final DocumentReference? id;
 
   const ProfileState({
     required this.email,
@@ -17,6 +21,10 @@ class ProfileState extends Equatable {
     required this.fullName,
     required this.message,
     required this.formStatus,
+    required this.image,
+    required this.imageName,
+    required this.imageUrl,
+    required this.id,
   });
 
   ProfileState copyWith({
@@ -26,6 +34,10 @@ class ProfileState extends Equatable {
     String? username,
     String? fullName,
     String? message,
+    File? image,
+    String? imageName,
+    String? imageUrl,
+    DocumentReference? id,
     FormStatusEnum? formStatus,
   }) {
     return ProfileState(
@@ -36,11 +48,15 @@ class ProfileState extends Equatable {
       fullName: fullName ?? this.fullName,
       message: message ?? this.message,
       formStatus: formStatus ?? this.formStatus,
+      image: image ?? this.image,
+      imageUrl: imageUrl ?? this.imageUrl,
+      id: id ?? this.id,
+      imageName: imageName ?? this.imageName,
     );
   }
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         email,
         password,
         passwordConf,
@@ -48,6 +64,10 @@ class ProfileState extends Equatable {
         fullName,
         message,
         formStatus,
+        image,
+        imageUrl,
+        id,
+        imageName,
       ];
 }
 
@@ -60,6 +80,10 @@ class ProfileInitial extends ProfileState {
           username: "",
           fullName: "",
           message: "",
+          imageName: "",
+          imageUrl: "",
+          id: null,
+          image: null,
           formStatus: FormStatusEnum.initForm,
         );
 }

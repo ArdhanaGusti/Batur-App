@@ -1,26 +1,45 @@
 import 'package:account/account.dart';
-import 'package:core/presentation/components/appbar/custom_sliver_appbar_dashboard.dart';
-import 'package:core/presentation/components/button/custom_primary_icon_text_button.dart';
-import 'package:core/presentation/components/custom_profile_card.dart';
-import 'package:core/presentation/screens/about_screen.dart';
-import 'package:core/presentation/screens/error_screen.dart';
-import 'package:core/presentation/screens/help_screen.dart';
-import 'package:core/presentation/screens/term_and_condition_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:core/core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:theme/theme.dart';
 
 // Check
 
-class AccountScreen extends StatelessWidget {
+class AccountScreen extends StatefulWidget {
   const AccountScreen({Key? key}) : super(key: key);
+
+  @override
+  State<AccountScreen> createState() => _AccountScreenState();
+}
+
+class _AccountScreenState extends State<AccountScreen> {
+  User user = FirebaseAuth.instance.currentUser!;
+
+  void _signOut() {
+    context.read<DashboardBloc>().add(const SingOut());
+    context.read<DashboardBloc>().add(const IsLogInSave(value: false));
+    context.read<DashboardBloc>().add(const IsAdminSave(value: false));
+    context.read<DashboardBloc>().add(const OnIsHaveProfileSave(value: false));
+    context.read<DashboardBloc>().add(const OnSaveRemembermeDashboard());
+  }
+
+  @override
+  void initState() {
+    context.read<DashboardBloc>().add(OnIsHaveProfile(email: user.email!));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
 
-    if (screenSize.width < 320.0 || screenSize.height < 600.0) {
+    if (screenSize.width < 300.0 || screenSize.height < 600.0) {
       return const ErrorScreen(
         // Text wait localization
         title: "Eror",
@@ -44,29 +63,42 @@ class AccountScreen extends StatelessWidget {
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: <Widget>[
-        CustomSliverAppBarDashboard(
-          actionIcon: "assets/icon/regular/bell.svg",
-          actionOnTap: () {
-            Navigator.push(
-              context,
-              PageTransition(
-                curve: Curves.easeInOut,
-                type: PageTransitionType.bottomToTop,
-                child: const NotificationScreen(),
-                duration: const Duration(milliseconds: 150),
-                reverseDuration: const Duration(milliseconds: 150),
+        BlocBuilder<DashboardBloc, DashboardState>(
+          builder: (context, state) {
+            return CustomSliverAppBarDashboard(
+              actionIcon: "assets/icon/regular/bell.svg",
+              actionOnTap: () {
+                if (state.isHaveProfile) {
+                  Navigator.push(
+                    context,
+                    PageTransition(
+                      curve: Curves.easeInOut,
+                      type: PageTransitionType.rightToLeft,
+                      child: const NotificationScreen(),
+                    ),
+                  );
+                } else {
+                  Navigator.push(
+                    context,
+                    PageTransition(
+                      curve: Curves.easeInOut,
+                      type: PageTransitionType.bottomToTop,
+                      child: const RegistrationSettingScreen(),
+                    ),
+                  );
+                }
+              },
+              leading: const Text(
+                // Text wait localization
+                "Akun",
+                textAlign: TextAlign.center,
               ),
+              actionIconSecondary: "",
+              actionOnTapSecondary: () {},
+              // Becarefull with this
+              isDoubleAction: false,
             );
           },
-          leading: const Text(
-            // Text wait localization
-            "Akun",
-            textAlign: TextAlign.center,
-          ),
-          actionIconSecondary: "",
-          actionOnTapSecondary: () {},
-          // Becarefull with this
-          isDoubleAction: false,
         ),
         SliverPadding(
           padding: const EdgeInsets.only(
@@ -76,16 +108,80 @@ class AccountScreen extends StatelessWidget {
             top: 10.0,
           ),
           sliver: SliverToBoxAdapter(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(30.0),
-              // Fetch from Firebase
-              child: const CustomProfileCard(
-                email: "Batur@gmail.com",
-                name: "Neida Aleida",
-                profilePic:
-                    "https://akcdn.detik.net.id/api/wm/2020/03/13/60cf74a7-8cc1-4a24-8f9d-0772471f9fb1_169.jpeg",
-                username: "bandungtourism",
-              ),
+            child: BlocBuilder<DashboardBloc, DashboardState>(
+              builder: (context, state) {
+                return ClipRRect(
+                  borderRadius: BorderRadius.circular(30.0),
+                  // Fetch from Firebase
+                  child: (state.isHaveProfile)
+                      ? StreamBuilder<QuerySnapshot>(
+                          stream: FirebaseFirestore.instance
+                              .collection("Profile")
+                              .where("email",
+                                  isEqualTo:
+                                      FirebaseAuth.instance.currentUser!.email)
+                              .snapshots(),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              return Container(
+                                height: 180.0,
+                                color: Theme.of(context).colorScheme.surface,
+                                child: Center(
+                                  child: LoadingAnimationWidget
+                                      .horizontalRotatingDots(
+                                    color: bTextPrimary,
+                                    size: 30.0,
+                                  ),
+                                ),
+                              );
+                            } else if (snapshot.data!.size == 0) {
+                              return const CustomProfileCard(
+                                email: "Batur@gmail.com",
+                                name: "Error",
+                                profilePic:
+                                    "https://akcdn.detik.net.id/api/wm/2020/03/13/60cf74a7-8cc1-4a24-8f9d-0772471f9fb1_169.jpeg",
+                                username: "bandungtourism",
+                              );
+                            } else {
+                              var profile = snapshot.data!.docs;
+                              var profile1 = profile[0]['imgUrl'];
+                              return CustomProfileCard(
+                                email: snapshot.data!.docs[0]['email'],
+                                name: snapshot.data!.docs[0]['fullname'],
+                                profilePic: profile1,
+                                username: snapshot.data!.docs[0]['username'],
+                              );
+                            }
+                          },
+                        )
+                      : GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              PageTransition(
+                                curve: Curves.easeInOut,
+                                type: PageTransitionType.bottomToTop,
+                                child: const RegistrationSettingScreen(),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            height: 180.0,
+                            color: Theme.of(context).colorScheme.surface,
+                            child: Center(
+                              child: Text(
+                                "Anda belum mempunyai profile\nKelik disini untuk registrasi profile",
+                                overflow: TextOverflow.ellipsis,
+                                style: bSubtitle2.copyWith(
+                                  color: bTextPrimary,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                        ),
+                );
+              },
             ),
           ),
         ),
@@ -93,24 +189,46 @@ class AccountScreen extends StatelessWidget {
           context,
           screenSize,
           <Widget>[
-            _buildSmallContainer(
-              context,
-              () {
-                // Navigate to Detail Page
-                Navigator.push(
-                  context,
-                  PageTransition(
-                    curve: Curves.easeInOut,
-                    type: PageTransitionType.bottomToTop,
-                    child: const AccountDetailScreen(),
-                    duration: const Duration(milliseconds: 150),
-                    reverseDuration: const Duration(milliseconds: 150),
-                  ),
-                );
+            BlocBuilder<DashboardBloc, DashboardState>(
+              builder: (context, state) {
+                if (state.isHaveProfile) {
+                  return _buildSmallContainer(
+                    context,
+                    () {
+                      // Navigate to Detail Page
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                          curve: Curves.easeInOut,
+                          type: PageTransitionType.leftToRight,
+                          child: const AccountDetailScreen(),
+                        ),
+                      );
+                    },
+                    // Text wait localization
+                    "Detail Akun",
+                    "assets/icon/regular/user.svg",
+                  );
+                } else {
+                  return _buildSmallContainer(
+                    context,
+                    () {
+                      // Navigate to Detail Page
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                          curve: Curves.easeInOut,
+                          type: PageTransitionType.bottomToTop,
+                          child: const RegistrationSettingScreen(),
+                        ),
+                      );
+                    },
+                    // Text wait localization
+                    "Detail Akun",
+                    "assets/icon/regular/user.svg",
+                  );
+                }
               },
-              // Text wait localization
-              "Detail Akun",
-              "assets/icon/regular/user.svg",
             ),
             _buildSmallContainer(
               context,
@@ -131,14 +249,35 @@ class AccountScreen extends StatelessWidget {
               "Pengaturan",
               "assets/icon/regular/settings.svg",
             ),
-            _buildSmallContainer(
-              context,
-              () {
-                // Navigate to Status Regis Page
+            BlocBuilder<DashboardBloc, DashboardState>(
+              builder: (context, state) {
+                if (state.isHaveProfile) {
+                  return _buildSmallContainer(
+                    context,
+                    () {},
+                    // Text wait localization
+                    "Status Registrasi",
+                    "assets/icon/regular/check-circle.svg",
+                  );
+                } else {
+                  return _buildSmallContainer(
+                    context,
+                    () {
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                          curve: Curves.easeInOut,
+                          type: PageTransitionType.bottomToTop,
+                          child: const RegistrationSettingScreen(),
+                        ),
+                      );
+                    },
+                    // Text wait localization
+                    "Status Registrasi",
+                    "assets/icon/regular/check-circle.svg",
+                  );
+                }
               },
-              // Text wait localization
-              "Status Registrasi",
-              "assets/icon/regular/check-circle.svg",
             ),
           ],
         ),
@@ -215,7 +354,24 @@ class AccountScreen extends StatelessWidget {
               // Text wait localization
               text: "Keluar",
               // Must add on Tap
-              onTap: () {},
+              onTap: () {
+                _signOut();
+                // final SharedPreferences prefs =
+                //     await SharedPreferences.getInstance();
+                // prefs.setBool('isLogIn', false);
+                // final isLogin = prefs.getBool('isLogIn') ?? false;
+                // print(isLogin);
+                Navigator.push(
+                  context,
+                  PageTransition(
+                    curve: Curves.easeInOut,
+                    type: PageTransitionType.bottomToTop,
+                    child: const LoginScreen(),
+                    duration: const Duration(milliseconds: 150),
+                    reverseDuration: const Duration(milliseconds: 150),
+                  ),
+                );
+              },
               icon: "assets/icon/bold/log-out.svg",
             ),
           ),

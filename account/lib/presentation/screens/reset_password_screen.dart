@@ -108,12 +108,12 @@ class ResetPasswordScreen extends StatelessWidget {
             text: "AppLocalizations.of(context)!.done",
             onTap: () {
               // On tap must be replace
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const DashboardScreen(),
-                ),
-              );
+              // Navigator.pushReplacement(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) => const DashboardScreen(),
+              //   ),
+              // );
             },
           ),
         ],

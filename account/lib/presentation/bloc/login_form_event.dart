@@ -38,3 +38,27 @@ class LoginFormRememberMeChanged extends LoginFormEvent {
   @override
   List<Object> get props => [rememberMe];
 }
+
+class OnEmailSignIn extends LoginFormEvent {
+  const OnEmailSignIn();
+  @override
+  List<Object> get props => [];
+}
+
+class OnSaveRememberme extends LoginFormEvent {
+  const OnSaveRememberme();
+  @override
+  List<Object> get props => [];
+}
+
+class OnGoogleSignIn extends LoginFormEvent {
+  const OnGoogleSignIn();
+  @override
+  List<Object> get props => [];
+}
+
+class OnFacebookSignIn extends LoginFormEvent {
+  const OnFacebookSignIn();
+  @override
+  List<Object> get props => [];
+}

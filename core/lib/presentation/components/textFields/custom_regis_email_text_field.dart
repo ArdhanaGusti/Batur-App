@@ -46,12 +46,12 @@ class CustomRegisEmailTextField extends StatelessWidget {
             ),
           ),
           // Validator must be check
-          validator: (text) {
-            if (text == null || text.isEmpty) {
-              return 'Please enter some text';
-            }
-            return null;
-          },
+          // validator: (text) {
+          //   if (text == null || text.isEmpty) {
+          //     return 'Please enter some text';
+          //   }
+          //   return null;
+          // },
           autovalidateMode: AutovalidateMode.onUserInteraction,
           onChanged: (text) {
             context.read<RegisFormBloc>().add(

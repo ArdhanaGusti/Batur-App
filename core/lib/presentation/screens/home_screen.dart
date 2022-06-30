@@ -1,16 +1,19 @@
 import 'dart:async';
 
+import 'package:account/account.dart';
 import 'package:core/presentation/bloc/dashboard_bloc.dart';
 import 'package:core/presentation/components/appbar/custom_sliver_appbar_dashboard.dart';
 import 'package:core/presentation/components/card/custom_news_card.dart';
 import 'package:core/presentation/components/card/custom_tour_card.dart';
 import 'package:core/presentation/components/card/custom_transport_card.dart';
 import 'package:core/presentation/components/card/custom_umkm_card.dart';
+import 'package:core/presentation/components/custom_smart_refresh.dart';
 import 'package:core/presentation/screens/error_screen.dart';
 import 'package:core/presentation/screens/news_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -18,6 +21,8 @@ import 'package:theme/theme.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:transportation/transportation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// Check
 
 enum HomeScreenProcessEnum {
   loading,
@@ -33,27 +38,29 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+  User? user = FirebaseAuth.instance.currentUser;
   late TabController _controller;
-  // Must be repair
   HomeScreenProcessEnum process = HomeScreenProcessEnum.loading;
+  final toast = FToast();
 
   @override
   void initState() {
-    super.initState();
-
+    toast.init(context);
     _controller = TabController(
       vsync: this,
       length: 2,
     );
+    super.initState();
+    if (user != null) {
+      context.read<DashboardBloc>().add(OnIsHaveProfile(email: user!.email!));
+      context.read<DashboardBloc>().add(OnIsAdmin(email: user!.email!));
+    }
 
-    // Must be repair
-    // Change with to fetch data
-    Timer(const Duration(seconds: 3), () {
-      // Change state value if data loaded or failed
+    if (mounted) {
       setState(() {
         process = HomeScreenProcessEnum.loaded;
       });
-    });
+    }
   }
 
   @override
@@ -67,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     if (process == HomeScreenProcessEnum.loading) {
       return NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return [
+          return <Widget>[
             _buildAppBar(),
           ];
         },
@@ -90,30 +97,64 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   Widget _buildAppBar() {
     Brightness screenBrightness = MediaQuery.platformBrightnessOf(context);
-    return CustomSliverAppBarDashboard(
-      actionIcon: "assets/icon/regular/bell.svg",
-      actionOnTap: () {
-        // Navigate to Notification Page
-        print("Go to Notification Page");
-      },
-      leading: BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
-        builder: (context, theme) {
-          bool isLight = (theme.isDark == ThemeModeEnum.darkTheme)
-              ? false
-              : (theme.isDark == ThemeModeEnum.lightTheme)
-                  ? true
-                  : (screenBrightness == Brightness.light)
+    return BlocBuilder<DashboardBloc, DashboardState>(
+      builder: (context, state) {
+        return CustomSliverAppBarDashboard(
+          actionIcon: "assets/icon/regular/bell.svg",
+          actionOnTap: () {
+            if (user != null) {
+              if (state.isHaveProfile) {
+                Navigator.push(
+                  context,
+                  PageTransition(
+                    curve: Curves.easeInOut,
+                    type: PageTransitionType.rightToLeft,
+                    child: const NotificationScreen(),
+                  ),
+                );
+              } else {
+                Navigator.push(
+                  context,
+                  PageTransition(
+                    curve: Curves.easeInOut,
+                    type: PageTransitionType.bottomToTop,
+                    child: const RegistrationSettingScreen(),
+                  ),
+                );
+              }
+            } else {
+              Navigator.push(
+                context,
+                PageTransition(
+                  curve: Curves.easeInOut,
+                  type: PageTransitionType.bottomToTop,
+                  child: const LoginScreen(),
+                ),
+              );
+            }
+          },
+          leading: BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
+            builder: (context, theme) {
+              bool isLight = (theme.isDark == ThemeModeEnum.darkTheme)
+                  ? false
+                  : (theme.isDark == ThemeModeEnum.lightTheme)
                       ? true
-                      : false;
-          return Image.asset(
-            (isLight) ? "assets/logo/logo.png" : "assets/logo/logo_dark.png",
-            height: 30.0,
-          );
-        },
-      ),
-      actionIconSecondary: "",
-      actionOnTapSecondary: () {},
-      isDoubleAction: false,
+                      : (screenBrightness == Brightness.light)
+                          ? true
+                          : false;
+              return Image.asset(
+                (isLight)
+                    ? "assets/logo/logo.png"
+                    : "assets/logo/logo_dark.png",
+                height: 30.0,
+              );
+            },
+          ),
+          actionIconSecondary: "",
+          actionOnTapSecondary: () {},
+          isDoubleAction: false,
+        );
+      },
     );
   }
 
@@ -140,7 +181,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     }
   }
 
-  // Can it be save in Firebase ?
   final List<String> imgCarouselList = [
     "assets/image/hero-tour.png",
     "assets/image/hero-craft.png",
@@ -148,9 +188,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     "assets/image/hero-transport.png",
   ];
 
-  // Must be repair and Can it be save in Firebase ?
   final List<Widget> onTapCarouselList = [
-    // Navigate to Tour List
     Builder(builder: (context) {
       return ErrorScreen(
         title: AppLocalizations.of(context)!.tour,
@@ -165,15 +203,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       );
     }),
     // Navigate to News List
-    // Not Working
+    // Not Working for Dummy
     const NewsScreen(),
     // Navigate to Transport List
-    Builder(builder: (context) {
-      return ErrorScreen(
-        title: AppLocalizations.of(context)!.transport,
-        message: AppLocalizations.of(context)!.listTransport,
-      );
-    }),
+    const TransportationMapScreen(),
   ];
 
   void onTapTourList() {
@@ -199,8 +232,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         curve: Curves.easeInOut,
         type: PageTransitionType.bottomToTop,
         child: const TransportationMapScreen(),
-        duration: const Duration(milliseconds: 150),
-        reverseDuration: const Duration(milliseconds: 150),
       ),
     );
   }
@@ -229,8 +260,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         type: PageTransitionType.bottomToTop,
                         child:
                             onTapCarouselList[imgCarouselList.indexOf(image)],
-                        duration: const Duration(milliseconds: 150),
-                        reverseDuration: const Duration(milliseconds: 150),
                       ),
                     );
                   }
@@ -326,14 +355,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
+  // Refresh
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
+  // Refresh
   void _onRefresh() async {
     await Future.delayed(const Duration(milliseconds: 1000));
     _refreshController.refreshCompleted();
   }
 
+  // Refresh
   void _onLoading() async {
     await Future.delayed(const Duration(milliseconds: 1000));
     _refreshController.loadComplete();
@@ -343,48 +375,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     Brightness screenBrightness = MediaQuery.platformBrightnessOf(context);
     return NestedScrollView(
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-        return [
+        return <Widget>[
           _buildAppBar(),
         ];
       },
-      body: SmartRefresher(
-        controller: _refreshController,
+      body: CustomSmartRefresh(
+        refreshController: _refreshController,
         onRefresh: _onRefresh,
         onLoading: _onLoading,
-        header: ClassicHeader(
-          refreshingIcon: LoadingAnimationWidget.horizontalRotatingDots(
-            color: Theme.of(context).colorScheme.tertiary,
-            size: 20.0,
-          ),
-          failedIcon: SvgPicture.asset(
-            "assets/icon/fill/exclamation-circle.svg",
-            color: Theme.of(context).colorScheme.tertiary,
-            height: 20.0,
-          ),
-          completeIcon: SvgPicture.asset(
-            "assets/icon/fill/check-circle.svg",
-            color: Theme.of(context).colorScheme.tertiary,
-            height: 20.0,
-          ),
-          releaseIcon: SvgPicture.asset(
-            "assets/icon/fill/chevron-circle-up.svg",
-            color: Theme.of(context).colorScheme.tertiary,
-            height: 20.0,
-          ),
-          idleIcon: SvgPicture.asset(
-            "assets/icon/fill/chevron-circle-down.svg",
-            color: Theme.of(context).colorScheme.tertiary,
-            height: 20.0,
-          ),
-          refreshingText: AppLocalizations.of(context)!.refreshingText,
-          releaseText: AppLocalizations.of(context)!.releaseText,
-          idleText: AppLocalizations.of(context)!.idleText,
-          failedText: AppLocalizations.of(context)!.failedText,
-          completeText: AppLocalizations.of(context)!.completeText,
-          textStyle: bBody1.copyWith(
-            color: Theme.of(context).colorScheme.tertiary,
-          ),
-        ),
         child: CustomScrollView(
           physics: const BouncingScrollPhysics(),
           slivers: <Widget>[
@@ -592,8 +590,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               onTapTransportList,
             ),
             SliverPadding(
-              padding:
-                  const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0),
+              padding: const EdgeInsets.only(
+                left: 20.0,
+                right: 20.0,
+                top: 20.0,
+              ),
               sliver: SliverToBoxAdapter(
                 child: Align(
                   alignment: Alignment.topLeft,
@@ -633,7 +634,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ),
             ),
             SliverToBoxAdapter(
-              // Still find solution if we delete the Sized Box
               child: SizedBox(
                 height: 420.0,
                 child: TabBarView(

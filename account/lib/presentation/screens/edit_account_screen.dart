@@ -1,26 +1,90 @@
-import 'package:account/presentation/screens/reset_password_screen.dart';
+import 'dart:io';
+
+import 'package:account/presentation/bloc/profile_bloc.dart';
+import 'package:account/utils/enum/form_enum.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:theme/theme.dart';
+import 'package:path/path.dart' as path;
 
-// Review Check 1 (Done)
+// Check
 
-class EditAccountScreen extends StatelessWidget {
+class EditAccountScreen extends StatefulWidget {
   const EditAccountScreen({Key? key}) : super(key: key);
+
+  @override
+  State<EditAccountScreen> createState() => _EditAccountScreenState();
+}
+
+class _EditAccountScreenState extends State<EditAccountScreen> {
+  final toast = FToast();
+  final _profileFormKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    toast.init(context);
+  }
+
+  void updateBloc(XFile? selectedImage) {
+    context.read<ProfileBloc>().add(
+          OnAddImage(
+            File(selectedImage!.path),
+            path.basename(selectedImage.path),
+          ),
+        );
+  }
+
+  void pickImage() async {
+    var selectedImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    updateBloc(selectedImage);
+  }
+
+  void toastError(String message) {
+    toast.showToast(
+      child: CustomToast(
+        logo: "assets/icon/fill/exclamation-circle.svg",
+        message: message,
+        toastColor: bToastFiled,
+        bgToastColor: bBgToastFiled,
+        borderToastColor: bBorderToastFiled,
+      ),
+      gravity: ToastGravity.TOP,
+      toastDuration: const Duration(seconds: 3),
+    );
+  }
+
+  void toastSuccess(String message) {
+    toast.showToast(
+      child: CustomToast(
+        logo: "assets/icon/fill/check-circle.svg",
+        message: message,
+        toastColor: bToastSuccess,
+        bgToastColor: bBgToastSuccess,
+        borderToastColor: bBorderToastSuccess,
+      ),
+      gravity: ToastGravity.TOP,
+      toastDuration: const Duration(seconds: 3),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
 
-    if (screenSize.width < 320.0 || screenSize.height < 600.0) {
+    if (screenSize.width < 300.0 || screenSize.height < 600.0) {
       return const ErrorScreen(
         // Text wait localization
-        title: "AppLocalizations.of(context)!.screenError",
-        message: "AppLocalizations.of(context)!.screenSmall",
+        title: "Aduh...",
+        message: "Layar Terlalu Kecil",
       );
     } else if (screenSize.width > 500.0) {
       // Tablet Mode (Must be repair)
@@ -28,27 +92,25 @@ class EditAccountScreen extends StatelessWidget {
         body: Center(
           child: Container(
             constraints: const BoxConstraints(maxWidth: 500.0),
-            child: _buildEditAccountScreen(context, screenSize),
+            child: _buildEditAccountScreen(screenSize),
           ),
         ),
       );
     } else {
       // Mobile Mode
       return Scaffold(
-        body: _buildEditAccountScreen(context, screenSize),
+        body: _buildEditAccountScreen(screenSize),
       );
     }
   }
 
-  Widget _buildEditAccountScreen(BuildContext context, Size screenSize) {
-    // Use Bloc
-    // Use Form Widget
+  Widget _buildEditAccountScreen(Size screenSize) {
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: <Widget>[
         CustomSliverAppBarTextLeading(
           // Text wait localization
-          title: "AppLocalizations.of(context)!.editAccount",
+          title: "Edit Akun",
           leadingIcon: "assets/icon/regular/chevron-left.svg",
           leadingOnTap: () {
             Navigator.pop(
@@ -59,77 +121,76 @@ class EditAccountScreen extends StatelessWidget {
         SliverPadding(
           padding: const EdgeInsets.all(20.0),
           sliver: SliverToBoxAdapter(
-            // Parameter image use Bloc
-            child: _customProfilePict(
-              context,
-              "https://akcdn.detik.net.id/api/wm/2020/03/13/60cf74a7-8cc1-4a24-8f9d-0772471f9fb1_169.jpeg",
-              () {},
-            ),
-          ),
-        ),
-        _customEditForm(
-          context,
-          // Text wait localization
-          "AppLocalizations.of(context)!.fullName",
-          const CustomEditFullNameTextField(),
-        ),
-        _customEditForm(
-          context,
-          // Text wait localization
-          "Username",
-          const CustomEditUsernameTextField(),
-        ),
-        _customEditForm(
-          context,
-          // Text wait localization
-          "Email",
-          const CustomEditEmailTextField(),
-        ),
-        SliverPadding(
-          padding: const EdgeInsets.only(
-            top: 30.0,
-            left: 20.0,
-            right: 20.0,
-          ),
-          sliver: SliverToBoxAdapter(
-            child: CustomSecondaryIconTextButton(
-              width: screenSize.width,
-              // Text wait localization
-              text: "AppLocalizations.of(context)!.changePass",
-              onTap: () {
-                Navigator.push(
-                  context,
-                  PageTransition(
-                    curve: Curves.easeInOut,
-                    type: PageTransitionType.bottomToTop,
-                    child: const ResetPasswordScreen(),
-                    duration: const Duration(milliseconds: 150),
-                    reverseDuration: const Duration(milliseconds: 150),
+            child: Form(
+              key: _profileFormKey,
+              child: Column(
+                children: <Widget>[
+                  _customProfilePict(
+                    () {
+                      pickImage();
+                    },
                   ),
-                );
-              },
-              icon: "assets/icon/bold/lock.svg",
-            ),
-          ),
-        ),
-        SliverPadding(
-          padding: const EdgeInsets.only(
-            top: 20.0,
-            left: 20.0,
-            right: 20.0,
-            bottom: 30.0,
-          ),
-          sliver: SliverToBoxAdapter(
-            child: CustomPrimaryTextButton(
-              width: screenSize.width,
-              // Text wait localization
-              text: "AppLocalizations.of(context)!.save",
-              // On tap Navigation needs to be replaced
-              onTap: () {
-                Navigator.pop(
-                  context,
-                );
-              },
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  _customEditForm(
+                    // Text wait localization
+                    "Nama Lengkap",
+                    const CustomEditFullNameTextField(),
+                  ),
+                  _customEditForm(
+                    // Text wait localization
+                    "Username",
+                    const CustomEditUsernameTextField(),
+                  ),
+                  _customEditForm(
+                    // Text wait localization
+                    "Email",
+                    const CustomEditEmailTextField(),
+                  ),
+                  const SizedBox(
+                    height: 30.0,
+                  ),
+                  BlocConsumer<ProfileBloc, ProfileState>(
+                    listenWhen: (previous, current) {
+                      if (previous.formStatus ==
+                          FormStatusEnum.submittingForm) {
+                        return true;
+                      } else {
+                        return false;
+                      }
+                    },
+                    listener: (context, state) {
+                      if (state.formStatus == FormStatusEnum.failedSubmission) {
+                        toastError(state.message);
+                      } else if (state.formStatus ==
+                          FormStatusEnum.successSubmission) {
+                        toastSuccess(state.message);
+                      }
+                    },
+                    builder: (context, state) {
+                      return CustomPrimaryTextButton(
+                        width: screenSize.width,
+                        // Text wait localization
+                        text: "Simpan",
+                        onTap: () {
+                          if (_profileFormKey.currentState!.validate()) {
+                            context
+                                .read<ProfileBloc>()
+                                .add(const OnSubmitEdit());
+                          } else {
+                            // Text wait localization
+                            toastError("Lengkapi Data Anda Terlebih Dahulu");
+                          }
+                        },
+                      );
+                    },
+                  ),
+                  const SizedBox(
+                    height: 30.0,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -137,99 +198,124 @@ class EditAccountScreen extends StatelessWidget {
     );
   }
 
-  Widget _customEditForm(
-    BuildContext context,
-    String title,
-    Widget textField,
-  ) {
-    return SliverPadding(
+  Widget _customEditForm(String title, Widget textField) {
+    return Padding(
       padding: const EdgeInsets.only(
         top: 20.0,
-        left: 20.0,
-        right: 20.0,
       ),
-      sliver: SliverToBoxAdapter(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              title,
-              style: bHeading7.copyWith(
-                color: Theme.of(context).colorScheme.tertiary,
-              ),
-              overflow: TextOverflow.ellipsis,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            title,
+            style: bHeading7.copyWith(
+              color: Theme.of(context).colorScheme.tertiary,
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 10.0),
-              child: textField,
-            ),
-          ],
-        ),
+            overflow: TextOverflow.ellipsis,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 10.0),
+            child: textField,
+          ),
+        ],
       ),
     );
   }
 
-  Widget _customProfilePict(
-    BuildContext context,
-    String pict,
-    Function() onTap,
-  ) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          ClipRRect(
-            borderRadius: BorderRadius.circular(50.0),
-            // Image must repair, still error if invalid URL
-            child: CachedNetworkImage(
-              imageUrl: pict,
-              placeholder: (context, url) {
-                return Center(
-                  child: LoadingAnimationWidget.horizontalRotatingDots(
-                    color: Theme.of(context).colorScheme.tertiary,
-                    size: 10.0,
-                  ),
-                );
-              },
-              errorWidget: (context, url, error) => SvgPicture.asset(
-                "assets/icon/fill/exclamation-circle.svg",
-                color: bGrey,
-                height: 14.0,
-              ),
-              fit: BoxFit.cover,
-              width: 100.0,
-              height: 100.0,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 15.0),
-            child: GestureDetector(
-              onTap: onTap,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  SvgPicture.asset(
-                    "assets/icon/regular/pen.svg",
-                    color: Theme.of(context).colorScheme.tertiary,
-                    height: 18.0,
-                  ),
-                  const SizedBox(width: 10.0),
-                  Flexible(
-                    child: Text(
-                      // Text wait localization
-                      "AppLocalizations.of(context)!.editPhotoProfile",
-                      overflow: TextOverflow.ellipsis,
-                      style: bBody1.copyWith(
-                        color: Theme.of(context).colorScheme.tertiary,
+  Widget _customProfilePict(Function() onTap) {
+    return BlocBuilder<ProfileBloc, ProfileState>(
+      builder: (context, state) {
+        return Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              (state.image == null)
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.circular(50.0),
+                      child: CachedNetworkImage(
+                        imageUrl: state.imageUrl,
+                        placeholder: (context, url) {
+                          return Center(
+                            child:
+                                LoadingAnimationWidget.horizontalRotatingDots(
+                              color: Theme.of(context).colorScheme.tertiary,
+                              size: 24.0,
+                            ),
+                          );
+                        },
+                        errorWidget: (context, url, error) => Center(
+                          child: SvgPicture.asset(
+                            "assets/icon/fill/exclamation-circle.svg",
+                            color: bGrey,
+                            height: 24.0,
+                          ),
+                        ),
+                        fit: BoxFit.cover,
+                        width: 100.0,
+                        height: 100.0,
+                      ),
+                    )
+                  : ClipRRect(
+                      borderRadius: BorderRadius.circular(50.0),
+                      child: Image.file(
+                        state.image!,
+                        width: 100.0,
+                        height: 100.0,
+                        fit: BoxFit.cover,
                       ),
                     ),
-                  ),
-                ],
+              const SizedBox(
+                height: 10.0,
               ),
-            ),
+              Padding(
+                padding: const EdgeInsets.only(top: 15.0),
+                child: BlocConsumer<ProfileBloc, ProfileState>(
+                  listenWhen: (previous, current) {
+                    if (previous.image != current.image) {
+                      return true;
+                    } else {
+                      return false;
+                    }
+                  },
+                  listener: (context, state) {
+                    if (state.image == null || state.imageName == "") {
+                      toastError(state.message);
+                    } else {
+                      toastSuccess(state.message);
+                    }
+                  },
+                  builder: (context, state) {
+                    return GestureDetector(
+                      onTap: onTap,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          SvgPicture.asset(
+                            "assets/icon/regular/pen.svg",
+                            color: Theme.of(context).colorScheme.tertiary,
+                            height: 18.0,
+                          ),
+                          const SizedBox(width: 10.0),
+                          Flexible(
+                            child: Text(
+                              // Text wait localization
+                              "Edit Photo Profile",
+                              overflow: TextOverflow.ellipsis,
+                              style: bBody1.copyWith(
+                                color: Theme.of(context).colorScheme.tertiary,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

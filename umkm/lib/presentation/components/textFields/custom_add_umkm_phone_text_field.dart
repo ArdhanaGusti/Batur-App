@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:theme/theme.dart';
 
 class CustomAddUMKMPhoneTextField extends StatelessWidget {
-  const CustomAddUMKMPhoneTextField({Key? key}) : super(key: key);
+  final TextEditingController phone;
+  const CustomAddUMKMPhoneTextField({Key? key, required this.phone})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +27,7 @@ class CustomAddUMKMPhoneTextField extends StatelessWidget {
       },
       autovalidateMode: AutovalidateMode.onUserInteraction,
       onChanged: (text) {},
+      controller: phone,
     );
   }
 }

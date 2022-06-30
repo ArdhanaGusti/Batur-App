@@ -24,7 +24,7 @@ class _DashboardState extends State<Dashboard> {
   final GoogleSignIn googlesignin = GoogleSignIn();
   int index = 0;
   List pages = [
-    Satu(),
+    // Satu(),
     Dua(),
     Tiga(),
   ];

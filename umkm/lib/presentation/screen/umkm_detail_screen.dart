@@ -6,6 +6,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:theme/theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../components/custom_sliver_appbar_text_leading_action_double.dart';
+
 class UmkmDetailScreen extends StatefulWidget {
   const UmkmDetailScreen({Key? key}) : super(key: key);
 
@@ -63,7 +65,31 @@ class _UmkmDetailScreenState extends State<UmkmDetailScreen> {
             initialIndex: 0,
             child: Column(
               children: [
-                const CustomAppBar(title: "Teko Hias", hamburgerMenu: false),
+                CustomSliverAppBarTextLeadingActionDouble(
+                  title: "Berita",
+                  leadingIcon: "assets/icon/bold/chevron-left.svg",
+                  leadingOnTap: () {
+                    Navigator.pop(
+                      context,
+                    );
+                  },
+                  actionIconFirst: "assets/icon/pen-light.svg",
+                  actionOnTapFirst: () {
+                    // Navigator.of(context)
+                    //     .push(MaterialPageRoute(builder: (context) {
+                    //   return EditNewsScreen(
+                    //       judul: widget.title,
+                    //       konten: widget.konten,
+                    //       urlName: widget.urlName,
+                    //       index: widget.index);
+                    // }));
+                  },
+                  actionIconSecond: "assets/icon/trash.svg",
+                  actionOnTapSecond: () {
+                    // context.read<NewsRemoveBloc>().add(
+                    //     OnRemoveNews(context, widget.urlName, widget.index));
+                  },
+                ),
                 Expanded(
                   child: ListView(
                     physics: BouncingScrollPhysics(),
@@ -84,148 +110,6 @@ class _UmkmDetailScreenState extends State<UmkmDetailScreen> {
                       ),
                       SizedBox(
                         height: 15,
-                      ),
-                      Container(
-                        width: width,
-                        margin: EdgeInsets.symmetric(horizontal: 20),
-                        padding: EdgeInsets.all(15),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: (state.isDark == ThemeModeEnum.darkTheme)
-                                ? bDarkGrey
-                                : (state.isDark == ThemeModeEnum.lightTheme)
-                                    ? bTextPrimary
-                                    : (screenBrightness == Brightness.light)
-                                        ? bTextPrimary
-                                        : bDarkGrey,
-                            boxShadow: [
-                              BoxShadow(
-                                color: bStroke,
-                                spreadRadius: 2,
-                                blurRadius: 10,
-                                offset:
-                                    Offset(0, 0), // changes position of shadow
-                              ),
-                            ]),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Jadwal',
-                              style: bHeading7.copyWith(
-                                color: (isLight) ? bPrimary : bTextPrimary,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Senin',
-                                  style: bSubtitle3.copyWith(
-                                    color: (isLight) ? bPrimary : bTextPrimary,
-                                  ),
-                                ),
-                                Text(
-                                  '07.00 - 16.00',
-                                  style: bSubtitle3,
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Selasa',
-                                  style: bSubtitle3.copyWith(
-                                    color: (isLight) ? bPrimary : bTextPrimary,
-                                  ),
-                                ),
-                                Text(
-                                  '07.00 - 16.00',
-                                  style: bSubtitle3,
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Rabu',
-                                  style: bSubtitle3.copyWith(
-                                    color: (isLight) ? bPrimary : bTextPrimary,
-                                  ),
-                                ),
-                                Text(
-                                  '07.00 - 16.00',
-                                  style: bSubtitle3,
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'kamis',
-                                  style: bSubtitle3.copyWith(
-                                    color: (isLight) ? bPrimary : bTextPrimary,
-                                  ),
-                                ),
-                                Text(
-                                  '07.00 - 16.00',
-                                  style: bSubtitle3,
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Jumat',
-                                  style: bSubtitle3.copyWith(
-                                    color: (isLight) ? bPrimary : bTextPrimary,
-                                  ),
-                                ),
-                                Text(
-                                  '07.00 - 16.00',
-                                  style: bSubtitle3,
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Sabtu',
-                                  style: bSubtitle3.copyWith(
-                                    color: (isLight) ? bPrimary : bTextPrimary,
-                                  ),
-                                ),
-                                Text(
-                                  '07.00 - 16.00',
-                                  style: bSubtitle3,
-                                )
-                              ],
-                            )
-                          ],
-                        ),
                       ),
                       SizedBox(
                         height: 20,

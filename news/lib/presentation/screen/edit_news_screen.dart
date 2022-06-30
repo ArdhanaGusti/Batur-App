@@ -5,9 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:core/core.dart';
 import 'package:news/data/service/api_service.dart';
 import 'package:news/news.dart';
-import 'package:news/presentation/bloc/news_create_bloc.dart';
-import 'package:news/presentation/bloc/news_event.dart';
-import 'package:news/presentation/bloc/news_state.dart';
 import '../components/textFields/custom_add_news_description_text_field.dart';
 import '../components/textFields/custom_add_news_title_text_field.dart';
 import 'package:flutter/material.dart';
@@ -15,9 +12,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:theme/theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart';
+import 'package:path/path.dart' as path;
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news/data/service/api_service.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class EditNewsScreen extends StatefulWidget {
   final String judul, konten, urlName;
@@ -35,8 +33,7 @@ class EditNewsScreen extends StatefulWidget {
 }
 
 class _EditNewsScreenState extends State<EditNewsScreen> {
-  bool isAddedImage = false;
-
+  final toast = FToast();
   ApiServiceNews apiService = ApiServiceNews();
   File? imageNow;
   String? imageNameNow, judulNow, kontenNow, urlNameNow;
@@ -54,6 +51,7 @@ class _EditNewsScreenState extends State<EditNewsScreen> {
     titlecontroller = TextEditingController(text: widget.judul);
     contentcontroller = TextEditingController(text: widget.konten);
     super.initState();
+    toast.init(context);
   }
 
   void pickImg() async {
@@ -61,8 +59,7 @@ class _EditNewsScreenState extends State<EditNewsScreen> {
         await ImagePicker().pickImage(source: ImageSource.gallery);
     setState(() {
       imageNow = File(selectedImage!.path);
-      imageName = basename(imageNow!.path);
-      isAddedImage = false;
+      imageNameNow = path.basename(imageNow!.path);
     });
   }
 
@@ -93,13 +90,22 @@ class _EditNewsScreenState extends State<EditNewsScreen> {
           child: BlocConsumer<NewsUpdateBloc, NewsState>(
             listener: (context, state) async {
               if (state is NewsLoading) {
-                // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                //   content: CircularProgressIndicator(),
-                // ));
-              } else if (state is NewsCreated) {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(state.result),
-                ));
+                Center(
+                  child: LoadingAnimationWidget.horizontalRotatingDots(
+                    color: Theme.of(context).colorScheme.tertiary,
+                    size: 50.0,
+                  ),
+                );
+              } else if (state is NewsUpdated) {
+                toast.showToast(
+                    child: CustomToast(
+                      message: state.result,
+                      toastColor: bToastSuccess,
+                      bgToastColor: bBgToastSuccess,
+                      borderToastColor: bBorderToastSuccess,
+                    ),
+                    gravity: ToastGravity.BOTTOM,
+                    toastDuration: Duration(seconds: 3));
               } else if (state is NewsError) {
                 await showDialog(
                     context: context,
@@ -124,8 +130,6 @@ class _EditNewsScreenState extends State<EditNewsScreen> {
                 text: AppLocalizations.of(context)!.save,
                 onTap: () async {
                   if (judulNow != null && kontenNow != null) {
-                    // ApiServiceNews()
-                    //     .sendNews(context, imageNow!, imageNameNow!, judulNow, kontenNow);
                     context.read<NewsUpdateBloc>().add(OnUpdateNews(
                         context,
                         imageNow,
@@ -134,10 +138,10 @@ class _EditNewsScreenState extends State<EditNewsScreen> {
                         judulNow!,
                         urlNameNow!,
                         widget.index));
-                    setState(() {
-                      imageNow = null;
-                      imageNameNow = null;
-                    });
+                    // setState(() {
+                    //   imageNow = null;
+                    //   imageNameNow = null;
+                    // });
                   } else {
                     AlertDialog alert = AlertDialog(
                       title: Text("Silahkan lengkapi data"),
@@ -170,7 +174,7 @@ class _EditNewsScreenState extends State<EditNewsScreen> {
       physics: const BouncingScrollPhysics(),
       slivers: <Widget>[
         CustomSliverAppBarTextLeading(
-          title: AppLocalizations.of(context)!.addNews,
+          title: "Edit News",
           leadingIcon: "assets/icon/back.svg",
           // Navigation repair
           leadingOnTap: () {
@@ -297,8 +301,8 @@ class _EditNewsScreenState extends State<EditNewsScreen> {
                         ),
                         child: Center(
                           child: SvgPicture.asset(
-                            "assets/icon/trash-Light.svg",
-                            color: bError,
+                            "assets/icon/camera-Light.svg",
+                            color: bPrimary,
                             height: 24.0,
                           ),
                         ),

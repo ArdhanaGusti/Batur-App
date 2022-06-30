@@ -19,17 +19,19 @@ import 'package:capstone_design/presentation/bloc/tour/tour_update_bloc.dart';
 import 'package:capstone_design/presentation/bloc/train/train_create_bloc.dart';
 import 'package:capstone_design/presentation/bloc/train/train_remove_bloc.dart';
 import 'package:capstone_design/presentation/bloc/train/train_update_bloc.dart';
-import 'package:capstone_design/presentation/bloc/umkm/umkm_create_bloc.dart';
-import 'package:capstone_design/presentation/bloc/umkm/umkm_remove_bloc.dart';
-import 'package:capstone_design/presentation/bloc/umkm/umkm_update_bloc.dart';
+// import 'package:capstone_design/presentation/bloc/umkm/umkm_create_bloc.dart';
+// import 'package:capstone_design/presentation/bloc/umkm/umkm_remove_bloc.dart';
+// import 'package:capstone_design/presentation/bloc/umkm/umkm_update_bloc.dart';
 import 'package:capstone_design/presentation/page/dashboard.dart';
-import 'package:capstone_design/presentation/page/news/news.dart';
+// import 'package:capstone_design/presentation/page/news/news.dart';
+// import 'package:capstone_design/presentation/page/umkm/umkm.dart';
 // import 'package:capstone_design/presentation/page/news/add_news.dart';
 // import 'package:capstone_design/presentation/page/news/news.dart';
 // import 'package:capstone_design/presentation/page/train/add_train.dart';
 import 'package:news/news.dart';
 
 import 'package:core/core.dart';
+import 'package:umkm/umkm.dart';
 import 'package:core/presentation/bloc/dashboard_bloc.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -214,7 +216,7 @@ class _MyAppState extends State<MyApp> {
                   : (_isLogIn)
                       ? Dashboard(user: user!)
                       : const DashboardScreen(),
-              locale: (localization.language == LanguageEnum.england)
+              locale: (localization.language == LanguageEnum.inggirs)
                   ? const Locale('en')
                   : const Locale('id'),
             );

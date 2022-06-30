@@ -163,3 +163,5 @@ flutter:
     - assets/icon/map.svg
     - assets/icon/search.svg
     - assets/icon/trash.svg
+    - assets/icon/pen-light.svg
+    - assets/icon/bold/pen.svg

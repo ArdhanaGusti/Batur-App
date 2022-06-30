@@ -3,9 +3,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:theme/theme.dart';
 
 class CustomAddUMKMShopeeTextField extends StatelessWidget {
-  const CustomAddUMKMShopeeTextField({
-    Key? key,
-  }) : super(key: key);
+  final TextEditingController shopee;
+  const CustomAddUMKMShopeeTextField({Key? key, required this.shopee})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +38,7 @@ class CustomAddUMKMShopeeTextField extends StatelessWidget {
       },
       autovalidateMode: AutovalidateMode.onUserInteraction,
       onChanged: (text) {},
+      controller: shopee,
     );
   }
 }

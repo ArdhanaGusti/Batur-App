@@ -25,6 +25,7 @@ class CustomSliverAppBarDashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverAppBar(
       pinned: true,
+      automaticallyImplyLeading: false,
       toolbarHeight: 60.0,
       backgroundColor: Theme.of(context).colorScheme.background,
       elevation: 2.0,

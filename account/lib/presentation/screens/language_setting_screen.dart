@@ -95,7 +95,7 @@ class LanguageSettingScreen extends StatelessWidget {
               ),
               _customListTileLanguage(
                 context,
-                LanguageEnum.england,
+                LanguageEnum.inggirs,
                 // Text wait localization
                 "AppLocalizations.of(context)!.inggris",
               ),

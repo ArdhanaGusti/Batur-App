@@ -19,6 +19,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:transportation/transportation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tourism/tourism.dart';
+import 'package:umkm/presentation/screen/umkm_screen.dart';
 
 enum HomeScreenProcessEnum {
   loading,
@@ -194,6 +195,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   void onTapUMKMList() {
     // Navigate to UMKM List
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const UmkmScreen()));
   }
 
   void onTapTransportList() {

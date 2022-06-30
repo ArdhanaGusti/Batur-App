@@ -30,7 +30,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final List<Widget> _listWidget = [
     const HomeScreen(),
     const NewsScreen(),
-    const FavoriteScreen(),
+    // const FavoriteScreen(),
     const AccountScreen(),
   ];
 

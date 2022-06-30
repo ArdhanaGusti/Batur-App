@@ -49,29 +49,29 @@ class AccountDetailScreen extends StatelessWidget {
         return CustomScrollView(
           physics: const BouncingScrollPhysics(),
           slivers: <Widget>[
-            CustomSliverAppBarTextLeadingAction(
-              // Text wait localization
-              title: "AppLocalizations.of(context)!.accountDetail",
-              leadingIcon: "assets/icon/regular/chevron-left.svg",
-              leadingOnTap: () {
-                Navigator.pop(
-                  context,
-                );
-              },
-              actionIcon: "assets/icon/regular/pen.svg",
-              actionOnTap: () {
-                Navigator.push(
-                  context,
-                  PageTransition(
-                    curve: Curves.easeInOut,
-                    type: PageTransitionType.rightToLeft,
-                    child: const EditAccountScreen(),
-                    duration: const Duration(milliseconds: 150),
-                    reverseDuration: const Duration(milliseconds: 150),
-                  ),
-                );
-              },
-            ),
+            // CustomSliverAppBarTextLeadingAction(
+            //   // Text wait localization
+            //   title: "AppLocalizations.of(context)!.accountDetail",
+            //   leadingIcon: "assets/icon/regular/chevron-left.svg",
+            //   leadingOnTap: () {
+            //     Navigator.pop(
+            //       context,
+            //     );
+            //   },
+            //   actionIcon: "assets/icon/regular/pen.svg",
+            //   actionOnTap: () {
+            //     Navigator.push(
+            //       context,
+            //       PageTransition(
+            //         curve: Curves.easeInOut,
+            //         type: PageTransitionType.rightToLeft,
+            //         child: const EditAccountScreen(),
+            //         duration: const Duration(milliseconds: 150),
+            //         reverseDuration: const Duration(milliseconds: 150),
+            //       ),
+            //     );
+            //   },
+            // ),
             SliverPadding(
               padding: const EdgeInsets.all(20.0),
               sliver: SliverToBoxAdapter(

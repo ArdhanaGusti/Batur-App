@@ -24,6 +24,7 @@ dependencies:
   firebase_auth:
   firebase_storage:
   translator:
+  fluttertoast:
 
 dev_dependencies:
   flutter_test:

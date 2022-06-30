@@ -12,5 +12,6 @@ export 'presentation/bloc/news_state.dart';
 // export 'domain/usecase/create_news.dart';
 export 'domain/usecase/remove_news.dart';
 export 'domain/usecase/update_news.dart';
+export 'domain/usecase/create_news.dart';
 // export 'data/datasources/crud_news.dart';
 // export 'domain/repositories/data_repository.dart';

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:theme/theme.dart';
 
 class CustomAddUMKMDescriptionTextField extends StatelessWidget {
-  const CustomAddUMKMDescriptionTextField({Key? key}) : super(key: key);
+  final TextEditingController desc;
+  const CustomAddUMKMDescriptionTextField({Key? key, required this.desc})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +30,7 @@ class CustomAddUMKMDescriptionTextField extends StatelessWidget {
       },
       autovalidateMode: AutovalidateMode.onUserInteraction,
       onChanged: (text) {},
+      controller: desc,
     );
   }
 }

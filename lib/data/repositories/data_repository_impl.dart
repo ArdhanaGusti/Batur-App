@@ -15,7 +15,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:news/data/datasources/crud_news.dart';
 
 class DataRepositoryImpl implements DataRepository {
-  final CrudUmkm crudUmkm;
+  // final CrudUmkm crudUmkm;
   // final CrudNews crudNews;
   final CrudProfile crudProfile;
   final CrudTour crudTour;
@@ -23,7 +23,7 @@ class DataRepositoryImpl implements DataRepository {
   final CrudLogin crudLogin;
 
   DataRepositoryImpl({
-    required this.crudUmkm,
+    // required this.crudUmkm,
     // required this.crudNews,
     required this.crudProfile,
     required this.crudTour,
@@ -67,26 +67,26 @@ class DataRepositoryImpl implements DataRepository {
     }
   }
 
-  @override
-  Future<Either<Failure, String>> editUmkm(
-      BuildContext context,
-      File? image,
-      String coverUrlNow,
-      String? imageName,
-      String nameNow,
-      String typeNow,
-      String descNow,
-      double latitude,
-      double longitude,
-      DocumentReference<Object?> index) async {
-    try {
-      final res = await crudUmkm.editUmkm(context, image, coverUrlNow,
-          imageName, nameNow, typeNow, descNow, latitude, longitude, index);
-      return Right(res);
-    } on DatabaseException catch (e) {
-      return Left(DatabaseFailure(e.message));
-    }
-  }
+  // @override
+  // Future<Either<Failure, String>> editUmkm(
+  //     BuildContext context,
+  //     File? image,
+  //     String coverUrlNow,
+  //     String? imageName,
+  //     String nameNow,
+  //     String typeNow,
+  //     String descNow,
+  //     double latitude,
+  //     double longitude,
+  //     DocumentReference<Object?> index) async {
+  //   try {
+  //     final res = await crudUmkm.editUmkm(context, image, coverUrlNow,
+  //         imageName, nameNow, typeNow, descNow, latitude, longitude, index);
+  //     return Right(res);
+  //   } on DatabaseException catch (e) {
+  //     return Left(DatabaseFailure(e.message));
+  //   }
+  // }
 
   // @override
   // Future<Either<Failure, String>> sendNews(
@@ -118,33 +118,33 @@ class DataRepositoryImpl implements DataRepository {
     }
   }
 
-  @override
-  Future<Either<Failure, String>> sendUmkm(
-    BuildContext context,
-    String imageName,
-    String name,
-    String type,
-    String desc,
-    File image,
-    double latitude,
-    double longitude,
-  ) async {
-    try {
-      final res = await crudUmkm.sendUmkm(
-        context,
-        imageName,
-        name,
-        type,
-        desc,
-        image,
-        latitude,
-        longitude,
-      );
-      return Right(res);
-    } on DatabaseException catch (e) {
-      return Left(DatabaseFailure(e.message));
-    }
-  }
+  // @override
+  // Future<Either<Failure, String>> sendUmkm(
+  //   BuildContext context,
+  //   String imageName,
+  //   String name,
+  //   String type,
+  //   String desc,
+  //   File image,
+  //   double latitude,
+  //   double longitude,
+  // ) async {
+  //   try {
+  //     final res = await crudUmkm.sendUmkm(
+  //       context,
+  //       imageName,
+  //       name,
+  //       type,
+  //       desc,
+  //       image,
+  //       latitude,
+  //       longitude,
+  //     );
+  //     return Right(res);
+  //   } on DatabaseException catch (e) {
+  //     return Left(DatabaseFailure(e.message));
+  //   }
+  // }
 
   @override
   Future<Either<Failure, String>> sendTour(
@@ -256,16 +256,16 @@ class DataRepositoryImpl implements DataRepository {
     }
   }
 
-  @override
-  Future<Either<Failure, String>> removeUmkm(
-      DocumentReference<Object?> index, String coverUrl) async {
-    try {
-      final res = await crudUmkm.removeUmkm(index, coverUrl);
-      return Right(res);
-    } on DatabaseException catch (e) {
-      return Left(DatabaseFailure(e.message));
-    }
-  }
+  // @override
+  // Future<Either<Failure, String>> removeUmkm(
+  //     DocumentReference<Object?> index, String coverUrl) async {
+  //   try {
+  //     final res = await crudUmkm.removeUmkm(index, coverUrl);
+  //     return Right(res);
+  //   } on DatabaseException catch (e) {
+  //     return Left(DatabaseFailure(e.message));
+  //   }
+  // }
 
   @override
   Future<Either<Failure, String>> loginWithEmail(

@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:theme/theme.dart';
 
 class CustomAddUMKMNameTextField extends StatelessWidget {
-  const CustomAddUMKMNameTextField({Key? key}) : super(key: key);
+  final TextEditingController name;
+
+  const CustomAddUMKMNameTextField({Key? key, required this.name})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +28,7 @@ class CustomAddUMKMNameTextField extends StatelessWidget {
       },
       autovalidateMode: AutovalidateMode.onUserInteraction,
       onChanged: (text) {},
+      controller: name,
     );
   }
 }

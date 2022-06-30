@@ -13,14 +13,18 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl:
+  geocoding:
 
   image_picker:
   photo_view:
+  geolocator:
+  latlong2:
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+  firebase_auth:
 
   theme:
     path: ../theme
@@ -33,6 +37,9 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
   generate: true
+
+  assets:
+    - ../assets/
 
   # To add assets to your package, add an assets section, like this:
   # assets:

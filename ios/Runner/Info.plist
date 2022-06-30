@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<<<<<<< HEAD
 <dict>
 	<key>NSLocationAlwaysUsageDescription</key>
     <string>Needed to access location</string>
@@ -50,7 +49,6 @@
 	<false/>
 </dict>
 </plist>
-=======
 	<dict>
 		<key>CFBundleDevelopmentRegion</key>
 		<string>$(DEVELOPMENT_LANGUAGE)</string>
@@ -103,4 +101,3 @@
 		<string>Need Permission to Access Microphone</string>
 	</dict>
 </plist>
->>>>>>> 95f5e7c4b2f337e1d1902841f661930ffa66dee2

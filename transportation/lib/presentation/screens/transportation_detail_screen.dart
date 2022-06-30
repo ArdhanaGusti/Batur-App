@@ -39,21 +39,21 @@ class _TransportationDetailScreenState
 
   // State for loading
   TransportationDetailScreenProcessEnum process =
-      TransportationDetailScreenProcessEnum.loading;
+      TransportationDetailScreenProcessEnum.loaded;
 
-  @override
-  void initState() {
-    super.initState();
+  // @override
+  // void initState() {
+  //   super.initState();
 
-    // Must be repair
-    // Change with to fetch data
-    Timer(const Duration(seconds: 2), () {
-      // Change state value if data loaded or failed
-      setState(() {
-        process = TransportationDetailScreenProcessEnum.loaded;
-      });
-    });
-  }
+  //   // Must be repair
+  //   // Change with to fetch data
+  //   Timer(const Duration(seconds: 2), () {
+  //     // Change state value if data loaded or failed
+  //     setState(() {
+  //       process = TransportationDetailScreenProcessEnum.loaded;
+  //     });
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {

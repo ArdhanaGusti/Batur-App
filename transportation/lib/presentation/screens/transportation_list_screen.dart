@@ -68,20 +68,20 @@ class _TransportationListScreenState extends State<TransportationListScreen> {
 
   // State for loading
   TransportationListScreenProcessEnum process =
-      TransportationListScreenProcessEnum.loading;
+      TransportationListScreenProcessEnum.loaded;
 
-  @override
-  void initState() {
-    super.initState();
+  // @override
+  // void initState() {
+  //   super.initState();
 
-    // Change with to fetch data
-    Timer(const Duration(seconds: 3), () {
-      // Change state value if data loaded or failed
-      setState(() {
-        process = TransportationListScreenProcessEnum.loaded;
-      });
-    });
-  }
+  //   // Change with to fetch data
+  //   Timer(const Duration(seconds: 3), () {
+  //     // Change state value if data loaded or failed
+  //     setState(() {
+  //       process = TransportationListScreenProcessEnum.loaded;
+  //     });
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -213,7 +213,13 @@ class _TransportationListScreenState extends State<TransportationListScreen> {
                             .snapshots(),
                         builder: (context, snapshot) {
                           if (!snapshot.hasData) {
-                            return CircularProgressIndicator();
+                            return Center(
+                              child:
+                                  LoadingAnimationWidget.horizontalRotatingDots(
+                                color: Theme.of(context).colorScheme.tertiary,
+                                size: 50.0,
+                              ),
+                            );
                           }
                           // else if (snapshot.data!.docs.length <= 0) {
                           //   return Center(

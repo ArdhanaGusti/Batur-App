@@ -32,20 +32,20 @@ class _TransportationMapScreenState extends State<TransportationMapScreen> {
 
   // State for loading
   TransportationMapScreenProcessEnum process =
-      TransportationMapScreenProcessEnum.loading;
+      TransportationMapScreenProcessEnum.loaded;
 
-  @override
-  void initState() {
-    super.initState();
+  // @override
+  // void initState() {
+  //   super.initState();
 
-    // Change with to fetch data
-    Timer(const Duration(seconds: 3), () {
-      // Change state value if data loaded or failed
-      setState(() {
-        process = TransportationMapScreenProcessEnum.loaded;
-      });
-    });
-  }
+  //   // Change with to fetch data
+  //   Timer(const Duration(seconds: 3), () {
+  //     // Change state value if data loaded or failed
+  //     setState(() {
+  //       process = TransportationMapScreenProcessEnum.loaded;
+  //     });
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {

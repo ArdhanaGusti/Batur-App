@@ -33,20 +33,20 @@ class TimeLineScreen extends StatefulWidget {
 
 class _TimeLineScreenState extends State<TimeLineScreen> {
   // State for loading
-  TimelineScreenProcessEnum process = TimelineScreenProcessEnum.loading;
+  TimelineScreenProcessEnum process = TimelineScreenProcessEnum.loaded;
 
-  @override
-  void initState() {
-    super.initState();
+  // @override
+  // void initState() {
+  //   super.initState();
 
-    // Change with to fetch data
-    Timer(const Duration(seconds: 2), () {
-      // Change state value if data loaded or failed
-      setState(() {
-        process = TimelineScreenProcessEnum.loaded;
-      });
-    });
-  }
+  //   // Change with to fetch data
+  //   Timer(const Duration(seconds: 2), () {
+  //     // Change state value if data loaded or failed
+  //     setState(() {
+  //       process = TimelineScreenProcessEnum.loaded;
+  //     });
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -114,10 +114,14 @@ class _TimeLineScreenState extends State<TimeLineScreen> {
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return Center(
-                  child: CircularProgressIndicator(),
+                  child: LoadingAnimationWidget.horizontalRotatingDots(
+                    color: Theme.of(context).colorScheme.tertiary,
+                    size: 50.0,
+                  ),
                 );
               }
               final train = snapshot.data!.docs;
+
               return _buildLoaded(
                 context,
                 screenSize,

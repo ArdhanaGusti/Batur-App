@@ -169,9 +169,4 @@ void init() {
       apiService: locator(),
     ),
   );
-  locator.registerLazySingleton<CrudTrain>(
-    () => CrudTrainImpl(
-      apiService: locator(),
-    ),
-  );
 }

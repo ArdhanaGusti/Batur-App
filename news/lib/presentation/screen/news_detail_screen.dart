@@ -3,14 +3,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:news/news.dart';
+import 'package:news/presentation/components/custom_sliver_appbar_text_leading_action_double.dart';
 import 'package:news/presentation/screen/edit_news_screen.dart';
 import 'package:theme/data/sources/theme_data.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:capstone_design/data/service/api_service.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
-class NewsDetailScreen extends StatelessWidget {
+class NewsDetailScreen extends StatefulWidget {
   final String title, konten, urlName, writer;
   final String date;
   final DocumentReference index;
@@ -24,6 +27,12 @@ class NewsDetailScreen extends StatelessWidget {
       required this.writer})
       : super(key: key);
 
+  @override
+  State<NewsDetailScreen> createState() => _NewsDetailScreenState();
+}
+
+class _NewsDetailScreenState extends State<NewsDetailScreen> {
+  final toast = FToast();
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -58,24 +67,70 @@ class NewsDetailScreen extends StatelessWidget {
         StreamBuilder<QuerySnapshot>(
             stream: FirebaseFirestore.instance.collection("News").snapshots(),
             builder: (context, snapshot) {
-              return CustomSliverAppBarTextLeadingAction(
-                title: "Berita",
-                leadingIcon: "assets/icon/bold/chevron-left.svg",
-                leadingOnTap: () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) {
-                    return EditNewsScreen(
-                        judul: title,
-                        konten: konten,
-                        urlName: urlName,
-                        index: index);
-                  }));
+              return BlocConsumer<NewsRemoveBloc, NewsState>(
+                listener: (context, state) async {
+                  if (state is NewsLoading) {
+                    Center(
+                      child: LoadingAnimationWidget.horizontalRotatingDots(
+                        color: Theme.of(context).colorScheme.tertiary,
+                        size: 50.0,
+                      ),
+                    );
+                  } else if (state is NewsRemoved) {
+                    print("sudah dihapus");
+                    toast.showToast(
+                        child: CustomToast(
+                          message: state.result,
+                          toastColor: bToastSuccess,
+                          bgToastColor: bBgToastSuccess,
+                          borderToastColor: bBorderToastSuccess,
+                        ),
+                        gravity: ToastGravity.BOTTOM,
+                        toastDuration: Duration(seconds: 3));
+                  } else if (state is NewsError) {
+                    await showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            content: Text(state.message),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text("Kembali"),
+                              )
+                            ],
+                          );
+                        });
+                  }
                 },
-                actionIcon: "assets/icon/trash.svg",
-                actionOnTap: () {
-                  context
-                      .read<NewsRemoveBloc>()
-                      .add(OnRemoveNews(context, urlName, index));
+                builder: (context, state) {
+                  return CustomSliverAppBarTextLeadingActionDouble(
+                    title: "Berita",
+                    leadingIcon: "assets/icon/bold/chevron-left.svg",
+                    leadingOnTap: () {
+                      Navigator.pop(
+                        context,
+                      );
+                    },
+                    actionIconFirst: "assets/icon/pen-light.svg",
+                    actionOnTapFirst: () {
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(builder: (context) {
+                        return EditNewsScreen(
+                            judul: widget.title,
+                            konten: widget.konten,
+                            urlName: widget.urlName,
+                            index: widget.index);
+                      }));
+                    },
+                    actionIconSecond: "assets/icon/trash.svg",
+                    actionOnTapSecond: () {
+                      context.read<NewsRemoveBloc>().add(
+                          OnRemoveNews(context, widget.urlName, widget.index));
+                    },
+                  );
                 },
               );
             }),
@@ -124,7 +179,7 @@ class NewsDetailScreen extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(15.0),
                   child: CachedNetworkImage(
-                    imageUrl: urlName,
+                    imageUrl: widget.urlName,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -132,7 +187,7 @@ class NewsDetailScreen extends StatelessWidget {
                   height: 30.0,
                 ),
                 Text(
-                  title,
+                  widget.title,
                   style: bHeading7.copyWith(
                     color: Theme.of(context).colorScheme.tertiaryContainer,
                   ),
@@ -186,7 +241,7 @@ class NewsDetailScreen extends StatelessWidget {
                     Expanded(
                       child: Text(
                         DateFormat("EEEE, d MMMM yyyy", "id_ID")
-                            .format(DateTime.parse(date)),
+                            .format(DateTime.parse(widget.date)),
                         overflow: TextOverflow.ellipsis,
                         style: bCaption1.copyWith(
                           color:
@@ -201,7 +256,7 @@ class NewsDetailScreen extends StatelessWidget {
                   height: 20.0,
                 ),
                 Text(
-                  konten,
+                  widget.konten,
                   style: bSubtitle2.copyWith(
                     color: Theme.of(context).colorScheme.tertiaryContainer,
                   ),

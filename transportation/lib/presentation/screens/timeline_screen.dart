@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -18,10 +19,12 @@ enum TimelineScreenProcessEnum {
 
 class TimeLineScreen extends StatefulWidget {
   // Add Parameter Data Train
+  final String name;
   final bool isTrain;
   const TimeLineScreen({
     Key? key,
     required this.isTrain,
+    required this.name,
   }) : super(key: key);
 
   @override
@@ -53,7 +56,7 @@ class _TimeLineScreenState extends State<TimeLineScreen> {
       return NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return [
-            _buildAppBar(),
+            _buildAppBar(widget.name),
           ];
         },
         body: Scaffold(
@@ -71,14 +74,14 @@ class _TimeLineScreenState extends State<TimeLineScreen> {
         message: "AppLocalizations.of(context)!.screenSmall",
       );
     } else {
-      return _buildScreen(context, screenSize);
+      return _buildScreen(context, screenSize, widget.name);
     }
   }
 
-  Widget _buildAppBar() {
+  Widget _buildAppBar(String trainName) {
     return CustomSliverAppBarTextLeading(
       // Change with data
-      title: "KA 105",
+      title: trainName,
       leadingIcon: "assets/icon/regular/chevron-left.svg",
       leadingOnTap: () {
         Navigator.pop(
@@ -88,7 +91,7 @@ class _TimeLineScreenState extends State<TimeLineScreen> {
     );
   }
 
-  Widget _buildScreen(BuildContext context, Size screenSize) {
+  Widget _buildScreen(BuildContext context, Size screenSize, String trainName) {
     if (screenSize.width < 300.0 || screenSize.height < 600.0) {
       return const ErrorScreen(
         // Text wait localization
@@ -98,12 +101,37 @@ class _TimeLineScreenState extends State<TimeLineScreen> {
     } else {
       // Mobile Mode
       return Scaffold(
-        body: _buildLoaded(context, screenSize),
+        body: StreamBuilder<QuerySnapshot>(
+            stream: (widget.isTrain)
+                ? FirebaseFirestore.instance
+                    .collection("Train")
+                    .where("trainName", isEqualTo: widget.name)
+                    .snapshots()
+                : FirebaseFirestore.instance
+                    .collection("Bus")
+                    .where("name", isEqualTo: widget.name)
+                    .snapshots(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              final train = snapshot.data!.docs;
+              return _buildLoaded(
+                context,
+                screenSize,
+                trainName,
+                train,
+                widget.isTrain,
+              );
+            }),
       );
     }
   }
 
-  Widget _buildLoaded(BuildContext context, Size screenSize) {
+  Widget _buildLoaded(BuildContext context, Size screenSize, String trainName,
+      List<QueryDocumentSnapshot> train, bool isTrain) {
     final data = _data(1);
     return Stack(
       children: <Widget>[
@@ -121,12 +149,14 @@ class _TimeLineScreenState extends State<TimeLineScreen> {
         CustomScrollView(
           physics: const BouncingScrollPhysics(),
           slivers: <Widget>[
-            _buildAppBar(),
+            _buildAppBar((isTrain) ? train[0]['trainName'] : train[0]['name']),
             TitleContainer(
+              trainName: (isTrain) ? train[0]['trainName'] : train[0]['name'],
               data: data,
             ),
             Process(
-              processes: data.processes,
+              processes: train,
+              isTrain: isTrain,
             ),
           ],
         ),
@@ -137,9 +167,11 @@ class _TimeLineScreenState extends State<TimeLineScreen> {
 
 // Make self component
 class TitleContainer extends StatelessWidget {
-  const TitleContainer({Key? key, required this.data}) : super(key: key);
+  const TitleContainer({Key? key, required this.data, required this.trainName})
+      : super(key: key);
 
   final _TransportInfo data;
+  final String trainName;
 
   @override
   Widget build(BuildContext context) {
@@ -175,7 +207,7 @@ class TitleContainer extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        data.name,
+                        trainName,
                         style: bHeading7.copyWith(
                           color: Theme.of(context).colorScheme.tertiary,
                         ),
@@ -232,9 +264,11 @@ class Process extends StatelessWidget {
   const Process({
     Key? key,
     required this.processes,
+    required this.isTrain,
   }) : super(key: key);
 
-  final List<_Process> processes;
+  final List<QueryDocumentSnapshot> processes;
+  final bool isTrain;
   @override
   Widget build(BuildContext context) {
     return SliverPadding(
@@ -260,7 +294,7 @@ class Process extends StatelessWidget {
           builder: TimelineTileBuilder.connected(
             indicatorBuilder: (_, index) {
               final DateTime now = DateTime.now();
-              final DateTime process = processes[index].time;
+              final DateTime process = processes[index]['date'].toDate();
               if (now.hour >= process.hour) {
                 return DotIndicator(
                   color: Theme.of(context).colorScheme.tertiary,
@@ -280,7 +314,7 @@ class Process extends StatelessWidget {
             },
             connectorBuilder: (_, index, __) {
               final DateTime now = DateTime.now();
-              final DateTime process = processes[index].time;
+              final DateTime process = processes[index]['date'].toDate();
               if (now.hour >= process.hour) {
                 return const SolidLineConnector(
                   color: bSecondary,
@@ -300,7 +334,7 @@ class Process extends StatelessWidget {
             },
             contentsBuilder: (context, index) {
               final DateTime now = DateTime.now();
-              final DateTime process = processes[index].time;
+              final DateTime process = processes[index]['date'].toDate();
               final bool isTime =
                   (now.hour >= process.hour && now.minute >= process.minute);
               final bool isTimeHour = (now.hour >= process.hour);
@@ -310,7 +344,7 @@ class Process extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      DateFormat('kk:mm').format(process),
+                      DateFormat('h:mm a').format(process),
                       style: bHeading7.copyWith(
                         color: (isTimeHour)
                             ? Theme.of(context).colorScheme.tertiary
@@ -326,7 +360,9 @@ class Process extends StatelessWidget {
                       height: 5.0,
                     ),
                     Text(
-                      processes[index].station,
+                      (isTrain)
+                          ? processes[index]['station']
+                          : processes[index]['transit'],
                       style: bSubtitle2.copyWith(
                         color: (isTimeHour)
                             ? Theme.of(context).colorScheme.tertiary

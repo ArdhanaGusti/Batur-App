@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:account/account.dart';
-
 import 'package:core/core.dart';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -13,6 +12,7 @@ import 'package:capstone_design/injection.dart' as di;
 import 'package:theme/theme.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:transportation/transportation.dart';
 
 void main() async {
   ti.init();
@@ -50,6 +50,15 @@ void main() async {
         ),
         BlocProvider(
           create: (_) => di.locator<RegisFormBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<TrainCreateBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<TrainUpdateBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<TrainRemoveBloc>(),
         ),
       ],
       child: const MyApp(),

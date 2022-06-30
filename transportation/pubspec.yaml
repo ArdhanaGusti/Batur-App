@@ -31,7 +31,14 @@ dependencies:
   loading_animation_widget:
   cached_network_image: 
   pull_to_refresh: 
-  carousel_slider: 
+  carousel_slider:
+  firebase_auth:
+  google_sign_in:
+  cloud_firestore:
+  firebase_storage:
+  firebase_core:
+  firebase_analytics:
+  dartz: 
   
 
 dev_dependencies:

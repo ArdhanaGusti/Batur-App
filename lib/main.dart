@@ -1,33 +1,6 @@
 import 'dart:async';
 
 import 'package:account/account.dart';
-import 'package:capstone_design/domain/usecase/get_first_open.dart';
-import 'package:capstone_design/login.dart';
-// import 'package:capstone_design/login.dart';
-import 'package:capstone_design/presentation/bloc/login/login_email_bloc.dart';
-import 'package:capstone_design/presentation/bloc/login/login_facebook_bloc.dart';
-import 'package:capstone_design/presentation/bloc/login/login_google_bloc.dart';
-import 'package:capstone_design/presentation/bloc/login/sign_in_email_bloc.dart';
-// import 'package:capstone_design/presentation/bloc/news/news_create_bloc.dart';
-// import 'package:capstone_design/presentation/bloc/news/news_remove_bloc.dart';
-// import 'package:capstone_design/presentation/bloc/news/news_update_bloc.dart';
-import 'package:capstone_design/presentation/bloc/profile/profile_create_bloc.dart';
-import 'package:capstone_design/presentation/bloc/profile/profile_update_bloc.dart';
-import 'package:capstone_design/presentation/bloc/tour/tour_create_bloc.dart';
-import 'package:capstone_design/presentation/bloc/tour/tour_remove_bloc.dart';
-import 'package:capstone_design/presentation/bloc/tour/tour_update_bloc.dart';
-import 'package:capstone_design/presentation/bloc/train/train_create_bloc.dart';
-import 'package:capstone_design/presentation/bloc/train/train_remove_bloc.dart';
-import 'package:capstone_design/presentation/bloc/train/train_update_bloc.dart';
-// import 'package:capstone_design/presentation/bloc/umkm/umkm_create_bloc.dart';
-// import 'package:capstone_design/presentation/bloc/umkm/umkm_remove_bloc.dart';
-// import 'package:capstone_design/presentation/bloc/umkm/umkm_update_bloc.dart';
-import 'package:capstone_design/presentation/page/dashboard.dart';
-// import 'package:capstone_design/presentation/page/news/news.dart';
-// import 'package:capstone_design/presentation/page/umkm/umkm.dart';
-// import 'package:capstone_design/presentation/page/news/add_news.dart';
-// import 'package:capstone_design/presentation/page/news/news.dart';
-// import 'package:capstone_design/presentation/page/train/add_train.dart';
 import 'package:news/news.dart';
 
 import 'package:core/core.dart';
@@ -94,12 +67,6 @@ void main() async {
           create: (_) => di.locator<NewsRemoveBloc>(),
         ),
         BlocProvider(
-          create: (_) => di.locator<ProfileCreateBloc>(),
-        ),
-        BlocProvider(
-          create: (_) => di.locator<ProfileUpdateBloc>(),
-        ),
-        BlocProvider(
           create: (_) => di.locator<UmkmCreateBloc>(),
         ),
         BlocProvider(
@@ -107,36 +74,6 @@ void main() async {
         ),
         BlocProvider(
           create: (_) => di.locator<UmkmRemoveBloc>(),
-        ),
-        BlocProvider(
-          create: (_) => di.locator<TourUpdateBloc>(),
-        ),
-        BlocProvider(
-          create: (_) => di.locator<TourCreateBloc>(),
-        ),
-        BlocProvider(
-          create: (_) => di.locator<TourRemoveBloc>(),
-        ),
-        BlocProvider(
-          create: (_) => di.locator<TrainCreateBloc>(),
-        ),
-        BlocProvider(
-          create: (_) => di.locator<TrainUpdateBloc>(),
-        ),
-        BlocProvider(
-          create: (_) => di.locator<TrainRemoveBloc>(),
-        ),
-        BlocProvider(
-          create: (_) => di.locator<LoginEmailBloc>(),
-        ),
-        BlocProvider(
-          create: (_) => di.locator<LoginGoogleBloc>(),
-        ),
-        BlocProvider(
-          create: (_) => di.locator<LoginFacebookBloc>(),
-        ),
-        BlocProvider(
-          create: (_) => di.locator<SignInEmailBloc>(),
         ),
       ],
       child: const MyApp(),
@@ -155,24 +92,6 @@ class _MyAppState extends State<MyApp> {
   bool _isLogIn = false;
   User? user;
   bool _isFirst = true;
-  final GetIsFirstOpen getIsFirstOpen = di.locator<GetIsFirstOpen>();
-
-  @override
-  void initState() {
-    Future.microtask(() {
-      context.read<ThemeManagerBloc>().add(const LoadTheme());
-    });
-    isLogin();
-    isFirstTime();
-    super.initState();
-  }
-
-  void isFirstTime() async {
-    final result = await getIsFirstOpen.execute();
-    setState(() {
-      _isFirst = result;
-    });
-  }
 
   void isLogin() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -214,7 +133,7 @@ class _MyAppState extends State<MyApp> {
               home: (_isFirst)
                   ? const OnBoardingScreen()
                   : (_isLogIn)
-                      ? Dashboard(user: user!)
+                      ? DashboardScreen()
                       : const DashboardScreen(),
               locale: (localization.language == LanguageEnum.inggirs)
                   ? const Locale('en')

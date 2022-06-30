@@ -1,16 +1,20 @@
 import 'dart:async';
 
-import 'package:core/core.dart';
-import 'add_news_screen.dart';
-import 'news_detail_screen.dart';
-import '../components/card/custom_news_card.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:core/presentation/components/appbar/custom_sliver_appbar_dashboard.dart';
+import 'package:core/presentation/components/card/custom_news_card.dart';
+import 'package:core/presentation/components/custom_smart_refresh.dart';
+import 'package:core/presentation/screens/error_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:theme/theme.dart';
+import 'package:page_transition/page_transition.dart';
+import 'news_detail_screen.dart';
+import 'add_news_screen.dart';
+import 'package:account/account.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:intl/intl.dart';
 
 enum ScreenProcessEnum {
   loading,
@@ -25,8 +29,9 @@ class NewsScreen extends StatefulWidget {
   State<NewsScreen> createState() => _NewsScreenState();
 }
 
-class _NewsScreenState extends State<NewsScreen> {
+class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
   ScreenProcessEnum process = ScreenProcessEnum.loading;
+  late TabController _controller;
 
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
@@ -41,43 +46,42 @@ class _NewsScreenState extends State<NewsScreen> {
     _refreshController.loadComplete();
   }
 
+  final RefreshController _refreshController2 =
+      RefreshController(initialRefresh: false);
+
+  void _onRefresh2() async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+    _refreshController2.refreshCompleted();
+  }
+
+  void _onLoading2() async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+    _refreshController2.loadComplete();
+  }
+
   @override
   void initState() {
     super.initState();
 
-    // Must be repair
-    Timer(const Duration(seconds: 3), () {
-      setState(() {
-        process = ScreenProcessEnum.loaded;
-      });
-    });
+    _controller = TabController(
+      vsync: this,
+      length: 2,
+    );
   }
 
   @override
   void dispose() {
+    _controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (process == ScreenProcessEnum.loading) {
-      return NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return [
-            _buildAppBar(),
-          ];
-        },
-        body: Center(
-          child: LoadingAnimationWidget.horizontalRotatingDots(
-            color: Theme.of(context).colorScheme.tertiary,
-            size: 50.0,
-          ),
-        ),
-      );
-    } else if (process == ScreenProcessEnum.failed) {
-      return ErrorScreen(
-        title: AppLocalizations.of(context)!.internetConnection,
-        message: AppLocalizations.of(context)!.tryAgain,
+    if (process == ScreenProcessEnum.failed) {
+      return const ErrorScreen(
+        // Text wait localization
+        title: "Koneksi Internet",
+        message: "Aduh, Coba lagi nanti",
       );
     } else {
       return _buildLoaded(context);
@@ -88,9 +92,10 @@ class _NewsScreenState extends State<NewsScreen> {
     Size screenSize = MediaQuery.of(context).size;
 
     if (screenSize.width < 300.0 || screenSize.height < 600.0) {
-      return ErrorScreen(
-        title: AppLocalizations.of(context)!.screenError,
-        message: AppLocalizations.of(context)!.screenSmall,
+      return const ErrorScreen(
+        // Text wait localization
+        title: "Error",
+        message: "Error",
       );
     } else if (screenSize.width > 500.0) {
       // Tablet Mode (Must be repair)
@@ -110,18 +115,19 @@ class _NewsScreenState extends State<NewsScreen> {
     return CustomSliverAppBarDashboard(
       actionIcon: "assets/icon/regular/bell.svg",
       actionOnTap: () {
-        // Navigator.push(
-        //   context,
-        //   PageTransition(
-        //     curve: Curves.easeInOut,
-        //     type: PageTransitionType.rightToLeft,
-        //     child: const NotificationScreen(),
-        //     duration: const Duration(milliseconds: 150),
-        //     reverseDuration: const Duration(milliseconds: 150),
-        //   ),
-        // );
+        Navigator.push(
+          context,
+          PageTransition(
+            curve: Curves.easeInOut,
+            type: PageTransitionType.rightToLeft,
+            child: const NotificationScreen(),
+            duration: const Duration(milliseconds: 150),
+            reverseDuration: const Duration(milliseconds: 150),
+          ),
+        );
       },
       leading: Text(
+        // Text wait localization
         AppLocalizations.of(context)!.news,
         textAlign: TextAlign.center,
       ),
@@ -143,96 +149,178 @@ class _NewsScreenState extends State<NewsScreen> {
   }
 
   Widget _buildNewsScreen(BuildContext context, Size screenSize) {
-    return NestedScrollView(
-      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-        return [
+    return DefaultTabController(
+      length: 2, // Length of tabs
+      initialIndex: 0,
+      child: CustomScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        slivers: <Widget>[
           _buildAppBar(),
-        ];
-      },
-      body: SmartRefresher(
-        controller: _refreshController,
-        onRefresh: _onRefresh,
-        onLoading: _onLoading,
-        header: ClassicHeader(
-          refreshingIcon: LoadingAnimationWidget.horizontalRotatingDots(
-            color: Theme.of(context).colorScheme.tertiary,
-            size: 20.0,
-          ),
-          failedIcon: SvgPicture.asset(
-            "assets/icon/fill/exclamation-circle.svg",
-            color: Theme.of(context).colorScheme.tertiary,
-            height: 20.0,
-          ),
-          completeIcon: SvgPicture.asset(
-            "assets/icon/fill/check-circle.svg",
-            color: Theme.of(context).colorScheme.tertiary,
-            height: 20.0,
-          ),
-          releaseIcon: SvgPicture.asset(
-            "assets/icon/fill/chevron-circle-up.svg",
-            color: Theme.of(context).colorScheme.tertiary,
-            height: 20.0,
-          ),
-          idleIcon: SvgPicture.asset(
-            "assets/icon/fill/chevron-circle-down.svg",
-            color: Theme.of(context).colorScheme.tertiary,
-            height: 20.0,
-          ),
-          refreshingText: AppLocalizations.of(context)!.refreshingText,
-          releaseText: AppLocalizations.of(context)!.releaseText,
-          idleText: AppLocalizations.of(context)!.idleText,
-          failedText: AppLocalizations.of(context)!.failedText,
-          completeText: AppLocalizations.of(context)!.completeText,
-          textStyle: bBody1.copyWith(
-            color: Theme.of(context).colorScheme.tertiary,
-          ),
-        ),
-        child: CustomScrollView(
-          physics: const BouncingScrollPhysics(),
-          slivers: <Widget>[
-            SliverPadding(
-              padding: const EdgeInsets.only(
-                left: 20.0,
-                right: 20.0,
-                top: 15.0,
-                bottom: 15.0,
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20.0,
+                vertical: 10.0,
               ),
-              sliver: SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                    // Use Data News
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 15.0),
-                      child: CustomNewsCard(
-                        img:
-                            "https://cdn1-production-images-kly.akamaized.net/lMHji7xE4GI7YHCWAQumKfFm9Ew=/1200x900/smart/filters:quality(75):strip_icc():format(jpeg)/kly-media-production/medias/3554482/original/037161700_1630219411-bandung-5319951_1920.jpg",
-                        title:
-                            "Prabowo Atau Anies, Siapa Capres yang Paling Kuat?",
-                        writer: "Udin Saparudin",
-                        date: "Jumat, 13 Mei 2022",
-                        onTap: () {
-                          // To detail News
-                          Navigator.push(
-                            context,
-                            PageTransition(
-                              curve: Curves.easeOut,
-                              type: PageTransitionType.bottomToTop,
-                              child: const NewsDetailScreen(),
-                              duration: const Duration(milliseconds: 150),
-                              reverseDuration:
-                                  const Duration(milliseconds: 150),
-                            ),
-                          );
-                        },
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: SizedBox(
+                  height: 30.0,
+                  width: 230.0,
+                  child: TabBar(
+                    indicator: BoxDecoration(
+                      color: Theme.of(context).colorScheme.tertiary,
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    splashBorderRadius: BorderRadius.circular(10.0),
+                    unselectedLabelColor:
+                        Theme.of(context).colorScheme.tertiaryContainer,
+                    tabs: <Widget>[
+                      Container(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Text(
+                          // Wait Localization
+                          "Terkini",
+                          style: bSubtitle3,
+                        ),
                       ),
-                    );
-                  },
-                  childCount: 5,
+                      Container(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Text(
+                          // Wait Localization
+                          "News",
+                          style: bSubtitle3,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+          SliverFillRemaining(
+            child: TabBarView(
+              physics: const BouncingScrollPhysics(),
+              children: <Widget>[
+                CustomSmartRefresh(
+                  onLoading: _onLoading,
+                  onRefresh: _onRefresh,
+                  refreshController: _refreshController,
+                  child: StreamBuilder<QuerySnapshot>(
+                      stream: FirebaseFirestore.instance
+                          .collection("News")
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return Center(
+                            child:
+                                LoadingAnimationWidget.horizontalRotatingDots(
+                              color: Theme.of(context).colorScheme.tertiary,
+                              size: 50.0,
+                            ),
+                          );
+                        }
+                        return Padding(
+                          padding: const EdgeInsets.all(0.0),
+                          child: ListView.builder(
+                            physics: const BouncingScrollPhysics(),
+                            shrinkWrap: true,
+                            itemBuilder: (BuildContext context, int index) {
+                              // Use Data News
+                              return Padding(
+                                padding: const EdgeInsets.only(
+                                    bottom: 7.5, right: 20, left: 20, top: 7.5),
+                                child: CustomNewsCard(
+                                  img:
+                                      '${snapshot.data!.docs[index]['coverUrl']}',
+                                  title: snapshot.data!.docs[index]['title'],
+                                  writer: snapshot.data!.docs[index]
+                                      ['username'],
+                                  date: DateFormat("EEEE, d MMMM yyyy", "id_ID")
+                                      .format(DateTime.parse(
+                                          snapshot.data!.docs[index]['date'])),
+                                  onTap: () {
+                                    // To detail News
+                                    Navigator.push(
+                                      context,
+                                      PageTransition(
+                                        curve: Curves.easeOut,
+                                        type: PageTransitionType.bottomToTop,
+                                        child: NewsDetailScreen(
+                                          title: snapshot.data!.docs[index]
+                                              ['title'],
+                                          konten: snapshot.data!.docs[index]
+                                              ['content'],
+                                          index: snapshot
+                                              .data!.docs[index].reference,
+                                          urlName: snapshot.data!.docs[index]
+                                              ['coverUrl'],
+                                          writer: snapshot.data!.docs[index]
+                                              ['username'],
+                                          date: snapshot.data!.docs[index]
+                                              ['date'],
+                                        ),
+                                        duration:
+                                            const Duration(milliseconds: 150),
+                                        reverseDuration:
+                                            const Duration(milliseconds: 150),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              );
+                            },
+                            itemCount: snapshot.data!.docs.length,
+                          ),
+                        );
+                      }),
+                ),
+                CustomSmartRefresh(
+                  refreshController: _refreshController2,
+                  onLoading: _onLoading2,
+                  onRefresh: _onRefresh2,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 0.0),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      physics: const BouncingScrollPhysics(),
+                      itemBuilder: (BuildContext context, int index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(
+                              bottom: 7.5, right: 20, left: 20, top: 7.5),
+                          child: CustomNewsCard(
+                            img:
+                                "https://cdn1-production-images-kly.akamaized.net/lMHji7xE4GI7YHCWAQumKfFm9Ew=/1200x900/smart/filters:quality(75):strip_icc():format(jpeg)/kly-media-production/medias/3554482/original/037161700_1630219411-bandung-5319951_1920.jpg",
+                            title:
+                                "Prabowo Atau Anies, Siapa Capres yang Paling Kuat?",
+                            writer: "Udin Saparudin",
+                            date: "Jumat, 13 Mei 2022",
+                            onTap: () {
+                              // To detail News
+                              // Navigator.push(
+                              //   context,
+                              //   PageTransition(
+                              //     curve: Curves.easeOut,
+                              //     type: PageTransitionType.bottomToTop,
+                              //     child: const NewsDetailScreen(),
+                              //     duration:
+                              //         const Duration(milliseconds: 150),
+                              //     reverseDuration:
+                              //         const Duration(milliseconds: 150),
+                              //   ),
+                              // );
+                            },
+                          ),
+                        );
+                      },
+                      itemCount: 10,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

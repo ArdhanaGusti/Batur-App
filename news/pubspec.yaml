@@ -20,6 +20,11 @@ dependencies:
   loading_animation_widget:
   pull_to_refresh:
   cached_network_image:
+  cloud_firestore:
+  firebase_auth:
+  firebase_storage:
+  translator:
+  fluttertoast:
 
 dev_dependencies:
   flutter_test:
@@ -30,6 +35,8 @@ dev_dependencies:
 
   core:
     path: ../core
+  account:
+    path: ../account
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

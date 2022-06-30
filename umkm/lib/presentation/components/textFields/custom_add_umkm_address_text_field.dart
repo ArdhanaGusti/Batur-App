@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:theme/theme.dart';
 
 class CustomAddUMKMAddressTextField extends StatelessWidget {
-  const CustomAddUMKMAddressTextField({Key? key}) : super(key: key);
+  final TextEditingController address;
+  const CustomAddUMKMAddressTextField({Key? key, required this.address})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,10 @@ class CustomAddUMKMAddressTextField extends StatelessWidget {
         return null;
       },
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      onChanged: (text) {},
+      controller: address,
+      onChanged: (x) {
+        print(address.text);
+      },
     );
   }
 }

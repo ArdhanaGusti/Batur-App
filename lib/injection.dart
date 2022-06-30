@@ -5,13 +5,18 @@ import 'package:account/domain/usecase/google_sign_up.dart';
 import 'package:core/core.dart';
 import 'package:get_it/get_it.dart';
 import 'package:transportation/transportation.dart';
+import 'package:news/data/datasources/crud_news.dart';
+import 'package:news/data/repositories/data_repository_impl.dart';
+import 'package:news/data/service/api_service.dart';
+import 'package:news/domain/repositories/data_repository.dart';
+import 'package:news/news.dart';
+import 'package:umkm/umkm.dart';
+import 'package:get_it/get_it.dart';
+import 'package:news/presentation/bloc/news_create_bloc.dart';
 
 final locator = GetIt.instance;
 
 void init() {
-  // Account
-
-  // Service
   locator.registerFactory(
     () => ServiceApiAccount(),
   );
@@ -69,6 +74,12 @@ void init() {
       locator(),
     ),
   );
+  locator.registerFactory(
+    () => UmkmCreateBloc(
+      locator(),
+    ),
+  );
+
   locator.registerFactory(
     () => RegisFormBloc(
       locator(),
@@ -152,6 +163,12 @@ void init() {
   locator.registerFactory(
     () => ApiServiceTrans(),
   );
+
+  locator.registerFactory(
+    () => ApiServiceNews(),
+  );
+  locator.registerFactory(() => ApiServiceUMKM());
+
   //usecase
   locator.registerLazySingleton(() => CreateTrain(locator()));
   locator.registerLazySingleton(() => UpdateTrain(locator()));
@@ -164,8 +181,30 @@ void init() {
     ),
   );
   //datasource
+  locator.registerLazySingleton(() => CreateNews(locator()));
+  locator.registerLazySingleton(() => CreateUmkm(locator()));
+  locator.registerLazySingleton(() => UpdateNews(locator()));
+  locator.registerLazySingleton(() => UpdateUmkm(locator()));
+  locator.registerLazySingleton(() => RemoveNews(locator()));
+  locator.registerLazySingleton(() => RemoveUmkm(locator()));
+
   locator.registerLazySingleton<CrudTrain>(
-    () => CrudTrainImpl(
+    () => CrudTrainImpl(apiService: locator()),
+  );
+  locator.registerLazySingleton<DataRepositoryNews>(
+    () => DataRepositoryImplNews(crudNews: locator()),
+  );
+  locator.registerLazySingleton<DataRepositoryUmkm>(
+    () => DataRepositoryImplUmkm(crudUmkm: locator()),
+  );
+  //datasource
+  locator.registerLazySingleton<CrudNews>(
+    () => CrudNewsImpl(
+      apiServiceNews: locator(),
+    ),
+  );
+  locator.registerLazySingleton<CrudUmkm>(
+    () => CrudUmkmImpl(
       apiService: locator(),
     ),
   );

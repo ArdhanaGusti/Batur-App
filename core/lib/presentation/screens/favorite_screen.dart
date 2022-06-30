@@ -327,7 +327,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                         address:
                                             "Jl. Diponegoro No.57, Cihaur Geulis, Kec. Cibeunying Kaler, Kota Bandung, Jawa Barat 40122",
                                         open: "Buka (07:00 WIB -16:00 WIB",
-                                        rating: "4,5",
                                         onTap: () {
                                           // Navigate to UMKM Detail
                                         },

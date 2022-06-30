@@ -9,8 +9,8 @@ import 'package:core/presentation/components/card/custom_transport_card.dart';
 import 'package:core/presentation/components/card/custom_umkm_card.dart';
 import 'package:core/presentation/components/custom_smart_refresh.dart';
 import 'package:core/presentation/screens/error_screen.dart';
-import 'package:core/presentation/screens/news_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:news/news.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -21,6 +21,8 @@ import 'package:theme/theme.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:transportation/transportation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tourism/tourism.dart';
+import 'package:umkm/presentation/screen/umkm_screen.dart';
 
 // Check
 
@@ -211,6 +213,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   void onTapTourList() {
     // Navigate to Tour List
+    // Navigator.push(context,
+    //     MaterialPageRoute(builder: (context) => const TourListScreen()));
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const TourListScreen()));
   }
 
   void onTapNewsList() {
@@ -222,6 +228,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   void onTapUMKMList() {
     // Navigate to UMKM List
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const UmkmScreen()));
   }
 
   void onTapTransportList() {

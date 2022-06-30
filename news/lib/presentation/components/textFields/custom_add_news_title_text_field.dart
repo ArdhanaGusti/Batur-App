@@ -2,11 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:theme/theme.dart';
 
 class CustomAddNewsTitleTextField extends StatelessWidget {
-  const CustomAddNewsTitleTextField({Key? key}) : super(key: key);
+  final Function(String item) onChange;
+  final TextEditingController? controller;
+  const CustomAddNewsTitleTextField({
+    Key? key,
+    required this.onChange,
+    this.controller,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,
       style: bSubtitle1.copyWith(
         color: Theme.of(context).colorScheme.tertiary,
       ),
@@ -24,7 +31,7 @@ class CustomAddNewsTitleTextField extends StatelessWidget {
         return null;
       },
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      onChanged: (text) {},
+      onChanged: onChange,
     );
   }
 }

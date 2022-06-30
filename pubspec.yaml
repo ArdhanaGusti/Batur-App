@@ -47,7 +47,7 @@ dependencies:
   get_it:
   path_provider:
   flutter_bloc:
-  internet_connection_checker: 
+  internet_connection_checker:
   flutter_native_splash:
   flutter_svg:
   equatable:
@@ -56,12 +56,12 @@ dependencies:
   webview_flutter:
   page_transition:
   loading_animation_widget:
-  cached_network_image: 
-  pull_to_refresh: 
-  http: 
-  fluttertoast: 
-  carousel_slider: 
-  flutter_slidable: 
+  cached_network_image:
+  pull_to_refresh:
+  http:
+  fluttertoast:
+  carousel_slider:
+  flutter_slidable:
 
 dev_dependencies:
   flutter_test:
@@ -162,3 +162,6 @@ flutter:
     - assets/icon/star_outline.svg
     - assets/icon/map.svg
     - assets/icon/search.svg
+    - assets/icon/trash.svg
+    - assets/icon/pen-light.svg
+    - assets/icon/bold/pen.svg

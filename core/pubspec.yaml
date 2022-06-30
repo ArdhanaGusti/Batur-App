@@ -22,6 +22,12 @@ dependencies:
     path: ../account
   transportation:
     path: ../transportation
+  news:
+    path: ../news
+  tourism:
+    path: ../tourism
+  umkm:
+    path: ../umkm
 
   google_sign_in:
   loading_animation_widget:

@@ -3,9 +3,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:theme/theme.dart';
 
 class CustomAddUMKMTokopediaTextField extends StatelessWidget {
-  const CustomAddUMKMTokopediaTextField({
-    Key? key,
-  }) : super(key: key);
+  final TextEditingController tokped;
+  const CustomAddUMKMTokopediaTextField({Key? key, required this.tokped})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +38,7 @@ class CustomAddUMKMTokopediaTextField extends StatelessWidget {
       },
       autovalidateMode: AutovalidateMode.onUserInteraction,
       onChanged: (text) {},
+      controller: tokped,
     );
   }
 }

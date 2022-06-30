@@ -1,4 +1,4 @@
 enum LanguageEnum {
   indonesia,
-  england,
+  inggirs,
 }

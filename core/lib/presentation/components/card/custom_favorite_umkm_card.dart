@@ -8,7 +8,7 @@ class CustomFavoriteUMKMCard extends StatelessWidget {
   final String img;
   final String title;
   final String address;
-  final String rating;
+  // final String rating;
   final String open;
   final Function() onTap;
   const CustomFavoriteUMKMCard({
@@ -16,7 +16,7 @@ class CustomFavoriteUMKMCard extends StatelessWidget {
     required this.img,
     required this.title,
     required this.address,
-    required this.rating,
+    // required this.rating,
     required this.open,
     required this.onTap,
   }) : super(key: key);

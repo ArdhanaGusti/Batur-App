@@ -3,9 +3,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:theme/theme.dart';
 
 class CustomAddUMKMWebsiteTextField extends StatelessWidget {
-  const CustomAddUMKMWebsiteTextField({
-    Key? key,
-  }) : super(key: key);
+  final TextEditingController website;
+  const CustomAddUMKMWebsiteTextField({Key? key, required this.website})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +38,7 @@ class CustomAddUMKMWebsiteTextField extends StatelessWidget {
       },
       autovalidateMode: AutovalidateMode.onUserInteraction,
       onChanged: (text) {},
+      controller: website,
     );
   }
 }

@@ -1,14 +1,53 @@
+import 'dart:io';
+
 import 'package:core/core.dart';
+import 'package:news/data/service/api_service.dart';
+import 'package:news/presentation/bloc/news_create_bloc.dart';
+import 'package:news/presentation/bloc/news_event.dart';
+import 'package:news/presentation/bloc/news_state.dart';
 import '../components/textFields/custom_add_news_description_text_field.dart';
 import '../components/textFields/custom_add_news_title_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:theme/theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as path;
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
-class AddNewsScreen extends StatelessWidget {
-  final bool isAddedImage = false;
+class AddNewsScreen extends StatefulWidget {
   const AddNewsScreen({Key? key}) : super(key: key);
+
+  @override
+  State<AddNewsScreen> createState() => _AddNewsScreenState();
+}
+
+class _AddNewsScreenState extends State<AddNewsScreen> {
+  bool isAddedImage = true;
+  final toast = FToast();
+
+  File? image;
+
+  String? imageName, judul, konten, urlName;
+
+  @override
+  void initState() {
+    setState(() {});
+    super.initState();
+  }
+
+  void pickImg() async {
+    var selectedImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    setState(() {
+      image = File(selectedImage!.path);
+      imageName = path.basename(image!.path);
+      isAddedImage = false;
+      toast.init(context);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,12 +73,76 @@ class AddNewsScreen extends StatelessWidget {
         body: _buildSettingScreen(context, screenSize),
         bottomNavigationBar: Container(
           padding: const EdgeInsets.all(20.0),
-          child: CustomPrimaryTextButton(
-            width: screenSize.width,
-            text: AppLocalizations.of(context)!.save,
-            onTap: () {
-              Navigator.pop(
-                context,
+          child: BlocConsumer<NewsCreateBloc, NewsState>(
+            listener: (context, state) async {
+              if (state is NewsLoading) {
+                Center(
+                  child: LoadingAnimationWidget.horizontalRotatingDots(
+                    color: Theme.of(context).colorScheme.tertiary,
+                    size: 50.0,
+                  ),
+                );
+                print("sudah terloading");
+              } else if (state is NewsCreated) {
+                toast.showToast(
+                    child: CustomToast(
+                      logo: "assets/icon/fill/exclamation-circle.svg",
+                      message: state.result,
+                      toastColor: bToastSuccess,
+                      bgToastColor: bBgToastSuccess,
+                      borderToastColor: bBorderToastSuccess,
+                    ),
+                    gravity: ToastGravity.BOTTOM,
+                    toastDuration: Duration(seconds: 3));
+              } else if (state is NewsError) {
+                await showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        content: Text(state.message),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text("Kembali"),
+                          )
+                        ],
+                      );
+                    });
+              }
+            },
+            builder: (context, state) {
+              return CustomPrimaryTextButton(
+                width: screenSize.width,
+                text: AppLocalizations.of(context)!.save,
+                onTap: () async {
+                  if (judul != null && konten != null && image != null) {
+                    context.read<NewsCreateBloc>().add(OnCreateNews(
+                        context, image!, imageName!, judul!, konten!));
+                    // setState(() {
+                    //   image = null;
+                    //   imageName = null;
+                    // });
+                  } else {
+                    AlertDialog alert = AlertDialog(
+                      title: Text("Silahkan lengkapi data"),
+                      actions: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text("Ok"))
+                      ],
+                    );
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return alert;
+                      },
+                    );
+                  }
+                },
               );
             },
           ),
@@ -65,17 +168,35 @@ class AddNewsScreen extends StatelessWidget {
         _customEditForm(
           context,
           AppLocalizations.of(context)!.newsTitle,
-          const CustomAddNewsTitleTextField(),
+          CustomAddNewsTitleTextField(
+            onChange: (item) {
+              setState(() {
+                judul = item;
+              });
+              if (judul != null) {
+                print(judul);
+              }
+            },
+          ),
         ),
         _customEditFormDesc(
           context,
           AppLocalizations.of(context)!.news,
-          const CustomAddNewsDescriptionTextField(),
+          CustomAddNewsDescriptionTextField(
+            onChange: (item) {
+              setState(() {
+                konten = item;
+              });
+              if (konten != null) {
+                print(konten);
+              }
+            },
+          ),
         ),
         _customEditImage(
           context,
           AppLocalizations.of(context)!.image,
-          const CustomAddNewsDescriptionTextField(),
+          // CustomAddNewsDescriptionTextField(),
         ),
       ],
     );
@@ -108,8 +229,7 @@ class AddNewsScreen extends StatelessWidget {
     );
   }
 
-  Widget _customEditImage(
-      BuildContext context, String title, Widget textField) {
+  Widget _customEditImage(BuildContext context, String title) {
     return SliverPadding(
       padding: const EdgeInsets.only(
         top: 20.0,
@@ -130,7 +250,7 @@ class AddNewsScreen extends StatelessWidget {
               padding: const EdgeInsets.only(top: 10.0),
               child: (isAddedImage)
                   ? GestureDetector(
-                      onTap: () {},
+                      onTap: pickImg,
                       child: Container(
                         width: 180.0,
                         height: 100.0,
@@ -168,38 +288,22 @@ class AddNewsScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(15.0),
-                          child: Image.network(
-                            "https://cdn-2.tstatic.net/tribunnews/foto/bank/images/indonesiatravel-gedung-sate-salah-satu-ikon-kota-bandung.jpg",
-                            width: 180.0,
-                            height: 100.0,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
+                            borderRadius: BorderRadius.circular(15.0),
+                            child: (image == null)
+                                ? Image.network(
+                                    "https://cdn-2.tstatic.net/tribunnews/foto/bank/images/indonesiatravel-gedung-sate-salah-satu-ikon-kota-bandung.jpg",
+                                    width: 180.0,
+                                    height: 100.0,
+                                    fit: BoxFit.cover,
+                                  )
+                                : Image.file(
+                                    image!,
+                                    width: 180.0,
+                                    height: 100.0,
+                                    fit: BoxFit.cover,
+                                  )),
                         const SizedBox(
                           width: 20.0,
-                        ),
-                        GestureDetector(
-                          onTap: () {},
-                          child: Center(
-                            child: Container(
-                              height: 40.0,
-                              width: 40.0,
-                              decoration: BoxDecoration(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .primaryContainer,
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              child: Center(
-                                child: SvgPicture.asset(
-                                  "assets/icon/trash-Light.svg",
-                                  color: bError,
-                                  height: 24.0,
-                                ),
-                              ),
-                            ),
-                          ),
                         ),
                       ],
                     ),

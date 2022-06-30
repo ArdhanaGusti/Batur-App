@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
-import 'package:umkm/data/utils/failure.dart';
-import 'package:umkm/domain/repository/data_repository_umkm.dart';
+import '../../utils/failure.dart';
+
+import '../repository/data_repository.dart';
 
 class AddFavoriteUmkm {
   final DataRepositoryUmkm dataRepositoryUmkm;

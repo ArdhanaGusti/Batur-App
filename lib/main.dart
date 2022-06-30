@@ -1,12 +1,18 @@
 import 'dart:async';
 
 import 'package:account/account.dart';
+import 'package:news/news.dart';
+
 import 'package:core/core.dart';
+import 'package:umkm/umkm.dart';
+import 'package:core/presentation/bloc/dashboard_bloc.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:news/presentation/bloc/news_create_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:theme/presentation/injection/theme_injection.dart' as ti;
 import 'package:capstone_design/injection.dart' as di;
 import 'package:theme/theme.dart';
@@ -59,6 +65,15 @@ void main() async {
         ),
         BlocProvider(
           create: (_) => di.locator<TrainRemoveBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<UmkmCreateBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<UmkmUpdateBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<UmkmRemoveBloc>(),
         ),
       ],
       child: const MyApp(),
@@ -134,7 +149,7 @@ class _MyAppState extends State<MyApp> {
               home: (_isFirst)
                   ? const OnBoardingScreen()
                   : const DashboardScreen(),
-              locale: (localization.language == LanguageEnum.england)
+              locale: (localization.language == LanguageEnum.inggirs)
                   ? const Locale('en')
                   : const Locale('id'),
             );

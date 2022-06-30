@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:theme/data/sources/theme_data.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:umkm/presentation/components/custom_sliver_appbar_text_leading_action_double.dart';
 
 class TourUMKMMapsScreen extends StatefulWidget {
   const TourUMKMMapsScreen({Key? key}) : super(key: key);
@@ -43,7 +44,7 @@ class _TourUMKMMapsScreenState extends State<TourUMKMMapsScreen> {
     return NestedScrollView(
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
         return <Widget>[
-          CustomSliverAppBarTextLeadingAction(
+          CustomSliverAppBarTextLeadingActionDouble(
             title: AppLocalizations.of(context)!.tourAndUmkm,
             leadingIcon: "assets/icon/back.svg",
             // Navigation repair
@@ -52,8 +53,10 @@ class _TourUMKMMapsScreenState extends State<TourUMKMMapsScreen> {
                 context,
               );
             },
-            actionIcon: "assets/icon/bold/menu.svg",
-            actionOnTap: () {},
+            actionIconFirst: "assets/icon/bold/menu.svg",
+            actionOnTapFirst: () {},
+            actionIconSecond: "assets/icon/bold/menu.svg",
+            actionOnTapSecond: () {},
           ),
         ];
       },

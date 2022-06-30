@@ -44,7 +44,7 @@ packages:
     source: hosted
     version: "2.1.0"
   cached_network_image:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: cached_network_image
       url: "https://pub.dartlang.org"
@@ -65,7 +65,7 @@ packages:
     source: hosted
     version: "1.0.1"
   carousel_slider:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: carousel_slider
       url: "https://pub.dartlang.org"
@@ -330,7 +330,7 @@ packages:
     source: hosted
     version: "2.0.0"
   loading_animation_widget:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: loading_animation_widget
       url: "https://pub.dartlang.org"
@@ -505,7 +505,7 @@ packages:
     source: hosted
     version: "6.0.3"
   pull_to_refresh:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: pull_to_refresh
       url: "https://pub.dartlang.org"

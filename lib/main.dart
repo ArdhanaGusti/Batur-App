@@ -4,6 +4,7 @@ import 'package:account/account.dart';
 
 import 'package:core/core.dart';
 import 'package:umkm/umkm.dart';
+import 'package:news/news.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';

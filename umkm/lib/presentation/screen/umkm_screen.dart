@@ -17,7 +17,7 @@ import 'package:umkm/presentation/screen/umkm_detail_acc_screen.dart';
 import 'add_umkm_screen.dart';
 import 'package:geocoding/geocoding.dart';
 
-enum ScreenProcessEnum {
+enum UmkmListScreenProcessEnum {
   loading,
   loaded,
   failed,
@@ -31,20 +31,23 @@ class UmkmScreen extends StatefulWidget {
 }
 
 class _UmkmScreenState extends State<UmkmScreen> {
+  User user = FirebaseAuth.instance.currentUser!;
+  TextEditingController controller = TextEditingController();
+  String find = '';
   String? address;
-  ScreenProcessEnum process = ScreenProcessEnum.loading;
+  UmkmListScreenProcessEnum process = UmkmListScreenProcessEnum.loading;
 
-  final RefreshController _refreshController =
+  final RefreshController _refreshControllerUMKM =
       RefreshController(initialRefresh: false);
 
-  void _onRefresh() async {
+  void _onRefreshTour() async {
     await Future.delayed(const Duration(milliseconds: 1000));
-    _refreshController.refreshCompleted();
+    _refreshControllerUMKM.refreshCompleted();
   }
 
-  void _onLoading() async {
+  void _onLoadingTour() async {
     await Future.delayed(const Duration(milliseconds: 1000));
-    _refreshController.loadComplete();
+    _refreshControllerUMKM.loadComplete();
   }
 
   Future<void> getAddressFromLatLong(double latitude, double longitude) async {
@@ -62,7 +65,7 @@ class _UmkmScreenState extends State<UmkmScreen> {
     // Must be repair
     Timer(const Duration(seconds: 3), () {
       setState(() {
-        process = ScreenProcessEnum.loaded;
+        process = UmkmListScreenProcessEnum.loaded;
       });
     });
   }
@@ -74,55 +77,55 @@ class _UmkmScreenState extends State<UmkmScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (process == ScreenProcessEnum.loading) {
-      return Scaffold(
-        body: SafeArea(
-          child: NestedScrollView(
-            headerSliverBuilder:
-                (BuildContext context, bool innerBoxIsScrolled) {
-              return [
-                _buildAppBar(),
-              ];
-            },
-            body: Center(
-              child: LoadingAnimationWidget.horizontalRotatingDots(
-                color: Theme.of(context).colorScheme.tertiary,
-                size: 50.0,
-              ),
+    Size screenSize = MediaQuery.of(context).size;
+    if (process == UmkmListScreenProcessEnum.loading) {
+      return NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            _buildAppBar(),
+          ];
+        },
+        body: Scaffold(
+          body: Center(
+            child: LoadingAnimationWidget.horizontalRotatingDots(
+              color: Theme.of(context).colorScheme.tertiary,
+              size: 50.0,
             ),
           ),
         ),
       );
-    } else if (process == ScreenProcessEnum.failed) {
+    } else if (process == UmkmListScreenProcessEnum.failed) {
       return ErrorScreen(
         title: "AppLocalizations.of(context)!.internetConnection",
         message: "AppLocalizations.of(context)!.tryAgain",
       );
     } else {
-      return _buildLoaded(context);
+      return _buildSuccess(screenSize);
     }
   }
 
-  Widget _buildLoaded(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
-    User user = FirebaseAuth.instance.currentUser!;
-
+  Widget _buildSuccess(Size screenSize) {
     if (screenSize.width < 300.0 || screenSize.height < 600.0) {
-      return ErrorScreen(
-        title: AppLocalizations.of(context)!.screenError,
-        message: AppLocalizations.of(context)!.screenSmall,
+      return const ErrorScreen(
+        // Text wait localization
+        title: "Eror",
+        message: "Eror",
       );
     } else if (screenSize.width > 500.0) {
-      // Tablet Mode (Must be repair)
-      return Center(
-        child: Container(
-          constraints: const BoxConstraints(maxWidth: 500.0),
-          child: _buildUmkmScreen(context, screenSize, user),
+      // Mobile Mode
+      return Scaffold(
+        body: Center(
+          child: Container(
+            constraints: const BoxConstraints(maxWidth: 500.0),
+            child: _buildLoaded(screenSize, user),
+          ),
         ),
       );
     } else {
       // Mobile Mode
-      return _buildUmkmScreen(context, screenSize, user);
+      return Scaffold(
+        body: _buildLoaded(screenSize, user),
+      );
     }
   }
 
@@ -162,162 +165,151 @@ class _UmkmScreenState extends State<UmkmScreen> {
     );
   }
 
-  Widget _buildUmkmScreen(BuildContext context, Size screenSize, User user) {
-    return Scaffold(
-      body: SafeArea(
-        child: NestedScrollView(
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return [
-              _buildAppBar(),
-            ];
-          },
-          body: SmartRefresher(
-            controller: _refreshController,
-            onRefresh: _onRefresh,
-            onLoading: _onLoading,
-            header: ClassicHeader(
-              refreshingIcon: LoadingAnimationWidget.horizontalRotatingDots(
-                color: Theme.of(context).colorScheme.tertiary,
-                size: 20.0,
-              ),
-              failedIcon: SvgPicture.asset(
-                "assets/icon/fill/exclamation-circle.svg",
-                color: Theme.of(context).colorScheme.tertiary,
-                height: 20.0,
-              ),
-              completeIcon: SvgPicture.asset(
-                "assets/icon/fill/check-circle.svg",
-                color: Theme.of(context).colorScheme.tertiary,
-                height: 20.0,
-              ),
-              releaseIcon: SvgPicture.asset(
-                "assets/icon/fill/chevron-circle-up.svg",
-                color: Theme.of(context).colorScheme.tertiary,
-                height: 20.0,
-              ),
-              idleIcon: SvgPicture.asset(
-                "assets/icon/fill/chevron-circle-down.svg",
-                color: Theme.of(context).colorScheme.tertiary,
-                height: 20.0,
-              ),
-              refreshingText: "AppLocalizations.of(context)!.refreshingText",
-              releaseText: "AppLocalizations.of(context)!.releaseText",
-              idleText: "AppLocalizations.of(context)!.idleText",
-              failedText: "AppLocalizations.of(context)!.failedText",
-              completeText: "AppLocalizations.of(context)!.completeText",
-              textStyle: bBody1.copyWith(
-                color: Theme.of(context).colorScheme.tertiary,
-              ),
-            ),
-            child: CustomScrollView(
-              physics: const BouncingScrollPhysics(),
-              slivers: <Widget>[
-                SliverPadding(
-                  padding: const EdgeInsets.only(
-                    left: 20.0,
-                    right: 20.0,
-                    top: 15.0,
-                    bottom: 15.0,
+  Widget _buildLoaded(Size screenSize, User user) {
+    return CustomScrollView(
+      physics: const NeverScrollableScrollPhysics(),
+      slivers: <Widget>[
+        _buildAppBar(),
+        SliverToBoxAdapter(
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 15.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Container(
+                    width: screenSize.width - 90.0,
+                    margin: const EdgeInsets.all(8.0),
+                    child: TextField(
+                      controller: controller,
+                      decoration: InputDecoration(
+                        labelText: AppLocalizations.of(context)!.search,
+                      ),
+                      style: bSubtitle1.copyWith(color: bGrey),
+                      onChanged: (text) {
+                        setState(() {
+                          // Use for Search
+                          find = text;
+                        });
+                      },
+                    )),
+                Container(
+                  height: 40.0,
+                  width: 40.0,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.primaryContainer,
+                    borderRadius: BorderRadius.circular(8.0),
                   ),
-                  sliver: SliverFillRemaining(
-                    child: StreamBuilder<QuerySnapshot>(
-                        stream: FirebaseFirestore.instance
-                            .collection("UMKM")
-                            .snapshots(),
-                        builder: (context, snapshot) {
-                          if (!snapshot.hasData) {
-                            return Center(
-                              child:
-                                  LoadingAnimationWidget.horizontalRotatingDots(
-                                color: Theme.of(context).colorScheme.tertiary,
-                                size: 50.0,
-                              ),
-                            );
-                          }
-                          return ListView.builder(
-                            physics: BouncingScrollPhysics(),
-                            shrinkWrap: true,
-                            itemBuilder: (BuildContext context, int index) {
-                              // Use Data News
-                              return Padding(
-                                padding: const EdgeInsets.only(bottom: 15.0),
-                                child: StreamBuilder<QuerySnapshot>(
-                                    stream: FirebaseFirestore.instance
-                                        .collection("Favorite")
-                                        .where("umkm",
-                                            isEqualTo: snapshot
-                                                .data!.docs[index]['name'])
-                                        .where("email", isEqualTo: user.email)
-                                        .snapshots(),
-                                    builder: (context, duar) {
-                                      return CustomUMKMCardList(
-                                        img:
-                                            '${snapshot.data!.docs[index]['coverUrl']}',
-                                        title: snapshot.data!.docs[index]
-                                            ['name'],
-                                        timeOpen: "08:00 s/d 16:00",
-                                        isFavourited: (duar.data!.docs.isEmpty)
-                                            ? false
-                                            : true,
-                                        description: snapshot.data!.docs[index]
-                                            ['address'],
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            PageTransition(
-                                              curve: Curves.easeInOut,
-                                              type: PageTransitionType
-                                                  .rightToLeft,
-                                              child: UmkmDetailAccScreen(
-                                                name: snapshot.data!.docs[index]
-                                                    ['name'],
-                                                coverUrl: snapshot.data!
-                                                    .docs[index]['coverUrl'],
-                                                address: snapshot.data!
-                                                    .docs[index]['address'],
-                                                desc: snapshot.data!.docs[index]
-                                                    ['desc'],
-                                                index: snapshot.data!
-                                                    .docs[index].reference,
-                                              ),
-                                              duration: const Duration(
-                                                  milliseconds: 150),
-                                              reverseDuration: const Duration(
-                                                  milliseconds: 150),
-                                            ),
-                                          );
-                                        },
-                                        heartTap: () {
-                                          if (duar.data!.docs.isEmpty) {
-                                            ApiServiceUMKM().addFavorite(
-                                                snapshot.data!.docs[index]
-                                                    ['coverUrl'],
-                                                snapshot.data!.docs[index]
-                                                    ['address'],
-                                                snapshot.data!.docs[index]
-                                                    ['email'],
-                                                "",
-                                                snapshot.data!.docs[index]
-                                                    ['name']);
-                                          } else {
-                                            ApiServiceUMKM().removeFavorite(
-                                                duar.data!.docs[0].reference);
-                                          }
-                                        },
-                                      );
-                                    }),
-                              );
-                            },
-                            itemCount: snapshot.data!.docs.length,
-                          );
-                        }),
+                  child: Center(
+                    child: SvgPicture.asset(
+                      "assets/icon/regular/search.svg",
+                      color: Theme.of(context).colorScheme.tertiary,
+                      height: 24.0,
+                    ),
                   ),
                 ),
               ],
             ),
           ),
         ),
-      ),
+        SliverFillRemaining(
+          child: CustomSmartRefresh(
+            refreshController: _refreshControllerUMKM,
+            onLoading: _onLoadingTour,
+            onRefresh: _onRefreshTour,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 0.0),
+              child: StreamBuilder<QuerySnapshot>(
+                  stream:
+                      FirebaseFirestore.instance.collection("UMKM").snapshots(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: LoadingAnimationWidget.horizontalRotatingDots(
+                          color: Theme.of(context).colorScheme.tertiary,
+                          size: 50.0,
+                        ),
+                      );
+                    }
+                    return ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (BuildContext context, int index) {
+                        // Use Data News
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 15.0),
+                          child: StreamBuilder<QuerySnapshot>(
+                              stream: FirebaseFirestore.instance
+                                  .collection("Favorite")
+                                  .where("umkm",
+                                      isEqualTo: snapshot.data!.docs[index]
+                                          ['name'])
+                                  .where("email",
+                                      isEqualTo: FirebaseAuth
+                                          .instance.currentUser!.email)
+                                  .snapshots(),
+                              builder: (context, fav) {
+                                if (!snapshot.hasData) {
+                                  return CircularProgressIndicator();
+                                }
+                                return CustomUMKMCardList(
+                                  img:
+                                      '${snapshot.data!.docs[index]['coverUrl']}',
+                                  title: snapshot.data!.docs[index]['name'],
+                                  timeOpen: "08:00 s/d 16:00",
+                                  isFavourited:
+                                      (fav.data!.docs.isEmpty) ? false : true,
+                                  description: snapshot.data!.docs[index]
+                                      ['address'],
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      PageTransition(
+                                        curve: Curves.easeInOut,
+                                        type: PageTransitionType.rightToLeft,
+                                        child: UmkmDetailAccScreen(
+                                          name: snapshot.data!.docs[index]
+                                              ['name'],
+                                          coverUrl: snapshot.data!.docs[index]
+                                              ['coverUrl'],
+                                          address: snapshot.data!.docs[index]
+                                              ['address'],
+                                          desc: snapshot.data!.docs[index]
+                                              ['desc'],
+                                          index: snapshot
+                                              .data!.docs[index].reference,
+                                        ),
+                                        duration:
+                                            const Duration(milliseconds: 150),
+                                        reverseDuration:
+                                            const Duration(milliseconds: 150),
+                                      ),
+                                    );
+                                  },
+                                  heartTap: () {
+                                    if (fav.data!.docs.isEmpty) {
+                                      ApiServiceUMKM().addFavorite(
+                                          snapshot.data!.docs[index]
+                                              ['coverUrl'],
+                                          snapshot.data!.docs[index]['address'],
+                                          snapshot.data!.docs[index]['email'],
+                                          "",
+                                          snapshot.data!.docs[index]['name']);
+                                    } else {
+                                      ApiServiceUMKM().removeFavorite(
+                                          fav.data!.docs[0].reference);
+                                    }
+                                  },
+                                );
+                              }),
+                        );
+                      },
+                      itemCount: snapshot.data!.docs.length,
+                    );
+                  }),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

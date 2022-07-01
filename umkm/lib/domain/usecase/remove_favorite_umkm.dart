@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
-import 'package:umkm/data/utils/failure.dart';
-import 'package:umkm/domain/repository/data_repository_umkm.dart';
+import 'package:umkm/domain/repository/data_repository.dart';
+import 'package:umkm/utils/failure.dart';
 
 class RemoveFavoriteUmkm {
   final DataRepositoryUmkm dataRepositoryUmkm;

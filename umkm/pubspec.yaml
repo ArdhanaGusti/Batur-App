@@ -13,7 +13,6 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl:
-  geocoding:
 
   image_picker:
   photo_view:
@@ -25,6 +24,7 @@ dependencies:
   dartz:
   get_it:
   geolocator:
+  geocoding:
   latlong2:
 
 dev_dependencies:

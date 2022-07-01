@@ -3,11 +3,14 @@ import 'dart:async';
 import 'package:core/presentation/components/appbar/custom_sliver_appbar_text_leading_action.dart';
 import 'package:core/presentation/screens/error_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:tourism/presentation/components/custom_tour_card_map.dart';
 import 'package:tourism/presentation/screens/tour_detail_screen.dart';
 import 'package:tourism/presentation/screens/tour_list_screen.dart';
+
+import '../../data/datasource/tourism_remote_data_source.dart';
 
 enum TourMapScreenProcessEnum {
   loading,
@@ -29,6 +32,30 @@ class _TourMapScreenState extends State<TourMapScreen> {
 
   // State for loading
   TourMapScreenProcessEnum process = TourMapScreenProcessEnum.loading;
+
+  final LatLng _center = const LatLng(-6.905977, 107.613144);
+
+  final Map<String, Marker> _markers = {};
+
+  Future<void> _onMapCreated(GoogleMapController controller) async {
+    final touristAttraction = await TourismRemoteDataSource().getTouristAttraction();
+    setState(() {
+      _markers.clear();
+      for (final place in touristAttraction.results) {
+        final marker = Marker(
+          markerId: MarkerId(place.placeId),
+          position:
+          LatLng(place.geometry.location.lat, place.geometry.location.lng),
+          infoWindow: InfoWindow(
+            title: place.name,
+            snippet: place.vicinity,
+          ),
+        );
+        _markers[place.name] = marker;
+      }
+    });
+  }
+
 
   @override
   void initState() {
@@ -139,10 +166,16 @@ class _TourMapScreenState extends State<TourMapScreen> {
                         });
                       },
                       // Change the widget becarefull with height
-                      child: Image.asset(
-                        "assets/splashscreen/map.jpg",
-                        fit: BoxFit.cover,
-                        height: screenSize.height - 125.0,
+                      child: SizedBox(
+                        height: screenSize.height - 130.0,
+                        child: GoogleMap(
+                          onMapCreated: _onMapCreated,
+                          initialCameraPosition: CameraPosition(
+                            target: _center,
+                            zoom: 11.0,
+                          ),
+                          markers: _markers.values.toSet(),
+                        ),
                       ),
                     ),
                   ),

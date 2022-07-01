@@ -30,6 +30,8 @@ dependencies:
   flutter_bloc:
   carousel_slider:
   photo_view:
+  google_maps_flutter:
+  http:
 
 dev_dependencies:
   flutter_test:

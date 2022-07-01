@@ -4,6 +4,7 @@ import 'package:account/domain/usecase/facebook_sign_up.dart';
 import 'package:account/domain/usecase/google_sign_up.dart';
 import 'package:core/core.dart';
 import 'package:get_it/get_it.dart';
+import 'package:news/presentation/bloc/news_firebase/news_create_bloc.dart';
 import 'package:transportation/transportation.dart';
 import 'package:news/data/datasources/crud_news.dart';
 import 'package:news/data/repositories/data_repository_impl.dart';

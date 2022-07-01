@@ -11,8 +11,6 @@ import 'package:news/data/service/api_service.dart';
 import 'package:news/domain/repositories/data_repository.dart';
 import 'package:news/news.dart';
 import 'package:umkm/umkm.dart';
-import 'package:get_it/get_it.dart';
-import 'package:news/presentation/bloc/news_create_bloc.dart';
 
 final locator = GetIt.instance;
 

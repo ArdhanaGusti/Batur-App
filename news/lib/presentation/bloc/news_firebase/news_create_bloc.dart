@@ -1,4 +1,4 @@
-import '../../domain/usecase/create_news.dart';
+import '../../../domain/usecase/create_news.dart';
 import 'news_event.dart';
 import 'news_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:core/core.dart';
 import 'package:news/data/service/api_service.dart';
-import 'package:news/presentation/bloc/news_create_bloc.dart';
-import 'package:news/presentation/bloc/news_event.dart';
-import 'package:news/presentation/bloc/news_state.dart';
+import 'package:news/presentation/bloc/news_firebase/news_create_bloc.dart';
+import 'package:news/presentation/bloc/news_firebase/news_event.dart';
+import 'package:news/presentation/bloc/news_firebase/news_state.dart';
 import '../components/textFields/custom_add_news_description_text_field.dart';
 import '../components/textFields/custom_add_news_title_text_field.dart';
 import 'package:flutter/material.dart';

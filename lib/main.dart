@@ -1,18 +1,14 @@
 import 'dart:async';
 
 import 'package:account/account.dart';
-import 'package:news/news.dart';
 
 import 'package:core/core.dart';
 import 'package:umkm/umkm.dart';
-import 'package:core/presentation/bloc/dashboard_bloc.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:news/presentation/bloc/news_create_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:theme/presentation/injection/theme_injection.dart' as ti;
 import 'package:capstone_design/injection.dart' as di;
 import 'package:theme/theme.dart';

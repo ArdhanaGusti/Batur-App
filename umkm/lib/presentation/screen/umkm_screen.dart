@@ -11,6 +11,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:umkm/presentation/components/custom_umkm_card_list.dart';
 import 'package:umkm/presentation/screen/umkm_detail_acc_screen.dart';
+import 'package:umkm/presentation/screen/umkm_detail_screen.dart';
 
 import 'add_umkm_screen.dart';
 import 'package:geocoding/geocoding.dart';
@@ -158,7 +159,7 @@ class _UmkmScreenState extends State<UmkmScreen> {
           ),
         );
       },
-      isDoubleAction: true,
+      isDoubleAction: false,
     );
   }
 
@@ -246,12 +247,14 @@ class _UmkmScreenState extends State<UmkmScreen> {
                                 PageTransition(
                                   curve: Curves.easeInOut,
                                   type: PageTransitionType.rightToLeft,
-                                  child: UmkmDetailAccScreen(
+                                  child: UmkmDetailScreen(
                                     name: snapshot.data!.docs[index]['name'],
                                     coverUrl: snapshot.data!.docs[index]
                                         ['coverUrl'],
+                                    type: snapshot.data!.docs[index]['type'],
                                     address: snapshot.data!.docs[index]
                                         ['address'],
+                                    noHp: snapshot.data!.docs[index]['phone'],
                                     desc: snapshot.data!.docs[index]['desc'],
                                     index: snapshot.data!.docs[index].reference,
                                   ),

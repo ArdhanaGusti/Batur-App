@@ -47,6 +47,7 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
       longController = TextEditingController(),
       addressController = TextEditingController(),
       nameController = TextEditingController(),
+      typeController = TextEditingController(),
       descController = TextEditingController(),
       phoneController = TextEditingController(),
       tokpedController = TextEditingController(),
@@ -123,12 +124,6 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
     "https://ecs7.tokopedia.net/blog-tokopedia-com/uploads/2021/01/scmc.jpg",
     "https://media.suara.com/pictures/970x544/2020/08/19/24987-wendy-red-velvet-soompi.jpg",
   ];
-  // List<String> time = [
-  //   "07.00 - 16.00",
-  //   "07.00 - 16.00",
-  //   "07.00 - 16.00",
-  //   "07.00 - 16.00",
-  // ];
   List<bool> isClose = [
     false,
     false,
@@ -163,12 +158,12 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
   }
 
   Widget _buildNewsDetailScreen(BuildContext context, Size screenSize) {
-    List<String> days = [
-      AppLocalizations.of(context)!.monday,
-      AppLocalizations.of(context)!.tuesday,
-      AppLocalizations.of(context)!.wednesday,
-      AppLocalizations.of(context)!.thursday,
-    ];
+    // List<String> days = [
+    //   AppLocalizations.of(context)!.monday,
+    //   AppLocalizations.of(context)!.tuesday,
+    //   AppLocalizations.of(context)!.wednesday,
+    //   AppLocalizations.of(context)!.thursday,
+    // ];
     return BlocConsumer<UmkmCreateBloc, UmkmState>(
       listener: (context, state) async {
         if (state is UmkmLoading) {
@@ -202,7 +197,7 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
           physics: const BouncingScrollPhysics(),
           slivers: <Widget>[
             CustomSliverAppBarTextLeading(
-              title: AppLocalizations.of(context)!.listUMKM,
+              title: "Tambah UMKM",
               leadingIcon: "assets/icon/back.svg",
               // Navigation repair
               leadingOnTap: () {
@@ -218,6 +213,13 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
                 name: nameController,
               ),
             ),
+            _customEditForm(
+              context,
+              "Type",
+              CustomAddUMKMNameTextField(
+                name: typeController,
+              ),
+            ),
             _customEditFormDesc(
               context,
               AppLocalizations.of(context)!.shopDesc,
@@ -228,25 +230,54 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
               AppLocalizations.of(context)!.phoneNumber,
               CustomAddUMKMPhoneTextField(phone: phoneController),
             ),
-            // _customEditForm(
-            //   context,
-            //   AppLocalizations.of(context)!.address,
-            //   CustomAddUMKMAddressTextField(address: addressController),
-            // ),
-            SliverToBoxAdapter(
-              child: Container(
-                child: Text((address != null) ? address! : ""),
-              ),
-            ),
             _customEditForm(
               context,
-              AppLocalizations.of(context)!.address,
+              'Latitude',
               CustomAddUMKMLatituteTextField(latitute: latController),
             ),
             _customEditForm(
               context,
-              AppLocalizations.of(context)!.address,
+              'longitude',
               CustomAddUMKMLongitudeTextField(longitude: longController),
+            ),
+            SliverToBoxAdapter(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(left: 20, top: 15),
+                    child: Text(
+                      "Alamat",
+                      style: bHeading7.copyWith(
+                        color: Theme.of(context).colorScheme.tertiary,
+                      ),
+                    ),
+                  ),
+                  Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30.0),
+                        color: Theme.of(context).colorScheme.secondaryContainer,
+                        boxShadow: const [
+                          BoxShadow(
+                            color: bStroke,
+                            spreadRadius: 2.0,
+                            blurRadius: 10.0,
+                            offset: Offset(0, 0), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      margin:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      padding: EdgeInsets.all(20),
+                      child: Text(
+                          (address != null)
+                              ? address!
+                              : "Tekan 'Lokasi Saya' untuk mengetahui lokasi anda",
+                          style: bSubtitle1.copyWith(
+                            color: Theme.of(context).colorScheme.tertiary,
+                          ))),
+                ],
+              ),
             ),
             SliverPadding(
               padding: const EdgeInsets.only(
@@ -326,16 +357,7 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
                             child: Padding(
                               padding: const EdgeInsets.only(right: 10.0),
                               child: GestureDetector(
-                                onTap: () {
-                                  // Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(
-                                  //     builder: (context) => GalleryScreen(
-                                  //       images: image!,
-                                  //     ),
-                                  //   ),
-                                  // );
-                                },
+                                onTap: () {},
                                 child: Image.file(
                                   image!,
                                   width: 150.0,
@@ -381,38 +403,8 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
                 ),
               ),
             ),
-            // SliverPadding(
-            //   padding: const EdgeInsets.only(
-            //     left: 20.0,
-            //     right: 20.0,
-            //   ),
-            //   sliver: SliverList(
-            //     delegate: SliverChildBuilderDelegate(
-            //       (BuildContext context, int index) {
-            //         return _customCardScedule(
-            //           days[index],
-            //           time[index],
-            //           () {},
-            //           () {},
-            //           isClose[index],
-            //         );
-            //       },
-            //       childCount: isClose.length, // 1000 list items
-            //     ),
-            //   ),
-            // ),
-            _customEditFormLink(context,
-                AppLocalizations.of(context)!.onlineShopLink, screenSize),
-            SliverPadding(
-              padding: const EdgeInsets.only(
-                top: 20.0,
-                left: 20.0,
-                right: 20.0,
-              ),
-              sliver: SliverToBoxAdapter(
-                child: _buildCheckBox(),
-              ),
-            ),
+            _customEditFormLink(
+                context, "Online Shop Link (Optional)", screenSize),
             SliverPadding(
               padding: const EdgeInsets.all(20.0),
               sliver: SliverToBoxAdapter(
@@ -427,7 +419,7 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
                         tokpedController.text,
                         websiteController.text,
                         nameController.text,
-                        "seblak",
+                        typeController.text,
                         descController.text,
                         image!,
                         latitude!,

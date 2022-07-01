@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:theme/theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 
 class CustomDetailScreen extends StatelessWidget {
   final String img;
   final String telephone;
   final String title;
-  final String like;
+  final String isFavorite;
   final String address;
   final String description;
   final Function() onTap;
@@ -15,7 +16,7 @@ class CustomDetailScreen extends StatelessWidget {
       required this.img,
       required this.telephone,
       required this.title,
-      required this.like,
+      required this.isFavorite,
       required this.address,
       required this.description,
       required this.onTap})
@@ -87,19 +88,17 @@ class CustomDetailScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Column(
-                          children: [
-                            Icon(
-                              Icons.thumb_up,
-                              color: (isLight) ? bPrimary : bTextPrimary,
-                              size: 20,
-                            ),
-                            Text(
-                              like,
-                              style: bCaption1,
-                            ),
-                          ],
-                        )
+                        (isFavorite == true)
+                            ? SvgPicture.asset(
+                                "assets/icon/fill/heart.svg",
+                                color: bError,
+                                height: 20.0,
+                              )
+                            : SvgPicture.asset(
+                                "assets/icon/regular/heart.svg",
+                                color: Colors.grey,
+                                height: 20.0,
+                              ),
                       ],
                     ),
                     SizedBox(

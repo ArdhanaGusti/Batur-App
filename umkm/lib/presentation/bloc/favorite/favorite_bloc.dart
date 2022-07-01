@@ -13,8 +13,8 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
     on<OnAddFavorite>(
       (event, emit) async {
         emit(FavoriteLoading());
-        final result = await addFavoriteUmkm.execute(
-            event.username, event.email, event.umkm);
+        final result = await addFavoriteUmkm.execute(event.address,
+            event.seller, event.urlName, event.email, event.umkm);
 
         result.fold(
           (failure) {

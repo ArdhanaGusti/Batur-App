@@ -7,8 +7,9 @@ class AddFavoriteUmkm {
   final DataRepositoryUmkm dataRepositoryUmkm;
 
   AddFavoriteUmkm(this.dataRepositoryUmkm);
-  Future<Either<Failure, String>> execute(
-      String username, String email, String umkm) {
-    return dataRepositoryUmkm.addFavorite(username, email, umkm);
+  Future<Either<Failure, String>> execute(String address, String seller,
+      String urlName, String email, String umkm) {
+    return dataRepositoryUmkm.addFavorite(
+        address, seller, urlName, email, umkm);
   }
 }

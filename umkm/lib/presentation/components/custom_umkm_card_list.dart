@@ -11,6 +11,7 @@ class CustomUMKMCardList extends StatelessWidget {
   final bool isFavourited;
   final String description;
   final Function() onTap;
+  final Function() heartTap;
   const CustomUMKMCardList({
     Key? key,
     required this.img,
@@ -19,6 +20,7 @@ class CustomUMKMCardList extends StatelessWidget {
     required this.isFavourited,
     required this.description,
     required this.onTap,
+    required this.heartTap,
   }) : super(key: key);
 
   @override
@@ -138,15 +140,21 @@ class CustomUMKMCardList extends StatelessWidget {
                   // Use to save data in Firebase
                 },
                 child: (isFavourited)
-                    ? SvgPicture.asset(
-                        "assets/icon/fill/heart.svg",
-                        color: bError,
-                        height: 20.0,
+                    ? GestureDetector(
+                        onTap: heartTap,
+                        child: SvgPicture.asset(
+                          "assets/icon/fill/heart.svg",
+                          color: bError,
+                          height: 20.0,
+                        ),
                       )
-                    : SvgPicture.asset(
-                        "assets/icon/regular/heart.svg",
-                        color: bTextPrimary,
-                        height: 20.0,
+                    : GestureDetector(
+                        onTap: heartTap,
+                        child: SvgPicture.asset(
+                          "assets/icon/regular/heart.svg",
+                          color: bGrey,
+                          height: 20.0,
+                        ),
                       ),
               )
             ],

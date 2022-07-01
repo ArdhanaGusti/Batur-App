@@ -85,10 +85,11 @@ class DataRepositoryImplUmkm implements DataRepositoryUmkm {
   }
 
   @override
-  Future<Either<Failure, String>> addFavorite(
-      String username, String email, String umkm) async {
+  Future<Either<Failure, String>> addFavorite(String address, String seller,
+      String urlName, String email, String umkm) async {
     try {
-      final res = await crudUmkm.addFavorite(username, email, umkm);
+      final res =
+          await crudUmkm.addFavorite(address, email, umkm, seller, urlName);
       return Right(res);
     } on DatabaseException catch (e) {
       return Left(DatabaseFailure(e.message));

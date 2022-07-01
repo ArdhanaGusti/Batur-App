@@ -32,7 +32,8 @@ abstract class CrudUmkm {
       double longitude,
       DocumentReference index);
   Future<String> removeUmkm(DocumentReference index, String urlName);
-  Future<String> addFavorite(String username, String email, String umkm);
+  Future<String> addFavorite(
+      String address, String email, String umkm, String seller, String urlName);
   Future<String> removeFavorite(DocumentReference index);
 }
 
@@ -99,9 +100,10 @@ class CrudUmkmImpl implements CrudUmkm {
   }
 
   @override
-  Future<String> addFavorite(String username, String email, String umkm) async {
+  Future<String> addFavorite(String address, String email, String umkm,
+      String seller, String urlName) async {
     try {
-      apiService.addFavorite(username, email, umkm);
+      apiService.addFavorite(urlName, address, seller, email, umkm);
       return "Telah ditambahkan di favorit";
     } catch (e) {
       throw DatabaseException(e.toString());

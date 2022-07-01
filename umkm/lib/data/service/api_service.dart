@@ -119,14 +119,18 @@ class ApiServiceUMKM {
     });
   }
 
-  Future<void> addFavorite(String username, String email, String umkm) async {
+  Future<void> addFavorite(String urlName, String address, String seller,
+      String email, String umkm) async {
+    User user = FirebaseAuth.instance.currentUser!;
     FirebaseFirestore.instance.runTransaction((transaction) async {
       CollectionReference reference =
           FirebaseFirestore.instance.collection("Favorite");
       await reference.add({
-        "username": username,
-        "email": email,
+        "email": user.email,
         "umkm": umkm,
+        "coverUrl": urlName,
+        "address": address,
+        "seller": seller,
       });
     });
   }

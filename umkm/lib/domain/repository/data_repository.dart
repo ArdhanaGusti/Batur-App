@@ -34,6 +34,6 @@ abstract class DataRepositoryUmkm {
   Future<Either<Failure, String>> removeUmkm(
       DocumentReference index, String coverUrl);
   Future<Either<Failure, String>> addFavorite(
-      String username, String email, String umkm);
+      String address, String seller, String urlName, String email, String umkm);
   Future<Either<Failure, String>> removeFavorite(DocumentReference index);
 }

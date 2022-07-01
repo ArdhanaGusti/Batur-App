@@ -52,4 +52,16 @@ class SharedPreferencesHelper {
 
     return value;
   }
+
+  static const dailyNews = 'DAILY_NEWS';
+
+  Future<bool> get isDailyNewsActive async {
+    final prefs = await preferences;
+    return prefs?.getBool(dailyNews) ?? false;
+  }
+
+  void setDailyNews(bool value) async {
+    final prefs = await preferences;
+    prefs?.setBool(dailyNews, value);
+  }
 }

@@ -1,6 +1,6 @@
-import '../../domain/usecase/update_news.dart';
-import '../../presentation/bloc/news_event.dart';
-import '../../presentation/bloc/news_state.dart';
+import '../../../domain/usecase/update_news.dart';
+import 'news_event.dart';
+import 'news_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class NewsUpdateBloc extends Bloc<NewsEvent, NewsState> {

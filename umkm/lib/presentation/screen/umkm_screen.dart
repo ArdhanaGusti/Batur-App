@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:core/core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -9,6 +10,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:theme/theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:umkm/data/service/api_service.dart';
 import 'package:umkm/presentation/components/custom_umkm_card_list.dart';
 import 'package:umkm/presentation/screen/umkm_detail_acc_screen.dart';
 import 'package:umkm/presentation/screen/umkm_detail_screen.dart';
@@ -30,6 +32,7 @@ class UmkmScreen extends StatefulWidget {
 }
 
 class _UmkmScreenState extends State<UmkmScreen> {
+  User user = FirebaseAuth.instance.currentUser!;
   TextEditingController controller = TextEditingController();
   String find = '';
   String? address;
@@ -115,14 +118,14 @@ class _UmkmScreenState extends State<UmkmScreen> {
         body: Center(
           child: Container(
             constraints: const BoxConstraints(maxWidth: 500.0),
-            child: _buildLoaded(screenSize),
+            child: _buildLoaded(screenSize, user),
           ),
         ),
       );
     } else {
       // Mobile Mode
       return Scaffold(
-        body: _buildLoaded(screenSize),
+        body: _buildLoaded(screenSize, user),
       );
     }
   }
@@ -163,7 +166,7 @@ class _UmkmScreenState extends State<UmkmScreen> {
     );
   }
 
-  Widget _buildLoaded(Size screenSize) {
+  Widget _buildLoaded(Size screenSize, User user) {
     return CustomScrollView(
       physics: const NeverScrollableScrollPhysics(),
       slivers: <Widget>[
@@ -235,36 +238,77 @@ class _UmkmScreenState extends State<UmkmScreen> {
                         // Use Data News
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 15.0),
-                          child: CustomUMKMCardList(
-                            img: '${snapshot.data!.docs[index]['coverUrl']}',
-                            title: snapshot.data!.docs[index]['name'],
-                            timeOpen: "08:00 s/d 16:00",
-                            isFavourited: true,
-                            description: snapshot.data!.docs[index]['address'],
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                PageTransition(
-                                  curve: Curves.easeInOut,
-                                  type: PageTransitionType.rightToLeft,
-                                  child: UmkmDetailScreen(
-                                    name: snapshot.data!.docs[index]['name'],
-                                    coverUrl: snapshot.data!.docs[index]
-                                        ['coverUrl'],
-                                    type: snapshot.data!.docs[index]['type'],
-                                    address: snapshot.data!.docs[index]
-                                        ['address'],
-                                    noHp: snapshot.data!.docs[index]['phone'],
-                                    desc: snapshot.data!.docs[index]['desc'],
-                                    index: snapshot.data!.docs[index].reference,
-                                  ),
-                                  duration: const Duration(milliseconds: 150),
-                                  reverseDuration:
-                                      const Duration(milliseconds: 150),
-                                ),
-                              );
-                            },
-                          ),
+                          child: StreamBuilder<QuerySnapshot>(
+                              stream: FirebaseFirestore.instance
+                                  .collection("Favorite")
+                                  .where("umkm",
+                                      isEqualTo: snapshot.data!.docs[index]
+                                          ['name'])
+                                  .where("email",
+                                      isEqualTo: FirebaseAuth
+                                          .instance.currentUser!.email)
+                                  .snapshots(),
+                              builder: (context, fav) {
+                                if (!snapshot.hasData) {
+                                  return CircularProgressIndicator();
+                                }
+                                if (fav.data == null) {
+                                  return CircularProgressIndicator();
+                                }
+                                return CustomUMKMCardList(
+                                  img:
+                                      '${snapshot.data!.docs[index]['coverUrl']}',
+                                  title: snapshot.data!.docs[index]['name'],
+                                  timeOpen: "08:00 s/d 16:00",
+                                  isFavourited:
+                                      (fav.data!.docs.isEmpty) ? false : true,
+                                  description: snapshot.data!.docs[index]
+                                      ['address'],
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      PageTransition(
+                                        curve: Curves.easeInOut,
+                                        type: PageTransitionType.rightToLeft,
+                                        child: UmkmDetailScreen(
+                                          name: snapshot.data!.docs[index]
+                                              ['name'],
+                                          coverUrl: snapshot.data!.docs[index]
+                                              ['coverUrl'],
+                                          address: snapshot.data!.docs[index]
+                                              ['address'],
+                                          desc: snapshot.data!.docs[index]
+                                              ['desc'],
+                                          index: snapshot
+                                              .data!.docs[index].reference,
+                                          type: snapshot.data!.docs[index]
+                                              ['desc'],
+                                          noHp: snapshot.data!.docs[index]
+                                              ['phone'],
+                                        ),
+                                        duration:
+                                            const Duration(milliseconds: 150),
+                                        reverseDuration:
+                                            const Duration(milliseconds: 150),
+                                      ),
+                                    );
+                                  },
+                                  heartTap: () {
+                                    if (fav.data!.docs.isEmpty) {
+                                      ApiServiceUMKM().addFavorite(
+                                          snapshot.data!.docs[index]
+                                              ['coverUrl'],
+                                          snapshot.data!.docs[index]['address'],
+                                          snapshot.data!.docs[index]['email'],
+                                          "",
+                                          snapshot.data!.docs[index]['name']);
+                                    } else {
+                                      ApiServiceUMKM().removeFavorite(
+                                          fav.data!.docs[0].reference);
+                                    }
+                                  },
+                                );
+                              }),
                         );
                       },
                       itemCount: snapshot.data!.docs.length,

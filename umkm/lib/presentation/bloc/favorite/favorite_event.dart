@@ -9,8 +9,9 @@ abstract class FavoriteEvent extends Equatable {
 }
 
 class OnAddFavorite extends FavoriteEvent {
-  final String username, umkm, email;
-  const OnAddFavorite(this.email, this.umkm, this.username);
+  final String address, seller, urlName, email, umkm;
+  const OnAddFavorite(
+      this.email, this.umkm, this.address, this.seller, this.urlName);
   @override
   List<Object> get props => [];
 }

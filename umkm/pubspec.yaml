@@ -22,6 +22,7 @@ dependencies:
   cloud_firestore:
   firebase_core:
   flutter_bloc:
+  firebase_auth:
   equatable:
   dartz:
   get_it:

@@ -34,7 +34,7 @@ class ApiServiceUMKM {
         .ref()
         .child(imageName + DateTime.now().toString());
     UploadTask uploadTask = ref.putFile(image);
-    // User user = FirebaseAuth.instance.currentUser!;
+    User user = FirebaseAuth.instance.currentUser!;
     FirebaseFirestore.instance.runTransaction((transaction) async {
       CollectionReference reference =
           FirebaseFirestore.instance.collection("UMKM");
@@ -47,7 +47,7 @@ class ApiServiceUMKM {
           "tokped": tokped,
           "website": website,
           "name": name,
-          "email": "udin",
+          "email": user.email,
           "latitude": latitude,
           "longitude": longitude,
           "coverUrl": urlName,

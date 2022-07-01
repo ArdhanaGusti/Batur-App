@@ -9,6 +9,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:theme/theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:umkm/presentation/components/custom_umkm_card_list.dart';
 import 'package:umkm/presentation/screen/umkm_detail_acc_screen.dart';
 
 import 'add_umkm_screen.dart';
@@ -237,13 +238,13 @@ class _UmkmScreenState extends State<UmkmScreen> {
                               // Use Data News
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: 15.0),
-                                child: CustomFavoriteUMKMCard(
+                                child: CustomUMKMCardList(
                                   img:
                                       '${snapshot.data!.docs[index]['coverUrl']}',
                                   title: snapshot.data!.docs[index]['name'],
-                                  // address: (address != null) ? address! : "",
-                                  open: "08:00 s/d 16:00",
-                                  address: snapshot.data!.docs[index]
+                                  timeOpen: "08:00 s/d 16:00",
+                                  isFavourited: true,
+                                  description: snapshot.data!.docs[index]
                                       ['address'],
                                   onTap: () {
                                     Navigator.push(

@@ -1,11 +1,14 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:core/core.dart';
 import 'package:core/presentation/components/appbar/custom_sliver_appbar_dashboard.dart';
 import 'package:core/presentation/components/card/custom_news_card.dart';
 import 'package:core/presentation/components/custom_smart_refresh.dart';
 import 'package:core/presentation/screens/error_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:theme/theme.dart';
@@ -30,6 +33,7 @@ class NewsScreen extends StatefulWidget {
 }
 
 class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
+  User? user = FirebaseAuth.instance.currentUser;
   ScreenProcessEnum process = ScreenProcessEnum.loading;
   late TabController _controller;
 
@@ -63,10 +67,20 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
   void initState() {
     super.initState();
 
+    if (user != null) {
+      context.read<DashboardBloc>().add(OnIsAdmin(email: user!.email!));
+    }
+
     _controller = TabController(
       vsync: this,
       length: 2,
     );
+
+    if (mounted) {
+      setState(() {
+        process = ScreenProcessEnum.loaded;
+      });
+    }
   }
 
   @override
@@ -77,7 +91,21 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    if (process == ScreenProcessEnum.failed) {
+    if (process == ScreenProcessEnum.loading) {
+      return NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            _buildAppBar(),
+          ];
+        },
+        body: Center(
+          child: LoadingAnimationWidget.horizontalRotatingDots(
+            color: Theme.of(context).colorScheme.tertiary,
+            size: 50.0,
+          ),
+        ),
+      );
+    } else if (process == ScreenProcessEnum.failed) {
       return const ErrorScreen(
         // Text wait localization
         title: "Koneksi Internet",
@@ -112,39 +140,61 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
   }
 
   Widget _buildAppBar() {
-    return CustomSliverAppBarDashboard(
-      actionIcon: "assets/icon/regular/bell.svg",
-      actionOnTap: () {
-        Navigator.push(
-          context,
-          PageTransition(
-            curve: Curves.easeInOut,
-            type: PageTransitionType.rightToLeft,
-            child: const NotificationScreen(),
-            duration: const Duration(milliseconds: 150),
-            reverseDuration: const Duration(milliseconds: 150),
+    return BlocBuilder<DashboardBloc, DashboardState>(
+      builder: (context, state) {
+        return CustomSliverAppBarDashboard(
+          actionIcon: "assets/icon/regular/bell.svg",
+          actionOnTap: () {
+            if (user != null) {
+              if (state.isHaveProfile) {
+                Navigator.push(
+                  context,
+                  PageTransition(
+                    curve: Curves.easeInOut,
+                    type: PageTransitionType.rightToLeft,
+                    child: const NotificationScreen(),
+                  ),
+                );
+              } else {
+                Navigator.push(
+                  context,
+                  PageTransition(
+                    curve: Curves.easeInOut,
+                    type: PageTransitionType.bottomToTop,
+                    child: const RegistrationSettingScreen(),
+                  ),
+                );
+              }
+            } else {
+              Navigator.push(
+                context,
+                PageTransition(
+                  curve: Curves.easeInOut,
+                  type: PageTransitionType.bottomToTop,
+                  child: const LoginScreen(),
+                ),
+              );
+            }
+          },
+          leading: Text(
+            // Text wait localization
+            AppLocalizations.of(context)!.news,
+            textAlign: TextAlign.center,
           ),
+          actionIconSecondary: "assets/icon/regular/plus-square.svg",
+          actionOnTapSecondary: () {
+            Navigator.push(
+              context,
+              PageTransition(
+                curve: Curves.easeInOut,
+                type: PageTransitionType.rightToLeft,
+                child: const AddNewsScreen(),
+              ),
+            );
+          },
+          isDoubleAction: state.isAdmin,
         );
       },
-      leading: Text(
-        // Text wait localization
-        AppLocalizations.of(context)!.news,
-        textAlign: TextAlign.center,
-      ),
-      actionIconSecondary: "assets/icon/regular/plus-square.svg",
-      actionOnTapSecondary: () {
-        Navigator.push(
-          context,
-          PageTransition(
-            curve: Curves.easeInOut,
-            type: PageTransitionType.rightToLeft,
-            child: const AddNewsScreen(),
-            duration: const Duration(milliseconds: 150),
-            reverseDuration: const Duration(milliseconds: 150),
-          ),
-        );
-      },
-      isDoubleAction: true,
     );
   }
 
@@ -229,7 +279,7 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                               // Use Data News
                               return Padding(
                                 padding: const EdgeInsets.only(
-                                    bottom: 7.5, right: 20, left: 20, top: 7.5),
+                                    right: 20, left: 20, bottom: 15),
                                 child: CustomNewsCard(
                                   img:
                                       '${snapshot.data!.docs[index]['coverUrl']}',
@@ -287,7 +337,7 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                       itemBuilder: (BuildContext context, int index) {
                         return Padding(
                           padding: const EdgeInsets.only(
-                              bottom: 7.5, right: 20, left: 20, top: 7.5),
+                              bottom: 15, right: 20, left: 20),
                           child: CustomNewsCard(
                             img:
                                 "https://cdn1-production-images-kly.akamaized.net/lMHji7xE4GI7YHCWAQumKfFm9Ew=/1200x900/smart/filters:quality(75):strip_icc():format(jpeg)/kly-media-production/medias/3554482/original/037161700_1630219411-bandung-5319951_1920.jpg",

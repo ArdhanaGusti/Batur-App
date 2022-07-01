@@ -14,6 +14,11 @@ dependencies:
   flutter_svg:
   flutter_localizations:
     sdk: flutter
+
+  core:
+    path: ../core
+
+  flutter_bloc:
   intl:
   webview_flutter:
   page_transition:

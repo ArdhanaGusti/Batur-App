@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:account/account.dart';
 import 'package:core/presentation/bloc/dashboard_bloc.dart';
 import 'package:core/presentation/screens/account_screen.dart';
+import 'package:core/presentation/screens/favorite_screen.dart';
 import 'package:core/presentation/screens/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:news/news.dart';
@@ -30,7 +31,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final List<Widget> _listWidget = [
     const HomeScreen(),
     const NewsScreen(),
-    // const FavoriteScreen(),
+    const FavoriteScreen(),
     const AccountScreen(),
   ];
 

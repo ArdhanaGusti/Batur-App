@@ -74,11 +74,6 @@ void init() {
       locator(),
     ),
   );
-  locator.registerFactory(
-    () => UmkmCreateBloc(
-      locator(),
-    ),
-  );
 
   locator.registerFactory(
     () => RegisFormBloc(
@@ -160,6 +155,25 @@ void init() {
       locator(),
     ),
   );
+
+  locator.registerFactory(
+    () => UmkmCreateBloc(
+      locator(),
+    ),
+  );
+
+  locator.registerFactory(
+    () => UmkmRemoveBloc(
+      locator(),
+    ),
+  );
+
+  locator.registerFactory(
+    () => UmkmUpdateBloc(
+      locator(),
+    ),
+  );
+
   locator.registerFactory(
     () => ApiServiceTrans(),
   );

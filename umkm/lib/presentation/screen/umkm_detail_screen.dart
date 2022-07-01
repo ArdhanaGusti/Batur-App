@@ -5,6 +5,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:theme/theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tourism/presentation/components/custom_card_detail_tour_screen.dart';
 
 import '../components/custom_sliver_appbar_text_leading_action_double.dart';
 
@@ -16,6 +17,11 @@ class UmkmDetailScreen extends StatefulWidget {
 }
 
 class _UmkmDetailScreenState extends State<UmkmDetailScreen> {
+  final List<String> carouselImages = [
+    "https://thumb.viva.co.id/media/frontend/thumbs3/2022/03/23/623b099186419-red-velvet_665_374.jpg",
+    "https://awsimages.detik.net.id/visual/2020/09/15/noah-15.jpeg?w=650",
+    "https://media.suara.com/pictures/653x366/2022/02/09/60554-isyana-sarasvati-instagramatisyanasarasvati.jpg",
+  ];
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -100,6 +106,7 @@ class _UmkmDetailScreenState extends State<UmkmDetailScreen> {
                         title: 'Hias Teko',
                         rating: '4,5',
                         isFavourited: false,
+                        carouselImages: carouselImages,
                         description:
                             'Stasiun Bandung, juga dikenal sebagai Stasiun Hall, adalah stasiun kereta api kelas besar tipe A yang terletak di Jalan Stasiun Timur dan Jalan Kebon Kawung, di Kebonjeruk, Andir, tepatnya di perbatasan antara Kelurahan Pasirkaliki, Cicendo dan Kebonjeruk, Andir, Kota Bandung, Jawa Barat.',
                         address: 'Jl. Trunojoyo No. 64 Bandung',

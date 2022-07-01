@@ -38,8 +38,6 @@ dev_dependencies:
   theme:
     path: ../theme
 
-  core:
-    path: ../core
   account:
     path: ../account
 

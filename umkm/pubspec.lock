@@ -902,7 +902,7 @@ packages:
     source: hosted
     version: "0.1.0"
   tourism:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "../tourism"
       relative: true

@@ -213,10 +213,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   void onTapTourList() {
     // Navigate to Tour List
-    // Navigator.push(context,
-    //     MaterialPageRoute(builder: (context) => const TourListScreen()));
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => const TourListScreen()));
+    Navigator.push(
+      context,
+      PageTransition(
+        curve: Curves.easeInOut,
+        type: PageTransitionType.bottomToTop,
+        child: const TourMapScreen(),
+      ),
+    );
   }
 
   void onTapNewsList() {

@@ -74,11 +74,6 @@ void init() {
       locator(),
     ),
   );
-  locator.registerFactory(
-    () => UmkmCreateBloc(
-      locator(),
-    ),
-  );
 
   locator.registerFactory(
     () => RegisFormBloc(
@@ -157,6 +152,36 @@ void init() {
   );
   locator.registerFactory(
     () => TrainRemoveBloc(
+      locator(),
+    ),
+  );
+  locator.registerFactory(
+    () => UmkmCreateBloc(
+      locator(),
+    ),
+  );
+  locator.registerFactory(
+    () => UmkmUpdateBloc(
+      locator(),
+    ),
+  );
+  locator.registerFactory(
+    () => UmkmRemoveBloc(
+      locator(),
+    ),
+  );
+  locator.registerFactory(
+    () => NewsCreateBloc(
+      locator(),
+    ),
+  );
+  locator.registerFactory(
+    () => NewsUpdateBloc(
+      locator(),
+    ),
+  );
+  locator.registerFactory(
+    () => NewsRemoveBloc(
       locator(),
     ),
   );

@@ -75,6 +75,15 @@ void main() async {
         BlocProvider(
           create: (_) => di.locator<UmkmRemoveBloc>(),
         ),
+        BlocProvider(
+          create: (_) => di.locator<NewsCreateBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<NewsUpdateBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<NewsRemoveBloc>(),
+        ),
       ],
       child: const MyApp(),
     ),

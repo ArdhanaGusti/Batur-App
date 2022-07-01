@@ -198,7 +198,7 @@ packages:
     source: hosted
     version: "0.4.0+15"
   firebase_auth:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: firebase_auth
       url: "https://pub.dartlang.org"

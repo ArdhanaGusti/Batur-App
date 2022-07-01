@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:core/core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -9,6 +10,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:theme/theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:umkm/data/service/api_service.dart';
 import 'package:umkm/presentation/components/custom_umkm_card_list.dart';
 import 'package:umkm/presentation/screen/umkm_detail_acc_screen.dart';
 
@@ -103,6 +105,7 @@ class _UmkmScreenState extends State<UmkmScreen> {
 
   Widget _buildLoaded(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
+    User user = FirebaseAuth.instance.currentUser!;
 
     if (screenSize.width < 300.0 || screenSize.height < 600.0) {
       return ErrorScreen(
@@ -114,12 +117,12 @@ class _UmkmScreenState extends State<UmkmScreen> {
       return Center(
         child: Container(
           constraints: const BoxConstraints(maxWidth: 500.0),
-          child: _buildUmkmScreen(context, screenSize),
+          child: _buildUmkmScreen(context, screenSize, user),
         ),
       );
     } else {
       // Mobile Mode
-      return _buildUmkmScreen(context, screenSize);
+      return _buildUmkmScreen(context, screenSize, user);
     }
   }
 
@@ -159,7 +162,7 @@ class _UmkmScreenState extends State<UmkmScreen> {
     );
   }
 
-  Widget _buildUmkmScreen(BuildContext context, Size screenSize) {
+  Widget _buildUmkmScreen(BuildContext context, Size screenSize, User user) {
     return Scaffold(
       body: SafeArea(
         child: NestedScrollView(
@@ -238,40 +241,71 @@ class _UmkmScreenState extends State<UmkmScreen> {
                               // Use Data News
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: 15.0),
-                                child: CustomUMKMCardList(
-                                  img:
-                                      '${snapshot.data!.docs[index]['coverUrl']}',
-                                  title: snapshot.data!.docs[index]['name'],
-                                  timeOpen: "08:00 s/d 16:00",
-                                  isFavourited: true,
-                                  description: snapshot.data!.docs[index]
-                                      ['address'],
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      PageTransition(
-                                        curve: Curves.easeInOut,
-                                        type: PageTransitionType.rightToLeft,
-                                        child: UmkmDetailAccScreen(
-                                          name: snapshot.data!.docs[index]
-                                              ['name'],
-                                          coverUrl: snapshot.data!.docs[index]
-                                              ['coverUrl'],
-                                          address: snapshot.data!.docs[index]
-                                              ['address'],
-                                          desc: snapshot.data!.docs[index]
-                                              ['desc'],
-                                          index: snapshot
-                                              .data!.docs[index].reference,
-                                        ),
-                                        duration:
-                                            const Duration(milliseconds: 150),
-                                        reverseDuration:
-                                            const Duration(milliseconds: 150),
-                                      ),
-                                    );
-                                  },
-                                ),
+                                child: StreamBuilder<QuerySnapshot>(
+                                    stream: FirebaseFirestore.instance
+                                        .collection("Favorite")
+                                        .where("umkm",
+                                            isEqualTo: snapshot
+                                                .data!.docs[index]['name'])
+                                        .where("email", isEqualTo: user.email)
+                                        .snapshots(),
+                                    builder: (context, duar) {
+                                      return CustomUMKMCardList(
+                                        img:
+                                            '${snapshot.data!.docs[index]['coverUrl']}',
+                                        title: snapshot.data!.docs[index]
+                                            ['name'],
+                                        timeOpen: "08:00 s/d 16:00",
+                                        isFavourited: (duar.data!.docs.isEmpty)
+                                            ? false
+                                            : true,
+                                        description: snapshot.data!.docs[index]
+                                            ['address'],
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            PageTransition(
+                                              curve: Curves.easeInOut,
+                                              type: PageTransitionType
+                                                  .rightToLeft,
+                                              child: UmkmDetailAccScreen(
+                                                name: snapshot.data!.docs[index]
+                                                    ['name'],
+                                                coverUrl: snapshot.data!
+                                                    .docs[index]['coverUrl'],
+                                                address: snapshot.data!
+                                                    .docs[index]['address'],
+                                                desc: snapshot.data!.docs[index]
+                                                    ['desc'],
+                                                index: snapshot.data!
+                                                    .docs[index].reference,
+                                              ),
+                                              duration: const Duration(
+                                                  milliseconds: 150),
+                                              reverseDuration: const Duration(
+                                                  milliseconds: 150),
+                                            ),
+                                          );
+                                        },
+                                        heartTap: () {
+                                          if (duar.data!.docs.isEmpty) {
+                                            ApiServiceUMKM().addFavorite(
+                                                snapshot.data!.docs[index]
+                                                    ['coverUrl'],
+                                                snapshot.data!.docs[index]
+                                                    ['address'],
+                                                snapshot.data!.docs[index]
+                                                    ['email'],
+                                                "",
+                                                snapshot.data!.docs[index]
+                                                    ['name']);
+                                          } else {
+                                            ApiServiceUMKM().removeFavorite(
+                                                duar.data!.docs[0].reference);
+                                          }
+                                        },
+                                      );
+                                    }),
                               );
                             },
                             itemCount: snapshot.data!.docs.length,

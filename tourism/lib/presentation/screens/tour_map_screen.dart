@@ -236,7 +236,7 @@ class _TourMapScreenState extends State<TourMapScreen> {
                               curve: Curves.easeInOut,
                               type: PageTransitionType.bottomToTop,
                               // Navigate to detail with parameter
-                              child: const TourDetailScreen(),
+                              child: TourDetailScreen(id: placeId),
                             ),
                           );
                         },

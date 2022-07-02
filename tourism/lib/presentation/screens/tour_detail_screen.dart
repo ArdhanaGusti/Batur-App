@@ -4,6 +4,9 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:theme/theme.dart';
 import 'package:tourism/presentation/components/custom_card_detail_tour_screen.dart';
 
+import '../../data/datasource/tourism_remote_data_source.dart';
+import '../../data/models/tourist_attraction_detail.dart';
+
 enum TourDetailScreenProcessEnum {
   loading,
   loaded,
@@ -11,7 +14,9 @@ enum TourDetailScreenProcessEnum {
 }
 
 class TourDetailScreen extends StatefulWidget {
-  const TourDetailScreen({Key? key}) : super(key: key);
+  final String id;
+
+  const TourDetailScreen({Key? key, required this.id}) : super(key: key);
 
   @override
   State<TourDetailScreen> createState() => _TourDetailScreenState();
@@ -26,9 +31,13 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
     "https://media.suara.com/pictures/653x366/2022/02/09/60554-isyana-sarasvati-instagramatisyanasarasvati.jpg",
   ];
 
+  late Future<TouristAttractionDetailResult> futurePlace;
+
   @override
   void initState() {
     super.initState();
+    futurePlace =
+        TourismRemoteDataSource().getTouristAttractionDetail(widget.id);
 
     if (mounted) {
       setState(() {
@@ -40,7 +49,6 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-
     if (process == TourDetailScreenProcessEnum.loading) {
       return NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -115,167 +123,229 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
           sliver: SliverToBoxAdapter(
             child: Column(
               children: <Widget>[
-                CustomCardDetailTourScreen(
-                  img:
-                      'https://majalahpeluang.com/wp-content/uploads/2021/03/584ukm-bandung-ayobandung.jpg',
-                  title: 'Contrary to popular belief',
-                  rating: '4,5',
-                  isFavourited: false,
-                  carouselImages: carouselImages,
-                  description:
-                      'Stasiun Bandung, juga dikenal sebagai Stasiun Hall, adalah stasiun kereta api kelas besar tipe A yang terletak di Jalan Stasiun Timur dan Jalan Kebon Kawung, di Kebonjeruk, Andir, tepatnya di perbatasan antara Kelurahan Pasirkaliki, Cicendo dan Kebonjeruk, Andir, Kota Bandung, Jawa Barat.',
-                  address: 'Jl. Trunojoyo No. 64 Bandung',
-                  telephone: '(022) 4208757',
-                  onTap: () {
-                    print("Container clicked");
+                FutureBuilder<TouristAttractionDetailResult>(
+                  future: futurePlace,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      final place = snapshot.data!.result;
+                      List<String> photos = [];
+                      for (final index in place.photos) {
+                        photos.insert(0,
+                            "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${index.photoReference}&key=AIzaSyAO1b9CLWFz6Y9NG14g2gpYP7TQWPRsPG0");
+                      }
+                      return Column(
+                        children: [
+                          CustomCardDetailTourScreen(
+                            img: "",
+                            title: place.name,
+                            rating: place.rating.toString(),
+                            isFavourited: false,
+                            carouselImages: photos,
+                            review: place.reviews[0].text,
+                            address: place.vicinity,
+                            // telephone: place.formattedPhoneNumber,
+                            onTap: () {
+                              print("Container clicked");
+                            },
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          Container(
+                            width: screenSize.width,
+                            padding: const EdgeInsets.all(15.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .secondaryContainer,
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: bStroke,
+                                  spreadRadius: 2.0,
+                                  blurRadius: 10.0,
+                                  offset: Offset(
+                                      0, 0), // changes position of shadow
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  'Jadwal',
+                                  style: bHeading7.copyWith(
+                                    color:
+                                        Theme.of(context).colorScheme.tertiary,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text(
+                                      'Senin',
+                                      style: bSubtitle3.copyWith(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .tertiary,
+                                      ),
+                                    ),
+                                    Text(
+                                      place.openingHours.weekdayText[0].substring(7, 18),
+                                      style: bSubtitle3,
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text(
+                                      'Selasa',
+                                      style: bSubtitle3.copyWith(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .tertiary,
+                                      ),
+                                    ),
+                                    Text(
+                                      place.openingHours.weekdayText[1].substring(7, 19),
+                                      style: bSubtitle3,
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text(
+                                      'Rabu',
+                                      style: bSubtitle3.copyWith(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .tertiary,
+                                      ),
+                                    ),
+                                    Text(
+                                      place.openingHours.weekdayText[2].substring(6, 17),
+                                      style: bSubtitle3,
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text(
+                                      'kamis',
+                                      style: bSubtitle3.copyWith(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .tertiary,
+                                      ),
+                                    ),
+                                    Text(
+                                      place.openingHours.weekdayText[3].substring(6, 18),
+                                      style: bSubtitle3,
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text(
+                                      'Jumat',
+                                      style: bSubtitle3.copyWith(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .tertiary,
+                                      ),
+                                    ),
+                                    Text(
+                                      place.openingHours.weekdayText[4].substring(6, 18),
+                                      style: bSubtitle3,
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text(
+                                      'Sabtu',
+                                      style: bSubtitle3.copyWith(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .tertiary,
+                                      ),
+                                    ),
+                                    Text(
+                                      place.openingHours.weekdayText[5].substring(6, 18),
+                                      style: bSubtitle3,
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text(
+                                      'Minggu',
+                                      style: bSubtitle3.copyWith(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .tertiary,
+                                      ),
+                                    ),
+                                    Text(
+                                      place.openingHours.weekdayText[6].substring(8, 19),
+                                      style: bSubtitle3,
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          CustomPrimaryIconTextButton(
+                            icon: "assets/icon/fill/map-marker.svg",
+                            width: screenSize.width,
+                            text: "Petunjuk Arah",
+                            onTap: () {},
+                          ),
+                        ],
+                      );
+                    } else if (snapshot.hasError) {
+                      return Container();
+                    } else {
+                      return Container();
+                    }
                   },
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                Container(
-                  width: screenSize.width,
-                  padding: const EdgeInsets.all(15.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    color: Theme.of(context).colorScheme.secondaryContainer,
-                    boxShadow: const [
-                      BoxShadow(
-                        color: bStroke,
-                        spreadRadius: 2.0,
-                        blurRadius: 10.0,
-                        offset: Offset(0, 0), // changes position of shadow
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        'Jadwal',
-                        style: bHeading7.copyWith(
-                          color: Theme.of(context).colorScheme.tertiary,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            'Senin',
-                            style: bSubtitle3.copyWith(
-                              color: Theme.of(context).colorScheme.tertiary,
-                            ),
-                          ),
-                          Text(
-                            '07.00 - 16.00',
-                            style: bSubtitle3,
-                          )
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            'Selasa',
-                            style: bSubtitle3.copyWith(
-                              color: Theme.of(context).colorScheme.tertiary,
-                            ),
-                          ),
-                          Text(
-                            '07.00 - 16.00',
-                            style: bSubtitle3,
-                          )
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            'Rabu',
-                            style: bSubtitle3.copyWith(
-                              color: Theme.of(context).colorScheme.tertiary,
-                            ),
-                          ),
-                          Text(
-                            '07.00 - 16.00',
-                            style: bSubtitle3,
-                          )
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            'kamis',
-                            style: bSubtitle3.copyWith(
-                              color: Theme.of(context).colorScheme.tertiary,
-                            ),
-                          ),
-                          Text(
-                            '07.00 - 16.00',
-                            style: bSubtitle3,
-                          )
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            'Jumat',
-                            style: bSubtitle3.copyWith(
-                              color: Theme.of(context).colorScheme.tertiary,
-                            ),
-                          ),
-                          Text(
-                            '07.00 - 16.00',
-                            style: bSubtitle3,
-                          )
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            'Sabtu',
-                            style: bSubtitle3.copyWith(
-                              color: Theme.of(context).colorScheme.tertiary,
-                            ),
-                          ),
-                          Text(
-                            '07.00 - 16.00',
-                            style: bSubtitle3,
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                CustomPrimaryIconTextButton(
-                  icon: "assets/icon/fill/map-marker.svg",
-                  width: screenSize.width,
-                  text: "Petunjuk Arah",
-                  onTap: () {},
                 ),
                 const SizedBox(
                   height: 20,

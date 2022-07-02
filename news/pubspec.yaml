@@ -17,6 +17,10 @@ dependencies:
 
   core:
     path: ../core
+  theme:
+    path: ../theme
+  account:
+    path: ../account
 
   flutter_bloc:
   intl:
@@ -36,11 +40,6 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
-  theme:
-    path: ../theme
-
-  account:
-    path: ../account
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -10,15 +10,21 @@ import 'package:core/presentation/components/card/custom_umkm_card.dart';
 import 'package:core/presentation/components/custom_smart_refresh.dart';
 import 'package:core/presentation/screens/error_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
+import 'package:news/data/datasources/news_remote_data_source.dart';
+import 'package:news/data/model/news.dart';
 import 'package:news/news.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:news/presentation/screen/news_detail_screen_api.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:theme/theme.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:tourism/data/datasource/tourism_remote_data_source.dart';
+import 'package:tourism/data/models/tourist_attraction.dart';
 import 'package:transportation/transportation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tourism/tourism.dart';
@@ -45,6 +51,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   HomeScreenProcessEnum process = HomeScreenProcessEnum.loading;
   final toast = FToast();
 
+
+  late Future<ArticlesResult> futureArticle;
+  late Future<TouristAttractionResult> futurePlace;
+
   @override
   void initState() {
     toast.init(context);
@@ -53,6 +63,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       length: 2,
     );
     super.initState();
+
+    futureArticle = NewsRemoteDataSource().bandungNewsId();
+    futurePlace = TourismRemoteDataSource().getTouristAttraction();
+
     if (user != null) {
       context.read<DashboardBloc>().add(OnIsHaveProfile(email: user!.email!));
       context.read<DashboardBloc>().add(OnIsAdmin(email: user!.email!));
@@ -477,26 +491,65 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ),
             SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              sliver: SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                    // Use Data News
-                    return Padding(
-                      padding: const EdgeInsets.only(top: 15.0),
-                      child: CustomNewsCard(
-                        img:
-                            "https://cdn1-production-images-kly.akamaized.net/lMHji7xE4GI7YHCWAQumKfFm9Ew=/1200x900/smart/filters:quality(75):strip_icc():format(jpeg)/kly-media-production/medias/3554482/original/037161700_1630219411-bandung-5319951_1920.jpg",
-                        title:
-                            "Prabowo Atau Anies, Siapa Capres yang Paling Kuat?",
-                        writer: "Udin Saparudin",
-                        date: "Jumat, 13 Mei 2022",
-                        onTap: () {
-                          // To detail News
+              sliver: SliverToBoxAdapter(
+                child: FutureBuilder<ArticlesResult>(
+                  future: futureArticle,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      final news = snapshot.data!.articles;
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        physics: const BouncingScrollPhysics(),
+                        itemBuilder: (BuildContext context, int index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(top: 15.0),
+                            child: CustomNewsCard(
+                              img: news[index].urlToImage,
+                              title: news[index].title,
+                              author: news[index].author,
+                              date: DateFormat("EEEE, d MMMM yyyy", "id_ID")
+                                  .format(DateTime.parse(snapshot
+                                  .data!.articles[index].publishedAt
+                                  .toString())),
+                              onTap: () {
+                                // To detail News
+                                Navigator.push(
+                                  context,
+                                  PageTransition(
+                                    curve: Curves.easeOut,
+                                    type: PageTransitionType.bottomToTop,
+                                    child: NewsDetailScreenApi(
+                                      img: news[index].urlToImage,
+                                      title: news[index].title,
+                                      author: news[index].author,
+                                      date: DateFormat(
+                                          "EEEE, d MMMM yyyy", "id_ID")
+                                          .format(DateTime.parse(snapshot
+                                          .data!
+                                          .articles[index]
+                                          .publishedAt
+                                          .toString())),
+                                      url: news[index].url,
+                                      content: news[index].content,
+                                    ),
+                                    duration:
+                                    const Duration(milliseconds: 150),
+                                    reverseDuration:
+                                    const Duration(milliseconds: 150),
+                                  ),
+                                );
+                              },
+                            ),
+                          );
                         },
-                      ),
-                    );
+                        itemCount: 4,
+                      );
+                    } else if (snapshot.hasError) {
+                      return Container();
+                    } else {
+                      return Container();
+                    }
                   },
-                  childCount: 4,
                 ),
               ),
             ),
@@ -524,17 +577,29 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             // Use data Tour
                             return Padding(
                               padding: const EdgeInsets.only(right: 15.0),
-                              child: CustomTourCard(
-                                img:
-                                    "https://akcdn.detik.net.id/visual/2020/03/12/2049bba1-49a2-4efb-a253-82825d9c1f2d_169.jpeg?w=650",
-                                // Process Rating must be 2 digit
-                                rating: "4.5",
-                                title: "Gedung Sate satu dua tiga",
-                                isFavourited: true,
-                                description:
-                                    "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
-                                onTap: () {
-                                  // To detail Tour
+                              child: FutureBuilder<TouristAttractionResult>(
+                                future: futurePlace,
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    final place = snapshot.data!.results;
+                                    return CustomTourCard(
+                                      img:
+                                      "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${place[index].photos[0].photoReference}&key=AIzaSyAO1b9CLWFz6Y9NG14g2gpYP7TQWPRsPG0",
+                                      // Process Rating must be 2 digit
+                                      rating: place[index].rating.toString(),
+                                      title: place[index].name,
+                                      isFavourited: true,
+                                      description:
+                                      "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+                                      onTap: () {
+                                        // To detail Tour
+                                      },
+                                    );
+                                  } else if (snapshot.hasError) {
+                                    return Container();
+                                  } else {
+                                    return Container();
+                                  }
                                 },
                               ),
                             );

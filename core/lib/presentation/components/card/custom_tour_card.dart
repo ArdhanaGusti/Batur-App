@@ -72,6 +72,7 @@ class CustomTourCard extends StatelessWidget {
                           ),
                           fit: BoxFit.cover,
                           height: 85.0,
+                          width: 140,
                         ),
                       ),
                       Positioned(

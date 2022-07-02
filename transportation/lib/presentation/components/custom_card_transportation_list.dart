@@ -9,15 +9,14 @@ import 'package:theme/theme.dart';
 class CustomCardStasiunList extends StatelessWidget {
   final String image;
   final String title;
-  final String description;
   final String address;
   final String rating;
   final Function() onTap;
+
   const CustomCardStasiunList({
     Key? key,
     required this.image,
     required this.title,
-    required this.description,
     required this.address,
     required this.rating,
     required this.onTap,
@@ -95,11 +94,27 @@ class CustomCardStasiunList extends StatelessWidget {
                         const SizedBox(
                           height: 3.0,
                         ),
-                        Text(
-                          description,
-                          style: bCaption1.copyWith(color: bGrey),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            SvgPicture.asset(
+                              "assets/icon/fill/star.svg",
+                              color: bSecondary,
+                              height: 15.0,
+                            ),
+                            const SizedBox(
+                              width: 5.0,
+                            ),
+                            Flexible(
+                              child: Text(
+                                rating,
+                                style: bCaption1.copyWith(
+                                  color: Theme.of(context).colorScheme.tertiary,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -121,7 +136,9 @@ class CustomCardStasiunList extends StatelessWidget {
                         Flexible(
                           child: Text(
                             address,
-                            style: bCaption1.copyWith(color: bSecondary),
+                            style: bCaption1.copyWith(
+                              color: Theme.of(context).colorScheme.tertiary,
+                            ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -133,21 +150,6 @@ class CustomCardStasiunList extends StatelessWidget {
               ),
               const SizedBox(
                 width: 10.0,
-              ),
-              Column(
-                children: <Widget>[
-                  SvgPicture.asset(
-                    "assets/icon/fill/star.svg",
-                    color: bSecondary,
-                    height: 15.0,
-                  ),
-                  Text(
-                    rating,
-                    style: bCaption1.copyWith(
-                      color: Theme.of(context).colorScheme.tertiary,
-                    ),
-                  ),
-                ],
               ),
             ],
           ),

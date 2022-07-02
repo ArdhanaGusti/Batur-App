@@ -1,24 +1,25 @@
-import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:theme/theme.dart';
 
 // Check
 
 class CustomTourCard extends StatelessWidget {
   final String image;
   final String title;
-  final String description;
+  final String address;
   final String timeOpen;
   final String rating;
   final bool isFavourited;
   final Function() onTap;
+
   const CustomTourCard({
     Key? key,
     required this.image,
     required this.title,
-    required this.description,
+    required this.address,
     required this.timeOpen,
     required this.rating,
     required this.isFavourited,
@@ -116,28 +117,19 @@ class CustomTourCard extends StatelessWidget {
               Flexible(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          title,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: bSubtitle2.copyWith(color: bTextPrimary),
-                        ),
-                        const SizedBox(
-                          height: 3.0,
-                        ),
-                        Text(
-                          description,
-                          style: bCaption1.copyWith(color: bTextPrimary),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
+                    Text(
+                      title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: bSubtitle2.copyWith(color: bTextPrimary),
+                    ),
+                    Text(
+                      address,
+                      style: bCaption1.copyWith(color: bTextPrimary),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,

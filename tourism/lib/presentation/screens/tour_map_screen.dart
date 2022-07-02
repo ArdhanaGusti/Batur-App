@@ -34,6 +34,7 @@ class _TourMapScreenState extends State<TourMapScreen> {
   String image = "";
   String openNow = "";
   String placeId = "";
+  String address = "";
 
   // State for loading
   TourMapScreenProcessEnum process = TourMapScreenProcessEnum.loading;
@@ -52,21 +53,18 @@ class _TourMapScreenState extends State<TourMapScreen> {
             markerId: MarkerId(place.placeId),
             position: LatLng(
                 place.geometry.location.lat, place.geometry.location.lng),
-            infoWindow: InfoWindow(
-              title: place.name,
-              snippet: place.vicinity,
-            ),
             onTap: () {
               setState(() {
-                // Change state value for click Train
+                // Change state value for click Tour
                 isClickTour = false;
               });
 
               setState(() {
                 placeId = place.placeId;
+                address = place.vicinity;
                 name = place.name;
                 rating = place.rating;
-                // image = place.photos.;
+                image = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${place.photos[0].photoReference}&key=YOUR KEY HERE";
                 if (place.openingHours?.openNow != null) {
                   if (place.openingHours?.openNow == true) {
                     openNow = "Buka";
@@ -189,7 +187,7 @@ class _TourMapScreenState extends State<TourMapScreen> {
                     child: GestureDetector(
                       onTap: () {
                         setState(() {
-                          // Change state value for click Train
+                          // Change state value for click Tour
                           isClickTour = false;
                         });
                         Timer(const Duration(seconds: 1), () {
@@ -209,6 +207,13 @@ class _TourMapScreenState extends State<TourMapScreen> {
                             zoom: 11.0,
                           ),
                           markers: _markers.values.toSet(),
+                          onTap: (latLong) {
+                            if (_center != latLong) {
+                              setState(() {
+                                isClickTour = false;
+                              });
+                            }
+                          },
                         ),
                       ),
                     ),
@@ -222,13 +227,13 @@ class _TourMapScreenState extends State<TourMapScreen> {
                       // Add parameter for card with data
                       child: CustomTourCard(
                         image:
-                            "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
+                            image,
                         rating: rating.toString(),
                         title: name,
                         timeOpen: openNow,
                         isFavourited: true,
-                        description:
-                            "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+                        address:
+                            address,
                         onTap: () {
                           Navigator.push(
                             context,

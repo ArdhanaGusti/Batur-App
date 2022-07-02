@@ -131,7 +131,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                       List<String> photos = [];
                       for (final index in place.photos) {
                         photos.insert(0,
-                            "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${index.photoReference}&key=AIzaSyAO1b9CLWFz6Y9NG14g2gpYP7TQWPRsPG0");
+                            "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${index.photoReference}&key=YOUR KEY HERE");
                       }
                       return Column(
                         children: [

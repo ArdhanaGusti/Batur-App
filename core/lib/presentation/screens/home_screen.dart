@@ -501,7 +501,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         physics: const BouncingScrollPhysics(),
                         itemBuilder: (BuildContext context, int index) {
                           return Padding(
-                            padding: const EdgeInsets.only(top: 15.0),
+                            padding: const EdgeInsets.only(bottom: 15.0),
                             child: CustomNewsCard(
                               img: news[index].urlToImage,
                               title: news[index].title,

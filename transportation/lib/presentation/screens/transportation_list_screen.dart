@@ -1,12 +1,13 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:theme/theme.dart';
+import 'package:transportation/data/datasources/transportation_remote_data_source.dart';
+import 'package:transportation/data/model/station.dart';
 import 'package:transportation/presentation/components/custom_card_transportation_list.dart';
 import 'package:transportation/presentation/screens/transportation_detail_screen.dart';
 
@@ -82,6 +83,14 @@ class _TransportationListScreenState extends State<TransportationListScreen> {
   //     });
   //   });
   // }
+
+  late Future<StationResult> futureStation;
+
+  @override
+  void initState() {
+    super.initState();
+    futureStation = TourismRemoteDataSource().getStation();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -207,26 +216,11 @@ class _TransportationListScreenState extends State<TransportationListScreen> {
                   onRefresh: _onRefreshTrain,
                   child: Padding(
                     padding: const EdgeInsets.only(top: 0.0),
-                    child: StreamBuilder<QuerySnapshot>(
-                        stream: FirebaseFirestore.instance
-                            .collection("Station")
-                            .snapshots(),
-                        builder: (context, snapshot) {
-                          if (!snapshot.hasData) {
-                            return Center(
-                              child:
-                                  LoadingAnimationWidget.horizontalRotatingDots(
-                                color: Theme.of(context).colorScheme.tertiary,
-                                size: 50.0,
-                              ),
-                            );
-                          }
-                          // else if (snapshot.data!.docs.length <= 0) {
-                          //   return Center(
-                          //     child: Text("Tidak ada data"),
-                          //   );
-                          // }
-                          final station = snapshot.data!.docs;
+                    child: FutureBuilder<StationResult>(
+                      future: futureStation,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          final place = snapshot.data!.results;
                           return ListView.builder(
                             physics: const BouncingScrollPhysics(),
                             shrinkWrap: true,
@@ -234,12 +228,11 @@ class _TransportationListScreenState extends State<TransportationListScreen> {
                               // Use Data Train
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: 15.0),
-                                child: CustomCardStasiunList(
-                                  image: "${station[index]['image']}",
-                                  title: station[index]['title'],
-                                  description: station[index]['desc'],
-                                  address: station[index]['address'],
-                                  rating: station[index]['rating'].toString(),
+                                child: (place[index].photos == null) ? CustomCardStasiunList(
+                                  image: 'http://via.placeholder.com/350x150',
+                                  title: place[index].name,
+                                  address: place[index].vicinity,
+                                  rating: place[index].rating.toString(),
                                   onTap: () {
                                     Navigator.push(
                                       context,
@@ -252,18 +245,105 @@ class _TransportationListScreenState extends State<TransportationListScreen> {
                                           station: "Kiaracondong",
                                         ),
                                         duration:
-                                            const Duration(milliseconds: 150),
+                                        const Duration(milliseconds: 150),
                                         reverseDuration:
-                                            const Duration(milliseconds: 150),
+                                        const Duration(milliseconds: 150),
+                                      ),
+                                    );
+                                  },
+                                ): CustomCardStasiunList(
+                                  image: "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${place[index].photos![0].photoReference}&key=AIzaSyAO1b9CLWFz6Y9NG14g2gpYP7TQWPRsPG0",
+                                  title: place[index].name,
+                                  address: place[index].vicinity,
+                                  rating: place[index].rating.toString(),
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      PageTransition(
+                                        curve: Curves.easeInOut,
+                                        type: PageTransitionType.bottomToTop,
+                                        // Add Parameter Data Train Detail
+                                        child: TransportationDetailScreen(
+                                          isTrain: true,
+                                          station: "Kiaracondong",
+                                        ),
+                                        duration:
+                                        const Duration(milliseconds: 150),
+                                        reverseDuration:
+                                        const Duration(milliseconds: 150),
                                       ),
                                     );
                                   },
                                 ),
                               );
                             },
-                            itemCount: station.length,
+                            itemCount: place.length,
                           );
-                        }),
+                        } else if (snapshot.hasError) {
+                          return Container();
+                        } else {
+                          return Container();
+                        }
+                      },
+                    ),
+                    // child: StreamBuilder<QuerySnapshot>(
+                    //     stream: FirebaseFirestore.instance
+                    //         .collection("Station")
+                    //         .snapshots(),
+                    //     builder: (context, snapshot) {
+                    //       if (!snapshot.hasData) {
+                    //         return Center(
+                    //           child:
+                    //               LoadingAnimationWidget.horizontalRotatingDots(
+                    //             color: Theme.of(context).colorScheme.tertiary,
+                    //             size: 50.0,
+                    //           ),
+                    //         );
+                    //       }
+                    //       // else if (snapshot.data!.docs.length <= 0) {
+                    //       //   return Center(
+                    //       //     child: Text("Tidak ada data"),
+                    //       //   );
+                    //       // }
+                    //       final station = snapshot.data!.docs;
+                    //       return ListView.builder(
+                    //         physics: const BouncingScrollPhysics(),
+                    //         shrinkWrap: true,
+                    //         itemBuilder: (BuildContext context, int index) {
+                    //           // Use Data Train
+                    //           print(station[index]['address']);
+                    //           return Padding(
+                    //             padding: const EdgeInsets.only(bottom: 15.0),
+                    //             child: CustomCardStasiunList(
+                    //               image: "${station[index]['image']}",
+                    //               title: station[index]['title'],
+                    //               description: station[index]['desc'],
+                    //               address: station[index]['address'],
+                    //               rating: station[index]['rating'].toString(),
+                    //               onTap: () {
+                    //                 Navigator.push(
+                    //                   context,
+                    //                   PageTransition(
+                    //                     curve: Curves.easeInOut,
+                    //                     type: PageTransitionType.bottomToTop,
+                    //                     // Add Parameter Data Train Detail
+                    //                     child: TransportationDetailScreen(
+                    //                       isTrain: true,
+                    //                       station: "Kiaracondong",
+                    //                     ),
+                    //                     duration:
+                    //                         const Duration(milliseconds: 150),
+                    //                     reverseDuration:
+                    //                         const Duration(milliseconds: 150),
+                    //                   ),
+                    //                 );
+                    //               },
+                    //             ),
+                    //           );
+                    //         },
+                    //         itemCount: station.length,
+                    //       );
+                    //     }),
                   ),
                 ),
                 CustomSmartRefresh(
@@ -283,8 +363,6 @@ class _TransportationListScreenState extends State<TransportationListScreen> {
                             image:
                                 "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
                             title: "Terninal Bandung Kota",
-                            description:
-                                "Stasiun Bandung, juga dikenal sebagai Stasiun Hall, adalah stasiun kereta api kelas besar tipe A yang terletak di Jalan Stasiun Timur dan Jalan Kebon Kawung",
                             address:
                                 "Jl. Stasiun Barat, Kb. Jeruk, Kec. Andir, Bandung",
                             rating: '5.0',

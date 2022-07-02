@@ -4,7 +4,9 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NewsWebScreen extends StatelessWidget {
-  const NewsWebScreen({Key? key}) : super(key: key);
+  final String url;
+
+  const NewsWebScreen({Key? key, required this.url}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +52,8 @@ class NewsWebScreen extends StatelessWidget {
         SliverToBoxAdapter(
           child: SizedBox(
             height: screenSize.height - 80,
-            child: const WebView(
-              initialUrl:
-                  'https://endpts.com/pfizers-paxlovid-doesnt-stack-up-as-well-for-those-who-are-vaccinated-new-data-show/',
+            child: WebView(
+              initialUrl: url,
             ),
           ),
         ),

@@ -32,6 +32,12 @@ dependencies:
   photo_view:
   google_maps_flutter:
   http:
+  cloud_firestore:
+  firebase_auth:
+  firebase_storage:
+  equatable:
+  dartz:
+  get_it:
 
 dev_dependencies:
   flutter_test:

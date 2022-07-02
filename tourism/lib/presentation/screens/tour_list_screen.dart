@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:core/core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -7,10 +9,11 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:theme/theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tourism/data/datasource/tourism_remote_data_source.dart';
+import 'package:tourism/data/service/api_service_tour.dart';
 import 'package:tourism/presentation/components/custom_tour_card_list.dart';
 import 'package:tourism/presentation/screens/tour_detail_screen.dart';
 
-import '../../data/model/place.dart';
+import '../../data/models/tourist_attraction.dart';
 
 enum TourListScreenProcessEnum {
   loading,
@@ -44,7 +47,7 @@ class _TourListScreenState extends State<TourListScreen> {
     _refreshControllerTour.loadComplete();
   }
 
-  late Future<PlaceResult> futurePlace;
+  late Future<TouristAttractionResult> futurePlace;
 
   @override
   void initState() {
@@ -186,47 +189,83 @@ class _TourListScreenState extends State<TourListScreen> {
             onRefresh: _onRefreshTour,
             child: Padding(
               padding: const EdgeInsets.only(top: 0.0),
-              child: FutureBuilder<PlaceResult>(
+              child: FutureBuilder<TouristAttractionResult>(
                 future: futurePlace,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
+                    final place = snapshot.data!.results;
                     return ListView.builder(
                       physics: const BouncingScrollPhysics(),
                       shrinkWrap: true,
                       itemBuilder: (BuildContext context, int index) {
                         // Use Data Tour
                         final String openNOw;
-                        if (snapshot.data!.results[index].openingHours?.openNow == null) {
+                        if (place[index].openingHours?.openNow == null) {
                           openNOw = "Tidak tahu";
                         } else {
-                          openNOw = snapshot.data!.results[index].openingHours?.openNow == true ? "Buka" : "Tutup";
+                          openNOw = place[index].openingHours?.openNow == true
+                              ? "Buka"
+                              : "Tutup";
                         }
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 15.0),
-                          child: CustomTourCardList(
-                            img:
-                            "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${snapshot.data!.results[index].photos[0].photoReference}&key=YOUR KEY HERE",
-                            rating: snapshot.data!.results[index].rating.toString(),
-                            title: snapshot.data!.results[index].name,
-                            timeOpen: openNOw,
-                            isFavourited: true,
-                            description:
-                            "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                PageTransition(
-                                  curve: Curves.easeInOut,
-                                  type: PageTransitionType.bottomToTop,
-                                  // Navigate to detail with parameter
-                                  child: const TourDetailScreen(),
-                                ),
-                              );
-                            },
-                          ),
+                          child: StreamBuilder<QuerySnapshot>(
+                              stream: FirebaseFirestore.instance
+                                  .collection("FavoriteTour")
+                                  .where("tour", isEqualTo: place[index].name)
+                                  .where("email",
+                                      isEqualTo: FirebaseAuth
+                                          .instance.currentUser!.email)
+                                  .snapshots(),
+                              builder: (context, snapshot) {
+                                if (!snapshot.hasData) {
+                                  return Container();
+                                }
+                                if (snapshot.data == null) {
+                                  return Container();
+                                }
+                                return CustomTourCardList(
+                                  img:
+                                      "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${place[index].photos[0].photoReference}&key=AIzaSyAO1b9CLWFz6Y9NG14g2gpYP7TQWPRsPG0",
+                                  rating: place[index].rating.toString(),
+                                  title: place[index].name,
+                                  timeOpen: openNOw,
+                                  isFavourited: (snapshot.data!.docs.isNotEmpty)
+                                      ? true
+                                      : false,
+                                  description:
+                                      "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      PageTransition(
+                                        curve: Curves.easeInOut,
+                                        type: PageTransitionType.bottomToTop,
+                                        // Navigate to detail with parameter
+
+                                        child: TourDetailScreen(
+                                            id: place[index].placeId),
+                                      ),
+                                    );
+                                  },
+                                  heartTap: () {
+                                    if (snapshot.data!.docs.isNotEmpty) {
+                                      ApiServiceTour().removeFavorite(
+                                          snapshot.data!.docs[0].reference);
+                                    } else {
+                                      ApiServiceTour().addFavorite(
+                                        place[index].rating,
+                                        place[index].vicinity,
+                                        place[index].name,
+                                        "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${place[index].photos[0].photoReference}&key=AIzaSyAO1b9CLWFz6Y9NG14g2gpYP7TQWPRsPG0",
+                                      );
+                                    }
+                                  },
+                                );
+                              }),
                         );
                       },
-                      itemCount: 10,
+                      itemCount: place.length,
                     );
                   } else if (snapshot.hasError) {
                     return Container();

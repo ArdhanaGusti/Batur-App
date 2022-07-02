@@ -2,30 +2,29 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:theme/theme.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class CustomCardDetailTourScreen extends StatelessWidget {
   final String img;
-  final String telephone;
+  // final String telephone;
   final String title;
   final String rating;
   final bool isFavourited;
   final String address;
-  final String description;
+  final String review;
   final List<String> carouselImages;
   final Function() onTap;
 
   const CustomCardDetailTourScreen({
     Key? key,
     required this.img,
-    required this.telephone,
+    // required this.telephone,
     required this.title,
     required this.rating,
     required this.isFavourited,
     required this.address,
-    required this.description,
+    required this.review,
     required this.onTap,
     required this.carouselImages,
   }) : super(key: key);
@@ -167,7 +166,7 @@ class CustomCardDetailTourScreen extends StatelessWidget {
               height: 15,
             ),
             Text(
-              description,
+              review,
               style: bCaption1,
             ),
             const SizedBox(
@@ -191,11 +190,11 @@ class CustomCardDetailTourScreen extends StatelessWidget {
                 const SizedBox(
                   width: 5,
                 ),
-                Text(
-                  telephone,
-                  maxLines: 1,
-                  style: bCaption1,
-                ),
+                // Text(
+                //   telephone,
+                //   maxLines: 1,
+                //   style: bCaption1,
+                // ),
               ],
             ),
           ],

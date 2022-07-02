@@ -1,13 +1,27 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:theme/data/sources/theme_data.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:news/news.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:theme/data/sources/theme_data.dart';
 
 class NewsDetailScreenApi extends StatefulWidget {
-  const NewsDetailScreenApi({Key? key}) : super(key: key);
+  final String author;
+  final String title;
+  final String url;
+  final String img;
+  final String date;
+  final String content;
+
+  const NewsDetailScreenApi({
+    Key? key,
+    required this.author,
+    required this.title,
+    required this.url,
+    required this.img,
+    required this.date,
+    required this.content,
+  }) : super(key: key);
 
   @override
   State<NewsDetailScreenApi> createState() => _NewsDetailScreenApiState();
@@ -72,8 +86,15 @@ class _NewsDetailScreenApiState extends State<NewsDetailScreenApi> {
               text: AppLocalizations.of(context)!.viewNews,
               // On tap Navigation needs to be replaced
               onTap: () {
-                Navigator.pop(
+                Navigator.push(
                   context,
+                  PageTransition(
+                    curve: Curves.easeOut,
+                    type: PageTransitionType.bottomToTop,
+                    child: NewsWebScreen(url: widget.url),
+                    duration: const Duration(milliseconds: 150),
+                    reverseDuration: const Duration(milliseconds: 150),
+                  ),
                 );
               },
             ),
@@ -98,36 +119,19 @@ class _NewsDetailScreenApiState extends State<NewsDetailScreenApi> {
             padding: const EdgeInsets.all(20.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                CircleAvatar(
-                  child: ClipOval(
-                    child: CachedNetworkImage(
-                      imageUrl:
-                          "https://cdn-2.tstatic.net/tribunnews/foto/bank/images/indonesiatravel-gedung-sate-salah-satu-ikon-kota-bandung.jpg",
-                      placeholder: (context, url) {
-                        return Center(
-                          child: LoadingAnimationWidget.horizontalRotatingDots(
-                            color: Theme.of(context).colorScheme.tertiary,
-                            size: 10.0,
-                          ),
-                        );
-                      },
-                      errorWidget: (context, url, error) => SvgPicture.asset(
-                        "assets/icon/fill/exclamation-circle.svg",
-                        color: bGrey,
-                        height: 14.0,
-                      ),
-                      fit: BoxFit.cover,
-                      width: 85.0,
-                      height: 85.0,
-                    ),
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(15.0),
+                  child: Image.network(
+                    widget.img,
+                    fit: BoxFit.cover,
                   ),
                 ),
                 const SizedBox(
                   height: 30.0,
                 ),
                 Text(
-                  AppLocalizations.of(context)!.titleHere,
+                  widget.title,
                   style: bHeading7.copyWith(
                     color: Theme.of(context).colorScheme.tertiaryContainer,
                   ),
@@ -142,17 +146,9 @@ class _NewsDetailScreenApiState extends State<NewsDetailScreenApi> {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          CircleAvatar(
-                            backgroundImage: NetworkImage(
-                                "assets/image/profile.jpg",
-                                scale: 1.0),
-                          ),
-                          const SizedBox(
-                            width: 10.0,
-                          ),
                           Flexible(
                             child: Text(
-                              AppLocalizations.of(context)!.writer,
+                              widget.author,
                               overflow: TextOverflow.ellipsis,
                               style: bBody1.copyWith(
                                 color: Theme.of(context)
@@ -166,7 +162,7 @@ class _NewsDetailScreenApiState extends State<NewsDetailScreenApi> {
                     ),
                     Expanded(
                       child: Text(
-                        "Jumat, 31, Mei 2022",
+                        widget.date,
                         overflow: TextOverflow.ellipsis,
                         style: bCaption1.copyWith(
                           color:
@@ -181,13 +177,7 @@ class _NewsDetailScreenApiState extends State<NewsDetailScreenApi> {
                   height: 20.0,
                 ),
                 Text(
-                  '''Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web and a sites still in their infancy. Various versions have evolved over than to do the years, sometimes by accident, sometimes on off the purpose (injected humour and the like).It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. 
-
-The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as oppo.
-
-It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to. 
-
-Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.''',
+                  widget.content,
                   style: bSubtitle2.copyWith(
                     color: Theme.of(context).colorScheme.tertiaryContainer,
                   ),

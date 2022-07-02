@@ -16,7 +16,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class NewsDetailScreen extends StatefulWidget {
-  final String title, konten, urlName, writerName;
+  final String title, konten, urlName, author;
   final String date;
   final String email;
   final DocumentReference index;
@@ -27,7 +27,7 @@ class NewsDetailScreen extends StatefulWidget {
       required this.urlName,
       required this.index,
       required this.date,
-      required this.writerName,
+      required this.author,
       required this.email})
       : super(key: key);
 
@@ -251,7 +251,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                           ),
                           Flexible(
                             child: Text(
-                              widget.writerName,
+                              widget.author,
                               overflow: TextOverflow.ellipsis,
                               style: bBody1.copyWith(
                                 color: Theme.of(context)

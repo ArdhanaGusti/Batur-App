@@ -40,6 +40,7 @@ dependencies:
   firebase_analytics:
   dartz:
   http:
+  google_maps_flutter:
 
 dev_dependencies:
   flutter_test:

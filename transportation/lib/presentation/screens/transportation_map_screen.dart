@@ -2,11 +2,14 @@ import 'dart:async';
 
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:transportation/presentation/components/custom_card_transportation.dart';
-import 'package:transportation/presentation/screens/transportation_list_screen.dart';
 import 'package:transportation/presentation/screens/transportation_detail_screen.dart';
+import 'package:transportation/presentation/screens/transportation_list_screen.dart';
+
+import '../../data/datasources/transportation_remote_data_source.dart';
 
 // Check
 
@@ -28,7 +31,11 @@ class _TransportationMapScreenState extends State<TransportationMapScreen> {
   // State for click a custom marker
   bool isTrain = true;
   bool isClickTrain = false;
-  bool isClickBus = false;
+  String name = "";
+  double rating = 0;
+  String image = "";
+  String placeId = "";
+  String address = "";
 
   // State for loading
   TransportationMapScreenProcessEnum process =
@@ -46,6 +53,46 @@ class _TransportationMapScreenState extends State<TransportationMapScreen> {
   //     });
   //   });
   // }
+
+  final LatLng _center = const LatLng(-6.905977, 107.613144);
+
+  final Map<String, Marker> _markers = {};
+
+  Future<void> _onMapCreated(GoogleMapController controller) async {
+    final station = await TransportationRemoteDataSource().getStation();
+    setState(() {
+      _markers.clear();
+      for (final place in station.results) {
+        final marker = Marker(
+            markerId: MarkerId(place.placeId),
+            position: LatLng(
+                place.geometry.location.lat, place.geometry.location.lng),
+            onTap: () {
+              setState(() {
+                // Change state value for click Tour
+                isClickTrain = false;
+              });
+
+              setState(() {
+                placeId = place.placeId;
+                address = place.vicinity;
+                name = place.name;
+                rating = place.rating;
+                image =
+                    "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${place.photos![0].photoReference}&key=YOUR KEY HERE";
+              });
+
+              Timer(const Duration(milliseconds: 500), () {
+                setState(() {
+                  isTrain = true;
+                  isClickTrain = !isClickTrain;
+                });
+              });
+            });
+        _markers[place.name] = marker;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +185,6 @@ class _TransportationMapScreenState extends State<TransportationMapScreen> {
                         setState(() {
                           // Change state value for click Train
                           isClickTrain = false;
-                          isClickBus = false;
                         });
                         Timer(const Duration(seconds: 1), () {
                           setState(() {
@@ -147,98 +193,60 @@ class _TransportationMapScreenState extends State<TransportationMapScreen> {
                           });
                         });
                       },
-                      onDoubleTap: () {
-                        setState(() {
-                          // Change state value for click Bus
-                          isClickBus = false;
-                          isClickTrain = false;
-                        });
-                        Timer(const Duration(seconds: 1), () {
-                          setState(() {
-                            isTrain = false;
-                            isClickBus = !isClickBus;
-                          });
-                        });
-                      },
                       // Change the widget becarefull with height
-                      child: Image.asset(
-                        "assets/splashscreen/map.jpg",
-                        fit: BoxFit.cover,
-                        height: screenSize.height - 125.0,
+                      child: SizedBox(
+                        height: screenSize.height - 130.0,
+                        child: GoogleMap(
+                          onMapCreated: _onMapCreated,
+                          initialCameraPosition: CameraPosition(
+                            target: _center,
+                            zoom: 11.0,
+                          ),
+                          markers: _markers.values.toSet(),
+                          onTap: (latLong) {
+                            if (_center != latLong) {
+                              setState(() {
+                                isClickTrain = false;
+                              });
+                            }
+                          },
+                        ),
                       ),
                     ),
                   ),
-                  (isTrain)
-                      ? AnimatedPositioned(
-                          bottom: (isClickTrain) ? 0 : -120.0,
-                          curve: Curves.easeInOut,
-                          duration: const Duration(milliseconds: 200),
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            // Add parameter for card with data
-                            child: CustomCardStasiun(
-                              image:
-                                  "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
-                              title: "Stasiun Bandung Kotaaaaa",
-                              description:
-                                  "Stasiun Bandung, juga dikenal sebagai Stasiun Hall, adalah stasiun kereta api kelas besar tipe A yang terletak di Jalan Stasiun Timur dan Jalan Kebon Kawung",
-                              address:
-                                  "Jl. Stasiun Barat, Kb. Jeruk, Kec. Andir, Bandung",
-                              rating: '4.7',
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  PageTransition(
-                                    curve: Curves.easeInOut,
-                                    type: PageTransitionType.bottomToTop,
-                                    // Navigate to detail with parameter
-                                    child: const TransportationDetailScreen(
-                                      isTrain: true,
-                                    ),
-                                    duration: const Duration(milliseconds: 150),
-                                    reverseDuration:
-                                        const Duration(milliseconds: 150),
-                                  ),
-                                );
-                              },
+                  AnimatedPositioned(
+                    bottom: (isClickTrain) ? 0 : -120.0,
+                    curve: Curves.easeInOut,
+                    duration: const Duration(milliseconds: 200),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      // Add parameter for card with data
+                      child: CustomCardStasiun(
+                        image:
+                            image,
+                        title: name,
+                        address:
+                            address,
+                        rating: rating.toString(),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            PageTransition(
+                              curve: Curves.easeInOut,
+                              type: PageTransitionType.bottomToTop,
+                              // Navigate to detail with parameter
+                              child: const TransportationDetailScreen(
+                                isTrain: true,
+                              ),
+                              duration: const Duration(milliseconds: 150),
+                              reverseDuration:
+                                  const Duration(milliseconds: 150),
                             ),
-                          ),
-                        )
-                      : AnimatedPositioned(
-                          bottom: (isClickBus) ? 0 : -120.0,
-                          curve: Curves.easeInOut,
-                          duration: const Duration(milliseconds: 200),
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            // Add parameter for card with data
-                            child: CustomCardStasiun(
-                              image:
-                                  "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
-                              title: "Terminal Bandung Kota",
-                              description:
-                                  "Stasiun Bandung, juga dikenal sebagai Stasiun Hall, adalah stasiun kereta api kelas besar tipe A yang terletak di Jalan Stasiun Timur dan Jalan Kebon Kawung",
-                              address:
-                                  "Jl. Stasiun Barat, Kb. Jeruk, Kec. Andir, Bandung",
-                              rating: '4.7',
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  PageTransition(
-                                    curve: Curves.easeInOut,
-                                    type: PageTransitionType.bottomToTop,
-                                    // Navigate to detail with parameter
-                                    child: const TransportationDetailScreen(
-                                      isTrain: false,
-                                    ),
-                                    duration: const Duration(milliseconds: 150),
-                                    reverseDuration:
-                                        const Duration(milliseconds: 150),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                        ),
+                          );
+                        },
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),

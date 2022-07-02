@@ -89,7 +89,7 @@ class _TransportationListScreenState extends State<TransportationListScreen> {
   @override
   void initState() {
     super.initState();
-    futureStation = TourismRemoteDataSource().getStation();
+    futureStation = TransportationRemoteDataSource().getStation();
   }
 
   @override
@@ -252,7 +252,7 @@ class _TransportationListScreenState extends State<TransportationListScreen> {
                                     );
                                   },
                                 ): CustomCardStasiunList(
-                                  image: "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${place[index].photos![0].photoReference}&key=AIzaSyAO1b9CLWFz6Y9NG14g2gpYP7TQWPRsPG0",
+                                  image: "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${place[index].photos![0].photoReference}&key=YOUR KEY HERE",
                                   title: place[index].name,
                                   address: place[index].vicinity,
                                   rating: place[index].rating.toString(),
@@ -286,64 +286,6 @@ class _TransportationListScreenState extends State<TransportationListScreen> {
                         }
                       },
                     ),
-                    // child: StreamBuilder<QuerySnapshot>(
-                    //     stream: FirebaseFirestore.instance
-                    //         .collection("Station")
-                    //         .snapshots(),
-                    //     builder: (context, snapshot) {
-                    //       if (!snapshot.hasData) {
-                    //         return Center(
-                    //           child:
-                    //               LoadingAnimationWidget.horizontalRotatingDots(
-                    //             color: Theme.of(context).colorScheme.tertiary,
-                    //             size: 50.0,
-                    //           ),
-                    //         );
-                    //       }
-                    //       // else if (snapshot.data!.docs.length <= 0) {
-                    //       //   return Center(
-                    //       //     child: Text("Tidak ada data"),
-                    //       //   );
-                    //       // }
-                    //       final station = snapshot.data!.docs;
-                    //       return ListView.builder(
-                    //         physics: const BouncingScrollPhysics(),
-                    //         shrinkWrap: true,
-                    //         itemBuilder: (BuildContext context, int index) {
-                    //           // Use Data Train
-                    //           print(station[index]['address']);
-                    //           return Padding(
-                    //             padding: const EdgeInsets.only(bottom: 15.0),
-                    //             child: CustomCardStasiunList(
-                    //               image: "${station[index]['image']}",
-                    //               title: station[index]['title'],
-                    //               description: station[index]['desc'],
-                    //               address: station[index]['address'],
-                    //               rating: station[index]['rating'].toString(),
-                    //               onTap: () {
-                    //                 Navigator.push(
-                    //                   context,
-                    //                   PageTransition(
-                    //                     curve: Curves.easeInOut,
-                    //                     type: PageTransitionType.bottomToTop,
-                    //                     // Add Parameter Data Train Detail
-                    //                     child: TransportationDetailScreen(
-                    //                       isTrain: true,
-                    //                       station: "Kiaracondong",
-                    //                     ),
-                    //                     duration:
-                    //                         const Duration(milliseconds: 150),
-                    //                     reverseDuration:
-                    //                         const Duration(milliseconds: 150),
-                    //                   ),
-                    //                 );
-                    //               },
-                    //             ),
-                    //           );
-                    //         },
-                    //         itemCount: station.length,
-                    //       );
-                    //     }),
                   ),
                 ),
                 CustomSmartRefresh(

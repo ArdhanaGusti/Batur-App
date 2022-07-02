@@ -6,7 +6,7 @@ import 'package:tourism/data/models/tourist_attraction_detail.dart';
 import '../models/tourist_attraction.dart';
 
 class TourismRemoteDataSource {
-  static const apiKey = 'AIzaSyAO1b9CLWFz6Y9NG14g2gpYP7TQWPRsPG0';
+  static const apiKey = '';
   static const baseUrl =
       'https://maps.googleapis.com/maps/api/place/nearbysearch/json';
   static const language = 'id';
@@ -25,8 +25,10 @@ class TourismRemoteDataSource {
     }
   }
 
-  Future<TouristAttractionDetailResult> getTouristAttractionDetail(String id) async {
-    String detailUrl = 'https://maps.googleapis.com/maps/api/place/details/json?language=id&place_id=$id&key=YOUR KEY HERE';
+  Future<TouristAttractionDetailResult> getTouristAttractionDetail(
+      String id) async {
+    String detailUrl =
+        'https://maps.googleapis.com/maps/api/place/details/json?language=id&place_id=$id&key=YOUR KEY HERE';
     final response = await http.get(Uri.parse(detailUrl));
     if (response.statusCode == 200) {
       return TouristAttractionDetailResult.fromJson(jsonDecode(response.body));

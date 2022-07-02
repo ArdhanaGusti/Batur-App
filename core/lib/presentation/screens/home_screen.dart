@@ -204,23 +204,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   ];
 
   final List<Widget> onTapCarouselList = [
-    Builder(builder: (context) {
-      return ErrorScreen(
-        title: AppLocalizations.of(context)!.tour,
-        message: AppLocalizations.of(context)!.tourList,
-      );
-    }),
-    // Navigate to UMKM List
-    Builder(builder: (context) {
-      return ErrorScreen(
-        title: AppLocalizations.of(context)!.umkm,
-        message: AppLocalizations.of(context)!.umkmList,
-      );
-    }),
-    // Navigate to News List
-    // Not Working for Dummy
+    const TourMapScreen(),
+    const UmkmMapsScreen(),
     const NewsScreen(),
-    // Navigate to Transport List
     const TransportationMapScreen(),
   ];
 

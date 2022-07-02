@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:tourism/presentation/screens/tour_detail_screen.dart';
 import 'package:umkm/data/service/api_service.dart';
 import 'package:umkm/presentation/components/custom_card_umkm.dart';
 import 'package:umkm/presentation/screen/umkm_detail_screen.dart';
@@ -56,10 +55,8 @@ class _UmkmMapsScreenState extends State<UmkmMapsScreen> {
   final Map<String, Marker> _markers = {};
 
   Future<void> _onMapCreated(GoogleMapController controller) async {
-    QuerySnapshot touristAttraction = await FirebaseFirestore.instance
-        .collection("UMKM")
-        .where("verification", isEqualTo: true)
-        .get();
+    QuerySnapshot touristAttraction =
+    await FirebaseFirestore.instance.collection("UMKM").get();
     setState(() {
       _markers.clear();
       for (final place in touristAttraction.docs) {
@@ -224,15 +221,15 @@ class _UmkmMapsScreenState extends State<UmkmMapsScreen> {
                       child: StreamBuilder<QuerySnapshot>(
                         stream: (user == null)
                             ? FirebaseFirestore.instance
-                                .collection("Favorite")
-                                .where("umkm", isEqualTo: name)
-                                .snapshots()
+                            .collection("Favorite")
+                            .where("umkm", isEqualTo: name)
+                            .snapshots()
                             : FirebaseFirestore.instance
-                                .collection("Favorite")
-                                .where("umkm", isEqualTo: name)
-                                .where("email", isEqualTo: user!.email)
-                                .where("seller", isEqualTo: email)
-                                .snapshots(),
+                            .collection("Favorite")
+                            .where("umkm", isEqualTo: name)
+                            .where("email", isEqualTo: user!.email)
+                            .where("seller", isEqualTo: email)
+                            .snapshots(),
                         builder: (context, fav) {
                           bool favorite = false;
                           if (fav.hasData) {

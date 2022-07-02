@@ -307,6 +307,8 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                                               ['coverUrl'],
                                           writer: snapshot.data!.docs[index]
                                               ['username'],
+                                          email: snapshot.data!.docs[index]
+                                              ['email'],
                                           date: snapshot.data!.docs[index]
                                               ['date'],
                                         ),

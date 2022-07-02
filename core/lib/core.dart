@@ -19,7 +19,7 @@ export 'package:core/presentation/components/button/custom_secondary_icon_text_b
 export 'package:core/presentation/components/button/custom_multiple_icon_button.dart';
 export 'package:core/presentation/components/card/custom_card_detail_stasiun.dart';
 export 'package:core/presentation/components/card/custom_card_status_registrasi.dart';
-export 'package:core/presentation/components/card/custom_detail_umkm_card.dart';
+export 'package:umkm/presentation/components/custom_detail_umkm_card.dart';
 export 'package:core/presentation/components/card/custom_favorite_tour_card.dart';
 export 'package:core/presentation/components/card/custom_favorite_umkm_card.dart';
 export 'package:core/presentation/components/card/custom_tour_card.dart';

@@ -1,152 +1,186 @@
 import 'package:core/core.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:theme/theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tourism/presentation/components/custom_card_detail_tour_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:umkm/presentation/bloc/umkm_remove_bloc.dart';
+import 'package:umkm/presentation/bloc/umkm_state.dart';
+import 'package:umkm/presentation/bloc/umkm_event.dart';
+import 'package:page_transition/page_transition.dart';
 
-import '../components/custom_sliver_appbar_text_leading_action_double.dart';
+enum UmkmDetailScreenProcessEnum {
+  loading,
+  loaded,
+  failed,
+}
 
 class UmkmDetailScreen extends StatefulWidget {
-  const UmkmDetailScreen({Key? key}) : super(key: key);
+  final String address, coverUrl, name, desc, type, noHp;
+  final DocumentReference index;
+  const UmkmDetailScreen(
+      {Key? key,
+      required this.address,
+      required this.coverUrl,
+      required this.name,
+      required this.desc,
+      required this.type,
+      required this.noHp,
+      required this.index})
+      : super(key: key);
 
   @override
   State<UmkmDetailScreen> createState() => _UmkmDetailScreenState();
 }
 
 class _UmkmDetailScreenState extends State<UmkmDetailScreen> {
-  final List<String> carouselImages = [
-    "https://thumb.viva.co.id/media/frontend/thumbs3/2022/03/23/623b099186419-red-velvet_665_374.jpg",
-    "https://awsimages.detik.net.id/visual/2020/09/15/noah-15.jpeg?w=650",
-    "https://media.suara.com/pictures/653x366/2022/02/09/60554-isyana-sarasvati-instagramatisyanasarasvati.jpg",
-  ];
+  UmkmDetailScreenProcessEnum process = UmkmDetailScreenProcessEnum.loaded;
+
+  // @override
+  // void initState() {
+  //   super.initState();
+
+  //   // Must be repair
+  //   // Change with to fetch data
+  //   Timer(const Duration(seconds: 2), () {
+  //     // Change state value if data loaded or failed
+  //     setState(() {
+  //       process = UmkmDetailScreenProcessEnum.loaded;
+  //     });
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-    double width = screenSize.width - 40;
-    return Scaffold(
-      body: SafeArea(
-        child: DefaultTabController(
-          length: 2,
-          initialIndex: 0,
-          child: Column(
-            children: [
-              CustomSliverAppBarTextLeadingActionDouble(
-                title: "Berita",
-                leadingIcon: "assets/icon/bold/chevron-left.svg",
-                leadingOnTap: () {
-                  Navigator.pop(
-                    context,
-                  );
-                },
-                actionIconFirst: "assets/icon/pen-light.svg",
-                actionOnTapFirst: () {
-                  // Navigator.of(context)
-                  //     .push(MaterialPageRoute(builder: (context) {
-                  //   return EditNewsScreen(
-                  //       judul: widget.title,
-                  //       konten: widget.konten,
-                  //       urlName: widget.urlName,
-                  //       index: widget.index);
-                  // }));
-                },
-                actionIconSecond: "assets/icon/trash.svg",
-                actionOnTapSecond: () {
-                  // context.read<NewsRemoveBloc>().add(
-                  //     OnRemoveNews(context, widget.urlName, widget.index));
-                },
-              ),
-              Expanded(
-                child: ListView(
-                  physics: BouncingScrollPhysics(),
-                  children: [
-                    CustomCardDetailTourScreen(
-                      img:
-                          'https://majalahpeluang.com/wp-content/uploads/2021/03/584ukm-bandung-ayobandung.jpg',
-                      title: 'Hias Teko',
-                      rating: '4,5',
-                      isFavourited: false,
-                      carouselImages: carouselImages,
-                      description:
-                          'Stasiun Bandung, juga dikenal sebagai Stasiun Hall, adalah stasiun kereta api kelas besar tipe A yang terletak di Jalan Stasiun Timur dan Jalan Kebon Kawung, di Kebonjeruk, Andir, tepatnya di perbatasan antara Kelurahan Pasirkaliki, Cicendo dan Kebonjeruk, Andir, Kota Bandung, Jawa Barat.',
-                      address: 'Jl. Trunojoyo No. 64 Bandung',
-                      telephone: '(022) 4208757',
-                      onTap: () {
-                        print("Container clicked");
-                      },
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: CustomSecondaryIconTextButton(
-                        icon: "assets/icon/shopee.svg",
-                        width: width,
-                        text: "Shopee",
-                        onTap: () {
-                          // Navigator.pop(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => const Login(),
-                          //   ),
-                          // );
-                        },
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: CustomSecondaryIconTextButton(
-                        icon: "assets/icon/tokopedia.svg",
-                        width: width,
-                        text: "Tokopedia",
-                        onTap: () {
-                          // Navigator.pop(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => const Login(),
-                          //   ),
-                          // );
-                        },
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: CustomPrimaryIconTextButton(
-                        icon: "assets/icon/map-marker.svg",
-                        width: width,
-                        text: "Petunjuk Arah",
-                        onTap: () {
-                          // Navigator.pop(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => const Login(),
-                          //   ),
-                          // );
-                        },
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    )
-                  ],
-                ),
-              ),
-            ],
+
+    if (process == UmkmDetailScreenProcessEnum.loading) {
+      return NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return [
+            _buildAppBar(),
+          ];
+        },
+        body: Scaffold(
+          body: Center(
+            child: LoadingAnimationWidget.horizontalRotatingDots(
+              color: Theme.of(context).colorScheme.tertiary,
+              size: 50.0,
+            ),
           ),
         ),
-      ),
+      );
+    } else if (process == UmkmDetailScreenProcessEnum.failed) {
+      return const ErrorScreen(
+        title: "AppLocalizations.of(context)!.oops",
+        message: "AppLocalizations.of(context)!.screenSmall",
+      );
+    } else {
+      return _buildScreen(context, screenSize);
+    }
+  }
+
+  Widget _buildAppBar() {
+    return CustomSliverAppBarTextLeading(
+      // Text wait localization
+      title: "Transportasi Umum Detail",
+      leadingIcon: "assets/icon/regular/chevron-left.svg",
+      leadingOnTap: () {
+        Navigator.pop(
+          context,
+        );
+      },
+    );
+  }
+
+  Widget _buildScreen(BuildContext context, Size screenSize) {
+    if (screenSize.width < 300.0 || screenSize.height < 600.0) {
+      return const ErrorScreen(
+        // Text wait localization
+        title: "Eror",
+        message: "Eror",
+      );
+    } else {
+      // Mobile Mode
+      return Scaffold(
+        body: _buildLoaded(context, screenSize),
+      );
+    }
+  }
+
+  Widget _buildLoaded(BuildContext context, Size screenSize) {
+    return CustomScrollView(
+      physics: const BouncingScrollPhysics(),
+      slivers: <Widget>[
+        _buildAppBar(),
+        SliverPadding(
+          padding: const EdgeInsets.all(20.0),
+          sliver: SliverToBoxAdapter(
+              child: Column(
+            children: [
+              CustomDetailScreen(
+                img: widget.coverUrl,
+                title: widget.name,
+                isFavorite: '155',
+                description: widget.desc,
+                address: widget.address,
+                telephone: widget.noHp,
+                onTap: () {
+                  print("Container clicked");
+                },
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              CustomSecondaryIconTextButton(
+                icon: "assets/icon/tokopedia.svg",
+                width: screenSize.width,
+                text: "Tokopedia",
+                onTap: () {
+                  // Navigator.pop(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => const Login(),
+                  //   ),
+                  // );
+                },
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              CustomSecondaryIconTextButton(
+                icon: "assets/icon/shopee.svg",
+                width: screenSize.width,
+                text: "Shopee",
+                onTap: () {
+                  // Navigator.pop(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => const Login(),
+                  //   ),
+                  // );
+                },
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              CustomSecondaryIconTextButton(
+                icon: "assets/icon/shopee.svg",
+                width: screenSize.width,
+                text: "Website",
+                onTap: () {
+                  // Navigator.pop(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => const Login(),
+                  //   ),
+                  // );
+                },
+              ),
+            ],
+          )),
+        ),
+      ],
     );
   }
 }

@@ -7,6 +7,7 @@ import 'package:news/presentation/bloc/news_firebase/news_create_bloc.dart';
 import 'package:news/presentation/bloc/news_firebase/news_remove_bloc.dart';
 import 'package:news/presentation/bloc/news_firebase/news_update_bloc.dart';
 import 'package:umkm/umkm.dart';
+import 'package:news/news.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';

@@ -13,6 +13,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:umkm/data/service/api_service.dart';
 import 'package:umkm/presentation/components/custom_umkm_card_list.dart';
 import 'package:umkm/presentation/screen/umkm_detail_acc_screen.dart';
+import 'package:umkm/presentation/screen/umkm_detail_screen.dart';
 
 import 'add_umkm_screen.dart';
 import 'package:geocoding/geocoding.dart';
@@ -161,7 +162,7 @@ class _UmkmScreenState extends State<UmkmScreen> {
           ),
         );
       },
-      isDoubleAction: true,
+      isDoubleAction: false,
     );
   }
 
@@ -251,6 +252,9 @@ class _UmkmScreenState extends State<UmkmScreen> {
                                 if (!snapshot.hasData) {
                                   return CircularProgressIndicator();
                                 }
+                                if (fav.data == null) {
+                                  return CircularProgressIndicator();
+                                }
                                 return CustomUMKMCardList(
                                   img:
                                       '${snapshot.data!.docs[index]['coverUrl']}',
@@ -266,7 +270,7 @@ class _UmkmScreenState extends State<UmkmScreen> {
                                       PageTransition(
                                         curve: Curves.easeInOut,
                                         type: PageTransitionType.rightToLeft,
-                                        child: UmkmDetailAccScreen(
+                                        child: UmkmDetailScreen(
                                           name: snapshot.data!.docs[index]
                                               ['name'],
                                           coverUrl: snapshot.data!.docs[index]
@@ -277,6 +281,10 @@ class _UmkmScreenState extends State<UmkmScreen> {
                                               ['desc'],
                                           index: snapshot
                                               .data!.docs[index].reference,
+                                          type: snapshot.data!.docs[index]
+                                              ['desc'],
+                                          noHp: snapshot.data!.docs[index]
+                                              ['phone'],
                                         ),
                                         duration:
                                             const Duration(milliseconds: 150),

@@ -255,7 +255,18 @@ class _AccountScreenState extends State<AccountScreen> {
                 if (state.isHaveProfile) {
                   return _buildSmallContainer(
                     context,
-                    () {},
+                    () {
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                          curve: Curves.easeInOut,
+                          type: PageTransitionType.rightToLeft,
+                          child: const StatusRegisterUmkmScreen(),
+                          duration: const Duration(milliseconds: 150),
+                          reverseDuration: const Duration(milliseconds: 150),
+                        ),
+                      );
+                    },
                     // Text wait localization
                     "Status Registrasi",
                     "assets/icon/regular/check-circle.svg",
@@ -276,6 +287,47 @@ class _AccountScreenState extends State<AccountScreen> {
                     // Text wait localization
                     "Status Registrasi",
                     "assets/icon/regular/check-circle.svg",
+                  );
+                }
+              },
+            ),
+            BlocBuilder<DashboardBloc, DashboardState>(
+              builder: (context, state) {
+                if (state.isHaveProfile) {
+                  return _buildSmallContainer(
+                    context,
+                    () {
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                          curve: Curves.easeInOut,
+                          type: PageTransitionType.rightToLeft,
+                          child: const AddUMKMScreen(),
+                          duration: const Duration(milliseconds: 150),
+                          reverseDuration: const Duration(milliseconds: 150),
+                        ),
+                      );
+                    },
+                    // Text wait localization
+                    "Tambah UMKM",
+                    "assets/icon/regular/plus-square.svg",
+                  );
+                } else {
+                  return _buildSmallContainer(
+                    context,
+                    () {
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                          curve: Curves.easeInOut,
+                          type: PageTransitionType.bottomToTop,
+                          child: const RegistrationSettingScreen(),
+                        ),
+                      );
+                    },
+                    // Text wait localization
+                    "Tambah UMKM",
+                    "assets/icon/regular/plus-square.svg",
                   );
                 }
               },

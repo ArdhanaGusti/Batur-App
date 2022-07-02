@@ -9,6 +9,7 @@ class CustomNewsCard extends StatelessWidget {
   final String title;
   final String writer;
   final String date;
+
   final Function() onTap;
   const CustomNewsCard({
     Key? key,

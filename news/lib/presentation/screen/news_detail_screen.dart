@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:core/core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:news/news.dart';
 import 'package:news/presentation/components/custom_sliver_appbar_text_leading_action_double.dart';
@@ -16,6 +17,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 class NewsDetailScreen extends StatefulWidget {
   final String title, konten, urlName, writer;
   final String date;
+  final String email;
   final DocumentReference index;
   const NewsDetailScreen(
       {Key? key,
@@ -24,6 +26,7 @@ class NewsDetailScreen extends StatefulWidget {
       required this.urlName,
       required this.index,
       required this.date,
+      required this.email,
       required this.writer})
       : super(key: key);
 
@@ -210,7 +213,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                           //   child: StreamBuilder<QuerySnapshot>(
                           //       stream: FirebaseFirestore.instance
                           //           .collection('Profile')
-                          //           .where('email', isEqualTo: writer)
+                          //           .where('email', isEqualTo: widget.writer)
                           //           .snapshots(),
                           //       builder: (context, snapshot) {
                           //         if (!snapshot.hasData) {

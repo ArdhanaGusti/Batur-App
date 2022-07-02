@@ -29,6 +29,11 @@ class _TourMapScreenState extends State<TourMapScreen> {
   // State for click a custom marker
   bool isTour = true;
   bool isClickTour = false;
+  String name = "";
+  double rating = 0;
+  String image = "";
+  String openNow = "";
+  String placeId = "";
 
   // State for loading
   TourMapScreenProcessEnum process = TourMapScreenProcessEnum.loading;
@@ -38,24 +43,53 @@ class _TourMapScreenState extends State<TourMapScreen> {
   final Map<String, Marker> _markers = {};
 
   Future<void> _onMapCreated(GoogleMapController controller) async {
-    final touristAttraction = await TourismRemoteDataSource().getTouristAttraction();
+    final touristAttraction =
+        await TourismRemoteDataSource().getTouristAttraction();
     setState(() {
       _markers.clear();
       for (final place in touristAttraction.results) {
         final marker = Marker(
-          markerId: MarkerId(place.placeId),
-          position:
-          LatLng(place.geometry.location.lat, place.geometry.location.lng),
-          infoWindow: InfoWindow(
-            title: place.name,
-            snippet: place.vicinity,
-          ),
-        );
+            markerId: MarkerId(place.placeId),
+            position: LatLng(
+                place.geometry.location.lat, place.geometry.location.lng),
+            infoWindow: InfoWindow(
+              title: place.name,
+              snippet: place.vicinity,
+            ),
+            onTap: () {
+              setState(() {
+                // Change state value for click Train
+                isClickTour = false;
+              });
+
+              setState(() {
+                placeId = place.placeId;
+                name = place.name;
+                rating = place.rating;
+                // image = place.photos.;
+                if (place.openingHours?.openNow != null) {
+                  if (place.openingHours?.openNow == true) {
+                    openNow = "Buka";
+                  } else {
+                    openNow = "Tutup";
+                  }
+                } else {
+                  openNow = "Tidak tahu";
+                }
+              });
+
+              Timer(const Duration(milliseconds: 500), () {
+                setState(() {
+                  isTour = true;
+                  isClickTour = !isClickTour;
+                });
+              });
+            }
+      );
         _markers[place.name] = marker;
       }
     });
   }
-
 
   @override
   void initState() {
@@ -189,9 +223,9 @@ class _TourMapScreenState extends State<TourMapScreen> {
                       child: CustomTourCard(
                         image:
                             "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
-                        rating: "4.5",
-                        title: "Teko Hias",
-                        timeOpen: "Buka (07.00 WIB -16.00 WIB)",
+                        rating: rating.toString(),
+                        title: name,
+                        timeOpen: openNow,
                         isFavourited: true,
                         description:
                             "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",

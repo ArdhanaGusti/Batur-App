@@ -20,7 +20,7 @@ class Result {
     required this.geometry,
     required this.name,
     required this.openingHours,
-    // required this.photos,
+    required this.photos,
     required this.placeId,
     required this.rating,
     required this.userRatingsTotal,
@@ -31,7 +31,7 @@ class Result {
   Geometry geometry;
   String name;
   OpeningHours? openingHours;
-  // List<Photo> photos;
+  List<Photo> photos;
   String placeId;
   double rating;
   int userRatingsTotal;
@@ -44,7 +44,7 @@ class Result {
     openingHours: json["opening_hours"] == null
         ? null
         : OpeningHours.fromJson(json["opening_hours"]),
-    // photos: List<Photo>.from(json["photos"].map((x) => Photo.fromJson(x))),
+    photos: List<Photo>.from(json["photos"].map((x) => Photo.fromJson(x))),
     placeId: json["place_id"],
     rating: json["rating"].toDouble(),
     userRatingsTotal: json["user_ratings_total"],
@@ -58,7 +58,7 @@ class Result {
     "geometry": geometry.toJson(),
     "name": name,
     "opening_hours": openingHours == null ? null : openingHours?.toJson(),
-    // "photos": List<dynamic>.from(photos.map((x) => x.toJson())),
+    "photos": List<dynamic>.from(photos.map((x) => x.toJson())),
     "place_id": placeId,
     "rating": rating,
     "user_ratings_total": userRatingsTotal,
@@ -76,12 +76,12 @@ class Geometry {
   Location location;
 
   factory Geometry.fromJson(Map<String, dynamic> json) => Geometry(
-    location: Location.fromJson(json["location"]),
-  );
+        location: Location.fromJson(json["location"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "location": location.toJson(),
-  };
+        "location": location.toJson(),
+      };
 }
 
 class Location {
@@ -94,14 +94,14 @@ class Location {
   double lng;
 
   factory Location.fromJson(Map<String, dynamic> json) => Location(
-    lat: json["lat"].toDouble(),
-    lng: json["lng"].toDouble(),
-  );
+        lat: json["lat"].toDouble(),
+        lng: json["lng"].toDouble(),
+      );
 
   Map<String, dynamic> toJson() => {
-    "lat": lat,
-    "lng": lng,
-  };
+        "lat": lat,
+        "lng": lng,
+      };
 }
 
 class OpeningHours {
@@ -112,12 +112,12 @@ class OpeningHours {
   bool openNow;
 
   factory OpeningHours.fromJson(Map<String, dynamic> json) => OpeningHours(
-    openNow: json["open_now"],
-  );
+        openNow: json["open_now"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "open_now": openNow,
-  };
+        "open_now": openNow,
+      };
 }
 
 class Photo {
@@ -134,17 +134,17 @@ class Photo {
   int width;
 
   factory Photo.fromJson(Map<String, dynamic> json) => Photo(
-    height: json["height"],
-    htmlAttributions:
-    List<String>.from(json["html_attributions"].map((x) => x)),
-    photoReference: json["photo_reference"],
-    width: json["width"],
-  );
+        height: json["height"],
+        htmlAttributions:
+            List<String>.from(json["html_attributions"].map((x) => x)),
+        photoReference: json["photo_reference"],
+        width: json["width"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "height": height,
-    "html_attributions": List<dynamic>.from(htmlAttributions.map((x) => x)),
-    "photo_reference": photoReference,
-    "width": width,
-  };
+        "height": height,
+        "html_attributions": List<dynamic>.from(htmlAttributions.map((x) => x)),
+        "photo_reference": photoReference,
+        "width": width,
+      };
 }

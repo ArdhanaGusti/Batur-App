@@ -154,21 +154,25 @@ void init() {
       locator(),
     ),
   );
+
   locator.registerFactory(
     () => UmkmCreateBloc(
       locator(),
     ),
   );
-  locator.registerFactory(
-    () => UmkmUpdateBloc(
-      locator(),
-    ),
-  );
+
   locator.registerFactory(
     () => UmkmRemoveBloc(
       locator(),
     ),
   );
+
+  locator.registerFactory(
+    () => UmkmUpdateBloc(
+      locator(),
+    ),
+  );
+
   locator.registerFactory(
     () => NewsCreateBloc(
       locator(),

@@ -6,8 +6,11 @@ import 'package:page_transition/page_transition.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:theme/theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tourism/data/datasource/tourism_remote_data_source.dart';
 import 'package:tourism/presentation/components/custom_tour_card_list.dart';
 import 'package:tourism/presentation/screens/tour_detail_screen.dart';
+
+import '../../data/model/place.dart';
 
 enum TourListScreenProcessEnum {
   loading,
@@ -41,9 +44,13 @@ class _TourListScreenState extends State<TourListScreen> {
     _refreshControllerTour.loadComplete();
   }
 
+  late Future<PlaceResult> futurePlace;
+
   @override
   void initState() {
     super.initState();
+
+    futurePlace = TourismRemoteDataSource().getTouristAttraction();
 
     if (mounted) {
       setState(() {
@@ -179,37 +186,54 @@ class _TourListScreenState extends State<TourListScreen> {
             onRefresh: _onRefreshTour,
             child: Padding(
               padding: const EdgeInsets.only(top: 0.0),
-              child: ListView.builder(
-                physics: const BouncingScrollPhysics(),
-                shrinkWrap: true,
-                itemBuilder: (BuildContext context, int index) {
-                  // Use Data Tour
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 15.0),
-                    child: CustomTourCardList(
-                      img:
-                          "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
-                      rating: "4.5",
-                      title: "Gedung Sate",
-                      timeOpen: "Buka (07.00 WIB -16.00 WIB)",
-                      isFavourited: true,
-                      description:
-                          "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          PageTransition(
-                            curve: Curves.easeInOut,
-                            type: PageTransitionType.bottomToTop,
-                            // Navigate to detail with parameter
-                            child: const TourDetailScreen(),
+              child: FutureBuilder<PlaceResult>(
+                future: futurePlace,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return ListView.builder(
+                      physics: const BouncingScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (BuildContext context, int index) {
+                        // Use Data Tour
+                        final String openNOw;
+                        if (snapshot.data!.results[index].openingHours?.openNow == null) {
+                          openNOw = "Tidak tahu";
+                        } else {
+                          openNOw = snapshot.data!.results[index].openingHours?.openNow == true ? "Buka" : "Tutup";
+                        }
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 15.0),
+                          child: CustomTourCardList(
+                            img:
+                            "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${snapshot.data!.results[index].photos[0].photoReference}&key=YOUR KEY HERE",
+                            rating: snapshot.data!.results[index].rating.toString(),
+                            title: snapshot.data!.results[index].name,
+                            timeOpen: openNOw,
+                            isFavourited: true,
+                            description:
+                            "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                PageTransition(
+                                  curve: Curves.easeInOut,
+                                  type: PageTransitionType.bottomToTop,
+                                  // Navigate to detail with parameter
+                                  child: const TourDetailScreen(),
+                                ),
+                              );
+                            },
                           ),
                         );
                       },
-                    ),
-                  );
+                      itemCount: 10,
+                    );
+                  } else if (snapshot.hasError) {
+                    return Container();
+                  } else {
+                    return Container();
+                  }
                 },
-                itemCount: 10,
               ),
             ),
           ),

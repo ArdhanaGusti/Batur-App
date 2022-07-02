@@ -8,10 +8,10 @@ class TourismRemoteDataSource {
   static const apiKey = 'YOUR KEY HERE';
   static const baseUrl = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?&';
   static const location = '-6.905977%2C107.613144';
-  static const radius = 1500;
+  static const radius = 5000;
   static const type = 'torist_attraction';
   static const String _url =
-      "https://maps.googleapis.com/maps/api/place/nearbysearch/json?&location=-6.905977%2C107.613144&radius=50000&type=tourist_attraction&key=AIzaSyAO1b9CLWFz6Y9NG14g2gpYP7TQWPRsPG0";
+      "https://maps.googleapis.com/maps/api/place/nearbysearch/json?language=id&location=-6.905977%2C107.613144&radius=50000&type=tourist_attraction&key=AIzaSyAO1b9CLWFz6Y9NG14g2gpYP7TQWPRsPG0";
 
   Future<PlaceResult> getTouristAttraction() async {
     final response = await http.get(Uri.parse(_url));

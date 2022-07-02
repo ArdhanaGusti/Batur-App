@@ -4,21 +4,23 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:umkm/presentation/screen/umkm_detail_acc_screen.dart';
+import 'package:umkm/presentation/screen/umkm_detail_acc_admin_screen.dart';
 
-enum UmkmListScreenProcessEnum { loading, loaded, failed }
+enum UmkmListAdminScreenProcessEnum { loading, loaded, failed }
 
-class StatusRegisterUmkmScreen extends StatefulWidget {
-  const StatusRegisterUmkmScreen({Key? key}) : super(key: key);
+class StatusRegisterUmkmAdminScreen extends StatefulWidget {
+  const StatusRegisterUmkmAdminScreen({Key? key}) : super(key: key);
 
   @override
-  State<StatusRegisterUmkmScreen> createState() =>
-      _StatusRegisterUmkmScreenState();
+  State<StatusRegisterUmkmAdminScreen> createState() =>
+      _StatusRegisterUmkmAdminScreenState();
 }
 
-class _StatusRegisterUmkmScreenState extends State<StatusRegisterUmkmScreen> {
+class _StatusRegisterUmkmAdminScreenState
+    extends State<StatusRegisterUmkmAdminScreen> {
   User user = FirebaseAuth.instance.currentUser!;
-  UmkmListScreenProcessEnum process = UmkmListScreenProcessEnum.loading;
+  UmkmListAdminScreenProcessEnum process =
+      UmkmListAdminScreenProcessEnum.loading;
 
   @override
   void initState() {
@@ -27,7 +29,7 @@ class _StatusRegisterUmkmScreenState extends State<StatusRegisterUmkmScreen> {
     // Must be repair
     if (mounted) {
       setState(() {
-        process = UmkmListScreenProcessEnum.loaded;
+        process = UmkmListAdminScreenProcessEnum.loaded;
       });
     }
   }
@@ -35,7 +37,7 @@ class _StatusRegisterUmkmScreenState extends State<StatusRegisterUmkmScreen> {
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-    if (process == UmkmListScreenProcessEnum.loading) {
+    if (process == UmkmListAdminScreenProcessEnum.loading) {
       return NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
@@ -51,7 +53,7 @@ class _StatusRegisterUmkmScreenState extends State<StatusRegisterUmkmScreen> {
           ),
         ),
       );
-    } else if (process == UmkmListScreenProcessEnum.failed) {
+    } else if (process == UmkmListAdminScreenProcessEnum.failed) {
       return const ErrorScreen(
         title: "AppLocalizations.of(context)!.internetConnection",
         message: "AppLocalizations.of(context)!.tryAgain",
@@ -108,10 +110,7 @@ class _StatusRegisterUmkmScreenState extends State<StatusRegisterUmkmScreen> {
           child: Padding(
             padding: const EdgeInsets.only(top: 0.0),
             child: StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance
-                  .collection("UMKM")
-                  .where("email", isEqualTo: user.email)
-                  .snapshots(),
+              stream: FirebaseFirestore.instance.collection("UMKM").snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return Center(
@@ -144,7 +143,7 @@ class _StatusRegisterUmkmScreenState extends State<StatusRegisterUmkmScreen> {
                             PageTransition(
                               curve: Curves.easeInOut,
                               type: PageTransitionType.rightToLeft,
-                              child: UmkmDetailAccScreen(
+                              child: UmkmDetailAccAdminScreen(
                                 name: data['name'],
                                 coverUrl: data['coverUrl'],
                                 address: data['address'],
@@ -156,8 +155,8 @@ class _StatusRegisterUmkmScreenState extends State<StatusRegisterUmkmScreen> {
                                 web: data["website"],
                                 tokped: data["tokped"],
                                 shopee: data["shopee"],
-                                long: data['longitude'],
-                                lat: data['latitude'],
+                                lat: data["latitude"],
+                                long: data["longitude"],
                               ),
                               duration: const Duration(milliseconds: 150),
                               reverseDuration:

@@ -26,10 +26,29 @@ class DataRepositoryImplUmkm implements DataRepositoryUmkm {
       String descNow,
       double latitude,
       double longitude,
+      String address,
+      String? phone,
+      String? shopee,
+      String? tokped,
+      String? website,
       DocumentReference<Object?> index) async {
     try {
-      final res = await crudUmkm.editUmkm(context, image, coverUrlNow,
-          imageName, nameNow, typeNow, descNow, latitude, longitude, index);
+      final res = await crudUmkm.editUmkm(
+          context,
+          image,
+          coverUrlNow,
+          imageName,
+          nameNow,
+          typeNow,
+          descNow,
+          latitude,
+          longitude,
+          address,
+          phone,
+          shopee,
+          tokped,
+          website,
+          index);
       return Right(res);
     } on DatabaseException catch (e) {
       return Left(DatabaseFailure(e.message));
@@ -101,6 +120,17 @@ class DataRepositoryImplUmkm implements DataRepositoryUmkm {
       DocumentReference<Object?> index) async {
     try {
       final res = await crudUmkm.removeFavorite(index);
+      return Right(res);
+    } on DatabaseException catch (e) {
+      return Left(DatabaseFailure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> verif(
+      DocumentReference<Object?> index, bool value) async {
+    try {
+      final res = await crudUmkm.verif(index, value);
       return Right(res);
     } on DatabaseException catch (e) {
       return Left(DatabaseFailure(e.message));

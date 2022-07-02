@@ -14,8 +14,18 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  intl:
 
+  core:
+    path: ../core
+  tourism:
+    path: ../tourism
+  account:
+    path: ../account
+  theme:
+    path: ../theme
+
+
+  intl:
   image_picker:
   photo_view:
   firebase_storage:
@@ -29,19 +39,20 @@ dependencies:
   geolocator:
   geocoding:
   latlong2:
-
-  tourism:
-    path: ../tourism
+  page_transition:
+  loading_animation_widget:
+  cached_network_image:
+  google_maps_flutter:
+  flutter_svg:
+  webview_flutter:
+  fluttertoast:
+  path: 
+  
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
-
-  theme:
-    path: ../theme
-  core:
-    path: ../core
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -1,13 +1,16 @@
+import 'package:account/account.dart';
 import 'package:core/core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:umkm/presentation/bloc/umkm_remove_bloc.dart';
-import 'package:umkm/presentation/bloc/umkm_state.dart';
-import 'package:umkm/presentation/bloc/umkm_event.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:theme/theme.dart';
+import 'package:umkm/data/service/api_service.dart';
+import 'package:umkm/presentation/components/costom_detail_umkm_acc.dart';
+import 'package:umkm/presentation/screen/edit_umkm_screen.dart';
+import 'package:umkm/presentation/screen/umkm_web_screen.dart';
 
 enum UmkmDetailAccScreenProcessEnum {
   loading,
@@ -16,40 +19,77 @@ enum UmkmDetailAccScreenProcessEnum {
 }
 
 class UmkmDetailAccScreen extends StatefulWidget {
-  final String address, coverUrl, name, desc, type, noHp;
+  final String address,
+      coverUrl,
+      name,
+      desc,
+      type,
+      noHp,
+      email,
+      web,
+      tokped,
+      shopee;
   final DocumentReference index;
-  const UmkmDetailAccScreen(
-      {Key? key,
-      required this.address,
-      required this.coverUrl,
-      required this.name,
-      required this.desc,
-      required this.type,
-      required this.noHp,
-      required this.index})
-      : super(key: key);
+  final double lat, long;
+  const UmkmDetailAccScreen({
+    Key? key,
+    required this.address,
+    required this.web,
+    required this.tokped,
+    required this.shopee,
+    required this.coverUrl,
+    required this.name,
+    required this.desc,
+    required this.type,
+    required this.noHp,
+    required this.email,
+    required this.index,
+    required this.lat,
+    required this.long,
+  }) : super(key: key);
 
   @override
   State<UmkmDetailAccScreen> createState() => _UmkmDetailAccScreenState();
 }
 
 class _UmkmDetailAccScreenState extends State<UmkmDetailAccScreen> {
+  User? user = FirebaseAuth.instance.currentUser;
   UmkmDetailAccScreenProcessEnum process =
-      UmkmDetailAccScreenProcessEnum.loaded;
+      UmkmDetailAccScreenProcessEnum.loading;
+  final toast = FToast();
 
-  // @override
-  // void initState() {
-  //   super.initState();
+  void toastError(String message) {
+    toast.showToast(
+      child: CustomToast(
+        logo: "assets/icon/fill/exclamation-circle.svg",
+        message: message,
+        toastColor: bToastFiled,
+        bgToastColor: bBgToastFiled,
+        borderToastColor: bBorderToastFiled,
+      ),
+      gravity: ToastGravity.TOP,
+      toastDuration: const Duration(seconds: 3),
+    );
+  }
 
-  //   // Must be repair
-  //   // Change with to fetch data
-  //   Timer(const Duration(seconds: 2), () {
-  //     // Change state value if data loaded or failed
-  //     setState(() {
-  //       process = UmkmDetailAccScreenProcessEnum.loaded;
-  //     });
-  //   });
-  // }
+  @override
+  void initState() {
+    super.initState();
+    toast.init(context);
+
+    // Must be repair
+    // Change with to fetch data
+    if (mounted) {
+      setState(() {
+        process = UmkmDetailAccScreenProcessEnum.loaded;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +98,7 @@ class _UmkmDetailAccScreenState extends State<UmkmDetailAccScreen> {
     if (process == UmkmDetailAccScreenProcessEnum.loading) {
       return NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return [
+          return <Widget>[
             _buildAppBar(),
           ];
         },
@@ -73,6 +113,7 @@ class _UmkmDetailAccScreenState extends State<UmkmDetailAccScreen> {
       );
     } else if (process == UmkmDetailAccScreenProcessEnum.failed) {
       return const ErrorScreen(
+        // Wait Localization
         title: "AppLocalizations.of(context)!.oops",
         message: "AppLocalizations.of(context)!.screenSmall",
       );
@@ -84,7 +125,7 @@ class _UmkmDetailAccScreenState extends State<UmkmDetailAccScreen> {
   Widget _buildAppBar() {
     return CustomSliverAppBarTextLeading(
       // Text wait localization
-      title: "Transportasi Umum Detail",
+      title: widget.name,
       leadingIcon: "assets/icon/regular/chevron-left.svg",
       leadingOnTap: () {
         Navigator.pop(
@@ -100,6 +141,14 @@ class _UmkmDetailAccScreenState extends State<UmkmDetailAccScreen> {
         // Text wait localization
         title: "Eror",
         message: "Eror",
+      );
+    } else if (screenSize.width > 500.0) {
+      // Mobile Mode
+      return Scaffold(
+        body: Container(
+          constraints: const BoxConstraints(maxWidth: 500.0),
+          child: _buildLoaded(context, screenSize),
+        ),
       );
     } else {
       // Mobile Mode
@@ -117,100 +166,164 @@ class _UmkmDetailAccScreenState extends State<UmkmDetailAccScreen> {
         SliverPadding(
           padding: const EdgeInsets.all(20.0),
           sliver: SliverToBoxAdapter(
-              child: Column(
-            children: [
-              CustomDetailScreen(
-                img: widget.coverUrl,
-                title: widget.name,
-                isFavorite: '155',
-                description: widget.desc,
-                address: widget.address,
-                telephone: widget.noHp,
-                onTap: () {
-                  print("Container clicked");
-                },
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              CustomSecondaryIconTextButton(
-                icon: "assets/icon/tokopedia.svg",
-                width: screenSize.width,
-                text: "Tokopedia",
-                onTap: () {
-                  // Navigator.pop(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => const Login(),
-                  //   ),
-                  // );
-                },
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              CustomSecondaryIconTextButton(
-                icon: "assets/icon/shopee.svg",
-                width: screenSize.width,
-                text: "Shopee",
-                onTap: () {
-                  // Navigator.pop(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => const Login(),
-                  //   ),
-                  // );
-                },
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              CustomSecondaryIconTextButton(
-                icon: "assets/icon/shopee.svg",
-                width: screenSize.width,
-                text: "Website",
-                onTap: () {
-                  // Navigator.pop(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => const Login(),
-                  //   ),
-                  // );
-                },
-              ),
-              CustomValidationButton(
-                color: Theme.of(context).colorScheme.primary,
-                width: screenSize.width,
-                onTapAcc: () {
-                  context
-                      .read<UmkmRemoveBloc>()
-                      .add(OnRemoveUmkm(widget.coverUrl, widget.index));
-                },
-                isLight: true,
-                onTapDec: () {
-                  Navigator.push(
-                    context,
-                    PageTransition(
-                      curve: Curves.easeInOut,
-                      type: PageTransitionType.rightToLeft,
-                      //ganti halaman
-                      child: UmkmDetailAccScreen(
-                        name: widget.name,
-                        coverUrl: widget.coverUrl,
-                        address: widget.address,
-                        desc: widget.desc,
-                        index: widget.index,
-                        noHp: widget.noHp,
-                        type: widget.type,
+            child: Column(
+              children: <Widget>[
+                StreamBuilder<QuerySnapshot>(
+                  stream: (user == null)
+                      ? FirebaseFirestore.instance
+                          .collection("Favorite")
+                          .where("umkm", isEqualTo: widget.name)
+                          .snapshots()
+                      : FirebaseFirestore.instance
+                          .collection("Favorite")
+                          .where("umkm", isEqualTo: widget.name)
+                          .where("email", isEqualTo: user!.email)
+                          .where("seller", isEqualTo: widget.email)
+                          .snapshots(),
+                  builder: (context, fav) {
+                    return CustomDetailAccScreen(
+                      img: widget.coverUrl,
+                      title: widget.name,
+                      description: widget.desc,
+                      address: widget.address,
+                      telephone: widget.noHp,
+                      onTap: () {
+                        if (user == null) {
+                          Navigator.push(
+                            context,
+                            PageTransition(
+                              curve: Curves.easeInOut,
+                              type: PageTransitionType.bottomToTop,
+                              child: const LoginScreen(),
+                            ),
+                          );
+                        } else {
+                          if (fav.data!.docs.isEmpty) {
+                            ApiServiceUMKM().addFavorite(
+                              widget.coverUrl,
+                              widget.address,
+                              widget.email,
+                              "",
+                              widget.name,
+                            );
+                          } else {
+                            ApiServiceUMKM().removeFavorite(
+                              fav.data!.docs[0].reference,
+                            );
+                          }
+                        }
+                      },
+                    );
+                  },
+                ),
+                const SizedBox(
+                  height: 30.0,
+                ),
+                CustomSecondaryIconTextButton(
+                  icon: "assets/icon/tokopedia.svg",
+                  width: screenSize.width,
+                  text: "Tokopedia",
+                  onTap: () {
+                    // To WebView
+                  },
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                CustomSecondaryIconTextButton(
+                  icon: "assets/icon/shopee.svg",
+                  width: screenSize.width,
+                  text: "Shopee",
+                  onTap: () {
+                    // To WebView
+                  },
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                CustomSecondaryIconTextButton(
+                  icon: "assets/icon/shopee.svg",
+                  width: screenSize.width,
+                  text: "Website",
+                  onTap: () {
+                    // To WebView
+                    if (widget.web == "") {
+                      toastError("Link Tidak Ditemukan");
+                    } else {
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                          curve: Curves.easeInOut,
+                          type: PageTransitionType.rightToLeft,
+                          child: UmkmWebScreen(
+                            url: "https://pub.dev/packages/photo_view",
+                            title: widget.name,
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                CustomPrimaryIconTextButton(
+                  icon: "assets/icon/fill/pen.svg",
+                  width: screenSize.width,
+                  text: "Edit",
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      PageTransition(
+                        curve: Curves.easeInOut,
+                        type: PageTransitionType.rightToLeft,
+                        child: DeleteUMKMScreen(
+                          address: widget.address,
+                          coverUrlNow: widget.coverUrl,
+                          desc: widget.desc,
+                          index: widget.index,
+                          latitude: widget.lat,
+                          longitude: widget.long,
+                          phone: widget.noHp,
+                          name: widget.name,
+                          tokped: widget.tokped,
+                          shopee: widget.shopee,
+                          type: widget.type,
+                          website: widget.web,
+                        ),
                       ),
-                      duration: const Duration(milliseconds: 150),
-                      reverseDuration: const Duration(milliseconds: 150),
-                    ),
-                  );
-                },
-              ),
-            ],
-          )),
+                    );
+                  },
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                CustomErrorIconTextButton(
+                  icon: "assets/icon/fill/trash.svg",
+                  width: screenSize.width,
+                  text: "Hapus",
+                  onTap: () {
+                    // To WebView
+                    if (widget.web == "") {
+                      toastError("Link Tidak Ditemukan");
+                    } else {
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                          curve: Curves.easeInOut,
+                          type: PageTransitionType.rightToLeft,
+                          child: UmkmWebScreen(
+                            url: "https://pub.dev/packages/photo_view",
+                            title: widget.name,
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                ),
+              ],
+            ),
+          ),
         ),
       ],
     );

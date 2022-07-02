@@ -53,7 +53,7 @@ class ApiServiceUMKM {
           "coverUrl": urlName,
           "type": type,
           "desc": desc,
-          "verification": false,
+          "verification": null,
         });
         // Navigator.of(context).push(MaterialPageRoute(builder: (context) {
         //   return Dashboard(user: user);
@@ -72,6 +72,11 @@ class ApiServiceUMKM {
       String descNow,
       double latitude,
       double longitude,
+      String address,
+      String? phone,
+      String? shopee,
+      String? tokped,
+      String? website,
       DocumentReference index) async {
     UploadTask? uploadTask;
     if (image != null) {
@@ -97,7 +102,12 @@ class ApiServiceUMKM {
             "longitude": longitude,
             "coverUrl": coverUrlNow,
             "type": typeNow,
-            "desc": descNow
+            "desc": descNow,
+            "address": address,
+            "phone": phone,
+            "shopee": shopee,
+            "tokped": tokped,
+            "website": website,
           });
           // Navigator.of(context).push(MaterialPageRoute(builder: (context) {
           //   return Dashboard(user: user);
@@ -110,7 +120,12 @@ class ApiServiceUMKM {
           "longitude": longitude,
           "coverUrl": coverUrlNow,
           "type": typeNow,
-          "desc": descNow
+          "desc": descNow,
+          "address": address,
+          "phone": phone,
+          "shopee": shopee,
+          "tokped": tokped,
+          "website": website,
         });
         // Navigator.of(context).push(MaterialPageRoute(builder: (context) {
         //   return Dashboard(user: user);
@@ -139,6 +154,16 @@ class ApiServiceUMKM {
     FirebaseFirestore.instance.runTransaction((transaction) async {
       DocumentSnapshot snapshot = await transaction.get(index);
       transaction.delete(snapshot.reference);
+    });
+  }
+
+  Future<void> verif(DocumentReference index, bool value) async {
+    FirebaseFirestore.instance.runTransaction((transaction) async {
+      CollectionReference reference =
+          FirebaseFirestore.instance.collection("UMKM");
+      await reference.doc(index.id).update({
+        "verification": value,
+      });
     });
   }
 }

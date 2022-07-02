@@ -253,24 +253,45 @@ class _AccountScreenState extends State<AccountScreen> {
             BlocBuilder<DashboardBloc, DashboardState>(
               builder: (context, state) {
                 if (state.isHaveProfile) {
-                  return _buildSmallContainer(
-                    context,
-                    () {
-                      Navigator.push(
-                        context,
-                        PageTransition(
-                          curve: Curves.easeInOut,
-                          type: PageTransitionType.rightToLeft,
-                          child: const StatusRegisterUmkmScreen(),
-                          duration: const Duration(milliseconds: 150),
-                          reverseDuration: const Duration(milliseconds: 150),
-                        ),
-                      );
-                    },
-                    // Text wait localization
-                    "Status Registrasi",
-                    "assets/icon/regular/check-circle.svg",
-                  );
+                  if (state.isAdmin) {
+                    return _buildSmallContainer(
+                      context,
+                      () {
+                        Navigator.push(
+                          context,
+                          PageTransition(
+                            curve: Curves.easeInOut,
+                            type: PageTransitionType.rightToLeft,
+                            child: const StatusRegisterUmkmAdminScreen(),
+                            duration: const Duration(milliseconds: 150),
+                            reverseDuration: const Duration(milliseconds: 150),
+                          ),
+                        );
+                      },
+                      // Text wait localization
+                      "Status Registrasi",
+                      "assets/icon/regular/check-circle.svg",
+                    );
+                  } else {
+                    return _buildSmallContainer(
+                      context,
+                      () {
+                        Navigator.push(
+                          context,
+                          PageTransition(
+                            curve: Curves.easeInOut,
+                            type: PageTransitionType.rightToLeft,
+                            child: const StatusRegisterUmkmScreen(),
+                            duration: const Duration(milliseconds: 150),
+                            reverseDuration: const Duration(milliseconds: 150),
+                          ),
+                        );
+                      },
+                      // Text wait localization
+                      "Status Registrasi",
+                      "assets/icon/regular/check-circle.svg",
+                    );
+                  }
                 } else {
                   return _buildSmallContainer(
                     context,

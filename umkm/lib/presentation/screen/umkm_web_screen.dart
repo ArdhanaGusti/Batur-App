@@ -4,7 +4,10 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UmkmWebScreen extends StatelessWidget {
-  const UmkmWebScreen({Key? key}) : super(key: key);
+  final String url;
+  final String title;
+  const UmkmWebScreen({Key? key, required this.url, required this.title})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +41,7 @@ class UmkmWebScreen extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       slivers: <Widget>[
         CustomSliverAppBarTextLeading(
-          title: "Detail",
+          title: title,
           leadingIcon: "assets/icon/back.svg",
           // Navigation repair
           leadingOnTap: () {
@@ -47,13 +50,9 @@ class UmkmWebScreen extends StatelessWidget {
             );
           },
         ),
-        SliverToBoxAdapter(
-          child: SizedBox(
-            height: screenSize.height - 80,
-            child: const WebView(
-              initialUrl:
-                  'https://endpts.com/pfizers-paxlovid-doesnt-stack-up-as-well-for-those-who-are-vaccinated-new-data-show/',
-            ),
+        SliverFillRemaining(
+          child: WebView(
+            initialUrl: url,
           ),
         ),
       ],

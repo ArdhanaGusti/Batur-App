@@ -170,6 +170,7 @@ void init() {
   locator.registerFactory(
     () => UmkmUpdateBloc(
       locator(),
+      locator(),
     ),
   );
 
@@ -215,6 +216,7 @@ void init() {
   locator.registerLazySingleton(() => UpdateUmkm(locator()));
   locator.registerLazySingleton(() => RemoveNews(locator()));
   locator.registerLazySingleton(() => RemoveUmkm(locator()));
+  locator.registerLazySingleton(() => VerifUmkm(locator()));
 
   locator.registerLazySingleton<CrudTrain>(
     () => CrudTrainImpl(apiService: locator()),

@@ -1,13 +1,17 @@
 import 'dart:async';
 
-import 'package:core/presentation/components/appbar/custom_sliver_appbar_text_leading_action.dart';
-import 'package:core/presentation/screens/error_screen.dart';
+import 'package:account/account.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:core/core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:tourism/presentation/components/custom_tour_card_map.dart';
 import 'package:tourism/presentation/screens/tour_detail_screen.dart';
-import 'package:tourism/presentation/screens/tour_list_screen.dart';
+import 'package:umkm/data/service/api_service.dart';
+import 'package:umkm/presentation/components/custom_card_umkm.dart';
+import 'package:umkm/presentation/screen/umkm_detail_screen.dart';
 import 'package:umkm/presentation/screen/umkm_screen.dart';
 
 enum UmkmMapsScreenProcessEnum {
@@ -24,12 +28,77 @@ class UmkmMapsScreen extends StatefulWidget {
 }
 
 class _UmkmMapsScreenState extends State<UmkmMapsScreen> {
+  User? user = FirebaseAuth.instance.currentUser;
   // State for click a custom marker
-  bool isTour = true;
-  bool isClickTour = false;
+  bool isUMKM = true;
+  bool isClickUMKM = false;
+  String name = "";
+  double rating = 0;
+  String? image;
+  String address = "";
+  String desc = "";
+  String email = "";
+  String placeId = "";
+  String web = "";
+  String tokped = "";
+  String shopee = "";
+  String type = "";
+  String phone = "";
+  DocumentReference? reference;
 
   // State for loading
   UmkmMapsScreenProcessEnum process = UmkmMapsScreenProcessEnum.loading;
+
+  // Change center to bandung
+  final LatLng _center = const LatLng(37.4219983, -122.084);
+  LatLng click = const LatLng(37.4219983, -122.084);
+
+  final Map<String, Marker> _markers = {};
+
+  Future<void> _onMapCreated(GoogleMapController controller) async {
+    QuerySnapshot touristAttraction = await FirebaseFirestore.instance
+        .collection("UMKM")
+        .where("verification", isEqualTo: true)
+        .get();
+    setState(() {
+      _markers.clear();
+      for (final place in touristAttraction.docs) {
+        final marker = Marker(
+            markerId: MarkerId(place.id),
+            position: LatLng(place["latitude"], place["longitude"]),
+            onTap: () {
+              setState(() {
+                isClickUMKM = false;
+              });
+
+              setState(() {
+                placeId = place.id;
+                click = LatLng(place["latitude"], place["longitude"]);
+                name = place["name"];
+                desc = place["desc"];
+                email = place["email"];
+                image = place["coverUrl"];
+                rating = 0;
+                address = place["address"];
+                type = place["type"];
+                web = place["website"];
+                tokped = place["tokped"];
+                shopee = place["shopee"];
+                phone = place["phone"];
+                reference = place.reference;
+              });
+
+              Timer(const Duration(milliseconds: 500), () {
+                setState(() {
+                  isUMKM = true;
+                  isClickUMKM = !isClickUMKM;
+                });
+              });
+            });
+        _markers[place["name"]] = marker;
+      }
+    });
+  }
 
   @override
   void initState() {
@@ -47,13 +116,13 @@ class _UmkmMapsScreenState extends State<UmkmMapsScreen> {
     Size screenSize = MediaQuery.of(context).size;
 
     if (process == UmkmMapsScreenProcessEnum.loading) {
-      return NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[
-            _buildAppBar(),
-          ];
-        },
-        body: Scaffold(
+      return Scaffold(
+        body: NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[
+              _buildAppBar(),
+            ];
+          },
           body: Center(
             child: LoadingAnimationWidget.horizontalRotatingDots(
               color: Theme.of(context).colorScheme.tertiary,
@@ -64,6 +133,7 @@ class _UmkmMapsScreenState extends State<UmkmMapsScreen> {
       );
     } else if (process == UmkmMapsScreenProcessEnum.failed) {
       return const ErrorScreen(
+        // Text Wait Localization
         title: "AppLocalizations.of(context)!.oops",
         message: "Failed",
       );
@@ -126,57 +196,110 @@ class _UmkmMapsScreenState extends State<UmkmMapsScreen> {
                 children: <Widget>[
                   ClipRRect(
                     borderRadius: BorderRadius.circular(20.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          // Change state value for click Train
-                          isClickTour = false;
-                        });
-                        Timer(const Duration(seconds: 1), () {
-                          setState(() {
-                            isTour = true;
-                            isClickTour = !isClickTour;
-                          });
-                        });
-                      },
-                      // Change the widget becarefull with height
-                      child: Image.asset(
-                        "assets/splashscreen/map.jpg",
-                        fit: BoxFit.cover,
-                        height: screenSize.height - 125.0,
+                    child: SizedBox(
+                      height: screenSize.height - 130.0,
+                      child: GoogleMap(
+                        onMapCreated: _onMapCreated,
+                        initialCameraPosition: CameraPosition(
+                          target: _center,
+                          zoom: 11.0,
+                        ),
+                        markers: _markers.values.toSet(),
+                        onTap: (latLong) {
+                          if (click != latLong) {
+                            setState(() {
+                              isClickUMKM = false;
+                            });
+                          }
+                        },
                       ),
                     ),
                   ),
                   AnimatedPositioned(
-                    bottom: (isClickTour) ? 0 : -120.0,
+                    bottom: (isClickUMKM) ? 0 : -120.0,
                     curve: Curves.easeInOut,
                     duration: const Duration(milliseconds: 200),
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
-                      // Add parameter for card with data
-                      child: CustomTourCard(
-                        image:
-                            "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
-                        rating: "4.5",
-                        title: "Teko Hias",
-                        timeOpen: "Buka (07.00 WIB -16.00 WIB)",
-                        isFavourited: true,
-                        description:
-                            "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            PageTransition(
-                              curve: Curves.easeInOut,
-                              type: PageTransitionType.bottomToTop,
-                              // Navigate to detail with parameter
-                              child: const TourDetailScreen(),
-                            ),
+                      child: StreamBuilder<QuerySnapshot>(
+                        stream: (user == null)
+                            ? FirebaseFirestore.instance
+                                .collection("Favorite")
+                                .where("umkm", isEqualTo: name)
+                                .snapshots()
+                            : FirebaseFirestore.instance
+                                .collection("Favorite")
+                                .where("umkm", isEqualTo: name)
+                                .where("email", isEqualTo: user!.email)
+                                .where("seller", isEqualTo: email)
+                                .snapshots(),
+                        builder: (context, fav) {
+                          bool favorite = false;
+                          if (fav.hasData) {
+                            favorite = true;
+                          }
+                          return CustomCardUMKM(
+                            image: (image == null)
+                                ? "http://via.placeholder.com/350x150"
+                                : image!,
+                            title: name,
+                            description: desc,
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                PageTransition(
+                                  curve: Curves.easeInOut,
+                                  type: PageTransitionType.rightToLeft,
+                                  child: UmkmDetailScreen(
+                                    name: name,
+                                    email: email,
+                                    coverUrl: image!,
+                                    address: address,
+                                    desc: desc,
+                                    index: reference!,
+                                    type: type,
+                                    noHp: phone,
+                                    web: web,
+                                    tokped: tokped,
+                                    shopee: shopee,
+                                    isFav: (user == null) ? false : favorite,
+                                  ),
+                                ),
+                              );
+                            },
+                            address: address,
+                            heartTap: () {
+                              if (user == null) {
+                                Navigator.push(
+                                  context,
+                                  PageTransition(
+                                    curve: Curves.easeInOut,
+                                    type: PageTransitionType.bottomToTop,
+                                    child: const LoginScreen(),
+                                  ),
+                                );
+                              } else {
+                                if (fav.data!.docs.isEmpty) {
+                                  ApiServiceUMKM().addFavorite(
+                                    image!,
+                                    address,
+                                    user!.email!,
+                                    email,
+                                    name,
+                                  );
+                                } else {
+                                  ApiServiceUMKM().removeFavorite(
+                                    fav.data!.docs[0].reference,
+                                  );
+                                }
+                              }
+                            },
+                            isFavourited: favorite,
                           );
                         },
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

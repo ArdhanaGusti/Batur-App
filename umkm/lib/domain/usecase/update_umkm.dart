@@ -21,6 +21,11 @@ class UpdateUmkm {
     String descNow,
     double latitude,
     double longitude,
+    String address,
+    String? phone,
+    String? shopee,
+    String? tokped,
+    String? website,
     DocumentReference index,
   ) {
     return repository.editUmkm(
@@ -33,6 +38,11 @@ class UpdateUmkm {
       descNow,
       latitude,
       longitude,
+      address,
+      phone,
+      shopee,
+      tokped,
+      website,
       index,
     );
   }

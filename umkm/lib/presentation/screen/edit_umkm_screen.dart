@@ -1,16 +1,20 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:theme/theme.dart';
 import 'package:path/path.dart' as path;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:umkm/presentation/bloc/umkm_create_bloc.dart';
 import 'package:umkm/presentation/bloc/umkm_state.dart';
+import 'package:umkm/presentation/bloc/umkm_update_bloc.dart';
 import 'package:umkm/presentation/screen/gallery_screen.dart';
 
 import '../bloc/umkm_event.dart';
@@ -27,14 +31,40 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AddUMKMScreen extends StatefulWidget {
-  const AddUMKMScreen({Key? key}) : super(key: key);
+class DeleteUMKMScreen extends StatefulWidget {
+  final String coverUrlNow;
+  final DocumentReference index;
+  final String address;
+  final String phone;
+  final String shopee;
+  final String tokped;
+  final String website;
+  final String name;
+  final String type;
+  final String desc;
+  final double latitude;
+  final double longitude;
+  const DeleteUMKMScreen(
+      {Key? key,
+      required this.coverUrlNow,
+      required this.index,
+      required this.address,
+      required this.phone,
+      required this.shopee,
+      required this.tokped,
+      required this.website,
+      required this.name,
+      required this.type,
+      required this.desc,
+      required this.latitude,
+      required this.longitude})
+      : super(key: key);
 
   @override
-  State<AddUMKMScreen> createState() => _AddUMKMScreenState();
+  State<DeleteUMKMScreen> createState() => _DeleteUMKMScreenState();
 }
 
-class _AddUMKMScreenState extends State<AddUMKMScreen> {
+class _DeleteUMKMScreenState extends State<DeleteUMKMScreen> {
   String? imageName;
   String? address;
   File? image;
@@ -57,8 +87,22 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
   @override
   void initState() {
     super.initState();
-    getUserLocation();
+    // getUserLocation();
+    // getAddressFromLatLong(widget.latitude, widget.longitude);
     toast.init(context);
+    setState(() {
+      address = widget.address;
+      latController.text = widget.latitude.toString();
+      longController.text = widget.longitude.toString();
+      addressController.text = widget.address;
+      nameController.text = widget.name;
+      typeController.text = widget.type;
+      descController.text = widget.desc;
+      phoneController.text = widget.phone;
+      tokpedController.text = widget.tokped;
+      shopeeController.text = widget.shopee;
+      websiteController.text = widget.website;
+    });
   }
 
   void pickImg() async {
@@ -174,12 +218,12 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
   }
 
   Widget _buildAddUMKMScreen(BuildContext context, Size screenSize) {
-    return BlocConsumer<UmkmCreateBloc, UmkmState>(
+    return BlocConsumer<UmkmUpdateBloc, UmkmState>(
       listenWhen: (previous, current) {
         return (previous is UmkmLoading) ? true : false;
       },
       listener: (context, state) async {
-        if (state is UmkmCreated) {
+        if (state is UmkmUpdated) {
           toastSuccess("Berhasil Ditambahkan");
         } else if (state is UmkmError) {
           toastError("Gagal Ditambahkan");
@@ -190,7 +234,7 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
           physics: const BouncingScrollPhysics(),
           slivers: <Widget>[
             CustomSliverAppBarTextLeading(
-              title: "Tambah UMKM",
+              title: "Edit UMKM",
               leadingIcon: "assets/icon/regular/chevron-left.svg",
               // Navigation repair
               leadingOnTap: () {
@@ -309,40 +353,42 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
                       ),
                     ),
                     (image == null)
-                        ? Container(
-                            width: 150.0,
-                            height: 80.0,
-                            decoration: BoxDecoration(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .secondaryContainer,
-                              borderRadius: BorderRadius.circular(15.0),
-                              border: Border.all(color: bStroke),
-                            ),
-                            child: Center(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  SvgPicture.asset(
-                                    "assets/icon/camera-Light.svg",
+                        ? GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                PageTransition(
+                                  curve: Curves.easeInOut,
+                                  type: PageTransitionType.rightToLeft,
+                                  child: GalleryScreen(
+                                    images: widget.coverUrlNow,
+                                    typeNetwork: true,
+                                  ),
+                                ),
+                              );
+                            },
+                            child: CachedNetworkImage(
+                              imageUrl: widget.coverUrlNow,
+                              placeholder: (context, url) {
+                                return Center(
+                                  child: LoadingAnimationWidget
+                                      .horizontalRotatingDots(
                                     color:
                                         Theme.of(context).colorScheme.tertiary,
-                                    height: 24.0,
+                                    size: 14.0,
                                   ),
-                                  const SizedBox(
-                                    height: 5.0,
-                                  ),
-                                  Text(
-                                    AppLocalizations.of(context)!.inputImage,
-                                    style: bBody1.copyWith(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .tertiary,
-                                    ),
-                                  ),
-                                ],
+                                );
+                              },
+                              errorWidget: (context, url, error) => Center(
+                                child: SvgPicture.asset(
+                                  "assets/icon/fill/exclamation-circle.svg",
+                                  color: bGrey,
+                                  height: 14.0,
+                                ),
                               ),
+                              fit: BoxFit.cover,
+                              width: 150.0,
+                              height: 80.0,
                             ),
                           )
                         : SizedBox(
@@ -415,22 +461,27 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
               sliver: SliverToBoxAdapter(
                 child: CustomPrimaryTextButton(
                   onTap: () {
-                    context.read<UmkmCreateBloc>().add(OnCreateUmkm(
-                        context,
-                        imageName!,
-                        address!,
-                        phoneController.text,
-                        shopeeController.text,
-                        tokpedController.text,
-                        websiteController.text,
-                        nameController.text,
-                        typeController.text,
-                        descController.text,
-                        image!,
-                        latitude!,
-                        longitude!));
+                    context.read<UmkmUpdateBloc>().add(
+                          OnUpdateUmkm(
+                            context,
+                            imageName,
+                            nameController.text,
+                            typeController.text,
+                            descController.text,
+                            widget.coverUrlNow,
+                            image,
+                            double.parse(latController.text),
+                            double.parse(longController.text),
+                            addressController.text,
+                            phoneController.text,
+                            shopeeController.text,
+                            tokpedController.text,
+                            websiteController.text,
+                            widget.index,
+                          ),
+                        );
                   },
-                  text: AppLocalizations.of(context)!.applyShop,
+                  text: "Simpan",
                   width: screenSize.width,
                 ),
               ),

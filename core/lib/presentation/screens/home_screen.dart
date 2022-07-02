@@ -484,6 +484,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     return Padding(
                       padding: const EdgeInsets.only(top: 15.0),
                       child: CustomNewsCard(
+                        writerName: 'sdfasd',
                         img:
                             "https://cdn1-production-images-kly.akamaized.net/lMHji7xE4GI7YHCWAQumKfFm9Ew=/1200x900/smart/filters:quality(75):strip_icc():format(jpeg)/kly-media-production/medias/3554482/original/037161700_1630219411-bandung-5319951_1920.jpg",
                         title:

@@ -8,6 +8,7 @@ class CustomNewsCard extends StatelessWidget {
   final String img;
   final String title;
   final String writer;
+  final String writerName;
   final String date;
 
   final Function() onTap;
@@ -16,6 +17,7 @@ class CustomNewsCard extends StatelessWidget {
     required this.img,
     required this.title,
     required this.writer,
+    required this.writerName,
     required this.date,
     required this.onTap,
   }) : super(key: key);
@@ -99,7 +101,7 @@ class CustomNewsCard extends StatelessWidget {
                               ),
                               Flexible(
                                 child: Text(
-                                  writer,
+                                  writerName,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: bCaption1.copyWith(color: bGrey),

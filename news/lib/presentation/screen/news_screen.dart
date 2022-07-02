@@ -280,46 +280,63 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                               return Padding(
                                 padding: const EdgeInsets.only(
                                     right: 20, left: 20, bottom: 15),
-                                child: CustomNewsCard(
-                                  img:
-                                      '${snapshot.data!.docs[index]['coverUrl']}',
-                                  title: snapshot.data!.docs[index]['title'],
-                                  writer: snapshot.data!.docs[index]
-                                      ['username'],
-                                  date: DateFormat("EEEE, d MMMM yyyy", "id_ID")
-                                      .format(DateTime.parse(
-                                          snapshot.data!.docs[index]['date'])),
-                                  onTap: () {
-                                    // To detail News
-                                    Navigator.push(
-                                      context,
-                                      PageTransition(
-                                        curve: Curves.easeOut,
-                                        type: PageTransitionType.bottomToTop,
-                                        child: NewsDetailScreen(
-                                          title: snapshot.data!.docs[index]
-                                              ['title'],
-                                          konten: snapshot.data!.docs[index]
-                                              ['content'],
-                                          index: snapshot
-                                              .data!.docs[index].reference,
-                                          urlName: snapshot.data!.docs[index]
-                                              ['coverUrl'],
-                                          writer: snapshot.data!.docs[index]
-                                              ['username'],
-                                          email: snapshot.data!.docs[index]
-                                              ['email'],
-                                          date: snapshot.data!.docs[index]
-                                              ['date'],
-                                        ),
-                                        duration:
-                                            const Duration(milliseconds: 150),
-                                        reverseDuration:
-                                            const Duration(milliseconds: 150),
-                                      ),
-                                    );
-                                  },
-                                ),
+                                child: StreamBuilder<QuerySnapshot>(
+                                    stream: FirebaseFirestore.instance
+                                        .collection('Profile')
+                                        .where('email',
+                                            isEqualTo: snapshot
+                                                .data!.docs[index]['username'])
+                                        .snapshots(),
+                                    builder: (context, profile) {
+                                      if (!profile.hasData) {
+                                        return SizedBox();
+                                      }
+                                      return CustomNewsCard(
+                                        img:
+                                            '${snapshot.data!.docs[index]['coverUrl']}',
+                                        title: snapshot.data!.docs[index]
+                                            ['title'],
+                                        writer: snapshot.data!.docs[index]
+                                            ['username'],
+                                        writerName: profile.data!.docs[0]
+                                            ['username'],
+                                        date: DateFormat(
+                                                "EEEE, d MMMM yyyy", "id_ID")
+                                            .format(DateTime.parse(snapshot
+                                                .data!.docs[index]['date'])),
+                                        onTap: () {
+                                          // To detail News
+                                          Navigator.push(
+                                            context,
+                                            PageTransition(
+                                              curve: Curves.easeOut,
+                                              type: PageTransitionType
+                                                  .bottomToTop,
+                                              child: NewsDetailScreen(
+                                                title: snapshot
+                                                    .data!.docs[index]['title'],
+                                                konten: snapshot.data!
+                                                    .docs[index]['content'],
+                                                index: snapshot.data!
+                                                    .docs[index].reference,
+                                                urlName: snapshot.data!
+                                                    .docs[index]['coverUrl'],
+                                                email: snapshot.data!
+                                                    .docs[index]['username'],
+                                                writerName: profile
+                                                    .data!.docs[0]['username'],
+                                                date: snapshot.data!.docs[index]
+                                                    ['date'],
+                                              ),
+                                              duration: const Duration(
+                                                  milliseconds: 150),
+                                              reverseDuration: const Duration(
+                                                  milliseconds: 150),
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    }),
                               );
                             },
                             itemCount: snapshot.data!.docs.length,
@@ -341,6 +358,7 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                           padding: const EdgeInsets.only(
                               bottom: 15, right: 20, left: 20),
                           child: CustomNewsCard(
+                            writerName: "alskdjfkasd",
                             img:
                                 "https://cdn1-production-images-kly.akamaized.net/lMHji7xE4GI7YHCWAQumKfFm9Ew=/1200x900/smart/filters:quality(75):strip_icc():format(jpeg)/kly-media-production/medias/3554482/original/037161700_1630219411-bandung-5319951_1920.jpg",
                             title:

@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:core/core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:news/news.dart';
 import 'package:news/presentation/components/custom_sliver_appbar_text_leading_action_double.dart';
 import 'package:news/presentation/screen/edit_news_screen.dart';
@@ -15,7 +16,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class NewsDetailScreen extends StatefulWidget {
-  final String title, konten, urlName, writer;
+  final String title, konten, urlName, writerName;
   final String date;
   final String email;
   final DocumentReference index;
@@ -26,8 +27,8 @@ class NewsDetailScreen extends StatefulWidget {
       required this.urlName,
       required this.index,
       required this.date,
-      required this.email,
-      required this.writer})
+      required this.writerName,
+      required this.email})
       : super(key: key);
 
   @override
@@ -207,30 +208,50 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           //wait profile
-                          // ClipRRect(
-                          //   borderRadius: BorderRadius.circular(15.0),
-                          //   // Use image assets or network
-                          //   child: StreamBuilder<QuerySnapshot>(
-                          //       stream: FirebaseFirestore.instance
-                          //           .collection('Profile')
-                          //           .where('email', isEqualTo: widget.writer)
-                          //           .snapshots(),
-                          //       builder: (context, snapshot) {
-                          //         if (!snapshot.hasData) {
-                          //           return CircularProgressIndicator();
-                          //         }
-                          //         return Image.network(
-                          //           "${snapshot.data!.docs[0]["imgUrl"]}",
-                          //           height: 30.0,
-                          //         );
-                          //       }),
-                          // ),
+                          StreamBuilder<QuerySnapshot>(
+                              stream: FirebaseFirestore.instance
+                                  .collection('Profile')
+                                  .where('email', isEqualTo: widget.email)
+                                  .snapshots(),
+                              builder: (context, profile) {
+                                if (!profile.hasData) {
+                                  return CircularProgressIndicator();
+                                }
+                                return CircleAvatar(
+                                  child: ClipOval(
+                                    child: CachedNetworkImage(
+                                      imageUrl:
+                                          "${profile.data!.docs[0]["imgUrl"]}",
+                                      placeholder: (context, url) {
+                                        return Center(
+                                          child: LoadingAnimationWidget
+                                              .horizontalRotatingDots(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .tertiary,
+                                            size: 10.0,
+                                          ),
+                                        );
+                                      },
+                                      errorWidget: (context, url, error) =>
+                                          SvgPicture.asset(
+                                        "assets/icon/fill/exclamation-circle.svg",
+                                        color: bGrey,
+                                        height: 14.0,
+                                      ),
+                                      fit: BoxFit.cover,
+                                      width: 85.0,
+                                      height: 85.0,
+                                    ),
+                                  ),
+                                );
+                              }),
                           const SizedBox(
                             width: 10.0,
                           ),
                           Flexible(
                             child: Text(
-                              AppLocalizations.of(context)!.writer,
+                              widget.writerName,
                               overflow: TextOverflow.ellipsis,
                               style: bBody1.copyWith(
                                 color: Theme.of(context)

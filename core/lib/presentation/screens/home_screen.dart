@@ -51,7 +51,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   HomeScreenProcessEnum process = HomeScreenProcessEnum.loading;
   final toast = FToast();
 
-
   late Future<ArticlesResult> futureArticle;
   late Future<TouristAttractionResult> futurePlace;
 
@@ -509,8 +508,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               author: news[index].author,
                               date: DateFormat("EEEE, d MMMM yyyy", "id_ID")
                                   .format(DateTime.parse(snapshot
-                                  .data!.articles[index].publishedAt
-                                  .toString())),
+                                      .data!.articles[index].publishedAt
+                                      .toString())),
                               onTap: () {
                                 // To detail News
                                 Navigator.push(
@@ -523,19 +522,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       title: news[index].title,
                                       author: news[index].author,
                                       date: DateFormat(
-                                          "EEEE, d MMMM yyyy", "id_ID")
+                                              "EEEE, d MMMM yyyy", "id_ID")
                                           .format(DateTime.parse(snapshot
-                                          .data!
-                                          .articles[index]
-                                          .publishedAt
-                                          .toString())),
+                                              .data!.articles[index].publishedAt
+                                              .toString())),
                                       url: news[index].url,
                                       content: news[index].content,
                                     ),
-                                    duration:
-                                    const Duration(milliseconds: 150),
+                                    duration: const Duration(milliseconds: 150),
                                     reverseDuration:
-                                    const Duration(milliseconds: 150),
+                                        const Duration(milliseconds: 150),
                                   ),
                                 );
                               },
@@ -547,7 +543,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     } else if (snapshot.hasError) {
                       return Container();
                     } else {
-                      return Container();
+                      return LoadingAnimationWidget.horizontalRotatingDots(
+                        color: Theme.of(context).colorScheme.tertiary,
+                        size: 50.0,
+                      );
                     }
                   },
                 ),
@@ -584,13 +583,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     final place = snapshot.data!.results;
                                     return CustomTourCard(
                                       img:
-                                      "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${place[index].photos[0].photoReference}&key=AIzaSyAO1b9CLWFz6Y9NG14g2gpYP7TQWPRsPG0",
+                                          "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${place[index].photos[0].photoReference}&key=AIzaSyAO1b9CLWFz6Y9NG14g2gpYP7TQWPRsPG0",
                                       // Process Rating must be 2 digit
                                       rating: place[index].rating.toString(),
                                       title: place[index].name,
                                       isFavourited: true,
                                       description:
-                                      "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+                                          "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
                                       onTap: () {
                                         // To detail Tour
                                       },

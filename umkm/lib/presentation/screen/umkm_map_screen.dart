@@ -170,7 +170,9 @@ class _UmkmMapsScreenState extends State<UmkmMapsScreen> {
                               curve: Curves.easeInOut,
                               type: PageTransitionType.bottomToTop,
                               // Navigate to detail with parameter
-                              child: const TourDetailScreen(),
+                              child: const TourDetailScreen(
+                                id: "1",
+                              ),
                             ),
                           );
                         },

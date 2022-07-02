@@ -6,7 +6,7 @@ import '../../utils/exception.dart';
 import '../model/news.dart';
 
 class NewsRemoteDataSource {
-  static const apiKey = 'YOUR KEY HERE';
+  static const apiKey = '9a9d9288c8af4e4aa7abf2b7b913247a';
   static const baseUrl = 'https://newsapi.org/v2';
   static const query = 'kota bandung';
   static const sort = 'publishedAt';

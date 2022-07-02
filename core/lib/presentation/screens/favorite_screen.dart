@@ -264,36 +264,45 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                           shrinkWrap: true,
                           physics: const BouncingScrollPhysics(),
                           slivers: <Widget>[
-                            SliverPadding(
-                              padding: const EdgeInsets.only(
-                                top: 20.0,
-                                left: 20.0,
-                                right: 20.0,
-                              ),
-                              sliver: SliverList(
-                                delegate: SliverChildBuilderDelegate(
-                                  (BuildContext context, int index) {
-                                    // Use Data Tour
-                                    return Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 15.0),
-                                      child: CustomFavoriteTourCard(
-                                        img:
-                                            "https://cdn1-production-images-kly.akamaized.net/lMHji7xE4GI7YHCWAQumKfFm9Ew=/1200x900/smart/filters:quality(75):strip_icc():format(jpeg)/kly-media-production/medias/3554482/original/037161700_1630219411-bandung-5319951_1920.jpg",
-                                        title:
-                                            "Museum Geologi Bandung Bandung Jawa Barat",
-                                        address:
-                                            "Jl. Diponegoro No.57, Cihaur Geulis, Kec. Cibeunying Kaler, Kota Bandung, Jawa Barat 40122",
-                                        open: "Buka (07:00 WIB -16:00 WIB",
-                                        rating: "4,5",
-                                        onTap: () {
-                                          // Navigate to Tour Detail
-                                        },
-                                      ),
-                                    );
-                                  },
-                                  childCount: 10,
+                            SliverFillRemaining(
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  top: 20.0,
+                                  left: 20.0,
+                                  right: 20.0,
                                 ),
+                                child: StreamBuilder<QuerySnapshot>(
+                                    stream: FirebaseFirestore.instance
+                                        .collection("FavoriteTour")
+                                        .where('email',
+                                            isEqualTo: FirebaseAuth
+                                                .instance.currentUser!.email)
+                                        .snapshots(),
+                                    builder: (context, snapshot) {
+                                      if (!snapshot.hasData) {
+                                        return CircularProgressIndicator();
+                                      }
+                                      return ListView.builder(
+                                        itemBuilder: (context, index) {
+                                          return CustomFavoriteTourCard(
+                                            img: snapshot.data!.docs[index]
+                                                ['urlName'],
+                                            title: snapshot.data!.docs[index]
+                                                ['tour'],
+                                            address: snapshot.data!.docs[index]
+                                                ['address'],
+                                            open: "Buka (07:00 WIB -16:00 WIB",
+                                            rating: snapshot
+                                                .data!.docs[index]['rating']
+                                                .toString(),
+                                            onTap: () {
+                                              // Navigate to Tour Detail
+                                            },
+                                          );
+                                        },
+                                        itemCount: snapshot.data!.docs.length,
+                                      );
+                                    }),
                               ),
                             ),
                           ],

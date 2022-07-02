@@ -18,18 +18,16 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 class NewsDetailScreen extends StatefulWidget {
   final String title, konten, urlName, author;
   final String date;
-  final String email;
   final DocumentReference index;
-  const NewsDetailScreen(
-      {Key? key,
-      required this.title,
-      required this.konten,
-      required this.urlName,
-      required this.index,
-      required this.date,
-      required this.author,
-      required this.email})
-      : super(key: key);
+  const NewsDetailScreen({
+    Key? key,
+    required this.title,
+    required this.konten,
+    required this.urlName,
+    required this.index,
+    required this.date,
+    required this.author,
+  }) : super(key: key);
 
   @override
   State<NewsDetailScreen> createState() => _NewsDetailScreenState();
@@ -211,7 +209,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                           StreamBuilder<QuerySnapshot>(
                               stream: FirebaseFirestore.instance
                                   .collection('Profile')
-                                  .where('email', isEqualTo: widget.email)
+                                  .where('email', isEqualTo: widget.author)
                                   .snapshots(),
                               builder: (context, profile) {
                                 if (!profile.hasData) {

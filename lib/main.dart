@@ -3,9 +3,6 @@ import 'dart:async';
 import 'package:account/account.dart';
 
 import 'package:core/core.dart';
-import 'package:news/presentation/bloc/news_firebase/news_create_bloc.dart';
-import 'package:news/presentation/bloc/news_firebase/news_remove_bloc.dart';
-import 'package:news/presentation/bloc/news_firebase/news_update_bloc.dart';
 import 'package:umkm/umkm.dart';
 import 'package:news/news.dart';
 

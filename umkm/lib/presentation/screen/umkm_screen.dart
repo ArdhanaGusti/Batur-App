@@ -250,10 +250,20 @@ class _UmkmScreenState extends State<UmkmScreen> {
                                   .snapshots(),
                               builder: (context, fav) {
                                 if (!snapshot.hasData) {
-                                  return CircularProgressIndicator();
+                                  return LoadingAnimationWidget
+                                      .horizontalRotatingDots(
+                                    color:
+                                        Theme.of(context).colorScheme.tertiary,
+                                    size: 50.0,
+                                  );
                                 }
                                 if (fav.data == null) {
-                                  return CircularProgressIndicator();
+                                  return LoadingAnimationWidget
+                                      .horizontalRotatingDots(
+                                    color:
+                                        Theme.of(context).colorScheme.tertiary,
+                                    size: 50.0,
+                                  );
                                 }
                                 return CustomUMKMCardList(
                                   img:

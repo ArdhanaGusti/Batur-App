@@ -38,8 +38,8 @@ dependencies:
   firebase_storage:
   firebase_core:
   firebase_analytics:
-  dartz: 
-  
+  dartz:
+  http:
 
 dev_dependencies:
   flutter_test:

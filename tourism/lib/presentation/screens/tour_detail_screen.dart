@@ -378,14 +378,9 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                         ],
                       );
                     } else if (snapshot.hasError) {
-                      print(snapshot.error);
-                      print(snapshot.stackTrace);
-                      print(widget.id);
-                      return Container(child: Text("Error"));
+                      return Container();
                     } else {
-                      return Container(
-                        child: Text("Tidak ada Data"),
-                      );
+                      return Container();
                     }
                   },
                 ),

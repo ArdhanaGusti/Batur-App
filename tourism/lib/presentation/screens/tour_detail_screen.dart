@@ -1,9 +1,11 @@
 import 'package:core/core.dart';
+import 'package:core/utils/config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:theme/theme.dart';
 import 'package:tourism/presentation/components/custom_card_detail_tour_screen.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import '../../data/datasource/tourism_remote_data_source.dart';
 import '../../data/models/tourist_attraction_detail.dart';
 
@@ -24,6 +26,9 @@ class TourDetailScreen extends StatefulWidget {
 
 class _TourDetailScreenState extends State<TourDetailScreen> {
   TourDetailScreenProcessEnum process = TourDetailScreenProcessEnum.loading;
+
+  final apiKey = Config().mapsKey;
+  final photosUrl = Config().photosUrl;
 
   final List<String> carouselImages = [
     "https://thumb.viva.co.id/media/frontend/thumbs3/2022/03/23/623b099186419-red-velvet_665_374.jpg",
@@ -130,9 +135,40 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                       final place = snapshot.data!.result;
                       List<String> photos = [];
                       for (final index in place.photos) {
-                        photos.insert(0,
-                            "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${index.photoReference}&key=AIzaSyAO1b9CLWFz6Y9NG14g2gpYP7TQWPRsPG0");
+                        photos.insert(
+                            0, "$photosUrl${index.photoReference}&key=$apiKey");
                       }
+                      var monday = place.openingHours.weekdayText[0];
+                      int idx = monday.indexOf(":");
+
+                      var tuesday = place.openingHours.weekdayText[1];
+                      int idx2 = tuesday.indexOf(":");
+
+                      var wednesday = place.openingHours.weekdayText[2];
+                      int idx3 = wednesday.indexOf(":");
+
+                      var thursday = place.openingHours.weekdayText[3];
+                      int idx4 = thursday.indexOf(":");
+
+                      var friday = place.openingHours.weekdayText[4];
+                      int idx5 = friday.indexOf(":");
+
+                      var saturday = place.openingHours.weekdayText[5];
+                      int idx6 = saturday.indexOf(":");
+
+                      var sunday = place.openingHours.weekdayText[6];
+                      int idx7 = sunday.indexOf(":");
+
+                      List parts = [
+                        monday.substring(idx + 1).trim(),
+                        tuesday.substring(idx2 + 1).trim(),
+                        wednesday.substring(idx3 + 1).trim(),
+                        thursday.substring(idx4 + 1).trim(),
+                        friday.substring(idx5 + 1).trim(),
+                        saturday.substring(idx6 + 1).trim(),
+                        sunday.substring(idx7 + 1).trim(),
+                      ];
+
                       return Column(
                         children: [
                           CustomCardDetailTourScreen(
@@ -195,8 +231,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                                       ),
                                     ),
                                     Text(
-                                      place.openingHours.weekdayText[0]
-                                          .substring(7, 18),
+                                      parts[0],
                                       style: bSubtitle3,
                                     )
                                   ],
@@ -217,8 +252,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                                       ),
                                     ),
                                     Text(
-                                      place.openingHours.weekdayText[1]
-                                          .substring(7, 19),
+                                      parts[1],
                                       style: bSubtitle3,
                                     )
                                   ],
@@ -239,8 +273,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                                       ),
                                     ),
                                     Text(
-                                      place.openingHours.weekdayText[2]
-                                          .substring(6, 17),
+                                      parts[2],
                                       style: bSubtitle3,
                                     )
                                   ],
@@ -261,8 +294,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                                       ),
                                     ),
                                     Text(
-                                      place.openingHours.weekdayText[3]
-                                          .substring(6, 18),
+                                      parts[3],
                                       style: bSubtitle3,
                                     )
                                   ],
@@ -283,8 +315,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                                       ),
                                     ),
                                     Text(
-                                      place.openingHours.weekdayText[4]
-                                          .substring(6, 18),
+                                      parts[4],
                                       style: bSubtitle3,
                                     )
                                   ],
@@ -305,8 +336,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                                       ),
                                     ),
                                     Text(
-                                      place.openingHours.weekdayText[5]
-                                          .substring(6, 18),
+                                      parts[5],
                                       style: bSubtitle3,
                                     )
                                   ],
@@ -327,8 +357,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                                       ),
                                     ),
                                     Text(
-                                      place.openingHours.weekdayText[6]
-                                          .substring(8, 19),
+                                      parts[6],
                                       style: bSubtitle3,
                                     )
                                   ],

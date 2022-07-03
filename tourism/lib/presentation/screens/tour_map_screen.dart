@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:core/presentation/components/appbar/custom_sliver_appbar_text_leading_action.dart';
 import 'package:core/presentation/screens/error_screen.dart';
+import 'package:core/utils/config.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -30,6 +31,8 @@ class _TourMapScreenState extends State<TourMapScreen> {
   // State for click a custom marker
   bool isTour = true;
   bool isClickTour = false;
+  final apiKey =  Config().mapsKey;
+  final photosUrl = Config().photosUrl;
   String name = "";
   double rating = 0;
   String image = "";
@@ -66,7 +69,7 @@ class _TourMapScreenState extends State<TourMapScreen> {
                 name = place.name;
                 rating = place.rating;
                 image =
-                    "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${place.photos[0].photoReference}&key=AIzaSyAO1b9CLWFz6Y9NG14g2gpYP7TQWPRsPG0";
+                    "$photosUrl${place.photos[0].photoReference}&key=$apiKey";
                 if (place.openingHours?.openNow != null) {
                   if (place.openingHours?.openNow == true) {
                     openNow = AppLocalizations.of(context)!.open;
@@ -77,6 +80,7 @@ class _TourMapScreenState extends State<TourMapScreen> {
                   openNow = AppLocalizations.of(context)!.dontKnow;
                 }
               });
+              print(image);
 
               Timer(const Duration(milliseconds: 500), () {
                 setState(() {

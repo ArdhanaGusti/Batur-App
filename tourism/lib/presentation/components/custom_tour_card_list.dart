@@ -13,6 +13,7 @@ class CustomTourCardList extends StatelessWidget {
   final String description;
   final Function() onTap;
   final Function() heartTap;
+
   const CustomTourCardList({
     Key? key,
     required this.img,

@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:core/core.dart';
 import 'package:account/account.dart';
+import 'package:core/utils/config.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:page_transition/page_transition.dart';
@@ -33,7 +35,10 @@ class TourListScreen extends StatefulWidget {
 class _TourListScreenState extends State<TourListScreen> {
   User? user = FirebaseAuth.instance.currentUser;
   TextEditingController controller = TextEditingController();
+  final apiKey = Config().mapsKey;
+  final photosUrl = Config().photosUrl;
   String find = '';
+
   // State for loading
   TourListScreenProcessEnum process = TourListScreenProcessEnum.loading;
 

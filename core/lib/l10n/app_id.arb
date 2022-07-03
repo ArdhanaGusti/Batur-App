@@ -229,20 +229,22 @@
   "busSchedule": "Jadwal Bus",
 
   "@_add_umkm_screen": {},
-  "successfullyAdded": "Successfully to add",
-  "filedAdded": "Filed to add",
-  "addUmkm": "Add UMKM",
-  "type": "Type",
-  "btnAddress": "Press 'My Location' to find out your location",
+  "successfullyAdded": "Berhasil Ditambahkan",
+  "filedAdded": "Gagal Ditambahkan",
+  "addUmkm": "Tambah UMKM",
+  "type": "Jenis",
+  "btnAddress": "Tekan 'Lokasi Saya' untuk mengetahui lokasi anda",
+
 
   "@_edit_umkm_screen": {},
   "editUmkm": "Ubah UMKM",
+  "addAddress": "Tambah Alamat",
 
   "@_edit_detail_acc_screen": {},
   "umkmAccepted": "UMKM Diterima",
   "umkmRejected": "UMKM Ditolak",
-  "accepted": "Accepted",
-  "rejected": "Rejected",
+  "accepted": "Terima",
+  "rejected": "Tolak",
   "linkNotFound": "Link Tidak Ditemukan",
   "delete": "Hapus",
 
@@ -345,6 +347,13 @@
   "tour": "Wisata",
   "umkm": "UMKM",
   "all": "Semua",
+
+  "@_terms_conditions_screen": {},
+  "termsAndConditions": "Syarat dan Ketentuan",
+  "termsAndConditionsDetail": "''Syarat dan ketentuan yang ditetapkan dibawah ini digunakan untuk mengatur penggunaan layanan yang disediakan oleh Bandung Tourism, baik itu berupa informasi, teks, grafik, gambar, dan data lainnya. Syarat dan ketentuan ini berlaku bagi seluruh pengguna aplikasi Bandung Tourism. Dengan mendaftar atau menggunakan aplikasi Bandung Tourism maka pengguna dianggap telah membaca, mengerti dan memahami Syarat dan Ketentuan aplikasi Bandung Tourism.''",
+  "userDataInformation": "Informasi Data Pengguna",
+  "termTiga": "''Kami mengumpukan informasi mengenai nama dan alamat email pengguna. Kami tidak mengambil informasi pribadi yang bersifat penting seperti No Telepon atau No Rekening. Sehingga apabila ada pihak yang mengatas namakan Bandung Tourism dan memeinta informasi tersebut, maka dapat dipastikan pihak tersebut bukan pihak Bandung Tourism. Kami mengumpulkan informasi pribadi dengan tujuan untuk dapat data dan proses legalitas hukum lainnya (Jika diperlukan).''",
+
 
   "@_verification_screen": {},
   "screenError": "Layar error",

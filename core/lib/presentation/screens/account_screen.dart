@@ -330,7 +330,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       );
                     },
                     // Text wait localization
-                    "Tambah UMKM",
+                    AppLocalizations.of(context)!.addUmkm,
                     "assets/icon/regular/plus-square.svg",
                   );
                 } else {
@@ -347,7 +347,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       );
                     },
                     // Text wait localization
-                    "Tambah UMKM",
+                    AppLocalizations.of(context)!.addUmkm,
                     "assets/icon/regular/plus-square.svg",
                   );
                 }
@@ -374,7 +374,7 @@ class _AccountScreenState extends State<AccountScreen> {
                 );
               },
               // Text wait localization
-              "Bantuan",
+              AppLocalizations.of(context)!.help,
               "assets/icon/regular/question-circle.svg",
             ),
             _buildSmallContainer(
@@ -392,7 +392,7 @@ class _AccountScreenState extends State<AccountScreen> {
                 );
               },
               // Text wait localization
-              "Term and Condition",
+              AppLocalizations.of(context)!.termsAndConditions,
               "assets/icon/regular/file.svg",
             ),
             _buildSmallContainer(
@@ -410,7 +410,7 @@ class _AccountScreenState extends State<AccountScreen> {
                 );
               },
               // Text wait localization
-              "Tentang",
+              AppLocalizations.of(context)!.about,
               "assets/icon/regular/info-circle.svg",
             ),
           ],
@@ -426,7 +426,7 @@ class _AccountScreenState extends State<AccountScreen> {
             child: CustomPrimaryIconTextButton(
               width: screenSize.width,
               // Text wait localization
-              text: "Keluar",
+              text: AppLocalizations.of(context)!.logout,
               // Must add on Tap
               onTap: () {
                 _signOut();

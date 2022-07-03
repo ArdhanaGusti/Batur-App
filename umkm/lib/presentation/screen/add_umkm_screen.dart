@@ -241,7 +241,7 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
                   Container(
                     margin: const EdgeInsets.only(left: 20.0, top: 15.0),
                     child: Text(
-                      AppLocalizations.of(context)!.addUmkm,
+                      AppLocalizations.of(context)!.addAddress,
                       style: bHeading7.copyWith(
                         color: Theme.of(context).colorScheme.tertiary,
                       ),

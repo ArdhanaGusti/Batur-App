@@ -14,6 +14,7 @@ import 'package:umkm/presentation/bloc/umkm_state.dart';
 import 'package:umkm/presentation/bloc/umkm_update_bloc.dart';
 import 'package:umkm/presentation/components/costom_detail_umkm_acc.dart';
 import 'package:umkm/presentation/screen/umkm_web_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum UmkmDetailAccAdminScreenProcessEnum {
   loading,
@@ -130,10 +131,10 @@ class _UmkmDetailAccAdminScreenState extends State<UmkmDetailAccAdminScreen> {
         ),
       );
     } else if (process == UmkmDetailAccAdminScreenProcessEnum.failed) {
-      return const ErrorScreen(
+      return ErrorScreen(
         // Wait Localization
-        title: "AppLocalizations.of(context)!.oops",
-        message: "AppLocalizations.of(context)!.screenSmall",
+        title: AppLocalizations.of(context)!.oops,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else {
       return _buildScreen(context, screenSize);
@@ -183,9 +184,9 @@ class _UmkmDetailAccAdminScreenState extends State<UmkmDetailAccAdminScreen> {
       },
       listener: (context, state) async {
         if (state is UmkmUpdated) {
-          toastSuccess("Umkm Diterima");
+          toastSuccess(AppLocalizations.of(context)!.umkmAccepted);
         } else if (state is UmkmError) {
-          toastError("Umkm Ditolak");
+          toastError(AppLocalizations.of(context)!.umkmRejected);
         }
       },
       builder: (context, state) {
@@ -300,7 +301,7 @@ class _UmkmDetailAccAdminScreenState extends State<UmkmDetailAccAdminScreen> {
                     CustomPrimaryIconTextButton(
                       icon: "assets/icon/fill/pen.svg",
                       width: screenSize.width,
-                      text: "Terima",
+                      text: AppLocalizations.of(context)!.accepted,
                       onTap: () {
                         context.read<UmkmUpdateBloc>().add(
                               OnVerifUmkm(
@@ -316,7 +317,7 @@ class _UmkmDetailAccAdminScreenState extends State<UmkmDetailAccAdminScreen> {
                     CustomErrorIconTextButton(
                       icon: "assets/icon/fill/trash.svg",
                       width: screenSize.width,
-                      text: "Tolak",
+                      text: AppLocalizations.of(context)!.rejected,
                       onTap: () {
                         context.read<UmkmUpdateBloc>().add(
                               OnVerifUmkm(

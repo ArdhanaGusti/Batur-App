@@ -10,7 +10,7 @@ import 'package:transportation/data/datasources/transportation_remote_data_sourc
 import 'package:transportation/data/models/station.dart';
 import 'package:transportation/presentation/components/custom_card_transportation_list.dart';
 import 'package:transportation/presentation/screens/transportation_detail_screen.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 // Check
 
 enum TransportationListScreenProcessEnum {
@@ -130,9 +130,9 @@ class _TransportationListScreenState extends State<TransportationListScreen> {
         ),
       );
     } else if (process == TransportationListScreenProcessEnum.failed) {
-      return const ErrorScreen(
-        title: "AppLocalizations.of(context)!.oops",
-        message: "AppLocalizations.of(context)!.screenSmall",
+      return ErrorScreen(
+        title: AppLocalizations.of(context)!.oops,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else {
       return _buildScreen(context, screenSize);
@@ -157,7 +157,7 @@ class _TransportationListScreenState extends State<TransportationListScreen> {
   Widget _buildAppBar() {
     return CustomSliverAppBarTextLeadingAction(
       // Text wait localization
-      title: "Transportasi Umum",
+      title: AppLocalizations.of(context)!.publicTransportation,
       leadingIcon: "assets/icon/regular/chevron-left.svg",
       leadingOnTap: () {
         Navigator.pop(
@@ -205,7 +205,7 @@ class _TransportationListScreenState extends State<TransportationListScreen> {
                         padding: const EdgeInsets.all(2.0),
                         child: Text(
                           // Wait Localization
-                          "Kereta",
+                          AppLocalizations.of(context)!.train,
                           style: bSubtitle3,
                         ),
                       ),
@@ -213,7 +213,7 @@ class _TransportationListScreenState extends State<TransportationListScreen> {
                         padding: const EdgeInsets.all(2.0),
                         child: Text(
                           // Wait Localization
-                          "Bus",
+                          AppLocalizations.of(context)!.bus,
                           style: bSubtitle3,
                         ),
                       ),

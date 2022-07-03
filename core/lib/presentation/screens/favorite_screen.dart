@@ -16,6 +16,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:theme/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum FavScreenProcessEnum {
   loading,
@@ -105,10 +106,10 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
         ),
       );
     } else if (process == FavScreenProcessEnum.failed) {
-      return const ErrorScreen(
+      return ErrorScreen(
         // Text wait localization
-        title: "Koneksi Internet",
-        message: "Aduh, Coba lagi nanti",
+        title: AppLocalizations.of(context)!.internetConnection,
+        message: AppLocalizations.of(context)!.tryAgain,
       );
     } else {
       return _buildLoaded(context);
@@ -176,9 +177,9 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               );
             }
           },
-          leading: const Text(
+          leading: Text(
             // Text wait localization
-            "Favorite",
+            AppLocalizations.of(context)!.favorite,
             textAlign: TextAlign.center,
           ),
           actionIconSecondary: "",
@@ -226,7 +227,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                               padding: const EdgeInsets.all(2.0),
                               child: Text(
                                 // Wait Localization
-                                "Wisata",
+                                AppLocalizations.of(context)!.tour,
                                 style: bSubtitle3,
                               ),
                             ),
@@ -234,7 +235,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                               padding: const EdgeInsets.all(2.0),
                               child: Text(
                                 // Wait Localization
-                                "UMKM",
+                                AppLocalizations.of(context)!.umkm,
                                 style: bSubtitle3,
                               ),
                             ),
@@ -373,7 +374,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          "Anda belum mempunyai profile\nKelik disini untuk registrasi profile",
+                          AppLocalizations.of(context)!.noHaveAccount,
                           overflow: TextOverflow.ellipsis,
                           style: bSubtitle2.copyWith(
                             color: Theme.of(context).colorScheme.tertiary,
@@ -386,7 +387,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                         CustomPrimaryTextButton(
                           width: screenSize.width - 40,
                           // Text wait localization
-                          text: "Daftar Profile",
+                          text: AppLocalizations.of(context)!.registerProfile,
                           onTap: () {},
                         ),
                       ],

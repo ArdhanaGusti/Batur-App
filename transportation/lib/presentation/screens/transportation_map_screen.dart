@@ -8,7 +8,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:transportation/presentation/components/custom_card_transportation.dart';
 import 'package:transportation/presentation/screens/transportation_detail_screen.dart';
 import 'package:transportation/presentation/screens/transportation_list_screen.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../data/datasources/transportation_remote_data_source.dart';
 
 // Check
@@ -149,9 +149,9 @@ class _TransportationMapScreenState extends State<TransportationMapScreen> {
         ),
       );
     } else if (process == TransportationMapScreenProcessEnum.failed) {
-      return const ErrorScreen(
-        title: "AppLocalizations.of(context)!.oops",
-        message: "AppLocalizations.of(context)!.screenSmall",
+      return ErrorScreen(
+        title: AppLocalizations.of(context)!.oops,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else {
       return _buildScreen(context, screenSize);
@@ -176,7 +176,7 @@ class _TransportationMapScreenState extends State<TransportationMapScreen> {
   Widget _buildAppBar() {
     return CustomSliverAppBarTextLeadingAction(
       // Text wait localization
-      title: "Transportasi Umum",
+      title: AppLocalizations.of(context)!.publicTransportation,
       leadingIcon: "assets/icon/regular/chevron-left.svg",
       leadingOnTap: () {
         Navigator.pop(

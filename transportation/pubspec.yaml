@@ -11,7 +11,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  
+  flutter_localizations:
+    sdk: flutter
   theme:
     path: ../theme
   account:
@@ -29,8 +30,8 @@ dependencies:
   timelines:
   page_transition:
   loading_animation_widget:
-  cached_network_image: 
-  pull_to_refresh: 
+  cached_network_image:
+  pull_to_refresh:
   carousel_slider:
   firebase_auth:
   google_sign_in:
@@ -47,7 +48,5 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^2.0.0
 
-
 flutter:
-
-  
+  generate: true

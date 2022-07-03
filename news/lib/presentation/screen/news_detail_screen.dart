@@ -101,7 +101,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                                 onPressed: () {
                                   Navigator.pop(context);
                                 },
-                                child: Text("Kembali"),
+                                child: Text(AppLocalizations.of(context)!.back),
                               )
                             ],
                           );
@@ -110,7 +110,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                 },
                 builder: (context, state) {
                   return CustomSliverAppBarTextLeadingActionDouble(
-                    title: "Berita",
+                    title: AppLocalizations.of(context)!.news,
                     leadingIcon: "assets/icon/bold/chevron-left.svg",
                     leadingOnTap: () {
                       Navigator.pop(

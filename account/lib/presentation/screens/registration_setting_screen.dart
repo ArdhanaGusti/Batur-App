@@ -167,8 +167,7 @@ class _RegistrationSettingScreenState extends State<RegistrationSettingScreen> {
                         AppLocalizations.of(context)!.imageNotIncluded);
                   }
                 }).onError((er, stackTrace) {
-                  // Text wait localization
-                  toastError("Gambar Gagal Dimasukkan");
+                  toastError(AppLocalizations.of(context)!.imageInsertFailed);
                 });
               },
               child: Row(
@@ -182,8 +181,7 @@ class _RegistrationSettingScreenState extends State<RegistrationSettingScreen> {
                   Padding(
                     padding: const EdgeInsets.only(left: 10.0),
                     child: Text(
-                      // Text wait localization
-                      "Edit Profile",
+                      AppLocalizations.of(context)!.editProfile,
                       style: bSubtitle1.copyWith(
                         color: Theme.of(context).colorScheme.tertiary,
                       ),
@@ -257,8 +255,7 @@ class _RegistrationSettingScreenState extends State<RegistrationSettingScreen> {
               builder: (context, state) {
                 return CustomPrimaryTextButton(
                   width: screenSize.width,
-                  // Text wait localization
-                  text: "Selesai",
+                  text: AppLocalizations.of(context)!.done,
                   onTap: () async {
                     if (_regisprofileFormKey.currentState!.validate()) {
                       if (image != null) {
@@ -267,14 +264,17 @@ class _RegistrationSettingScreenState extends State<RegistrationSettingScreen> {
                               .read<RegisFormBloc>()
                               .add(OnSignUp(image!, imageName!));
                         }).onError((error, stackTrace) {
-                          toastError("Gagal Daftar");
+                          toastError(
+                              AppLocalizations.of(context)!.failedRegister);
                         });
                       } else {
-                        toastError("Gambar Belum Dimasukkan");
+                        toastError(
+                            AppLocalizations.of(context)!.imageNotIncluded);
                       }
                     } else {
                       // Text wait localization
-                      toastError("Lengkapi Data Anda Terlebih Dahulu");
+                      toastError(
+                          AppLocalizations.of(context)!.complateYourData);
                     }
                   },
                 );

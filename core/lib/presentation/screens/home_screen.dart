@@ -617,7 +617,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     if (!snapshot.hasData) {
                       return Center(
                         child: Text(
-                          "Aduh, Data UMKM tidak ditemukan",
+                          AppLocalizations.of(context)!.umkmNotFound,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: bHeading7.copyWith(

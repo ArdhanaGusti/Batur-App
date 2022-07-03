@@ -14,6 +14,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:theme/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // Check
 
@@ -107,7 +108,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       height: 24.0,
                     ),
                     // Wait Localization
-                    label: "Beranda",
+                    label: AppLocalizations.of(context)!.home,
                   ),
                   BottomNavigationBarItem(
                     icon: SvgPicture.asset(
@@ -121,7 +122,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       height: 24.0,
                     ),
                     // Wait Localization
-                    label: "Berita",
+                    label: AppLocalizations.of(context)!.news,
                   ),
                   BottomNavigationBarItem(
                     icon: SvgPicture.asset(
@@ -135,7 +136,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       height: 24.0,
                     ),
                     // Wait Localization
-                    label: "Favorite",
+                    label: AppLocalizations.of(context)!.favorite,
                   ),
                   BottomNavigationBarItem(
                     icon: SvgPicture.asset(
@@ -149,7 +150,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       height: 24.0,
                     ),
                     // Wait Localization
-                    label: "Akun",
+                    label: AppLocalizations.of(context)!.account,
                   ),
                 ],
                 currentIndex: bottomNav.indexBottomNav,

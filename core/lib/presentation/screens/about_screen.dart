@@ -3,6 +3,7 @@ import 'package:core/presentation/screens/error_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:theme/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // Check
 
@@ -14,10 +15,10 @@ class AboutScreen extends StatelessWidget {
     Size screenSize = MediaQuery.of(context).size;
 
     if (screenSize.width < 300.0 || screenSize.height < 600.0) {
-      return const ErrorScreen(
+      return ErrorScreen(
         // Text wait localization
-        title: "Aduh...",
-        message: "Layar terlalu kecil, coba di perangkat lain.",
+        title: AppLocalizations.of(context)!.oops,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else {
       // Mobile Mode
@@ -35,7 +36,7 @@ class AboutScreen extends StatelessWidget {
       slivers: <Widget>[
         CustomSliverAppBarTextLeading(
           // Text wait localization
-          title: "Tentang",
+          title: AppLocalizations.of(context)!.about,
           leadingIcon: "assets/icon/regular/chevron-left.svg",
           leadingOnTap: () {
             Navigator.pop(
@@ -92,7 +93,7 @@ class AboutScreen extends StatelessWidget {
                   Center(
                     // Text wait localization
                     child: Text(
-                      "Bandung Tourism (BATUR) merupakan platform aplikasi mobile yang menyediakan layanan Berita, Wisata, UMKM, dan Transportasi yang ada di Ibu Kota Jawa Barat yaitu Bandung.",
+                      AppLocalizations.of(context)!.aboutDetail,
                       style: bSubtitle1.copyWith(
                         color: Theme.of(context).colorScheme.tertiary,
                       ),
@@ -105,7 +106,7 @@ class AboutScreen extends StatelessWidget {
                   Center(
                     // Text wait localization
                     child: Text(
-                      "Tim Pengembang \n(BATUR TEAM)",
+                      AppLocalizations.of(context)!.developmentTeam,
                       style: bSubtitle3.copyWith(
                         color: Theme.of(context).colorScheme.tertiary,
                         fontWeight: FontWeight.w800,

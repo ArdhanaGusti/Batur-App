@@ -30,6 +30,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DeleteUMKMScreen extends StatefulWidget {
   final String coverUrlNow;
@@ -224,9 +225,9 @@ class _DeleteUMKMScreenState extends State<DeleteUMKMScreen> {
       },
       listener: (context, state) async {
         if (state is UmkmUpdated) {
-          toastSuccess("Berhasil Ditambahkan");
+          toastSuccess(AppLocalizations.of(context)!.successfullyAdded);
         } else if (state is UmkmError) {
-          toastError("Gagal Ditambahkan");
+          toastError(AppLocalizations.of(context)!.filedAdded);
         }
       },
       builder: (context, state) {
@@ -234,7 +235,7 @@ class _DeleteUMKMScreenState extends State<DeleteUMKMScreen> {
           physics: const BouncingScrollPhysics(),
           slivers: <Widget>[
             CustomSliverAppBarTextLeading(
-              title: "Edit UMKM",
+              title: AppLocalizations.of(context)!.editUmkm,
               leadingIcon: "assets/icon/regular/chevron-left.svg",
               // Navigation repair
               leadingOnTap: () {
@@ -252,7 +253,7 @@ class _DeleteUMKMScreenState extends State<DeleteUMKMScreen> {
             ),
             _customEditForm(
               context,
-              "Type",
+              AppLocalizations.of(context)!.type,
               CustomAddUMKMNameTextField(
                 name: typeController,
               ),
@@ -284,7 +285,7 @@ class _DeleteUMKMScreenState extends State<DeleteUMKMScreen> {
                   Container(
                     margin: const EdgeInsets.only(left: 20.0, top: 15.0),
                     child: Text(
-                      "Alamat",
+                      AppLocalizations.of(context)!.address,
                       style: bHeading7.copyWith(
                         color: Theme.of(context).colorScheme.tertiary,
                       ),
@@ -309,7 +310,7 @@ class _DeleteUMKMScreenState extends State<DeleteUMKMScreen> {
                       child: Text(
                           (address != null)
                               ? address!
-                              : "Tekan 'Lokasi Saya' untuk mengetahui lokasi anda",
+                              : AppLocalizations.of(context)!.btnAddress,
                           style: bSubtitle1.copyWith(
                             color: Theme.of(context).colorScheme.tertiary,
                           ))),
@@ -445,7 +446,7 @@ class _DeleteUMKMScreenState extends State<DeleteUMKMScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      AppLocalizations.of(context)!.timetable,
+                      AppLocalizations.of(context)!.schedule,
                       style: bHeading7.copyWith(
                         color: Theme.of(context).colorScheme.tertiary,
                       ),
@@ -481,7 +482,7 @@ class _DeleteUMKMScreenState extends State<DeleteUMKMScreen> {
                           ),
                         );
                   },
-                  text: "Simpan",
+                  text: AppLocalizations.of(context)!.save,
                   width: screenSize.width,
                 ),
               ),

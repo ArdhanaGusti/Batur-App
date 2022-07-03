@@ -114,10 +114,10 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
         ),
       );
     } else if (process == ScreenProcessEnum.failed) {
-      return const ErrorScreen(
+      return ErrorScreen(
         // Text wait localization
-        title: "Koneksi Internet",
-        message: "Aduh, Coba lagi nanti",
+        title: AppLocalizations.of(context)!.internetConnection,
+        message: AppLocalizations.of(context)!.tryAgain,
       );
     } else {
       return _buildLoaded(context);
@@ -238,7 +238,7 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                         padding: const EdgeInsets.all(2.0),
                         child: Text(
                           // Wait Localization
-                          "Terkini",
+                          AppLocalizations.of(context)!.hot,
                           style: bSubtitle3,
                         ),
                       ),
@@ -246,7 +246,7 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                         padding: const EdgeInsets.all(2.0),
                         child: Text(
                           // Wait Localization
-                          "News",
+                          AppLocalizations.of(context)!.news,
                           style: bSubtitle3,
                         ),
                       )

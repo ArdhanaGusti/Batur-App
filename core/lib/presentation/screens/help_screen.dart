@@ -3,6 +3,7 @@ import 'package:core/presentation/screens/error_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:theme/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // Check
 
@@ -14,10 +15,10 @@ class HelpScreen extends StatelessWidget {
     Size screenSize = MediaQuery.of(context).size;
 
     if (screenSize.width < 300.0 || screenSize.height < 600.0) {
-      return const ErrorScreen(
+      return ErrorScreen(
         // Text wait localization
-        title: "Aduh...",
-        message: "Layar terlalu kecil, coba di perangkat lain.",
+        title: AppLocalizations.of(context)!.oops,
+        message: AppLocalizations.of(context)!.screenError,
       );
     } else {
       // Mobile Mode
@@ -35,7 +36,7 @@ class HelpScreen extends StatelessWidget {
       slivers: <Widget>[
         CustomSliverAppBarTextLeading(
           // Text wait localization
-          title: "Bantuan",
+          title: AppLocalizations.of(context)!.help,
           leadingIcon: "assets/icon/regular/chevron-left.svg",
           leadingOnTap: () {
             Navigator.pop(
@@ -92,7 +93,7 @@ class HelpScreen extends StatelessWidget {
                   Center(
                     // Text wait localization
                     child: Text(
-                      "Jika anda mengalami kesulitan dalam mengakses aplikasi kami, anda dapat mengajukan pertanyaan ke alamat email tim kami",
+                      AppLocalizations.of(context)!.helpDesc,
                       style: bSubtitle1.copyWith(
                         color: Theme.of(context).colorScheme.tertiary,
                       ),
@@ -105,7 +106,7 @@ class HelpScreen extends StatelessWidget {
                   Center(
                     // Text wait localization
                     child: Text(
-                      "Tim Pengembang \n(BATUR TEAM)",
+                      AppLocalizations.of(context)!.developmentTeam,
                       style: bSubtitle3.copyWith(
                         color: Theme.of(context).colorScheme.tertiary,
                         fontWeight: FontWeight.w800,

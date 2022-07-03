@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:umkm/presentation/screen/umkm_detail_acc_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum UmkmListScreenProcessEnum { loading, loaded, failed }
 
@@ -52,9 +53,9 @@ class _StatusRegisterUmkmScreenState extends State<StatusRegisterUmkmScreen> {
         ),
       );
     } else if (process == UmkmListScreenProcessEnum.failed) {
-      return const ErrorScreen(
-        title: "AppLocalizations.of(context)!.internetConnection",
-        message: "AppLocalizations.of(context)!.tryAgain",
+      return ErrorScreen(
+        title: AppLocalizations.of(context)!.internetConnection,
+        message: AppLocalizations.of(context)!.tryAgain,
       );
     } else {
       return _buildSuccess(screenSize);

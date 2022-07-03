@@ -2,6 +2,7 @@ import 'package:core/core.dart';
 import 'package:core/presentation/screens/error_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:theme/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ResetPasswordScreen extends StatelessWidget {
   const ResetPasswordScreen({Key? key}) : super(key: key);
@@ -11,10 +12,10 @@ class ResetPasswordScreen extends StatelessWidget {
     Size screenSize = MediaQuery.of(context).size;
 
     if (screenSize.width < 320.0 || screenSize.height < 650.0) {
-      return const ErrorScreen(
+      return ErrorScreen(
         // Text wait localization
-        title: "AppLocalizations.of(context)!.screenError",
-        message: "AppLocalizations.of(context)!.screenSmall",
+        title: AppLocalizations.of(context)!.screenError,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else if (screenSize.width > 500.0) {
       // Tablet Mode (Must be repair)
@@ -55,7 +56,7 @@ class ResetPasswordScreen extends StatelessWidget {
                   );
                 },
                 // Text wait localization
-                title: "AppLocalizations.of(context)!.resetPassword",
+                title: AppLocalizations.of(context)!.resetPassword,
               ),
               Padding(
                 padding: EdgeInsets.only(
@@ -64,7 +65,7 @@ class ResetPasswordScreen extends StatelessWidget {
                 child: Center(
                   // Text wait localization
                   child: Text(
-                    "AppLocalizations.of(context)!.accountIsVerified",
+                    AppLocalizations.of(context)!.accountIsVerified,
                     style: bSubtitle1.copyWith(
                       color: Theme.of(context).colorScheme.tertiary,
                     ),
@@ -80,7 +81,7 @@ class ResetPasswordScreen extends StatelessWidget {
                 child: Center(
                   // Text wait localization
                   child: Text(
-                    "AppLocalizations.of(context)!.enterNewPassword",
+                    AppLocalizations.of(context)!.enterNewPassword,
                     style: bSubtitle1.copyWith(
                       color: Theme.of(context).colorScheme.tertiary,
                     ),
@@ -105,7 +106,7 @@ class ResetPasswordScreen extends StatelessWidget {
           CustomPrimaryTextButton(
             width: screenSize.width,
             // Text wait localization
-            text: "AppLocalizations.of(context)!.done",
+            text: AppLocalizations.of(context)!.done,
             onTap: () {
               // On tap must be replace
               // Navigator.pushReplacement(

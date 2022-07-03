@@ -12,6 +12,7 @@ import 'package:tourism/data/datasource/tourism_remote_data_source.dart';
 import 'package:tourism/data/service/api_service_tour.dart';
 import 'package:tourism/presentation/components/custom_tour_card_list.dart';
 import 'package:tourism/presentation/screens/tour_detail_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../data/models/tourist_attraction.dart';
 
@@ -83,9 +84,9 @@ class _TourListScreenState extends State<TourListScreen> {
         ),
       );
     } else if (process == TourListScreenProcessEnum.failed) {
-      return const ErrorScreen(
-        title: "AppLocalizations.of(context)!.oops",
-        message: "Failed",
+      return ErrorScreen(
+        title: AppLocalizations.of(context)!.oops,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else {
       return _buildSuccess(screenSize);
@@ -120,7 +121,7 @@ class _TourListScreenState extends State<TourListScreen> {
   Widget _buildAppBar() {
     return CustomSliverAppBarTextLeadingAction(
       // Text wait localization
-      title: "Wisata",
+      title: AppLocalizations.of(context)!.tour,
       leadingIcon: "assets/icon/regular/chevron-left.svg",
       leadingOnTap: () {
         Navigator.pop(
@@ -201,11 +202,11 @@ class _TourListScreenState extends State<TourListScreen> {
                         // Use Data Tour
                         final String openNOw;
                         if (place[index].openingHours?.openNow == null) {
-                          openNOw = "Tidak tahu";
+                          openNOw = AppLocalizations.of(context)!.dontKnow;
                         } else {
                           openNOw = place[index].openingHours?.openNow == true
-                              ? "Buka"
-                              : "Tutup";
+                              ? AppLocalizations.of(context)!.open
+                              : AppLocalizations.of(context)!.close;
                         }
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 15.0),

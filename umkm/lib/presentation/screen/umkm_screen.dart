@@ -12,7 +12,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:umkm/data/service/api_service.dart';
 import 'package:umkm/presentation/components/custom_umkm_card_list.dart';
 import 'package:umkm/presentation/screen/umkm_detail_screen.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:geocoding/geocoding.dart';
 
 enum UmkmListScreenProcessEnum {
@@ -80,9 +80,9 @@ class _UmkmScreenState extends State<UmkmScreen> {
         ),
       );
     } else if (process == UmkmListScreenProcessEnum.failed) {
-      return const ErrorScreen(
-        title: "AppLocalizations.of(context)!.internetConnection",
-        message: "AppLocalizations.of(context)!.tryAgain",
+      return ErrorScreen(
+        title: AppLocalizations.of(context)!.internetConnection,
+        message: AppLocalizations.of(context)!.tryAgain,
       );
     } else {
       return _buildSuccess(screenSize);

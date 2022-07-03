@@ -9,6 +9,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:tourism/presentation/components/custom_tour_card_map.dart';
 import 'package:tourism/presentation/screens/tour_detail_screen.dart';
 import 'package:tourism/presentation/screens/tour_list_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../data/datasource/tourism_remote_data_source.dart';
 
@@ -68,12 +69,12 @@ class _TourMapScreenState extends State<TourMapScreen> {
                     "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${place.photos[0].photoReference}&key=AIzaSyAO1b9CLWFz6Y9NG14g2gpYP7TQWPRsPG0";
                 if (place.openingHours?.openNow != null) {
                   if (place.openingHours?.openNow == true) {
-                    openNow = "Buka";
+                    openNow = AppLocalizations.of(context)!.open;
                   } else {
-                    openNow = "Tutup";
+                    openNow = AppLocalizations.of(context)!.close;
                   }
                 } else {
-                  openNow = "Tidak tahu";
+                  openNow = AppLocalizations.of(context)!.dontKnow;
                 }
               });
 
@@ -121,9 +122,9 @@ class _TourMapScreenState extends State<TourMapScreen> {
         ),
       );
     } else if (process == TourMapScreenProcessEnum.failed) {
-      return const ErrorScreen(
-        title: "AppLocalizations.of(context)!.oops",
-        message: "Failed",
+      return ErrorScreen(
+        title: AppLocalizations.of(context)!.oops,
+        message: AppLocalizations.of(context)!.screenError,
       );
     } else {
       return _buildScreen(context, screenSize);
@@ -133,7 +134,7 @@ class _TourMapScreenState extends State<TourMapScreen> {
   Widget _buildAppBar() {
     return CustomSliverAppBarTextLeadingAction(
       // Text wait localization
-      title: "Wisata",
+      title: AppLocalizations.of(context)!.tour,
       leadingIcon: "assets/icon/regular/chevron-left.svg",
       leadingOnTap: () {
         Navigator.pop(
@@ -157,10 +158,10 @@ class _TourMapScreenState extends State<TourMapScreen> {
 
   Widget _buildScreen(BuildContext context, Size screenSize) {
     if (screenSize.width < 300.0 || screenSize.height < 600.0) {
-      return const ErrorScreen(
+      return ErrorScreen(
         // Text wait localization
-        title: "AppLocalizations.of(context)!.oops",
-        message: "AppLocalizations.of(context)!.screenSmall",
+        title: AppLocalizations.of(context)!.oops,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else {
       // Mobile Mode

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:theme/theme.dart';
 import 'package:tourism/presentation/components/custom_card_detail_tour_screen.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../data/datasource/tourism_remote_data_source.dart';
 import '../../data/models/tourist_attraction_detail.dart';
 
@@ -66,9 +66,9 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
         ),
       );
     } else if (process == TourDetailScreenProcessEnum.failed) {
-      return const ErrorScreen(
-        title: "AppLocalizations.of(context)!.oops",
-        message: "Failed",
+      return ErrorScreen(
+        title: AppLocalizations.of(context)!.oops,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else {
       return _buildSuccess(screenSize);
@@ -103,7 +103,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
   Widget _buildAppBar() {
     return CustomSliverAppBarTextLeading(
       // Text wait localization
-      title: "Wisata Detail",
+      title: AppLocalizations.of(context)!.tourDetail,
       leadingIcon: "assets/icon/regular/chevron-left.svg",
       leadingOnTap: () {
         Navigator.pop(
@@ -173,7 +173,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  'Jadwal',
+                                  AppLocalizations.of(context)!.schedule,
                                   style: bHeading7.copyWith(
                                     color:
                                         Theme.of(context).colorScheme.tertiary,
@@ -187,7 +187,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                                       MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Text(
-                                      'Senin',
+                                      AppLocalizations.of(context)!.monday,
                                       style: bSubtitle3.copyWith(
                                         color: Theme.of(context)
                                             .colorScheme
@@ -209,7 +209,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                                       MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Text(
-                                      'Selasa',
+                                      AppLocalizations.of(context)!.tuesday,
                                       style: bSubtitle3.copyWith(
                                         color: Theme.of(context)
                                             .colorScheme
@@ -231,7 +231,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                                       MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Text(
-                                      'Rabu',
+                                      AppLocalizations.of(context)!.wednesday,
                                       style: bSubtitle3.copyWith(
                                         color: Theme.of(context)
                                             .colorScheme
@@ -253,7 +253,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                                       MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Text(
-                                      'kamis',
+                                      AppLocalizations.of(context)!.thursday,
                                       style: bSubtitle3.copyWith(
                                         color: Theme.of(context)
                                             .colorScheme
@@ -275,7 +275,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                                       MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Text(
-                                      'Jumat',
+                                      AppLocalizations.of(context)!.friday,
                                       style: bSubtitle3.copyWith(
                                         color: Theme.of(context)
                                             .colorScheme
@@ -297,7 +297,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                                       MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Text(
-                                      'Sabtu',
+                                      AppLocalizations.of(context)!.saturday,
                                       style: bSubtitle3.copyWith(
                                         color: Theme.of(context)
                                             .colorScheme
@@ -319,7 +319,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                                       MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Text(
-                                      'Minggu',
+                                      AppLocalizations.of(context)!.sunday,
                                       style: bSubtitle3.copyWith(
                                         color: Theme.of(context)
                                             .colorScheme
@@ -342,7 +342,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                           CustomPrimaryIconTextButton(
                             icon: "assets/icon/fill/map-marker.svg",
                             width: screenSize.width,
-                            text: "Petunjuk Arah",
+                            text: AppLocalizations.of(context)!.directions,
                             onTap: () {},
                           ),
                         ],
@@ -353,15 +353,6 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                       return Container();
                     }
                   },
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                CustomSecondaryIconTextButton(
-                  icon: "assets/icon/fill/coupon.svg",
-                  width: screenSize.width,
-                  text: "Dapatkan Tiket",
-                  onTap: () {},
                 ),
               ],
             ),

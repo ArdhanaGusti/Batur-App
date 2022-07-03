@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:transportation/presentation/components/custom_first_container_detail.dart';
 import 'package:transportation/presentation/components/custom_secondary_container_detail.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 // Check
 
 enum TransportationDetailScreenProcessEnum {
@@ -76,9 +76,9 @@ class _TransportationDetailScreenState
         ),
       );
     } else if (process == TransportationDetailScreenProcessEnum.failed) {
-      return const ErrorScreen(
-        title: "AppLocalizations.of(context)!.oops",
-        message: "AppLocalizations.of(context)!.screenSmall",
+      return ErrorScreen(
+        title: AppLocalizations.of(context)!.oops,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else {
       return _buildScreen(context, screenSize);
@@ -88,7 +88,7 @@ class _TransportationDetailScreenState
   Widget _buildAppBar() {
     return CustomSliverAppBarTextLeading(
       // Text wait localization
-      title: "Transportasi Umum Detail",
+      title: AppLocalizations.of(context)!.publicTransportationDetail,
       leadingIcon: "assets/icon/regular/chevron-left.svg",
       leadingOnTap: () {
         Navigator.pop(
@@ -138,7 +138,9 @@ class _TransportationDetailScreenState
             child: CustomSecondaryContainerDetail(
               station: widget.station!,
               isTrain: widget.isTrain,
-              title: (isTrain) ? "Jadwal Kereta" : "Jadwal Bus",
+              title: (isTrain)
+                  ? AppLocalizations.of(context)!.trainSchedule
+                  : AppLocalizations.of(context)!.busSchedule,
               width: screenSize.width - 40.0,
             ),
           ),
@@ -148,7 +150,7 @@ class _TransportationDetailScreenState
           sliver: SliverToBoxAdapter(
             child: CustomPrimaryIconTextButton(
               width: screenSize.width,
-              text: "Petunjuk Arah",
+              text: AppLocalizations.of(context)!.directions,
               icon: "assets/icon/fill/map-marker.svg",
               onTap: () {},
             ),

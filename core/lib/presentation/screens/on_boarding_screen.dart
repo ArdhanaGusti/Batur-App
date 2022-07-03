@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:theme/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // Check
 
@@ -32,10 +33,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     Size screenSize = MediaQuery.of(context).size;
 
     if (screenSize.width < 320.0 || screenSize.height < 600.0) {
-      return const ErrorScreen(
+      return ErrorScreen(
         // Text wait localization
-        title: "AppLocalizations.of(context)!.screenError",
-        message: "AppLocalizations.of(context)!.screenSmall",
+        title: AppLocalizations.of(context)!.screenError,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else if (screenSize.width > 500.0) {
       // Tablet Mode (Must be repair)
@@ -98,7 +99,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               Center(
                 // Text wait localization
                 child: Text(
-                  "AppLocalizations.of(context)!.onBoardingScreenTitle",
+                  AppLocalizations.of(context)!.onBoardingScreenTitle,
                   style: bHeading3.copyWith(
                     color: Theme.of(context).colorScheme.tertiary,
                   ),
@@ -111,7 +112,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               Center(
                 // Text wait localization
                 child: Text(
-                  "AppLocalizations.of(context)!.onBoardingScreenDesc",
+                  AppLocalizations.of(context)!.onBoardingScreenDesc,
                   style: bSubtitle1.copyWith(
                     color: Theme.of(context).colorScheme.tertiary,
                   ),
@@ -123,7 +124,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           CustomPrimaryTextButton(
             width: screenSize.width,
             // Text wait localization
-            text: "AppLocalizations.of(context)!.btnStartNow",
+            text: AppLocalizations.of(context)!.btnStartNow,
             onTap: () {
               Navigator.pushReplacement(
                 context,

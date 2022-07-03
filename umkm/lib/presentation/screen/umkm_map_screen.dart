@@ -12,6 +12,7 @@ import 'package:umkm/data/service/api_service.dart';
 import 'package:umkm/presentation/components/custom_card_umkm.dart';
 import 'package:umkm/presentation/screen/umkm_detail_screen.dart';
 import 'package:umkm/presentation/screen/umkm_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum UmkmMapsScreenProcessEnum {
   loading,
@@ -56,7 +57,7 @@ class _UmkmMapsScreenState extends State<UmkmMapsScreen> {
 
   Future<void> _onMapCreated(GoogleMapController controller) async {
     QuerySnapshot touristAttraction =
-    await FirebaseFirestore.instance.collection("UMKM").get();
+        await FirebaseFirestore.instance.collection("UMKM").get();
     setState(() {
       _markers.clear();
       for (final place in touristAttraction.docs) {
@@ -129,10 +130,10 @@ class _UmkmMapsScreenState extends State<UmkmMapsScreen> {
         ),
       );
     } else if (process == UmkmMapsScreenProcessEnum.failed) {
-      return const ErrorScreen(
+      return ErrorScreen(
         // Text Wait Localization
-        title: "AppLocalizations.of(context)!.oops",
-        message: "Failed",
+        title: AppLocalizations.of(context)!.oops,
+        message: AppLocalizations.of(context)!.screenError,
       );
     } else {
       return _buildScreen(context, screenSize);
@@ -166,10 +167,10 @@ class _UmkmMapsScreenState extends State<UmkmMapsScreen> {
 
   Widget _buildScreen(BuildContext context, Size screenSize) {
     if (screenSize.width < 300.0 || screenSize.height < 600.0) {
-      return const ErrorScreen(
+      return ErrorScreen(
         // Text wait localization
-        title: "AppLocalizations.of(context)!.oops",
-        message: "AppLocalizations.of(context)!.screenSmall",
+        title: AppLocalizations.of(context)!.oops,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else {
       // Mobile Mode
@@ -221,15 +222,15 @@ class _UmkmMapsScreenState extends State<UmkmMapsScreen> {
                       child: StreamBuilder<QuerySnapshot>(
                         stream: (user == null)
                             ? FirebaseFirestore.instance
-                            .collection("Favorite")
-                            .where("umkm", isEqualTo: name)
-                            .snapshots()
+                                .collection("Favorite")
+                                .where("umkm", isEqualTo: name)
+                                .snapshots()
                             : FirebaseFirestore.instance
-                            .collection("Favorite")
-                            .where("umkm", isEqualTo: name)
-                            .where("email", isEqualTo: user!.email)
-                            .where("seller", isEqualTo: email)
-                            .snapshots(),
+                                .collection("Favorite")
+                                .where("umkm", isEqualTo: name)
+                                .where("email", isEqualTo: user!.email)
+                                .where("seller", isEqualTo: email)
+                                .snapshots(),
                         builder: (context, fav) {
                           bool favorite = false;
                           if (fav.hasData) {

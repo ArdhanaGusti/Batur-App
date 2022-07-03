@@ -82,7 +82,6 @@ class _AddNewsScreenState extends State<AddNewsScreen> {
                     size: 50.0,
                   ),
                 );
-                print("sudah terloading");
               } else if (state is NewsCreated) {
                 toast.showToast(
                     child: CustomToast(
@@ -105,7 +104,7 @@ class _AddNewsScreenState extends State<AddNewsScreen> {
                             onPressed: () {
                               Navigator.pop(context);
                             },
-                            child: Text("Kembali"),
+                            child: Text(AppLocalizations.of(context)!.back),
                           )
                         ],
                       );
@@ -126,7 +125,8 @@ class _AddNewsScreenState extends State<AddNewsScreen> {
                     // });
                   } else {
                     AlertDialog alert = AlertDialog(
-                      title: Text("Silahkan lengkapi data"),
+                      title: Text(
+                          AppLocalizations.of(context)!.pleaseCompleteData),
                       actions: [
                         TextButton(
                             onPressed: () {

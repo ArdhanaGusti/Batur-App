@@ -12,6 +12,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:umkm/presentation/bloc/umkm_create_bloc.dart';
 import 'package:umkm/presentation/bloc/umkm_state.dart';
 import 'package:umkm/presentation/screen/gallery_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../bloc/umkm_event.dart';
 import '../components/textFields/custom_add_umkm_description_text_field.dart';
@@ -180,9 +181,9 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
       },
       listener: (context, state) async {
         if (state is UmkmCreated) {
-          toastSuccess("Berhasil Ditambahkan");
+          toastSuccess(AppLocalizations.of(context)!.successfullyAdded);
         } else if (state is UmkmError) {
-          toastError("Gagal Ditambahkan");
+          toastError(AppLocalizations.of(context)!.filedAdded);
         }
       },
       builder: (context, state) {
@@ -190,7 +191,7 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
           physics: const BouncingScrollPhysics(),
           slivers: <Widget>[
             CustomSliverAppBarTextLeading(
-              title: "Tambah UMKM",
+              title: AppLocalizations.of(context)!.addUmkm,
               leadingIcon: "assets/icon/regular/chevron-left.svg",
               // Navigation repair
               leadingOnTap: () {
@@ -208,7 +209,7 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
             ),
             _customEditForm(
               context,
-              "Type",
+              AppLocalizations.of(context)!.type,
               CustomAddUMKMNameTextField(
                 name: typeController,
               ),
@@ -240,7 +241,7 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
                   Container(
                     margin: const EdgeInsets.only(left: 20.0, top: 15.0),
                     child: Text(
-                      "Alamat",
+                      AppLocalizations.of(context)!.addNews,
                       style: bHeading7.copyWith(
                         color: Theme.of(context).colorScheme.tertiary,
                       ),
@@ -265,7 +266,7 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
                       child: Text(
                           (address != null)
                               ? address!
-                              : "Tekan 'Lokasi Saya' untuk mengetahui lokasi anda",
+                              : AppLocalizations.of(context)!.btnAddress,
                           style: bSubtitle1.copyWith(
                             color: Theme.of(context).colorScheme.tertiary,
                           ))),
@@ -399,7 +400,7 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      AppLocalizations.of(context)!.timetable,
+                      AppLocalizations.of(context)!.schedule,
                       style: bHeading7.copyWith(
                         color: Theme.of(context).colorScheme.tertiary,
                       ),

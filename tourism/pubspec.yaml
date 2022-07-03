@@ -21,6 +21,9 @@ dependencies:
   theme:
     path: ../theme
 
+  account:
+    path: ../account
+
   intl:
   loading_animation_widget:
   page_transition:

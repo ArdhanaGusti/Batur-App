@@ -16,6 +16,7 @@ class CustomFirstContainerDetail extends StatelessWidget {
   final double width;
   final Function() onTap;
   final List<String> carouselImages;
+  final List<String> reviews;
   const CustomFirstContainerDetail({
     Key? key,
     required this.title,
@@ -25,6 +26,7 @@ class CustomFirstContainerDetail extends StatelessWidget {
     required this.width,
     required this.onTap,
     required this.carouselImages,
+    required this.reviews,
   }) : super(key: key);
 
   @override
@@ -137,40 +139,6 @@ class CustomFirstContainerDetail extends StatelessWidget {
                             color: bGrey,
                           ),
                         ),
-                        const SizedBox(
-                          height: 15.0,
-                        ),
-                        Row(
-                          children: <Widget>[
-                            SvgPicture.asset(
-                              "assets/icon/fill/phone.svg",
-                              color: bGrey,
-                              height: 14.0,
-                            ),
-                            const SizedBox(
-                              width: 5.0,
-                            ),
-                            Flexible(
-                              child: Text(
-                                telephone,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: bCaption1,
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 5.0,
-                            ),
-                            GestureDetector(
-                              onTap: onTap,
-                              child: SvgPicture.asset(
-                                "assets/icon/regular/copy.svg",
-                                color: bGrey,
-                                height: 14.0,
-                              ),
-                            ),
-                          ],
-                        ),
                       ],
                     ),
                   ),
@@ -190,6 +158,42 @@ class CustomFirstContainerDetail extends StatelessWidget {
                     ],
                   ),
                 ],
+              ),
+              const SizedBox(
+                height: 15.0,
+              ),
+              Text(
+                "Review",
+                style: bHeading7.copyWith(
+                  color: Theme.of(context).colorScheme.tertiary,
+                ),
+              ),
+              const SizedBox(
+                height: 10.0,
+              ),
+              CarouselSlider(
+                options: CarouselOptions(
+                  viewportFraction: 1.0,
+                  enlargeCenterPage: true,
+                  autoPlay: true,
+                  height: 100,
+                ),
+                items: reviews.map(
+                  (i) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return Text(
+                          i,
+                          maxLines: 6,
+                          overflow: TextOverflow.ellipsis,
+                          style: bCaption1.copyWith(
+                            color: bGrey,
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ).toList(),
               ),
             ],
           ),

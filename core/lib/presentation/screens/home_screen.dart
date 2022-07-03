@@ -26,6 +26,8 @@ import 'package:theme/theme.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:tourism/data/datasource/tourism_remote_data_source.dart';
 import 'package:tourism/data/models/tourist_attraction.dart';
+import 'package:transportation/data/datasources/transportation_remote_data_source.dart';
+import 'package:transportation/data/models/station.dart';
 import 'package:transportation/transportation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tourism/tourism.dart';
@@ -52,8 +54,40 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   HomeScreenProcessEnum process = HomeScreenProcessEnum.loading;
   final toast = FToast();
 
+  List<String> title = [
+    "Cimahi",
+    "Cicalengka",
+    "Padalarang",
+    "Haurpugur",
+    "Rancaekek",
+    "Cimekar",
+    "Gedebage",
+    "Cikudapateuh",
+    "Ciroyom",
+    "Stasiun Cimindi",
+    "Stasiun Bandung",
+    "Gadobangkong",
+    "Kiaracondong"
+  ];
+
+  List<String> titleFirebase = [
+    "Cimahi",
+    "Cicalengka",
+    "Padalarang",
+    "Haurpugur",
+    "Rancaekek",
+    "Cimekar",
+    "Gedebage",
+    "Cikudapateuh",
+    "Ciroyom",
+    "Cimindi",
+    "Bandung",
+    "Kiaracondong"
+  ];
+
   late Future<ArticlesResult> futureArticle;
   late Future<TouristAttractionResult> futurePlace;
+  late Future<StationResult> futureStation;
 
   @override
   void initState() {
@@ -63,6 +97,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       length: 2,
     );
     super.initState();
+    futureStation = TransportationRemoteDataSource().getStation();
 
     futureArticle = NewsRemoteDataSource().bandungNewsId();
     futurePlace = TourismRemoteDataSource().getTouristAttraction();
@@ -701,6 +736,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                 ),
                                               );
                                             },
+                                            onHeartTap: () {
+                                              Navigator.push(
+                                                context,
+                                                PageTransition(
+                                                  curve: Curves.easeInOut,
+                                                  type: PageTransitionType
+                                                      .bottomToTop,
+                                                  child: const LoginScreen(),
+                                                ),
+                                              );
+                                            },
                                           );
                                         }
                                         final favData = fav.data!.docs;
@@ -738,6 +784,19 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                     milliseconds: 150),
                                               ),
                                             );
+                                          },
+                                          onHeartTap: () {
+                                            if (favData.isEmpty) {
+                                              ApiServiceUMKM().addFavorite(
+                                                  data['coverUrl'],
+                                                  data['address'],
+                                                  data['email'],
+                                                  "",
+                                                  data['name']);
+                                            } else {
+                                              ApiServiceUMKM().removeFavorite(
+                                                  favData[0].reference);
+                                            }
                                           },
                                         );
                                       },
@@ -813,57 +872,180 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   physics: const BouncingScrollPhysics(),
                   controller: _controller,
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        physics: const ClampingScrollPhysics(),
-                        itemBuilder: (BuildContext context, int index) {
-                          // Use Data for Train
+                    FutureBuilder<StationResult>(
+                      future: futureStation,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
                           return Padding(
-                            padding: const EdgeInsets.only(bottom: 15.0),
-                            child: CustomTransportCard(
-                              img:
-                                  "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
-                              title: "Trans Metro Bandung",
-                              // Process the string of route
-                              route: "Cibiru – Cibeureum",
-                              time: "07.00 WIB -16.00 WIB",
-                              onTap: () {
-                                // To detail Train
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 20.0),
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              physics: const ClampingScrollPhysics(),
+                              itemBuilder: (BuildContext context, int index) {
+                                print(snapshot.data!.results[index].name);
+                                if (title.contains(
+                                    snapshot.data!.results[index].name)) {
+                                  return Padding(
+                                    padding:
+                                        const EdgeInsets.only(bottom: 15.0),
+                                    child: (snapshot
+                                                .data!.results[index].photos ==
+                                            null)
+                                        ? CustomTransportCard(
+                                            img:
+                                                'http://via.placeholder.com/350x150',
+                                            title: snapshot
+                                                .data!.results[index].name,
+                                            // Process the string of route
+                                            route: snapshot
+                                                .data!.results[index].vicinity,
+                                            time: "Buka",
+                                            onTap: () {
+                                              // To detail Train
+                                              final indexTitleStation =
+                                                  title.indexOf(snapshot.data!
+                                                      .results[index].name);
+                                              final titleStation =
+                                                  titleFirebase[
+                                                      indexTitleStation];
+                                              Navigator.push(
+                                                context,
+                                                PageTransition(
+                                                  curve: Curves.easeInOut,
+                                                  type: PageTransitionType
+                                                      .bottomToTop,
+                                                  // Add Parameter Data Train Detail
+                                                  child:
+                                                      TransportationDetailScreen(
+                                                    isTrain: true,
+                                                    station: titleStation,
+                                                    idStation: snapshot.data!
+                                                        .results[index].placeId,
+                                                  ),
+                                                  duration: const Duration(
+                                                      milliseconds: 150),
+                                                  reverseDuration:
+                                                      const Duration(
+                                                          milliseconds: 150),
+                                                ),
+                                              );
+                                            },
+                                          )
+                                        : CustomTransportCard(
+                                            img:
+                                                "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${snapshot.data!.results[index].photos![0].photoReference}&key=AIzaSyAO1b9CLWFz6Y9NG14g2gpYP7TQWPRsPG0",
+                                            title: snapshot
+                                                .data!.results[index].name,
+                                            // Process the string of route
+                                            route: snapshot
+                                                .data!.results[index].vicinity,
+                                            time: "Buka",
+                                            onTap: () {
+                                              // To detail Train
+                                              final indexTitleStation =
+                                                  title.indexOf(snapshot.data!
+                                                      .results[index].name);
+                                              final titleStation =
+                                                  titleFirebase[
+                                                      indexTitleStation];
+                                              Navigator.push(
+                                                context,
+                                                PageTransition(
+                                                  curve: Curves.easeInOut,
+                                                  type: PageTransitionType
+                                                      .bottomToTop,
+                                                  // Add Parameter Data Train Detail
+                                                  child:
+                                                      TransportationDetailScreen(
+                                                    isTrain: true,
+                                                    station: titleStation,
+                                                    idStation: snapshot.data!
+                                                        .results[index].placeId,
+                                                  ),
+                                                  duration: const Duration(
+                                                      milliseconds: 150),
+                                                  reverseDuration:
+                                                      const Duration(
+                                                          milliseconds: 150),
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                  );
+                                } else {
+                                  return Container();
+                                }
+                                // Use Data for Train
                               },
+                              itemCount: 7,
                             ),
                           );
-                        },
-                        itemCount: 4,
-                      ),
+                        } else {
+                          return Container();
+                        }
+                      },
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        physics: const ClampingScrollPhysics(),
-                        itemBuilder: (BuildContext context, int index) {
-                          // Use Data for Bus
+                    StreamBuilder<QuerySnapshot>(
+                        stream: FirebaseFirestore.instance
+                            .collection("Bus")
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          final List<String> buusss = [];
+                          final List<String> route = [];
+                          final List<String> tmb = [];
+                          if (snapshot.hasData) {
+                            for (final indexxx in snapshot.data!.docs) {
+                              if (route.contains(indexxx["route"])) {
+                              } else {
+                                // buusss.insert(0, indexxx["transit"]);
+                                route.insert(0, indexxx["route"]);
+                                tmb.insert(0, indexxx["name"]);
+                              }
+                            }
+                          } else {
+                            return Container();
+                          }
                           return Padding(
-                            padding: const EdgeInsets.only(bottom: 15.0),
-                            child: CustomTransportCard(
-                              img:
-                                  "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
-                              title: "Trans Metro Bandung",
-                              // Process the string of route
-                              route:
-                                  "Cibiru – Cibeureumaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                              time: "07.00 WIB -16.00 WIB",
-                              onTap: () {
-                                // To detail Bus
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 20.0),
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              physics: const ClampingScrollPhysics(),
+                              itemBuilder: (BuildContext context, int index) {
+                                // Use Data for Bus
+                                return Padding(
+                                  padding: const EdgeInsets.only(bottom: 15.0),
+                                  child: CustomTransportCard(
+                                    img:
+                                        "https://upload.wikimedia.org/wikipedia/commons/2/24/Logo_TMB_Trans_Metro_Bandung.jpg",
+                                    title: tmb[index],
+                                    // Process the string of route
+                                    route: route[index],
+                                    time: "Buka",
+                                    onTap: () {
+                                      // To detail Bus
+                                      Navigator.push(
+                                        context,
+                                        PageTransition(
+                                          curve: Curves.easeInOut,
+                                          type: PageTransitionType.bottomToTop,
+                                          child: TimeLineScreen(
+                                              name: tmb[index], isTrain: false),
+                                          duration:
+                                              const Duration(milliseconds: 150),
+                                          reverseDuration:
+                                              const Duration(milliseconds: 150),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                );
                               },
+                              itemCount: 4,
                             ),
                           );
-                        },
-                        itemCount: 4,
-                      ),
-                    ),
+                        }),
                   ],
                 ),
               ),

@@ -106,10 +106,12 @@ class _TimeLineScreenState extends State<TimeLineScreen> {
                 ? FirebaseFirestore.instance
                     .collection("Train")
                     .where("trainName", isEqualTo: widget.name)
+                    .orderBy("date")
                     .snapshots()
                 : FirebaseFirestore.instance
                     .collection("Bus")
                     .where("name", isEqualTo: widget.name)
+                    .orderBy("date")
                     .snapshots(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
@@ -234,7 +236,7 @@ class TitleContainer extends StatelessWidget {
                 Flexible(
                   child: Text(
                     // Change with data
-                    'Rp. 25.000',
+                    'Rp. 5.000',
                     style: bHeading7.copyWith(
                       color: Theme.of(context).colorScheme.tertiary,
                     ),
@@ -275,6 +277,7 @@ class Process extends StatelessWidget {
   final bool isTrain;
   @override
   Widget build(BuildContext context) {
+    print(isTrain);
     return SliverPadding(
       padding: const EdgeInsets.only(
         left: 20.0,

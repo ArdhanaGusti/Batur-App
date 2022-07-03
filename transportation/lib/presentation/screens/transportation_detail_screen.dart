@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:transportation/data/datasources/transportation_remote_data_source.dart';
+import 'package:transportation/data/models/station_detail.dart';
 import 'package:transportation/presentation/components/custom_first_container_detail.dart';
 import 'package:transportation/presentation/components/custom_secondary_container_detail.dart';
 
@@ -18,10 +20,12 @@ class TransportationDetailScreen extends StatefulWidget {
   // Add Parameter Data Train Detail
   final bool isTrain;
   final String? station;
+  final String? idStation;
   const TransportationDetailScreen({
     Key? key,
     required this.isTrain,
     this.station,
+    this.idStation,
   }) : super(key: key);
 
   @override
@@ -41,19 +45,26 @@ class _TransportationDetailScreenState
   TransportationDetailScreenProcessEnum process =
       TransportationDetailScreenProcessEnum.loaded;
 
-  // @override
-  // void initState() {
-  //   super.initState();
+  late Future<StationDetailResult> futureStation;
 
-  //   // Must be repair
-  //   // Change with to fetch data
-  //   Timer(const Duration(seconds: 2), () {
-  //     // Change state value if data loaded or failed
-  //     setState(() {
-  //       process = TransportationDetailScreenProcessEnum.loaded;
-  //     });
-  //   });
-  // }
+  @override
+  void initState() {
+    super.initState();
+    print(widget.idStation!);
+    if (widget.isTrain) {
+      futureStation =
+          TransportationRemoteDataSource().getStationDetail(widget.idStation!);
+    }
+
+    // // Must be repair
+    // // Change with to fetch data
+    // Timer(const Duration(seconds: 2), () {
+    //   // Change state value if data loaded or failed
+    //   setState(() {
+    //     process = TransportationDetailScreenProcessEnum.loaded;
+    //   });
+    // });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -121,14 +132,33 @@ class _TransportationDetailScreenState
         SliverPadding(
           padding: const EdgeInsets.all(20.0),
           sliver: SliverToBoxAdapter(
-            child: CustomFirstContainerDetail(
-              title: "Contrary to popular belief",
-              address: "Jl. Trunojoyo No. 64 Bandung",
-              onTap: () {},
-              carouselImages: carouselImages,
-              rating: "155",
-              telephone: "(022) 4208757",
-              width: screenSize.width - 40.0,
+            child: FutureBuilder<StationDetailResult>(
+              future: futureStation,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  final List<String> image = [];
+                  final List<String> review = [];
+                  for (final photoid in snapshot.data!.result.photos) {
+                    image.insert(0,
+                        "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${photoid.photoReference}&key=AIzaSyAO1b9CLWFz6Y9NG14g2gpYP7TQWPRsPG0");
+                  }
+                  for (final reviews in snapshot.data!.result.reviews) {
+                    review.insert(0, reviews.text);
+                  }
+                  return CustomFirstContainerDetail(
+                    title: snapshot.data!.result.name,
+                    address: snapshot.data!.result.vicinity,
+                    onTap: () {},
+                    carouselImages: image,
+                    reviews: review,
+                    rating: snapshot.data!.result.rating.toString(),
+                    telephone: "(022) 4208757",
+                    width: screenSize.width - 40.0,
+                  );
+                } else {
+                  return Container();
+                }
+              },
             ),
           ),
         ),

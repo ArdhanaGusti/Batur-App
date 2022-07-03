@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -9,6 +10,8 @@ import 'package:theme/theme.dart';
 import 'package:transportation/data/datasources/transportation_remote_data_source.dart';
 import 'package:transportation/data/models/station.dart';
 import 'package:transportation/presentation/components/custom_card_transportation_list.dart';
+import 'package:transportation/presentation/screens/timeline_screen.dart';
+import 'package:transportation/presentation/screens/transportation_detail_bus_screen.dart';
 import 'package:transportation/presentation/screens/transportation_detail_screen.dart';
 
 // Check
@@ -28,6 +31,19 @@ class TransportationListScreen extends StatefulWidget {
 }
 
 class _TransportationListScreenState extends State<TransportationListScreen> {
+  List<String> bus = [
+    "Gunung Batu - Stasiun Hall",
+    "Stasiun Hall - Gunung Batu",
+    "Cibereum - Cibiru",
+    "Cibiru - Cibereum",
+    "Cibeureum - Cicaheum",
+    "Cicaheum - Cibeureum",
+    "Cicaheum - Sarijadi",
+    "Sarijadi - Cicaheum",
+    "Terminal Leuwipanjang - Terminal Antapani",
+    "Terminal Antapani - Terminal Leuwipanjang",
+  ];
+
   List<String> title = [
     "Cimahi",
     "Cicalengka",
@@ -297,6 +313,8 @@ class _TransportationListScreenState extends State<TransportationListScreen> {
                                                     TransportationDetailScreen(
                                                   isTrain: true,
                                                   station: titleStation,
+                                                  idStation:
+                                                      place[index].placeId,
                                                 ),
                                                 duration: const Duration(
                                                     milliseconds: 150),
@@ -327,44 +345,64 @@ class _TransportationListScreenState extends State<TransportationListScreen> {
                   refreshController: _refreshControllerBus,
                   onLoading: _onLoadingBus,
                   onRefresh: _onRefreshBus,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 0.0),
-                    child: ListView.builder(
-                      physics: const BouncingScrollPhysics(),
-                      shrinkWrap: true,
-                      itemBuilder: (BuildContext context, int index) {
-                        // Use Data Bus
+                  child: StreamBuilder<QuerySnapshot>(
+                      stream: FirebaseFirestore.instance
+                          .collection("Bus")
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        final List<String> buusss = [];
+                        final List<String> route = [];
+                        final List<String> tmb = [];
+                        if (snapshot.hasData) {
+                          for (final indexxx in snapshot.data!.docs) {
+                            if (route.contains(indexxx["route"])) {
+                            } else {
+                              // buusss.insert(0, indexxx["transit"]);
+                              route.insert(0, indexxx["route"]);
+                              tmb.insert(0, indexxx["name"]);
+                            }
+                          }
+                          print(buusss);
+                        } else {
+                          return Container();
+                        }
                         return Padding(
-                          padding: const EdgeInsets.only(bottom: 15.0),
-                          child: CustomCardStasiunList(
-                            image:
-                                "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
-                            title: "Terninal Bandung Kota",
-                            address:
-                                "Jl. Stasiun Barat, Kb. Jeruk, Kec. Andir, Bandung",
-                            rating: '5.0',
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                PageTransition(
-                                  curve: Curves.easeInOut,
-                                  type: PageTransitionType.bottomToTop,
-                                  child: const TransportationDetailScreen(
-                                    isTrain: false,
-                                    station: "Jalan Soekarno Hatta 517",
-                                  ),
-                                  duration: const Duration(milliseconds: 150),
-                                  reverseDuration:
-                                      const Duration(milliseconds: 150),
+                          padding: const EdgeInsets.only(top: 0.0),
+                          child: ListView.builder(
+                            physics: const BouncingScrollPhysics(),
+                            shrinkWrap: true,
+                            itemBuilder: (BuildContext context, int index) {
+                              // Use Data Bus
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 15.0),
+                                child: CustomCardStasiunList(
+                                  image:
+                                      "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
+                                  title: tmb[index],
+                                  address: route[index],
+                                  rating: '5.0',
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      PageTransition(
+                                        curve: Curves.easeInOut,
+                                        type: PageTransitionType.bottomToTop,
+                                        child: TimeLineScreen(
+                                            name: tmb[index], isTrain: false),
+                                        duration:
+                                            const Duration(milliseconds: 150),
+                                        reverseDuration:
+                                            const Duration(milliseconds: 150),
+                                      ),
+                                    );
+                                  },
                                 ),
                               );
                             },
+                            itemCount: route.length,
                           ),
                         );
-                      },
-                      itemCount: 10,
-                    ),
-                  ),
+                      }),
                 ),
               ],
             ),

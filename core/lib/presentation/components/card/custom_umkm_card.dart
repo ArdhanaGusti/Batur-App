@@ -10,6 +10,7 @@ class CustomUMKMCard extends StatelessWidget {
   final bool isFavourited;
   final String description;
   final Function() onTap;
+  final Function() onHeartTap;
   const CustomUMKMCard({
     Key? key,
     required this.img,
@@ -17,6 +18,7 @@ class CustomUMKMCard extends StatelessWidget {
     required this.isFavourited,
     required this.description,
     required this.onTap,
+    required this.onHeartTap,
   }) : super(key: key);
 
   @override
@@ -86,7 +88,7 @@ class CustomUMKMCard extends StatelessWidget {
                             child: isFavourited == true
                                 ? GestureDetector(
                                     // Add on Tap
-                                    onTap: () {},
+                                    onTap: onHeartTap,
                                     child: SvgPicture.asset(
                                       "assets/icon/fill/heart.svg",
                                       color: bError,
@@ -95,7 +97,7 @@ class CustomUMKMCard extends StatelessWidget {
                                   )
                                 : GestureDetector(
                                     // Add on Tap
-                                    onTap: () {},
+                                    onTap: onHeartTap,
                                     child: SvgPicture.asset(
                                       "assets/icon/regular/heart.svg",
                                       color: Theme.of(context)

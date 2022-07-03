@@ -52,7 +52,7 @@ class CustomSecondaryContainerDetail extends StatelessWidget {
                   ? FirebaseFirestore.instance
                       .collection("Train")
                       .where("station", isEqualTo: station)
-                      // .orderBy('date', descending: false)
+                      .orderBy('date', descending: false)
                       .snapshots()
                   : FirebaseFirestore.instance
                       .collection("Bus")

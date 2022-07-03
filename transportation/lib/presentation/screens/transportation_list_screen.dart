@@ -11,7 +11,6 @@ import 'package:transportation/data/datasources/transportation_remote_data_sourc
 import 'package:transportation/data/models/station.dart';
 import 'package:transportation/presentation/components/custom_card_transportation_list.dart';
 import 'package:transportation/presentation/screens/timeline_screen.dart';
-import 'package:transportation/presentation/screens/transportation_detail_bus_screen.dart';
 import 'package:transportation/presentation/screens/transportation_detail_screen.dart';
 
 // Check

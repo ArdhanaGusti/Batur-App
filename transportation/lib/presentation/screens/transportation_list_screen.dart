@@ -44,7 +44,7 @@ class _TransportationListScreenState extends State<TransportationListScreen> {
     "Terminal Antapani - Terminal Leuwipanjang",
   ];
 
-  final apiKey =  Config().mapsKey;
+  final apiKey = Config().mapsKey;
   final photosUrl = Config().photosUrl;
 
   List<String> title = [
@@ -281,9 +281,11 @@ class _TransportationListScreenState extends State<TransportationListScreen> {
                                                     .bottomToTop,
                                                 // Add Parameter Data Train Detail
                                                 child:
-                                                    const TransportationDetailScreen(
+                                                    TransportationDetailScreen(
                                                   isTrain: true,
-                                                  station: "Kiaracondong",
+                                                  station: place[index].name,
+                                                  idStation:
+                                                      place[index].placeId,
                                                 ),
                                                 duration: const Duration(
                                                     milliseconds: 150),
@@ -315,7 +317,9 @@ class _TransportationListScreenState extends State<TransportationListScreen> {
                                                 child:
                                                     TransportationDetailScreen(
                                                   isTrain: true,
-                                                  station: titleStation,
+                                                  station: place[index].name,
+                                                  idStation:
+                                                      place[index].placeId,
                                                 ),
                                                 duration: const Duration(
                                                     milliseconds: 150),

@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:theme/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CustomSmartRefresh extends StatelessWidget {
   final RefreshController refreshController;
@@ -48,11 +49,11 @@ class CustomSmartRefresh extends StatelessWidget {
           color: Theme.of(context).colorScheme.tertiary,
           height: 20.0,
         ),
-        refreshingText: "Memperbarui...",
-        releaseText: "Lepas Untuk Memperbarui...",
-        idleText: "Tarik ke bawah Untuk Memperbarui...",
-        failedText: "Memperbarui gagal",
-        completeText: "Behasil Memperbarui",
+        refreshingText: AppLocalizations.of(context)!.refreshingText,
+        releaseText: AppLocalizations.of(context)!.refreshingText,
+        idleText: AppLocalizations.of(context)!.idleText,
+        failedText: AppLocalizations.of(context)!.failedText,
+        completeText: AppLocalizations.of(context)!.completeText,
         textStyle: bBody1.copyWith(
           color: Theme.of(context).colorScheme.tertiary,
         ),

@@ -67,33 +67,33 @@ class SettingScreen extends StatelessWidget {
               ),
               child: Column(
                 children: <Widget>[
-                  BlocBuilder<NotificationBloc, NotificationState>(
-                    builder: (context, state) {
-                      String mode = (state.notif == NotificationEnum.off)
-                          ? AppLocalizations.of(context)!.disable
-                          : AppLocalizations.of(context)!.enable;
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  const NotificationSettingScreen(),
-                            ),
-                          );
-                        },
-                        child: _customTextContainer(
-                          context,
-                          // Text wait localization
-                          AppLocalizations.of(context)!.notification,
-                          // Parameter use Bloc
-                          mode,
-                          "assets/icon/bell-Light.svg",
-                        ),
-                      );
-                    },
-                  ),
-                  _customDivider(),
+                  // BlocBuilder<NotificationBloc, NotificationState>(
+                  //   builder: (context, state) {
+                  //     String mode = (state.notif == NotificationEnum.off)
+                  //         ? AppLocalizations.of(context)!.disable
+                  //         : AppLocalizations.of(context)!.enable;
+                  //     return GestureDetector(
+                  //       onTap: () {
+                  //         Navigator.push(
+                  //           context,
+                  //           MaterialPageRoute(
+                  //             builder: (context) =>
+                  //                 const NotificationSettingScreen(),
+                  //           ),
+                  //         );
+                  //       },
+                  //       child: _customTextContainer(
+                  //         context,
+                  //         // Text wait localization
+                  //         AppLocalizations.of(context)!.notification,
+                  //         // Parameter use Bloc
+                  //         mode,
+                  //         "assets/icon/bell-Light.svg",
+                  //       ),
+                  //     );
+                  //   },
+                  // ),
+                  // _customDivider(),
                   BlocBuilder<LanguageBloc, LanguageState>(
                     builder: (context, state) {
                       String mode = (state.language == LanguageEnum.indonesia)

@@ -47,19 +47,19 @@ class CustomSliverAppBarDashboard extends StatelessWidget {
                 ),
               )
             : const SizedBox(),
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 20.0,
-          ),
-          child: GestureDetector(
-            onTap: actionOnTap,
-            child: SvgPicture.asset(
-              actionIcon,
-              color: Theme.of(context).colorScheme.tertiary,
-              height: 30.0,
-            ),
-          ),
-        ),
+        // Padding(
+        //   padding: const EdgeInsets.symmetric(
+        //     horizontal: 20.0,
+        //   ),
+        //   child: GestureDetector(
+        //     onTap: actionOnTap,
+        //     child: SvgPicture.asset(
+        //       actionIcon,
+        //       color: Theme.of(context).colorScheme.tertiary,
+        //       height: 30.0,
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }

@@ -92,7 +92,7 @@ class TermAndConditionScreen extends StatelessWidget {
                   Center(
                     // Text wait localization
                     child: Text(
-                      '''Syarat dan ketentuan yang ditetapkan dibawah ini digunakan untuk mengatur penggunaan layanan yang disediakan oleh Bandung Tourism, baik itu berupa informasi, teks, grafik, gambar, dan data lainnya. Syarat dan ketentuan ini berlaku bagi seluruh pengguna aplikasi Bandung Tourism. Dengan mendaftar atau menggunakan aplikasi Bandung Tourism maka pengguna dianggap telah membaca, mengerti dan memahami Syarat dan Ketentuan aplikasi Bandung Tourism.''',
+                      AppLocalizations.of(context)!.termsAndConditions,
                       style: bSubtitle1.copyWith(
                         color: Theme.of(context).colorScheme.tertiary,
                       ),
@@ -105,7 +105,7 @@ class TermAndConditionScreen extends StatelessWidget {
                   Center(
                     // Text wait localization
                     child: Text(
-                      "Informasi Data Pengguna",
+                      AppLocalizations.of(context)!.userDataInformation,
                       style: bSubtitle3.copyWith(
                         color: Theme.of(context).colorScheme.tertiary,
                         fontWeight: FontWeight.w800,
@@ -119,7 +119,7 @@ class TermAndConditionScreen extends StatelessWidget {
                   Center(
                     // Text wait localization
                     child: Text(
-                      '''Kami mengumpukan informasi mengenai nama dan alamat email pengguna. Kami tidak mengambil informasi pribadi yang bersifat penting seperti No Telepon atau No Rekening. Sehingga apabila ada pihak yang mengatas namakan Bandung Tourism dan memeinta informasi tersebut, maka dapat dipastikan pihak tersebut bukan pihak Bandung Tourism. Kami mengumpulkan informasi pribadi dengan tujuan untuk dapat data dan proses legalitas hukum lainnya (Jika diperlukan).''',
+                      AppLocalizations.of(context)!.termTiga,
                       style: bSubtitle1.copyWith(
                         color: Theme.of(context).colorScheme.tertiary,
                       ),

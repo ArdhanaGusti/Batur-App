@@ -155,7 +155,6 @@
   "screenError": "Screen error",
   "oops": "Oops",
   "screenSmall": "your screen is too small",
-  "help": "Bantuan",
   "helpDesc": "If you have difficulty accessing our application, you can ask questions to our team's email address",
   "developmentTeam": "Development Team \n(BATUR TEAM)",
 
@@ -229,14 +228,15 @@
   "busSchedule": "Bus Schedule",
 
   "@_add_umkm_screen": {},
-  "successfullyAdded": "Berhasil Ditambahkan",
-  "filedAdded": "Gagal Ditambahkan",
-  "addUmkm": "Tambah UMKM",
-  "type": "Jenis",
-  "btnAddress": "Tekan 'Lokasi Saya' untuk mengetahui lokasi anda",
+  "successfullyAdded": "Successfully to add",
+  "filedAdded": "Filed to add",
+  "addUmkm": "Add UMKM",
+  "type": "Type",
+  "btnAddress": "Press 'My Location' to find out your location",
 
   "@_edit_umkm_screen": {},
   "editUmkm": "Edit UMKM",
+  "addAddress": "Add Address",
 
   "@_edit_detail_acc_screen": {},
   "umkmAccepted": "UMKM Accepted",
@@ -383,6 +383,12 @@
   "tour": "Tour",
   "umkm": "UMKM",
   "all": "All",
+
+  "@_terms_conditions_screen": {},
+  "termsAndConditions": "Terms and Conditions",
+  "termsAndConditionsDetail": "''he terms and conditions set out below are used to regulate the use of services provided by Bandung Tourism, whether in the form of information, text, graphics, images, and other data. These terms and conditions apply to all users of the Bandung Tourism application. By registering or using the Bandung Tourism application, the user is deemed to have read, understood and understood the Terms and Conditions of the Bandung Tourism application.''",
+  "userDataInformation": "User Data Information",
+  "termTiga": "''We collect information about the names and email addresses of users. We do not collect important personal information such as telephone number or account number. So if there are parties on behalf of Bandung Tourism and requesting this information, it can be ascertained that the party is not Bandung Tourism. We collect personal information with the aim of obtaining data and other legal processes (if needed).''",
 
   "@_verification_screen": {},
   "screenError": "Screen error",

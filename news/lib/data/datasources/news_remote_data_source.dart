@@ -1,12 +1,13 @@
 import 'dart:convert';
 
+import 'package:core/utils/config.dart';
 import 'package:http/http.dart' as http;
 
 import '../../utils/exception.dart';
 import '../model/news.dart';
 
 class NewsRemoteDataSource {
-  static const apiKey = '9a9d9288c8af4e4aa7abf2b7b913247a';
+  final apiKey = Config().newsKey;
   static const baseUrl = 'https://newsapi.org/v2';
   static const query = 'kota bandung';
   static const sort = 'publishedAt';

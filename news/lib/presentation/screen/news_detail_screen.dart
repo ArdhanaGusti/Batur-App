@@ -149,7 +149,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
             child: CustomPrimaryTextButton(
               width: screenSize.width,
 
-              text: AppLocalizations.of(context)!.viewNews,
+              text: AppLocalizations.of(context)!.readNews,
               // On tap Navigation needs to be replaced
               onTap: () {
                 Navigator.pop(

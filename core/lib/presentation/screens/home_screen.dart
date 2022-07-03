@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:account/account.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:core/presentation/bloc/dashboard_bloc.dart';
 import 'package:core/presentation/components/appbar/custom_sliver_appbar_dashboard.dart';
 import 'package:core/presentation/components/card/custom_news_card.dart';
@@ -607,40 +608,150 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               onTapUMKMList,
             ),
             SliverToBoxAdapter(
-              child: SizedBox(
-                height: 260.0,
-                child: CustomScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  slivers: <Widget>[
-                    SliverPadding(
-                      padding: const EdgeInsets.only(left: 20.0),
-                      sliver: SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          (BuildContext context, int index) {
-                            // Use Data for UMKM
-                            return Padding(
-                              padding: const EdgeInsets.only(right: 15.0),
-                              child: CustomUMKMCard(
-                                img:
-                                    "https://cdn-2.tstatic.net/tribunnews/foto/bank/images/indonesiatravel-gedung-sate-salah-satu-ikon-kota-bandung.jpg",
-                                title: "Gedung Sate satu dua tiga",
-                                isFavourited: false,
-                                description:
-                                    "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
-                                onTap: () {
-                                  // To detail UMKM
-                                },
-                              ),
-                            );
-                          },
-                          childCount: 4,
+              child: StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection("UMKM")
+                      .where("verification", isEqualTo: true)
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: Text(
+                          "Aduh, Data UMKM tidak ditemukan",
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: bHeading7.copyWith(
+                            color: Theme.of(context).colorScheme.tertiary,
+                          ),
                         ),
+                      );
+                    } else if (snapshot.connectionState ==
+                        ConnectionState.waiting) {
+                      return Center(
+                        child: LoadingAnimationWidget.horizontalRotatingDots(
+                          color: Theme.of(context).colorScheme.tertiary,
+                          size: 30.0,
+                        ),
+                      );
+                    }
+                    return SizedBox(
+                      height: 260.0,
+                      child: CustomScrollView(
+                        physics: const BouncingScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
+                        slivers: <Widget>[
+                          SliverPadding(
+                            padding: const EdgeInsets.only(left: 20.0),
+                            sliver: SliverList(
+                              delegate: SliverChildBuilderDelegate(
+                                (BuildContext context, int index) {
+                                  final data = snapshot.data!.docs[index];
+                                  // Use Data for UMKM
+                                  return Padding(
+                                    padding: const EdgeInsets.only(right: 15.0),
+                                    child: StreamBuilder<QuerySnapshot>(
+                                      stream: (user == null)
+                                          ? FirebaseFirestore.instance
+                                              .collection("Favorite")
+                                              .where("umkm",
+                                                  isEqualTo: data["name"])
+                                              .snapshots()
+                                          : FirebaseFirestore.instance
+                                              .collection("Favorite")
+                                              .where("umkm",
+                                                  isEqualTo: data["name"])
+                                              .where("email",
+                                                  isEqualTo: user!.email)
+                                              .where("seller",
+                                                  isEqualTo: data["email"])
+                                              .snapshots(),
+                                      builder: (context, fav) {
+                                        if (fav.data == null || user == null) {
+                                          return CustomUMKMCard(
+                                            img: data['coverUrl'],
+                                            title: data['name'],
+                                            isFavourited: false,
+                                            description: data['desc'],
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                PageTransition(
+                                                  curve: Curves.easeInOut,
+                                                  type: PageTransitionType
+                                                      .rightToLeft,
+                                                  child: UmkmDetailScreen(
+                                                    name: data['name'],
+                                                    coverUrl: data['coverUrl'],
+                                                    address: data['address'],
+                                                    desc: data['desc'],
+                                                    index: data.reference,
+                                                    type: data['desc'],
+                                                    noHp: data['phone'],
+                                                    email: data["email"],
+                                                    web: data["website"],
+                                                    tokped: data["tokped"],
+                                                    shopee: data["shopee"],
+                                                    isFav: false,
+                                                  ),
+                                                  duration: const Duration(
+                                                      milliseconds: 150),
+                                                  reverseDuration:
+                                                      const Duration(
+                                                          milliseconds: 150),
+                                                ),
+                                              );
+                                            },
+                                          );
+                                        }
+                                        final favData = fav.data!.docs;
+                                        return CustomUMKMCard(
+                                          img: data['coverUrl'],
+                                          title: data['name'],
+                                          isFavourited: false,
+                                          description: data['desc'],
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              PageTransition(
+                                                curve: Curves.easeInOut,
+                                                type: PageTransitionType
+                                                    .rightToLeft,
+                                                child: UmkmDetailScreen(
+                                                  name: data['name'],
+                                                  coverUrl: data['coverUrl'],
+                                                  address: data['address'],
+                                                  desc: data['desc'],
+                                                  index: data.reference,
+                                                  type: data['desc'],
+                                                  noHp: data['phone'],
+                                                  email: data["email"],
+                                                  web: data["website"],
+                                                  tokped: data["tokped"],
+                                                  shopee: data["shopee"],
+                                                  isFav: (favData.isEmpty)
+                                                      ? false
+                                                      : true,
+                                                ),
+                                                duration: const Duration(
+                                                    milliseconds: 150),
+                                                reverseDuration: const Duration(
+                                                    milliseconds: 150),
+                                              ),
+                                            );
+                                          },
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
+                                childCount: snapshot.data!.docs.length,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
-              ),
+                    );
+                  }),
             ),
             _buildTitle(
               20.0,

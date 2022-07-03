@@ -64,7 +64,8 @@ class _TourMapScreenState extends State<TourMapScreen> {
                 address = place.vicinity;
                 name = place.name;
                 rating = place.rating;
-                image = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${place.photos[0].photoReference}&key=YOUR KEY HERE";
+                image =
+                    "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${place.photos[0].photoReference}&key=AIzaSyAO1b9CLWFz6Y9NG14g2gpYP7TQWPRsPG0";
                 if (place.openingHours?.openNow != null) {
                   if (place.openingHours?.openNow == true) {
                     openNow = "Buka";
@@ -82,8 +83,7 @@ class _TourMapScreenState extends State<TourMapScreen> {
                   isClickTour = !isClickTour;
                 });
               });
-            }
-      );
+            });
         _markers[place.name] = marker;
       }
     });
@@ -226,14 +226,12 @@ class _TourMapScreenState extends State<TourMapScreen> {
                       padding: const EdgeInsets.all(10.0),
                       // Add parameter for card with data
                       child: CustomTourCard(
-                        image:
-                            image,
+                        image: image,
                         rating: rating.toString(),
                         title: name,
                         timeOpen: openNow,
                         isFavourited: true,
-                        address:
-                            address,
+                        address: address,
                         onTap: () {
                           Navigator.push(
                             context,

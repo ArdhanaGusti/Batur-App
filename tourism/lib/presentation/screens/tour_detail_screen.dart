@@ -131,7 +131,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                       List<String> photos = [];
                       for (final index in place.photos) {
                         photos.insert(0,
-                            "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${index.photoReference}&key=YOUR KEY HERE");
+                            "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${index.photoReference}&key=AIzaSyAO1b9CLWFz6Y9NG14g2gpYP7TQWPRsPG0");
                       }
                       return Column(
                         children: [
@@ -195,7 +195,8 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                                       ),
                                     ),
                                     Text(
-                                      place.openingHours.weekdayText[0].substring(7, 18),
+                                      place.openingHours.weekdayText[0]
+                                          .substring(7, 18),
                                       style: bSubtitle3,
                                     )
                                   ],
@@ -216,7 +217,8 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                                       ),
                                     ),
                                     Text(
-                                      place.openingHours.weekdayText[1].substring(7, 19),
+                                      place.openingHours.weekdayText[1]
+                                          .substring(7, 19),
                                       style: bSubtitle3,
                                     )
                                   ],
@@ -237,7 +239,8 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                                       ),
                                     ),
                                     Text(
-                                      place.openingHours.weekdayText[2].substring(6, 17),
+                                      place.openingHours.weekdayText[2]
+                                          .substring(6, 17),
                                       style: bSubtitle3,
                                     )
                                   ],
@@ -258,7 +261,8 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                                       ),
                                     ),
                                     Text(
-                                      place.openingHours.weekdayText[3].substring(6, 18),
+                                      place.openingHours.weekdayText[3]
+                                          .substring(6, 18),
                                       style: bSubtitle3,
                                     )
                                   ],
@@ -279,7 +283,8 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                                       ),
                                     ),
                                     Text(
-                                      place.openingHours.weekdayText[4].substring(6, 18),
+                                      place.openingHours.weekdayText[4]
+                                          .substring(6, 18),
                                       style: bSubtitle3,
                                     )
                                   ],
@@ -300,7 +305,8 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                                       ),
                                     ),
                                     Text(
-                                      place.openingHours.weekdayText[5].substring(6, 18),
+                                      place.openingHours.weekdayText[5]
+                                          .substring(6, 18),
                                       style: bSubtitle3,
                                     )
                                   ],
@@ -310,7 +316,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                                 ),
                                 Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Text(
                                       'Minggu',
@@ -321,7 +327,8 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                                       ),
                                     ),
                                     Text(
-                                      place.openingHours.weekdayText[6].substring(8, 19),
+                                      place.openingHours.weekdayText[6]
+                                          .substring(8, 19),
                                       style: bSubtitle3,
                                     )
                                   ],

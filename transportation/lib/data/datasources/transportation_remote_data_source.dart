@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:transportation/data/model/station.dart';
-
+import 'package:transportation/data/models/station.dart';
+import 'package:transportation/data/models/station_detail.dart';
 
 class TransportationRemoteDataSource {
   static const apiKey = 'YOUR KEY HERE';
@@ -17,6 +17,18 @@ class TransportationRemoteDataSource {
     final response = await http.get(Uri.parse(_url));
     if (response.statusCode == 200) {
       return StationResult.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to load tourist attraction');
+    }
+  }
+
+  Future<StationDetailResult> getStationDetail(
+      String id) async {
+    String detailUrl =
+        'https://maps.googleapis.com/maps/api/place/details/json?language=id&place_id=$id&key=YOUR KEY HERE';
+    final response = await http.get(Uri.parse(detailUrl));
+    if (response.statusCode == 200) {
+      return StationDetailResult.fromJson(jsonDecode(response.body));
     } else {
       throw Exception('Failed to load tourist attraction');
     }

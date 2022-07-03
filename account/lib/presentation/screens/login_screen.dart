@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:theme/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // Check (Done)
 
@@ -66,10 +67,10 @@ class _LoginScreenState extends State<LoginScreen> {
     Size screenSize = MediaQuery.of(context).size;
 
     if (screenSize.width < 300.0 || screenSize.height < 600.0) {
-      return const ErrorScreen(
+      return ErrorScreen(
         // Text wait localization
-        title: "Aduh...",
-        message: "Layar terlalu kecil",
+        title: AppLocalizations.of(context)!.oops,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else if (screenSize.width > 500.0) {
       // Tablet Mode (Must be repair)
@@ -164,7 +165,7 @@ class _LoginScreenState extends State<LoginScreen> {
           sliver: SliverToBoxAdapter(
             child: Text(
               // Text wait localization
-              "Masuk",
+              AppLocalizations.of(context)!.logIn,
               style: bHeading3.copyWith(
                 color: Theme.of(context).colorScheme.tertiary,
               ),
@@ -243,7 +244,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                       // Text wait localization
                       child: Text(
-                        "Lupa Password",
+                        AppLocalizations.of(context)!.forgotThePassword,
                         style: bSubtitle2.copyWith(
                           color: Theme.of(context).colorScheme.tertiary,
                         ),
@@ -262,7 +263,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: CustomPrimaryTextButton(
                 width: screenSize.width,
                 // Text wait localization
-                text: "Masuk",
+                text: AppLocalizations.of(context)!.logIn,
                 onTap: () {
                   if (_loginFormKey.currentState!.validate()) {
                     context.read<LoginFormBloc>().add(const OnEmailSignIn());
@@ -270,14 +271,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     // });
                   } else {
                     // Text wait localization
-                    toastError("Lengkapi Data Anda Terlebih Dahulu");
+                    toastError(AppLocalizations.of(context)!.complateYourData);
                   }
                 },
               ),
             ),
             // Text wait localization
             Text(
-              "Atau Masuk Menggunakan",
+              AppLocalizations.of(context)!.orlogIn,
               style: bBody2.copyWith(
                 color: Theme.of(context).colorScheme.tertiary,
               ),
@@ -299,7 +300,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           .add(const OnFacebookSignIn());
                     }).onError((error, stackTrace) {
                       // Text wait localization
-                      toastError("Error saat Masuk");
+                      toastError(AppLocalizations.of(context)!.errorLogin);
                     });
                   },
                   () {
@@ -307,7 +308,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       context.read<LoginFormBloc>().add(const OnGoogleSignIn());
                     }).onError((error, stackTrace) {
                       // Text wait localization
-                      toastError("Error saat Masuk");
+                      toastError(AppLocalizations.of(context)!.errorLogin);
                     });
                   },
                 ],
@@ -331,14 +332,14 @@ class _LoginScreenState extends State<LoginScreen> {
               child: RichText(
                 // Text wait localization
                 text: TextSpan(
-                  text: "Tidak Punya Akun, ",
+                  text: AppLocalizations.of(context)!.dontHaveAccount,
                   style: bBody2.copyWith(
                     color: Theme.of(context).colorScheme.tertiary,
                   ),
                   children: <TextSpan>[
                     // Text wait localization
                     TextSpan(
-                      text: "Daftar Sekarang",
+                      text: AppLocalizations.of(context)!.registerNow,
                       style: bCaption3.copyWith(
                         color: Theme.of(context).colorScheme.tertiary,
                         fontSize: 11.0,
@@ -385,7 +386,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               // Text wait localization
               Text(
-                "Ingat Saya",
+                AppLocalizations.of(context)!.rememberMe,
                 style: bBody1.copyWith(
                   color: Theme.of(context).colorScheme.tertiary,
                 ),

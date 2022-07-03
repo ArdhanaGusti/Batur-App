@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:theme/theme.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NotificationScreen extends StatelessWidget {
   const NotificationScreen({Key? key}) : super(key: key);
@@ -26,7 +27,9 @@ class NotificationScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              CustomAppBar(title: 'Notifikasi', hamburgerMenu: false),
+              CustomAppBar(
+                  title: AppLocalizations.of(context)!.notification,
+                  hamburgerMenu: false),
               Expanded(
                 child: ListView(
                   physics: BouncingScrollPhysics(),

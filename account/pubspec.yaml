@@ -11,7 +11,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  
+
+  flutter_localizations:
+    sdk: flutter
+  intl:
+
   theme:
     path: ../theme
   news:
@@ -33,13 +37,13 @@ dependencies:
   flutter_bloc:
   equatable:
   flutter_svg:
-  flutter_slidable: 
+  flutter_slidable:
   cached_network_image:
   page_transition:
   loading_animation_widget:
-  fluttertoast: 
+  fluttertoast:
   image_picker:
-  path: 
+  path:
 
 dev_dependencies:
   flutter_test:
@@ -51,6 +55,7 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+  generate: true
   uses-material-design: true
 
   assets:

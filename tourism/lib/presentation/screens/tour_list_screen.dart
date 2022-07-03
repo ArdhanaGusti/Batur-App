@@ -226,7 +226,7 @@ class _TourListScreenState extends State<TourListScreen> {
                                 }
                                 return CustomTourCardList(
                                   img:
-                                      "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${place[index].photos[0].photoReference}&key=YOUR KEY HERE",
+                                      "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${place[index].photos[0].photoReference}&key=AIzaSyAO1b9CLWFz6Y9NG14g2gpYP7TQWPRsPG0",
                                   rating: place[index].rating.toString(),
                                   title: place[index].name,
                                   timeOpen: openNOw,

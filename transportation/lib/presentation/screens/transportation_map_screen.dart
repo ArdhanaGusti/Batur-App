@@ -28,9 +28,39 @@ class TransportationMapScreen extends StatefulWidget {
 }
 
 class _TransportationMapScreenState extends State<TransportationMapScreen> {
+  List<String> title = [
+    "Cimahi",
+    "Cicalengka",
+    "Padalarang",
+    "Haurpugur",
+    "Rancaekek",
+    "Cimekar",
+    "Gedebage",
+    "Cikudapateuh",
+    "Ciroyom",
+    "Stasiun Cimindi",
+    "Stasiun Bandung",
+    "Kiaracondong"
+  ];
+
+  List<String> titleFirebase = [
+    "Cimahi",
+    "Cicalengka",
+    "Padalarang",
+    "Haurpugur",
+    "Rancaekek",
+    "Cimekar",
+    "Gedebage",
+    "Cikudapateuh",
+    "Ciroyom",
+    "Cimindi",
+    "Bandung",
+    "Kiaracondong"
+  ];
   // State for click a custom marker
   bool isTrain = true;
   bool isClickTrain = false;
+  String titleStation = "";
   String name = "";
   double rating = 0;
   String image = "";
@@ -63,33 +93,37 @@ class _TransportationMapScreenState extends State<TransportationMapScreen> {
     setState(() {
       _markers.clear();
       for (final place in station.results) {
-        final marker = Marker(
-            markerId: MarkerId(place.placeId),
-            position: LatLng(
-                place.geometry.location.lat, place.geometry.location.lng),
-            onTap: () {
-              setState(() {
-                // Change state value for click Tour
-                isClickTrain = false;
-              });
-
-              setState(() {
-                placeId = place.placeId;
-                address = place.vicinity;
-                name = place.name;
-                rating = place.rating;
-                image =
-                    "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${place.photos![0].photoReference}&key=YOUR KEY HERE";
-              });
-
-              Timer(const Duration(milliseconds: 500), () {
+        if (title.contains(place.name)) {
+          final marker = Marker(
+              markerId: MarkerId(place.placeId),
+              position: LatLng(
+                  place.geometry.location.lat, place.geometry.location.lng),
+              onTap: () {
                 setState(() {
-                  isTrain = true;
-                  isClickTrain = !isClickTrain;
+                  // Change state value for click Tour
+                  isClickTrain = false;
+                });
+
+                final indexTitleStation = title.indexOf(place.name);
+                setState(() {
+                  titleStation = titleFirebase[indexTitleStation];
+                  placeId = place.placeId;
+                  address = place.vicinity;
+                  name = place.name;
+                  rating = place.rating;
+                  image =
+                      "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${place.photos![0].photoReference}&key=AIzaSyAO1b9CLWFz6Y9NG14g2gpYP7TQWPRsPG0";
+                });
+
+                Timer(const Duration(milliseconds: 500), () {
+                  setState(() {
+                    isTrain = true;
+                    isClickTrain = !isClickTrain;
+                  });
                 });
               });
-            });
-        _markers[place.name] = marker;
+          _markers[place.name] = marker;
+        }
       }
     });
   }
@@ -222,11 +256,9 @@ class _TransportationMapScreenState extends State<TransportationMapScreen> {
                       padding: const EdgeInsets.all(10.0),
                       // Add parameter for card with data
                       child: CustomCardStasiun(
-                        image:
-                            image,
+                        image: image,
                         title: name,
-                        address:
-                            address,
+                        address: address,
                         rating: rating.toString(),
                         onTap: () {
                           Navigator.push(
@@ -235,8 +267,9 @@ class _TransportationMapScreenState extends State<TransportationMapScreen> {
                               curve: Curves.easeInOut,
                               type: PageTransitionType.bottomToTop,
                               // Navigate to detail with parameter
-                              child: const TransportationDetailScreen(
+                              child: TransportationDetailScreen(
                                 isTrain: true,
+                                station: titleStation,
                               ),
                               duration: const Duration(milliseconds: 150),
                               reverseDuration:

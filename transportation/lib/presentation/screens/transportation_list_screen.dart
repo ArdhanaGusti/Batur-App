@@ -7,7 +7,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:theme/theme.dart';
 import 'package:transportation/data/datasources/transportation_remote_data_source.dart';
-import 'package:transportation/data/model/station.dart';
+import 'package:transportation/data/models/station.dart';
 import 'package:transportation/presentation/components/custom_card_transportation_list.dart';
 import 'package:transportation/presentation/screens/transportation_detail_screen.dart';
 
@@ -38,8 +38,25 @@ class _TransportationListScreenState extends State<TransportationListScreen> {
     "Gedebage",
     "Cikudapateuh",
     "Ciroyom",
+    "Stasiun Cimindi",
+    "Stasiun Bandung",
+    "Gadobangkong",
+    "Kiaracondong"
+  ];
+
+  List<String> titleFirebase = [
+    "Cimahi",
+    "Cicalengka",
+    "Padalarang",
+    "Haurpugur",
+    "Rancaekek",
+    "Cimekar",
+    "Gedebage",
+    "Cikudapateuh",
+    "Ciroyom",
     "Cimindi",
-    "Gadobangkong"
+    "Bandung",
+    "Kiaracondong"
   ];
   final RefreshController _refreshControllerTrain =
       RefreshController(initialRefresh: false);
@@ -225,57 +242,75 @@ class _TransportationListScreenState extends State<TransportationListScreen> {
                             physics: const BouncingScrollPhysics(),
                             shrinkWrap: true,
                             itemBuilder: (BuildContext context, int index) {
+                              if (title.contains(place[index].name)) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(bottom: 15.0),
+                                  child: (place[index].photos == null)
+                                      ? CustomCardStasiunList(
+                                          image:
+                                              'http://via.placeholder.com/350x150',
+                                          title: place[index].name,
+                                          address: place[index].vicinity,
+                                          rating:
+                                              place[index].rating.toString(),
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              PageTransition(
+                                                curve: Curves.easeInOut,
+                                                type: PageTransitionType
+                                                    .bottomToTop,
+                                                // Add Parameter Data Train Detail
+                                                child:
+                                                    const TransportationDetailScreen(
+                                                  isTrain: true,
+                                                  station: "Kiaracondong",
+                                                ),
+                                                duration: const Duration(
+                                                    milliseconds: 150),
+                                                reverseDuration: const Duration(
+                                                    milliseconds: 150),
+                                              ),
+                                            );
+                                          },
+                                        )
+                                      : CustomCardStasiunList(
+                                          image:
+                                              "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${place[index].photos![0].photoReference}&key=AIzaSyAO1b9CLWFz6Y9NG14g2gpYP7TQWPRsPG0",
+                                          title: place[index].name,
+                                          address: place[index].vicinity,
+                                          rating:
+                                              place[index].rating.toString(),
+                                          onTap: () {
+                                            final indexTitleStation = title
+                                                .indexOf(place[index].name);
+                                            final titleStation = titleFirebase[
+                                                indexTitleStation];
+                                            Navigator.push(
+                                              context,
+                                              PageTransition(
+                                                curve: Curves.easeInOut,
+                                                type: PageTransitionType
+                                                    .bottomToTop,
+                                                // Add Parameter Data Train Detail
+                                                child:
+                                                    TransportationDetailScreen(
+                                                  isTrain: true,
+                                                  station: titleStation,
+                                                ),
+                                                duration: const Duration(
+                                                    milliseconds: 150),
+                                                reverseDuration: const Duration(
+                                                    milliseconds: 150),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                );
+                              } else {
+                                return Container();
+                              }
                               // Use Data Train
-                              return Padding(
-                                padding: const EdgeInsets.only(bottom: 15.0),
-                                child: (place[index].photos == null) ? CustomCardStasiunList(
-                                  image: 'http://via.placeholder.com/350x150',
-                                  title: place[index].name,
-                                  address: place[index].vicinity,
-                                  rating: place[index].rating.toString(),
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      PageTransition(
-                                        curve: Curves.easeInOut,
-                                        type: PageTransitionType.bottomToTop,
-                                        // Add Parameter Data Train Detail
-                                        child: TransportationDetailScreen(
-                                          isTrain: true,
-                                          station: "Kiaracondong",
-                                        ),
-                                        duration:
-                                        const Duration(milliseconds: 150),
-                                        reverseDuration:
-                                        const Duration(milliseconds: 150),
-                                      ),
-                                    );
-                                  },
-                                ): CustomCardStasiunList(
-                                  image: "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${place[index].photos![0].photoReference}&key=YOUR KEY HERE",
-                                  title: place[index].name,
-                                  address: place[index].vicinity,
-                                  rating: place[index].rating.toString(),
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      PageTransition(
-                                        curve: Curves.easeInOut,
-                                        type: PageTransitionType.bottomToTop,
-                                        // Add Parameter Data Train Detail
-                                        child: TransportationDetailScreen(
-                                          isTrain: true,
-                                          station: "Kiaracondong",
-                                        ),
-                                        duration:
-                                        const Duration(milliseconds: 150),
-                                        reverseDuration:
-                                        const Duration(milliseconds: 150),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              );
                             },
                             itemCount: place.length,
                           );

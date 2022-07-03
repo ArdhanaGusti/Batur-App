@@ -72,6 +72,7 @@ class CustomUMKMCard extends StatelessWidget {
                           ),
                           fit: BoxFit.cover,
                           height: 85.0,
+                          width: 140.0,
                         ),
                       ),
                       Positioned(

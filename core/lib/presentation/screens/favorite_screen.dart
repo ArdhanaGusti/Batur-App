@@ -285,20 +285,25 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                       }
                                       return ListView.builder(
                                         itemBuilder: (context, index) {
-                                          return CustomFavoriteTourCard(
-                                            img: snapshot.data!.docs[index]
-                                                ['urlName'],
-                                            title: snapshot.data!.docs[index]
-                                                ['tour'],
-                                            address: snapshot.data!.docs[index]
-                                                ['address'],
-                                            open: "Buka (07:00 WIB -16:00 WIB",
-                                            rating: snapshot
-                                                .data!.docs[index]['rating']
-                                                .toString(),
-                                            onTap: () {
-                                              // Navigate to Tour Detail
-                                            },
+                                          return Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 15),
+                                            child: CustomFavoriteTourCard(
+                                              img: snapshot.data!.docs[index]
+                                                  ['urlName'],
+                                              title: snapshot.data!.docs[index]
+                                                  ['tour'],
+                                              address: snapshot
+                                                  .data!.docs[index]['address'],
+                                              open:
+                                                  "Buka (07:00 WIB -16:00 WIB",
+                                              rating: snapshot
+                                                  .data!.docs[index]['rating']
+                                                  .toString(),
+                                              onTap: () {
+                                                // Navigate to Tour Detail
+                                              },
+                                            ),
                                           );
                                         },
                                         itemCount: snapshot.data!.docs.length,

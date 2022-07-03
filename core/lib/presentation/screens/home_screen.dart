@@ -27,6 +27,7 @@ import 'package:theme/theme.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:tourism/data/datasource/tourism_remote_data_source.dart';
 import 'package:tourism/data/models/tourist_attraction.dart';
+import 'package:tourism/data/service/api_service_tour.dart';
 import 'package:transportation/data/datasources/transportation_remote_data_source.dart';
 import 'package:transportation/data/models/station.dart';
 import 'package:transportation/transportation.dart';
@@ -54,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   late TabController _controller;
   HomeScreenProcessEnum process = HomeScreenProcessEnum.loading;
   final toast = FToast();
-  final apiKey =  Config().mapsKey;
+  final apiKey = Config().mapsKey;
   final photosUrl = Config().photosUrl;
 
   List<String> title = [
@@ -606,29 +607,86 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 builder: (context, snapshot) {
                                   if (snapshot.hasData) {
                                     final place = snapshot.data!.results;
-                                    return CustomTourCard(
-                                      img: '$photosUrl${place[index].photos[0].photoReference}&key=$apiKey',
-                                      // Process Rating must be 2 digit
-                                      rating: place[index].rating.toString(),
-                                      title: place[index].name,
-                                      isFavourited: true,
-                                      description:
-                                          "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
-                                      onTap: () {
-                                        // To detail Tour
-                                        Navigator.push(
-                                          context,
-                                          PageTransition(
-                                            curve: Curves.easeInOut,
-                                            type: PageTransitionType.bottomToTop,
-                                            // Navigate to detail with parameter
+                                    return StreamBuilder<QuerySnapshot>(
+                                        stream: (user != null)
+                                            ? FirebaseFirestore.instance
+                                                .collection("FavoriteTour")
+                                                .where('email',
+                                                    isEqualTo: user!.email)
+                                                .where("tour",
+                                                    isEqualTo:
+                                                        place[index].name)
+                                                .snapshots()
+                                            : FirebaseFirestore.instance
+                                                .collection("FavoriteTour")
+                                                .where("tour",
+                                                    isEqualTo:
+                                                        place[index].name)
+                                                .snapshots(),
+                                        builder: (context, snapshot) {
+                                          if (!snapshot.hasData) {
+                                            return Container();
+                                          }
+                                          return CustomTourCard(
+                                            img:
+                                                '$photosUrl${place[index].photos[0].photoReference}&key=$apiKey',
+                                            // Process Rating must be 2 digit
+                                            rating:
+                                                place[index].rating.toString(),
+                                            title: place[index].name,
+                                            isFavourited: (user != null)
+                                                ? (snapshot
+                                                        .data!.docs.isNotEmpty)
+                                                    ? true
+                                                    : false
+                                                : false,
+                                            description:
+                                                "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+                                            onTap: () {
+                                              // To detail Tour
+                                              Navigator.push(
+                                                context,
+                                                PageTransition(
+                                                  curve: Curves.easeInOut,
+                                                  type: PageTransitionType
+                                                      .bottomToTop,
+                                                  // Navigate to detail with parameter
 
-                                            child: TourDetailScreen(
-                                                id: place[index].placeId),
-                                          ),
-                                        );
-                                      },
-                                    );
+                                                  child: TourDetailScreen(
+                                                      id: place[index].placeId),
+                                                ),
+                                              );
+                                            },
+                                            heartTap: () {
+                                              if (user != null) {
+                                                if (snapshot
+                                                    .data!.docs.isEmpty) {
+                                                  ApiServiceTour().addFavorite(
+                                                      place[index].rating,
+                                                      place[index].vicinity,
+                                                      place[index].name,
+                                                      '$photosUrl${place[index].photos[0].photoReference}&key=$apiKey');
+                                                } else {
+                                                  ApiServiceTour()
+                                                      .removeFavorite(snapshot
+                                                          .data!
+                                                          .docs[0]
+                                                          .reference);
+                                                }
+                                              } else {
+                                                Navigator.push(
+                                                  context,
+                                                  PageTransition(
+                                                    curve: Curves.easeInOut,
+                                                    type: PageTransitionType
+                                                        .bottomToTop,
+                                                    child: const LoginScreen(),
+                                                  ),
+                                                );
+                                              }
+                                            },
+                                          );
+                                        });
                                   } else if (snapshot.hasError) {
                                     return Container();
                                   } else {
@@ -766,7 +824,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         return CustomUMKMCard(
                                           img: data['coverUrl'],
                                           title: data['name'],
-                                          isFavourited: false,
+                                          isFavourited:
+                                              (favData.isEmpty) ? false : true,
                                           description: data['desc'],
                                           onTap: () {
                                             Navigator.push(

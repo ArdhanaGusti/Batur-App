@@ -281,7 +281,7 @@ class ServiceApiAccount {
               (res) async {
                 String urlName = await res.ref.getDownloadURL();
                 await reference.add({
-                  _email: email,
+                  _email: userCheck.email,
                   _username: username,
                   _fullname: fullname,
                   _imgUrl: urlName,

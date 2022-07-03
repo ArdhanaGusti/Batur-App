@@ -50,14 +50,13 @@ class _UmkmMapsScreenState extends State<UmkmMapsScreen> {
   UmkmMapsScreenProcessEnum process = UmkmMapsScreenProcessEnum.loading;
 
   // Change center to bandung
-  final LatLng _center = const LatLng(37.4219983, -122.084);
-  LatLng click = const LatLng(37.4219983, -122.084);
+  final LatLng _center = const LatLng(-6.905977, 107.613144);
 
   final Map<String, Marker> _markers = {};
 
   Future<void> _onMapCreated(GoogleMapController controller) async {
     QuerySnapshot touristAttraction =
-        await FirebaseFirestore.instance.collection("UMKM").get();
+        await FirebaseFirestore.instance.collection("UMKM").where("verification", isEqualTo: true).get();
     setState(() {
       _markers.clear();
       for (final place in touristAttraction.docs) {
@@ -71,7 +70,6 @@ class _UmkmMapsScreenState extends State<UmkmMapsScreen> {
 
               setState(() {
                 placeId = place.id;
-                click = LatLng(place["latitude"], place["longitude"]);
                 name = place["name"];
                 desc = place["desc"];
                 email = place["email"];
@@ -204,7 +202,7 @@ class _UmkmMapsScreenState extends State<UmkmMapsScreen> {
                         ),
                         markers: _markers.values.toSet(),
                         onTap: (latLong) {
-                          if (click != latLong) {
+                          if (_center != latLong) {
                             setState(() {
                               isClickUMKM = false;
                             });

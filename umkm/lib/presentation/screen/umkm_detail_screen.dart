@@ -28,7 +28,6 @@ class UmkmDetailScreen extends StatefulWidget {
       web,
       tokped,
       shopee;
-  final bool isFav;
   final DocumentReference index;
   const UmkmDetailScreen({
     Key? key,
@@ -41,7 +40,6 @@ class UmkmDetailScreen extends StatefulWidget {
     required this.desc,
     required this.type,
     required this.noHp,
-    required this.isFav,
     required this.email,
     required this.index,
   }) : super(key: key);
@@ -181,7 +179,11 @@ class _UmkmDetailScreenState extends State<UmkmDetailScreen> {
                       return CustomDetailScreen(
                         img: widget.coverUrl,
                         title: widget.name,
-                        isFavorite: widget.isFav,
+                        isFavorite: (user != null)
+                            ? (fav.data!.docs.isNotEmpty)
+                                ? true
+                                : false
+                            : false,
                         description: widget.desc,
                         address: widget.address,
                         telephone: widget.noHp,

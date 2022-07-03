@@ -303,10 +303,6 @@ class _TransportationListScreenState extends State<TransportationListScreen> {
                                           rating:
                                               place[index].rating.toString(),
                                           onTap: () {
-                                            final indexTitleStation = title
-                                                .indexOf(place[index].name);
-                                            final titleStation = titleFirebase[
-                                                indexTitleStation];
                                             Navigator.push(
                                               context,
                                               PageTransition(

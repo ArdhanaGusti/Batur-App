@@ -653,7 +653,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                   // Navigate to detail with parameter
 
                                                   child: TourDetailScreen(
-                                                      id: place[index].placeId),
+                                                    id: place[index].placeId,
+                                                  ),
                                                 ),
                                               );
                                             },
@@ -797,7 +798,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                     web: data["website"],
                                                     tokped: data["tokped"],
                                                     shopee: data["shopee"],
-                                                    isFav: false,
                                                   ),
                                                   duration: const Duration(
                                                       milliseconds: 150),
@@ -846,9 +846,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                   web: data["website"],
                                                   tokped: data["tokped"],
                                                   shopee: data["shopee"],
-                                                  isFav: (favData.isEmpty)
-                                                      ? false
-                                                      : true,
                                                 ),
                                                 duration: const Duration(
                                                     milliseconds: 150),

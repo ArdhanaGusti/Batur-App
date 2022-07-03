@@ -251,7 +251,6 @@ class _UmkmScreenState extends State<UmkmScreen> {
                                     web: data["website"],
                                     tokped: data["tokped"],
                                     shopee: data["shopee"],
-                                    isFav: (favData.isEmpty) ? false : true,
                                   ),
                                   duration: const Duration(milliseconds: 150),
                                   reverseDuration:

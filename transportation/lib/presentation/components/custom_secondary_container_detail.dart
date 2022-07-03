@@ -116,7 +116,7 @@ class CustomSecondaryContainerDetail extends StatelessWidget {
                                 Flexible(
                                   child: Text(
                                     // Data Train
-                                    "Rp.25.000",
+                                    "Rp 5.000",
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: bSubtitle4.copyWith(
@@ -160,40 +160,6 @@ class CustomSecondaryContainerDetail extends StatelessWidget {
                                       Text(
                                         // Data Train
                                         "${trans[index]['date'].toDate().hour.toString().padLeft(2, '0')}:${trans[index]['date'].toDate().minute.toString().padLeft(2, '0')}",
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: bCaption1.copyWith(color: bGrey),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Flexible(
-                                  child: Text(
-                                    // Data Train
-                                    // Proces the data
-                                    "1 Jam 5 Menit",
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: bCaption1.copyWith(color: bGrey),
-                                  ),
-                                ),
-                                Flexible(
-                                  child: Column(
-                                    children: <Widget>[
-                                      Text(
-                                        // Data Train
-                                        "BDG",
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: bCaption3.copyWith(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .tertiary,
-                                        ),
-                                      ),
-                                      Text(
-                                        // Data Train
-                                        "14.50",
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: bCaption1.copyWith(color: bGrey),

@@ -1,5 +1,6 @@
 import 'package:core/core.dart';
 import 'package:core/utils/config.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -174,8 +175,8 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                           CustomCardDetailTourScreen(
                             img: "",
                             title: place.name,
+
                             rating: place.rating.toString(),
-                            isFavourited: false,
                             carouselImages: photos,
                             review: place.reviews[0].text,
                             address: place.vicinity,
@@ -377,9 +378,14 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                         ],
                       );
                     } else if (snapshot.hasError) {
-                      return Container();
+                      print(snapshot.error);
+                      print(snapshot.stackTrace);
+                      print(widget.id);
+                      return Container(child: Text("Error"));
                     } else {
-                      return Container();
+                      return Container(
+                        child: Text("Tidak ada Data"),
+                      );
                     }
                   },
                 ),

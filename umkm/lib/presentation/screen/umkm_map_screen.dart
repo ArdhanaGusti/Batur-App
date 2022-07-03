@@ -55,8 +55,10 @@ class _UmkmMapsScreenState extends State<UmkmMapsScreen> {
   final Map<String, Marker> _markers = {};
 
   Future<void> _onMapCreated(GoogleMapController controller) async {
-    QuerySnapshot touristAttraction =
-        await FirebaseFirestore.instance.collection("UMKM").where("verification", isEqualTo: true).get();
+    QuerySnapshot touristAttraction = await FirebaseFirestore.instance
+        .collection("UMKM")
+        .where("verification", isEqualTo: true)
+        .get();
     setState(() {
       _markers.clear();
       for (final place in touristAttraction.docs) {
@@ -258,7 +260,6 @@ class _UmkmMapsScreenState extends State<UmkmMapsScreen> {
                                     web: web,
                                     tokped: tokped,
                                     shopee: shopee,
-                                    isFav: (user == null) ? false : favorite,
                                   ),
                                 ),
                               );

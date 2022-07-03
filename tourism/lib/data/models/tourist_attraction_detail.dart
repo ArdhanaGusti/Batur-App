@@ -17,7 +17,6 @@ class TouristAttractionDetailResult {
 
 class TouristAttractionDetail {
   TouristAttractionDetail({
-    required this.formattedPhoneNumber,
     required this.geometry,
     required this.name,
     required this.openingHours,
@@ -30,7 +29,6 @@ class TouristAttractionDetail {
     required this.vicinity,
   });
 
-  String formattedPhoneNumber;
   Geometry geometry;
   String name;
   OpeningHours openingHours;
@@ -44,7 +42,6 @@ class TouristAttractionDetail {
 
   factory TouristAttractionDetail.fromJson(Map<String, dynamic> json) =>
       TouristAttractionDetail(
-        formattedPhoneNumber: json["formatted_phone_number"],
         geometry: Geometry.fromJson(json["geometry"]),
         name: json["name"],
         openingHours: OpeningHours.fromJson(json["opening_hours"]),
@@ -59,7 +56,6 @@ class TouristAttractionDetail {
       );
 
   Map<String, dynamic> toJson() => {
-        "formatted_phone_number": formattedPhoneNumber,
         "geometry": geometry.toJson(),
         "name": name,
         "opening_hours": openingHours.toJson(),
@@ -112,45 +108,21 @@ class Location {
 class OpeningHours {
   OpeningHours({
     required this.openNow,
-    required this.periods,
     required this.weekdayText,
   });
 
   bool openNow;
-  List<Period> periods;
+
   List<String> weekdayText;
 
   factory OpeningHours.fromJson(Map<String, dynamic> json) => OpeningHours(
         openNow: json["open_now"],
-        periods:
-            List<Period>.from(json["periods"].map((x) => Period.fromJson(x))),
         weekdayText: List<String>.from(json["weekday_text"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
         "open_now": openNow,
-        "periods": List<dynamic>.from(periods.map((x) => x.toJson())),
         "weekday_text": List<dynamic>.from(weekdayText.map((x) => x)),
-      };
-}
-
-class Period {
-  Period({
-    required this.close,
-    required this.open,
-  });
-
-  Close close;
-  Close open;
-
-  factory Period.fromJson(Map<String, dynamic> json) => Period(
-        close: Close.fromJson(json["close"]),
-        open: Close.fromJson(json["open"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "close": close.toJson(),
-        "open": open.toJson(),
       };
 }
 

@@ -417,19 +417,20 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
                 child: CustomPrimaryTextButton(
                   onTap: () {
                     context.read<UmkmCreateBloc>().add(OnCreateUmkm(
-                        context,
-                        imageName!,
-                        address!,
-                        phoneController.text,
-                        shopeeController.text,
-                        tokpedController.text,
-                        websiteController.text,
-                        nameController.text,
-                        typeController.text,
-                        descController.text,
-                        image!,
-                        latitude!,
-                        longitude!));
+                          context,
+                          imageName!,
+                          address!,
+                          phoneController.text,
+                          shopeeController.text,
+                          tokpedController.text,
+                          websiteController.text,
+                          nameController.text,
+                          typeController.text,
+                          descController.text,
+                          image!,
+                          double.parse(latController.text),
+                          double.parse(longController.text),
+                        ));
                   },
                   text: AppLocalizations.of(context)!.applyShop,
                   width: screenSize.width,

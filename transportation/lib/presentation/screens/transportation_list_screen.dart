@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:core/core.dart';
+import 'package:core/utils/config.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:page_transition/page_transition.dart';
@@ -42,6 +43,9 @@ class _TransportationListScreenState extends State<TransportationListScreen> {
     "Terminal Leuwipanjang - Terminal Antapani",
     "Terminal Antapani - Terminal Leuwipanjang",
   ];
+
+  final apiKey =  Config().mapsKey;
+  final photosUrl = Config().photosUrl;
 
   List<String> title = [
     "Cimahi",
@@ -291,7 +295,7 @@ class _TransportationListScreenState extends State<TransportationListScreen> {
                                         )
                                       : CustomCardStasiunList(
                                           image:
-                                              "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${place[index].photos![0].photoReference}&key=AIzaSyAO1b9CLWFz6Y9NG14g2gpYP7TQWPRsPG0",
+                                              "$photosUrl${place[index].photos![0].photoReference}&key=$apiKey",
                                           title: place[index].name,
                                           address: place[index].vicinity,
                                           rating:
@@ -312,8 +316,6 @@ class _TransportationListScreenState extends State<TransportationListScreen> {
                                                     TransportationDetailScreen(
                                                   isTrain: true,
                                                   station: titleStation,
-                                                  idStation:
-                                                      place[index].placeId,
                                                 ),
                                                 duration: const Duration(
                                                     milliseconds: 150),

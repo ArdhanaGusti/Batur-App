@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:core/core.dart';
+import 'package:core/utils/config.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -28,6 +29,9 @@ class TransportationMapScreen extends StatefulWidget {
 }
 
 class _TransportationMapScreenState extends State<TransportationMapScreen> {
+  final apiKey =  Config().mapsKey;
+  final photosUrl = Config().photosUrl;
+
   List<String> title = [
     "Cimahi",
     "Cicalengka",
@@ -112,7 +116,7 @@ class _TransportationMapScreenState extends State<TransportationMapScreen> {
                   name = place.name;
                   rating = place.rating;
                   image =
-                      "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${place.photos![0].photoReference}&key=AIzaSyAO1b9CLWFz6Y9NG14g2gpYP7TQWPRsPG0";
+                      "$photosUrl${place.photos![0].photoReference}&key=$apiKey";
                 });
 
                 Timer(const Duration(milliseconds: 500), () {

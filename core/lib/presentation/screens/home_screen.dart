@@ -10,6 +10,7 @@ import 'package:core/presentation/components/card/custom_transport_card.dart';
 import 'package:core/presentation/components/card/custom_umkm_card.dart';
 import 'package:core/presentation/components/custom_smart_refresh.dart';
 import 'package:core/presentation/screens/error_screen.dart';
+import 'package:core/utils/config.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:news/data/datasources/news_remote_data_source.dart';
@@ -53,6 +54,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   late TabController _controller;
   HomeScreenProcessEnum process = HomeScreenProcessEnum.loading;
   final toast = FToast();
+  final apiKey =  Config().mapsKey;
+  final photosUrl = Config().photosUrl;
 
   List<String> title = [
     "Cimahi",
@@ -604,8 +607,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   if (snapshot.hasData) {
                                     final place = snapshot.data!.results;
                                     return CustomTourCard(
-                                      img:
-                                          "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${place[index].photos[0].photoReference}&key=AIzaSyAO1b9CLWFz6Y9NG14g2gpYP7TQWPRsPG0",
+                                      img: '$photosUrl${place[index].photos[0].photoReference}&key=$apiKey',
                                       // Process Rating must be 2 digit
                                       rating: place[index].rating.toString(),
                                       title: place[index].name,
@@ -614,6 +616,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                           "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
                                       onTap: () {
                                         // To detail Tour
+                                        Navigator.push(
+                                          context,
+                                          PageTransition(
+                                            curve: Curves.easeInOut,
+                                            type: PageTransitionType.bottomToTop,
+                                            // Navigate to detail with parameter
+
+                                            child: TourDetailScreen(
+                                                id: place[index].placeId),
+                                          ),
+                                        );
                                       },
                                     );
                                   } else if (snapshot.hasError) {
@@ -991,7 +1004,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             .collection("Bus")
                             .snapshots(),
                         builder: (context, snapshot) {
-                          final List<String> buusss = [];
                           final List<String> route = [];
                           final List<String> tmb = [];
                           if (snapshot.hasData) {

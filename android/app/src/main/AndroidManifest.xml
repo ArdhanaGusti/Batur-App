@@ -9,7 +9,7 @@
         android:icon="@mipmap/ic_launcher">
        <meta-data
            android:name="com.google.android.geo.API_KEY"
-           android:value="YOUR KEY HERE" />
+           android:value="AIzaSyAO1b9CLWFz6Y9NG14g2gpYP7TQWPRsPG0" />
        <meta-data
            android:name="com.facebook.sdk.ApplicationId"
            android:value="@string/facebook_app_id" />

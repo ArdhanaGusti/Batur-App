@@ -11,6 +11,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:theme/theme.dart';
 import 'package:core/core.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // Check
 
@@ -51,7 +52,8 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
         )
         .onError(
           // Text wait localization
-          (error, stackTrace) => toastError("Error While Fetch Data"),
+          (error, stackTrace) =>
+              toastError(AppLocalizations.of(context)!.errorFetch),
         );
   }
 
@@ -74,10 +76,10 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
     Size screenSize = MediaQuery.of(context).size;
 
     if (screenSize.width < 300.0 || screenSize.height < 600.0) {
-      return const ErrorScreen(
+      return ErrorScreen(
         // Text wait localization
-        title: "Aduh...",
-        message: "Layar Terlalu Kecil",
+        title: AppLocalizations.of(context)!.oops,
+        message: AppLocalizations.of(context)!.screenError,
       );
     } else if (screenSize.width > 500.0) {
       // Tablet Mode (Must be repair)
@@ -103,7 +105,7 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
       slivers: <Widget>[
         CustomSliverAppBarTextLeadingAction(
           // Text wait localization
-          title: "Detail Akun",
+          title: AppLocalizations.of(context)!.accountDetail,
           leadingIcon: "assets/icon/regular/chevron-left.svg",
           leadingOnTap: () {
             Navigator.pop(
@@ -134,8 +136,7 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
                 if (snapshot.hasError) {
                   return Center(
                     child: Text(
-                      // Text wait localization
-                      "Aduh, Terjadi sesuatu, Coba lagi nanti ...",
+                      AppLocalizations.of(context)!.something,
                       style: bHeading4.copyWith(
                         color: Theme.of(context).colorScheme.tertiary,
                       ),
@@ -147,7 +148,7 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
                   return Center(
                     child: Text(
                       // Text wait localization
-                      "Aduh, Data tidak ditemukan..",
+                      AppLocalizations.of(context)!.dataNotFound,
                       style: bHeading4.copyWith(
                         color: Theme.of(context).colorScheme.tertiary,
                       ),
@@ -181,19 +182,19 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
                           children: <Widget>[
                             _customTextContainer(
                               // Text wait localization
-                              "Nama Lengkap",
+                              AppLocalizations.of(context)!.fullName,
                               userProfile["fullname"],
                             ),
                             _customDivider(),
                             _customTextContainer(
                               // Text wait localization
-                              "Username",
+                              AppLocalizations.of(context)!.username,
                               userProfile["username"],
                             ),
                             _customDivider(),
                             _customTextContainer(
                               // Text wait localization
-                              "Email",
+                              AppLocalizations.of(context)!.email,
                               userProfile["email"],
                             ),
                           ],

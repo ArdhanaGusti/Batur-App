@@ -4,6 +4,7 @@ import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:theme/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LanguageSettingScreen extends StatelessWidget {
   const LanguageSettingScreen({Key? key}) : super(key: key);
@@ -13,10 +14,9 @@ class LanguageSettingScreen extends StatelessWidget {
     Size screenSize = MediaQuery.of(context).size;
 
     if (screenSize.width < 320.0 || screenSize.height < 650.0) {
-      return const ErrorScreen(
-        // Text wait localization
-        title: "AppLocalizations.of(context)!.screenError",
-        message: "AppLocalizations.of(context)!.screenSmall",
+      return ErrorScreen(
+        title: AppLocalizations.of(context)!.screenError,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else if (screenSize.width > 500.0) {
       // Tablet Mode (Must be repair)
@@ -41,8 +41,7 @@ class LanguageSettingScreen extends StatelessWidget {
       physics: const BouncingScrollPhysics(),
       slivers: <Widget>[
         CustomSliverAppBarTextLeading(
-          // Text wait localization
-          title: "AppLocalizations.of(context)!.language",
+          title: AppLocalizations.of(context)!.language,
           leadingIcon: "assets/icon/back.svg",
           // Navigation repair
           leadingOnTap: () {
@@ -77,8 +76,7 @@ class LanguageSettingScreen extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Text(
-                // Text wait localization
-                "AppLocalizations.of(context)!.selectLanguage",
+                AppLocalizations.of(context)!.selectLanguage,
                 style: bSubtitle2.copyWith(
                   color: Theme.of(context).colorScheme.tertiary,
                 ),
@@ -90,14 +88,12 @@ class LanguageSettingScreen extends StatelessWidget {
               _customListTileLanguage(
                 context,
                 LanguageEnum.indonesia,
-                // Text wait localization
-                "AppLocalizations.of(context)!.indonesia",
+                AppLocalizations.of(context)!.indonesia,
               ),
               _customListTileLanguage(
                 context,
                 LanguageEnum.inggirs,
-                // Text wait localization
-                "AppLocalizations.of(context)!.inggris",
+                AppLocalizations.of(context)!.inggris,
               ),
             ],
           ),

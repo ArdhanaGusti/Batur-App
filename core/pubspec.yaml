@@ -39,12 +39,12 @@ dependencies:
   equatable:
   firebase_auth:
   shared_preferences:
-  internet_connection_checker: 
+  internet_connection_checker:
   carousel_slider: ^4.1.1
   page_transition: ^2.0.9
   flutter_native_splash: ^2.2.3+1
   pull_to_refresh: ^2.0.0
-  fluttertoast: 
+  fluttertoast:
 
 dev_dependencies:
   flutter_test:

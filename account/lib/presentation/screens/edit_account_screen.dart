@@ -12,6 +12,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:theme/theme.dart';
 import 'package:path/path.dart' as path;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // Check
 
@@ -81,10 +82,10 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
     Size screenSize = MediaQuery.of(context).size;
 
     if (screenSize.width < 300.0 || screenSize.height < 600.0) {
-      return const ErrorScreen(
+      return ErrorScreen(
         // Text wait localization
-        title: "Aduh...",
-        message: "Layar Terlalu Kecil",
+        title: AppLocalizations.of(context)!.oops,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else if (screenSize.width > 500.0) {
       // Tablet Mode (Must be repair)
@@ -110,7 +111,7 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
       slivers: <Widget>[
         CustomSliverAppBarTextLeading(
           // Text wait localization
-          title: "Edit Akun",
+          title: AppLocalizations.of(context)!.editAccount,
           leadingIcon: "assets/icon/regular/chevron-left.svg",
           leadingOnTap: () {
             Navigator.pop(
@@ -134,18 +135,15 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                     height: 20.0,
                   ),
                   _customEditForm(
-                    // Text wait localization
-                    "Nama Lengkap",
+                    AppLocalizations.of(context)!.fullName,
                     const CustomEditFullNameTextField(),
                   ),
                   _customEditForm(
-                    // Text wait localization
-                    "Username",
+                    AppLocalizations.of(context)!.username,
                     const CustomEditUsernameTextField(),
                   ),
                   _customEditForm(
-                    // Text wait localization
-                    "Email",
+                    AppLocalizations.of(context)!.email,
                     const CustomEditEmailTextField(),
                   ),
                   const SizedBox(
@@ -172,7 +170,7 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                       return CustomPrimaryTextButton(
                         width: screenSize.width,
                         // Text wait localization
-                        text: "Simpan",
+                        text: AppLocalizations.of(context)!.save,
                         onTap: () {
                           if (_profileFormKey.currentState!.validate()) {
                             context
@@ -180,7 +178,8 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                                 .add(const OnSubmitEdit());
                           } else {
                             // Text wait localization
-                            toastError("Lengkapi Data Anda Terlebih Dahulu");
+                            toastError(
+                                AppLocalizations.of(context)!.complateYourData);
                           }
                         },
                       );
@@ -299,7 +298,7 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                           Flexible(
                             child: Text(
                               // Text wait localization
-                              "Edit Photo Profile",
+                              AppLocalizations.of(context)!.editPhotoProfile,
                               overflow: TextOverflow.ellipsis,
                               style: bBody1.copyWith(
                                 color: Theme.of(context).colorScheme.tertiary,

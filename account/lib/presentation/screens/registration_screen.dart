@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:theme/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({Key? key}) : super(key: key);
@@ -62,10 +63,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     Size screenSize = MediaQuery.of(context).size;
 
     if (screenSize.width < 300.0 || screenSize.height < 600.0) {
-      return const ErrorScreen(
+      return ErrorScreen(
         // Text wait localization
-        title: "Aduh...",
-        message: "Layar terlalu kecil",
+        title: AppLocalizations.of(context)!.oops,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else if (screenSize.width > 500.0) {
       // Tablet Mode (Must be repair)
@@ -158,7 +159,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           sliver: SliverToBoxAdapter(
             child: Text(
               // Text wait localization
-              "Daftar",
+              AppLocalizations.of(context)!.register,
               style: bHeading3.copyWith(
                 color: Theme.of(context).colorScheme.tertiary,
               ),
@@ -240,7 +241,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   return CustomPrimaryTextButton(
                     width: screenSize.width,
                     // Text wait localization
-                    text: "Daftar",
+                    text: AppLocalizations.of(context)!.register,
                     onTap: () {
                       if (_regisFormKey.currentState!.validate()) {
                         if (state.password == state.passwordConf) {
@@ -249,14 +250,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 .read<RegisFormBloc>()
                                 .add(const OnEmailSignUp());
                           }).onError((error, stackTrace) {
-                            toastError("Error saat Daftar");
+                            toastError(AppLocalizations.of(context)!
+                                .errorWhenRegister);
                           });
                         } else {
-                          toastError("Password Tidak Tepat");
+                          toastError(
+                              AppLocalizations.of(context)!.incorrectPassword);
                         }
                       } else {
                         // Text wait localization
-                        toastError("Lengkapi Data Anda Terlebih Dahulu");
+                        toastError(
+                            AppLocalizations.of(context)!.complateYourData);
                       }
                     },
                   );
@@ -265,7 +269,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             ),
             Text(
               // Text wait localization
-              "Atau masuk menggunakan",
+              AppLocalizations.of(context)!.orlogIn,
               style: bBody2.copyWith(
                 color: Theme.of(context).colorScheme.tertiary,
               ),
@@ -287,7 +291,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           .add(const OnFacebookSignUp());
                     }).onError((er, stackTrace) {
                       // Text wait localization
-                      toastError("Error saat Daftar");
+                      toastError(
+                          AppLocalizations.of(context)!.errorWhenRegister);
                     });
                   },
                   () {
@@ -295,7 +300,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       context.read<RegisFormBloc>().add(const OnGoogleSignUp());
                     }).onError((er, stackTrace) {
                       // Text wait localization
-                      toastError("Error saat Daftar");
+                      toastError(
+                          AppLocalizations.of(context)!.errorWhenRegister);
                     });
                   },
                 ],
@@ -313,14 +319,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               child: RichText(
                 text: TextSpan(
                   // Text wait localization
-                  text: "Sudah Punya Akun? ",
+                  text: AppLocalizations.of(context)!.alreadyHaveAccount,
                   style: bBody2.copyWith(
                     color: Theme.of(context).colorScheme.tertiary,
                   ),
                   children: <TextSpan>[
                     TextSpan(
-                      // Text wait localization
-                      text: "Masuk Sekarang",
+                      text: AppLocalizations.of(context)!.loginNow,
                       style: bCaption3.copyWith(
                         color: Theme.of(context).colorScheme.tertiary,
                         fontSize: 11.0,
@@ -367,7 +372,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               ),
               Text(
                 // Text wait localization
-                "Ingat Saya",
+                AppLocalizations.of(context)!.rememberMe,
                 style: bBody1.copyWith(
                   color: Theme.of(context).colorScheme.tertiary,
                 ),

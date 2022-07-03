@@ -9,6 +9,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:theme/theme.dart';
 import 'package:umkm/data/service/api_service.dart';
 import 'package:umkm/presentation/screen/umkm_web_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum UmkmDetailScreenProcessEnum {
   loading,
@@ -108,10 +109,10 @@ class _UmkmDetailScreenState extends State<UmkmDetailScreen> {
         ),
       );
     } else if (process == UmkmDetailScreenProcessEnum.failed) {
-      return const ErrorScreen(
+      return ErrorScreen(
         // Wait Localization
-        title: "AppLocalizations.of(context)!.oops",
-        message: "AppLocalizations.of(context)!.screenSmall",
+        title: AppLocalizations.of(context)!.oops,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else {
       return _buildScreen(context, screenSize);
@@ -244,7 +245,7 @@ class _UmkmDetailScreenState extends State<UmkmDetailScreen> {
                   onTap: () {
                     // To WebView
                     if (widget.web == "") {
-                      toastError("Link Tidak Ditemukan");
+                      toastError(AppLocalizations.of(context)!.linkNotFound);
                     } else {
                       Navigator.push(
                         context,

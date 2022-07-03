@@ -7,7 +7,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:theme/theme.dart';
 import 'package:transportation/data/datasources/transportation_remote_data_source.dart';
-import 'package:transportation/data/model/station.dart';
+import 'package:transportation/data/models/station.dart';
 import 'package:transportation/presentation/components/custom_card_transportation_list.dart';
 import 'package:transportation/presentation/screens/transportation_detail_screen.dart';
 

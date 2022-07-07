@@ -523,6 +523,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     if (snapshot.hasData) {
                       final news = snapshot.data!.articles;
                       return ListView.builder(
+                        padding: const EdgeInsets.only(top: 20, bottom: 0),
                         shrinkWrap: true,
                         physics: const BouncingScrollPhysics(),
                         itemBuilder: (BuildContext context, int index) {
@@ -581,7 +582,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             _buildTitle(
               20.0,
               20.0,
-              30.0,
+              10.0,
               0,
               // Wait Localization
               AppLocalizations.of(context)!.tour,
@@ -949,6 +950,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 20.0),
                             child: ListView.builder(
+                              padding: EdgeInsets.only(top: 15),
                               shrinkWrap: true,
                               physics: const ClampingScrollPhysics(),
                               itemBuilder: (BuildContext context, int index) {
@@ -1078,6 +1080,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 20.0),
                             child: ListView.builder(
+                              padding: EdgeInsets.only(top: 15),
                               shrinkWrap: true,
                               physics: const ClampingScrollPhysics(),
                               itemBuilder: (BuildContext context, int index) {

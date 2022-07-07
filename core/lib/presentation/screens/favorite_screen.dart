@@ -284,6 +284,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                         return CircularProgressIndicator();
                                       }
                                       return ListView.builder(
+                                        padding: EdgeInsets.symmetric(vertical: 0),
                                         itemBuilder: (context, index) {
                                           return Padding(
                                             padding: const EdgeInsets.only(
@@ -341,6 +342,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                         return CircularProgressIndicator();
                                       }
                                       return ListView.builder(
+                                        padding: EdgeInsets.symmetric(vertical: 0),
                                         physics: const BouncingScrollPhysics(),
                                         itemBuilder:
                                             (BuildContext context, int index) {

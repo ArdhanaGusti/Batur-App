@@ -378,7 +378,7 @@ class _TransportationListScreenState extends State<TransportationListScreen> {
                                 padding: const EdgeInsets.only(bottom: 15.0),
                                 child: CustomCardStasiunList(
                                   image:
-                                      "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
+                                      "https://upload.wikimedia.org/wikipedia/commons/2/24/Logo_TMB_Trans_Metro_Bandung.jpg",
                                   title: tmb[index],
                                   address: route[index],
                                   rating: '5.0',

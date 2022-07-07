@@ -10,7 +10,6 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:theme/theme.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tourism/data/datasource/tourism_remote_data_source.dart';
 import 'package:tourism/data/service/api_service_tour.dart';
 import 'package:tourism/presentation/components/custom_tour_card_list.dart';
@@ -225,8 +224,8 @@ class _TourListScreenState extends State<TourListScreen> {
                                   title: place[index].name,
                                   timeOpen: openNOw,
                                   isFavourited: false,
-                                  description:
-                                      "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+                                  address:
+                                      place[index].vicinity,
                                   onTap: () {
                                     Navigator.push(
                                       context,
@@ -279,8 +278,8 @@ class _TourListScreenState extends State<TourListScreen> {
                                           (snapshot.data!.docs.isNotEmpty)
                                               ? true
                                               : false,
-                                      description:
-                                          "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+                                      address:
+                                          place[index].vicinity,
                                       onTap: () {
                                         Navigator.push(
                                           context,

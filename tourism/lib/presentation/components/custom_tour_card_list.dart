@@ -10,7 +10,7 @@ class CustomTourCardList extends StatelessWidget {
   final String title;
   final String timeOpen;
   final bool isFavourited;
-  final String description;
+  final String address;
   final Function() onTap;
   final Function() heartTap;
 
@@ -21,7 +21,7 @@ class CustomTourCardList extends StatelessWidget {
     required this.title,
     required this.timeOpen,
     required this.isFavourited,
-    required this.description,
+    required this.address,
     required this.onTap,
     required this.heartTap,
   }) : super(key: key);
@@ -130,7 +130,7 @@ class CustomTourCardList extends StatelessWidget {
                       height: 3.0,
                     ),
                     Text(
-                      description,
+                      address,
                       style: bCaption1.copyWith(color: bGrey),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,

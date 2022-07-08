@@ -6,6 +6,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:theme/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // Check
 
@@ -35,10 +36,10 @@ class _GalleryScreenState extends State<GalleryScreen> {
     Size screenSize = MediaQuery.of(context).size;
 
     if (screenSize.width < 300.0 || screenSize.height < 600.0) {
-      return const ErrorScreen(
+      return ErrorScreen(
         // Text wait localization
-        title: "AppLocalizations.of(context)!.screenError",
-        message: "AppLocalizations.of(context)!.screenSmall",
+        title: AppLocalizations.of(context)!.screenError,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else {
       // Mobile Mode
@@ -56,7 +57,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
           return <Widget>[
             CustomSliverAppBarTextLeading(
               // Text wait localization
-              title: "AppLocalizations.of(context)!.imagePreview",
+              title: AppLocalizations.of(context)!.imagePreview,
               leadingIcon: "assets/icon/regular/chevron-left.svg",
               // Navigation repair
               leadingOnTap: () {

@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:theme/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SettingScreen extends StatelessWidget {
   const SettingScreen({Key? key}) : super(key: key);
@@ -18,10 +19,10 @@ class SettingScreen extends StatelessWidget {
     Size screenSize = MediaQuery.of(context).size;
 
     if (screenSize.width < 320.0 || screenSize.height < 600.0) {
-      return const ErrorScreen(
+      return ErrorScreen(
         // Text wait localization
-        title: "AppLocalizations.of(context)!.screenError",
-        message: "AppLocalizations.of(context)!.screenSmall",
+        title: AppLocalizations.of(context)!.screenError,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else if (screenSize.width > 500.0) {
       // Tablet Mode (Must be repair)
@@ -47,7 +48,7 @@ class SettingScreen extends StatelessWidget {
       slivers: <Widget>[
         CustomSliverAppBarTextLeading(
           // Text wait localization
-          title: "AppLocalizations.of(context)!.setting",
+          title: AppLocalizations.of(context)!.settings,
           leadingIcon: "assets/icon/back.svg",
           // Navigation repair
           leadingOnTap: () {
@@ -66,38 +67,38 @@ class SettingScreen extends StatelessWidget {
               ),
               child: Column(
                 children: <Widget>[
-                  BlocBuilder<NotificationBloc, NotificationState>(
-                    builder: (context, state) {
-                      String mode = (state.notif == NotificationEnum.off)
-                          ? "AppLocalizations.of(context)!.disable"
-                          : "AppLocalizations.of(context)!.enable";
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  const NotificationSettingScreen(),
-                            ),
-                          );
-                        },
-                        child: _customTextContainer(
-                          context,
-                          // Text wait localization
-                          "AppLocalizations.of(context)!.notification",
-                          // Parameter use Bloc
-                          mode,
-                          "assets/icon/bell-Light.svg",
-                        ),
-                      );
-                    },
-                  ),
-                  _customDivider(),
+                  // BlocBuilder<NotificationBloc, NotificationState>(
+                  //   builder: (context, state) {
+                  //     String mode = (state.notif == NotificationEnum.off)
+                  //         ? AppLocalizations.of(context)!.disable
+                  //         : AppLocalizations.of(context)!.enable;
+                  //     return GestureDetector(
+                  //       onTap: () {
+                  //         Navigator.push(
+                  //           context,
+                  //           MaterialPageRoute(
+                  //             builder: (context) =>
+                  //                 const NotificationSettingScreen(),
+                  //           ),
+                  //         );
+                  //       },
+                  //       child: _customTextContainer(
+                  //         context,
+                  //         // Text wait localization
+                  //         AppLocalizations.of(context)!.notification,
+                  //         // Parameter use Bloc
+                  //         mode,
+                  //         "assets/icon/bell-Light.svg",
+                  //       ),
+                  //     );
+                  //   },
+                  // ),
+                  // _customDivider(),
                   BlocBuilder<LanguageBloc, LanguageState>(
                     builder: (context, state) {
                       String mode = (state.language == LanguageEnum.indonesia)
-                          ? "AppLocalizations.of(context)!.indonesia"
-                          : "AppLocalizations.of(context)!.inggris";
+                          ? AppLocalizations.of(context)!.indonesia
+                          : AppLocalizations.of(context)!.inggris;
                       return GestureDetector(
                         onTap: () {
                           Navigator.push(
@@ -111,7 +112,7 @@ class SettingScreen extends StatelessWidget {
                         child: _customTextContainer(
                           context,
                           // Text wait localization
-                          "AppLocalizations.of(context)!.language",
+                          AppLocalizations.of(context)!.language,
                           // Parameter use Bloc
                           mode,
                           "assets/icon/globe.svg",
@@ -123,10 +124,10 @@ class SettingScreen extends StatelessWidget {
                   BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
                     builder: (context, state) {
                       String mode = (state.isDark == ThemeModeEnum.lightTheme)
-                          ? "AppLocalizations.of(context)!.light"
+                          ? AppLocalizations.of(context)!.light
                           : (state.isDark == ThemeModeEnum.darkTheme)
-                              ? "AppLocalizations.of(context)!.dark"
-                              : "AppLocalizations.of(context)!.sistem";
+                              ? AppLocalizations.of(context)!.dark
+                              : AppLocalizations.of(context)!.sistem;
                       return GestureDetector(
                         onTap: () {
                           Navigator.push(
@@ -139,7 +140,7 @@ class SettingScreen extends StatelessWidget {
                         child: _customTextContainer(
                           context,
                           // Text wait localization
-                          "AppLocalizations.of(context)!.displayMode",
+                          AppLocalizations.of(context)!.displayMode,
                           // Parameter use Bloc
                           mode,
                           "assets/icon/mode.svg",

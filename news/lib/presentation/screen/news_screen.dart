@@ -1,20 +1,27 @@
 import 'dart:async';
 
+import 'package:account/account.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:core/core.dart';
 import 'package:core/presentation/components/appbar/custom_sliver_appbar_dashboard.dart';
 import 'package:core/presentation/components/card/custom_news_card.dart';
 import 'package:core/presentation/components/custom_smart_refresh.dart';
 import 'package:core/presentation/screens/error_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:theme/theme.dart';
-import 'package:page_transition/page_transition.dart';
-import 'news_detail_screen.dart';
-import 'add_news_screen.dart';
-import 'package:account/account.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:news/data/model/news.dart';
+import 'package:news/presentation/screen/news_detail_screen_api.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:theme/theme.dart';
+
+import '../../data/datasources/news_remote_data_source.dart';
+import 'add_news_screen.dart';
+import 'news_detail_screen.dart';
 
 enum ScreenProcessEnum {
   loading,
@@ -30,6 +37,7 @@ class NewsScreen extends StatefulWidget {
 }
 
 class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
+  User? user = FirebaseAuth.instance.currentUser;
   ScreenProcessEnum process = ScreenProcessEnum.loading;
   late TabController _controller;
 
@@ -59,14 +67,28 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
     _refreshController2.loadComplete();
   }
 
+  late Future<ArticlesResult> futureArticle;
+
   @override
   void initState() {
     super.initState();
+
+    futureArticle = NewsRemoteDataSource().bandungNewsId();
+
+    if (user != null) {
+      context.read<DashboardBloc>().add(OnIsAdmin(email: user!.email!));
+    }
 
     _controller = TabController(
       vsync: this,
       length: 2,
     );
+
+    if (mounted) {
+      setState(() {
+        process = ScreenProcessEnum.loaded;
+      });
+    }
   }
 
   @override
@@ -77,11 +99,25 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    if (process == ScreenProcessEnum.failed) {
-      return const ErrorScreen(
+    if (process == ScreenProcessEnum.loading) {
+      return NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            _buildAppBar(),
+          ];
+        },
+        body: Center(
+          child: LoadingAnimationWidget.horizontalRotatingDots(
+            color: Theme.of(context).colorScheme.tertiary,
+            size: 50.0,
+          ),
+        ),
+      );
+    } else if (process == ScreenProcessEnum.failed) {
+      return ErrorScreen(
         // Text wait localization
-        title: "Koneksi Internet",
-        message: "Aduh, Coba lagi nanti",
+        title: AppLocalizations.of(context)!.internetConnection,
+        message: AppLocalizations.of(context)!.tryAgain,
       );
     } else {
       return _buildLoaded(context);
@@ -112,39 +148,61 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
   }
 
   Widget _buildAppBar() {
-    return CustomSliverAppBarDashboard(
-      actionIcon: "assets/icon/regular/bell.svg",
-      actionOnTap: () {
-        Navigator.push(
-          context,
-          PageTransition(
-            curve: Curves.easeInOut,
-            type: PageTransitionType.rightToLeft,
-            child: const NotificationScreen(),
-            duration: const Duration(milliseconds: 150),
-            reverseDuration: const Duration(milliseconds: 150),
+    return BlocBuilder<DashboardBloc, DashboardState>(
+      builder: (context, state) {
+        return CustomSliverAppBarDashboard(
+          actionIcon: "assets/icon/regular/bell.svg",
+          actionOnTap: () {
+            if (user != null) {
+              if (state.isHaveProfile) {
+                Navigator.push(
+                  context,
+                  PageTransition(
+                    curve: Curves.easeInOut,
+                    type: PageTransitionType.rightToLeft,
+                    child: const NotificationScreen(),
+                  ),
+                );
+              } else {
+                Navigator.push(
+                  context,
+                  PageTransition(
+                    curve: Curves.easeInOut,
+                    type: PageTransitionType.bottomToTop,
+                    child: const RegistrationSettingScreen(),
+                  ),
+                );
+              }
+            } else {
+              Navigator.push(
+                context,
+                PageTransition(
+                  curve: Curves.easeInOut,
+                  type: PageTransitionType.bottomToTop,
+                  child: const LoginScreen(),
+                ),
+              );
+            }
+          },
+          leading: Text(
+            // Text wait localization
+            AppLocalizations.of(context)!.news,
+            textAlign: TextAlign.center,
           ),
+          actionIconSecondary: "assets/icon/regular/plus-square.svg",
+          actionOnTapSecondary: () {
+            Navigator.push(
+              context,
+              PageTransition(
+                curve: Curves.easeInOut,
+                type: PageTransitionType.rightToLeft,
+                child: const AddNewsScreen(),
+              ),
+            );
+          },
+          isDoubleAction: state.isAdmin,
         );
       },
-      leading: Text(
-        // Text wait localization
-        AppLocalizations.of(context)!.news,
-        textAlign: TextAlign.center,
-      ),
-      actionIconSecondary: "assets/icon/regular/plus-square.svg",
-      actionOnTapSecondary: () {
-        Navigator.push(
-          context,
-          PageTransition(
-            curve: Curves.easeInOut,
-            type: PageTransitionType.rightToLeft,
-            child: const AddNewsScreen(),
-            duration: const Duration(milliseconds: 150),
-            reverseDuration: const Duration(milliseconds: 150),
-          ),
-        );
-      },
-      isDoubleAction: true,
     );
   }
 
@@ -180,7 +238,7 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                         padding: const EdgeInsets.all(2.0),
                         child: Text(
                           // Wait Localization
-                          "Terkini",
+                          AppLocalizations.of(context)!.hot,
                           style: bSubtitle3,
                         ),
                       ),
@@ -188,7 +246,7 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                         padding: const EdgeInsets.all(2.0),
                         child: Text(
                           // Wait Localization
-                          "News",
+                          AppLocalizations.of(context)!.news,
                           style: bSubtitle3,
                         ),
                       )
@@ -229,45 +287,63 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                               // Use Data News
                               return Padding(
                                 padding: const EdgeInsets.only(
-                                    bottom: 7.5, right: 20, left: 20, top: 7.5),
-                                child: CustomNewsCard(
-                                  img:
-                                      '${snapshot.data!.docs[index]['coverUrl']}',
-                                  title: snapshot.data!.docs[index]['title'],
-                                  writer: snapshot.data!.docs[index]
-                                      ['username'],
-                                  date: DateFormat("EEEE, d MMMM yyyy", "id_ID")
-                                      .format(DateTime.parse(
-                                          snapshot.data!.docs[index]['date'])),
-                                  onTap: () {
-                                    // To detail News
-                                    Navigator.push(
-                                      context,
-                                      PageTransition(
-                                        curve: Curves.easeOut,
-                                        type: PageTransitionType.bottomToTop,
-                                        child: NewsDetailScreen(
-                                          title: snapshot.data!.docs[index]
-                                              ['title'],
-                                          konten: snapshot.data!.docs[index]
-                                              ['content'],
-                                          index: snapshot
-                                              .data!.docs[index].reference,
-                                          urlName: snapshot.data!.docs[index]
-                                              ['coverUrl'],
-                                          writer: snapshot.data!.docs[index]
-                                              ['username'],
-                                          date: snapshot.data!.docs[index]
-                                              ['date'],
-                                        ),
-                                        duration:
-                                            const Duration(milliseconds: 150),
-                                        reverseDuration:
-                                            const Duration(milliseconds: 150),
-                                      ),
-                                    );
-                                  },
-                                ),
+                                    right: 20, left: 20, bottom: 15),
+                                child: StreamBuilder<QuerySnapshot>(
+                                    stream: FirebaseFirestore.instance
+                                        .collection("Profile")
+                                        .where('email',
+                                            isEqualTo: snapshot
+                                                .data!.docs[index]['username'])
+                                        .snapshots(),
+                                    builder: (context, profile) {
+                                      if (!profile.hasData) {
+                                        return Container();
+                                      }
+                                      if (profile.data == null) {
+                                        return Container();
+                                      }
+                                      return CustomNewsCard(
+                                        img:
+                                            '${snapshot.data!.docs[index]['coverUrl']}',
+                                        title: snapshot.data!.docs[index]
+                                            ['title'],
+                                        author: profile.data!.docs[0]
+                                            ['username'],
+                                        date: DateFormat(
+                                                "EEEE, d MMMM yyyy", "id_ID")
+                                            .format(DateTime.parse(snapshot
+                                                .data!.docs[index]['date'])),
+                                        onTap: () {
+                                          // To detail News
+                                          Navigator.push(
+                                            context,
+                                            PageTransition(
+                                              curve: Curves.easeOut,
+                                              type: PageTransitionType
+                                                  .bottomToTop,
+                                              child: NewsDetailScreen(
+                                                title: snapshot
+                                                    .data!.docs[index]['title'],
+                                                konten: snapshot.data!
+                                                    .docs[index]['content'],
+                                                index: snapshot.data!
+                                                    .docs[index].reference,
+                                                urlName: snapshot.data!
+                                                    .docs[index]['coverUrl'],
+                                                author: snapshot.data!
+                                                    .docs[index]['username'],
+                                                date: snapshot.data!.docs[index]
+                                                    ['date'],
+                                              ),
+                                              duration: const Duration(
+                                                  milliseconds: 150),
+                                              reverseDuration: const Duration(
+                                                  milliseconds: 150),
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    }),
                               );
                             },
                             itemCount: snapshot.data!.docs.length,
@@ -281,39 +357,65 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                   onRefresh: _onRefresh2,
                   child: Padding(
                     padding: const EdgeInsets.only(top: 0.0),
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      physics: const BouncingScrollPhysics(),
-                      itemBuilder: (BuildContext context, int index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(
-                              bottom: 7.5, right: 20, left: 20, top: 7.5),
-                          child: CustomNewsCard(
-                            img:
-                                "https://cdn1-production-images-kly.akamaized.net/lMHji7xE4GI7YHCWAQumKfFm9Ew=/1200x900/smart/filters:quality(75):strip_icc():format(jpeg)/kly-media-production/medias/3554482/original/037161700_1630219411-bandung-5319951_1920.jpg",
-                            title:
-                                "Prabowo Atau Anies, Siapa Capres yang Paling Kuat?",
-                            writer: "Udin Saparudin",
-                            date: "Jumat, 13 Mei 2022",
-                            onTap: () {
-                              // To detail News
-                              // Navigator.push(
-                              //   context,
-                              //   PageTransition(
-                              //     curve: Curves.easeOut,
-                              //     type: PageTransitionType.bottomToTop,
-                              //     child: const NewsDetailScreen(),
-                              //     duration:
-                              //         const Duration(milliseconds: 150),
-                              //     reverseDuration:
-                              //         const Duration(milliseconds: 150),
-                              //   ),
-                              // );
+                    child: FutureBuilder<ArticlesResult>(
+                      future: futureArticle,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          final news = snapshot.data!.articles;
+                          return ListView.builder(
+                            shrinkWrap: true,
+                            physics: const BouncingScrollPhysics(),
+                            itemBuilder: (BuildContext context, int index) {
+                              return Padding(
+                                padding: const EdgeInsets.only(
+                                    bottom: 15, right: 20, left: 20),
+                                child: CustomNewsCard(
+                                  img: news[index].urlToImage,
+                                  title: news[index].title,
+                                  author: news[index].author,
+                                  date: DateFormat("EEEE, d MMMM yyyy", "id_ID")
+                                      .format(DateTime.parse(snapshot
+                                          .data!.articles[index].publishedAt
+                                          .toString())),
+                                  onTap: () {
+                                    // To detail News
+                                    Navigator.push(
+                                      context,
+                                      PageTransition(
+                                        curve: Curves.easeOut,
+                                        type: PageTransitionType.bottomToTop,
+                                        child: NewsDetailScreenApi(
+                                          img: news[index].urlToImage,
+                                          title: news[index].title,
+                                          author: news[index].author,
+                                          date: DateFormat(
+                                                  "EEEE, d MMMM yyyy", "id_ID")
+                                              .format(DateTime.parse(snapshot
+                                                  .data!
+                                                  .articles[index]
+                                                  .publishedAt
+                                                  .toString())),
+                                          url: news[index].url,
+                                          content: news[index].content,
+                                        ),
+                                        duration:
+                                            const Duration(milliseconds: 150),
+                                        reverseDuration:
+                                            const Duration(milliseconds: 150),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              );
                             },
-                          ),
-                        );
+                            itemCount: news.length,
+                          );
+                        } else if (snapshot.hasError) {
+                          return Container();
+                        } else {
+                          return Container();
+                        }
                       },
-                      itemCount: 10,
                     ),
                   ),
                 ),

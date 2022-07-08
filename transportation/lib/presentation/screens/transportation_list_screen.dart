@@ -2,14 +2,18 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:core/core.dart';
+import 'package:core/utils/config.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:theme/theme.dart';
+import 'package:transportation/data/datasources/transportation_remote_data_source.dart';
+import 'package:transportation/data/models/station.dart';
 import 'package:transportation/presentation/components/custom_card_transportation_list.dart';
+import 'package:transportation/presentation/screens/timeline_screen.dart';
 import 'package:transportation/presentation/screens/transportation_detail_screen.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 // Check
 
 enum TransportationListScreenProcessEnum {
@@ -27,6 +31,22 @@ class TransportationListScreen extends StatefulWidget {
 }
 
 class _TransportationListScreenState extends State<TransportationListScreen> {
+  List<String> bus = [
+    "Gunung Batu - Stasiun Hall",
+    "Stasiun Hall - Gunung Batu",
+    "Cibereum - Cibiru",
+    "Cibiru - Cibereum",
+    "Cibeureum - Cicaheum",
+    "Cicaheum - Cibeureum",
+    "Cicaheum - Sarijadi",
+    "Sarijadi - Cicaheum",
+    "Terminal Leuwipanjang - Terminal Antapani",
+    "Terminal Antapani - Terminal Leuwipanjang",
+  ];
+
+  final apiKey = Config().mapsKey;
+  final photosUrl = Config().photosUrl;
+
   List<String> title = [
     "Cimahi",
     "Cicalengka",
@@ -37,8 +57,25 @@ class _TransportationListScreenState extends State<TransportationListScreen> {
     "Gedebage",
     "Cikudapateuh",
     "Ciroyom",
+    "Stasiun Cimindi",
+    "Stasiun Bandung",
+    "Gadobangkong",
+    "Kiaracondong"
+  ];
+
+  List<String> titleFirebase = [
+    "Cimahi",
+    "Cicalengka",
+    "Padalarang",
+    "Haurpugur",
+    "Rancaekek",
+    "Cimekar",
+    "Gedebage",
+    "Cikudapateuh",
+    "Ciroyom",
     "Cimindi",
-    "Gadobangkong"
+    "Bandung",
+    "Kiaracondong"
   ];
   final RefreshController _refreshControllerTrain =
       RefreshController(initialRefresh: false);
@@ -83,6 +120,14 @@ class _TransportationListScreenState extends State<TransportationListScreen> {
   //   });
   // }
 
+  late Future<StationResult> futureStation;
+
+  @override
+  void initState() {
+    super.initState();
+    futureStation = TransportationRemoteDataSource().getStation();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -104,9 +149,9 @@ class _TransportationListScreenState extends State<TransportationListScreen> {
         ),
       );
     } else if (process == TransportationListScreenProcessEnum.failed) {
-      return const ErrorScreen(
-        title: "AppLocalizations.of(context)!.oops",
-        message: "AppLocalizations.of(context)!.screenSmall",
+      return ErrorScreen(
+        title: AppLocalizations.of(context)!.oops,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else {
       return _buildScreen(context, screenSize);
@@ -131,7 +176,7 @@ class _TransportationListScreenState extends State<TransportationListScreen> {
   Widget _buildAppBar() {
     return CustomSliverAppBarTextLeadingAction(
       // Text wait localization
-      title: "Transportasi Umum",
+      title: AppLocalizations.of(context)!.publicTransportation,
       leadingIcon: "assets/icon/regular/chevron-left.svg",
       leadingOnTap: () {
         Navigator.pop(
@@ -179,7 +224,7 @@ class _TransportationListScreenState extends State<TransportationListScreen> {
                         padding: const EdgeInsets.all(2.0),
                         child: Text(
                           // Wait Localization
-                          "Kereta",
+                          AppLocalizations.of(context)!.train,
                           style: bSubtitle3,
                         ),
                       ),
@@ -187,7 +232,7 @@ class _TransportationListScreenState extends State<TransportationListScreen> {
                         padding: const EdgeInsets.all(2.0),
                         child: Text(
                           // Wait Localization
-                          "Bus",
+                          AppLocalizations.of(context)!.bus,
                           style: bSubtitle3,
                         ),
                       ),
@@ -207,50 +252,144 @@ class _TransportationListScreenState extends State<TransportationListScreen> {
                   onRefresh: _onRefreshTrain,
                   child: Padding(
                     padding: const EdgeInsets.only(top: 0.0),
-                    child: StreamBuilder<QuerySnapshot>(
-                        stream: FirebaseFirestore.instance
-                            .collection("Station")
-                            .snapshots(),
-                        builder: (context, snapshot) {
-                          if (!snapshot.hasData) {
-                            return Center(
-                              child:
-                                  LoadingAnimationWidget.horizontalRotatingDots(
-                                color: Theme.of(context).colorScheme.tertiary,
-                                size: 50.0,
-                              ),
-                            );
-                          }
-                          // else if (snapshot.data!.docs.length <= 0) {
-                          //   return Center(
-                          //     child: Text("Tidak ada data"),
-                          //   );
-                          // }
-                          final station = snapshot.data!.docs;
+                    child: FutureBuilder<StationResult>(
+                      future: futureStation,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          final place = snapshot.data!.results;
                           return ListView.builder(
                             physics: const BouncingScrollPhysics(),
                             shrinkWrap: true,
                             itemBuilder: (BuildContext context, int index) {
+                              if (title.contains(place[index].name)) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(bottom: 15.0),
+                                  child: (place[index].photos == null)
+                                      ? CustomCardStasiunList(
+                                          image:
+                                              'http://via.placeholder.com/350x150',
+                                          title: place[index].name,
+                                          address: place[index].vicinity,
+                                          rating:
+                                              place[index].rating.toString(),
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              PageTransition(
+                                                curve: Curves.easeInOut,
+                                                type: PageTransitionType
+                                                    .bottomToTop,
+                                                // Add Parameter Data Train Detail
+                                                child:
+                                                    TransportationDetailScreen(
+                                                  isTrain: true,
+                                                  station: place[index].name,
+                                                  idStation:
+                                                      place[index].placeId,
+                                                ),
+                                                duration: const Duration(
+                                                    milliseconds: 150),
+                                                reverseDuration: const Duration(
+                                                    milliseconds: 150),
+                                              ),
+                                            );
+                                          },
+                                        )
+                                      : CustomCardStasiunList(
+                                          image:
+                                              "$photosUrl${place[index].photos![0].photoReference}&key=$apiKey",
+                                          title: place[index].name,
+                                          address: place[index].vicinity,
+                                          rating:
+                                              place[index].rating.toString(),
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              PageTransition(
+                                                curve: Curves.easeInOut,
+                                                type: PageTransitionType
+                                                    .bottomToTop,
+                                                // Add Parameter Data Train Detail
+                                                child:
+                                                    TransportationDetailScreen(
+                                                  isTrain: true,
+                                                  station: place[index].name,
+                                                  idStation:
+                                                      place[index].placeId,
+                                                ),
+                                                duration: const Duration(
+                                                    milliseconds: 150),
+                                                reverseDuration: const Duration(
+                                                    milliseconds: 150),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                );
+                              } else {
+                                return Container();
+                              }
                               // Use Data Train
+                            },
+                            itemCount: place.length,
+                          );
+                        } else if (snapshot.hasError) {
+                          return Container();
+                        } else {
+                          return Container();
+                        }
+                      },
+                    ),
+                  ),
+                ),
+                CustomSmartRefresh(
+                  refreshController: _refreshControllerBus,
+                  onLoading: _onLoadingBus,
+                  onRefresh: _onRefreshBus,
+                  child: StreamBuilder<QuerySnapshot>(
+                      stream: FirebaseFirestore.instance
+                          .collection("Bus")
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        final List<String> buusss = [];
+                        final List<String> route = [];
+                        final List<String> tmb = [];
+                        if (snapshot.hasData) {
+                          for (final indexxx in snapshot.data!.docs) {
+                            if (route.contains(indexxx["route"])) {
+                            } else {
+                              // buusss.insert(0, indexxx["transit"]);
+                              route.insert(0, indexxx["route"]);
+                              tmb.insert(0, indexxx["name"]);
+                            }
+                          }
+                          print(buusss);
+                        } else {
+                          return Container();
+                        }
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 0.0),
+                          child: ListView.builder(
+                            physics: const BouncingScrollPhysics(),
+                            shrinkWrap: true,
+                            itemBuilder: (BuildContext context, int index) {
+                              // Use Data Bus
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: 15.0),
                                 child: CustomCardStasiunList(
-                                  image: "${station[index]['image']}",
-                                  title: station[index]['title'],
-                                  description: station[index]['desc'],
-                                  address: station[index]['address'],
-                                  rating: station[index]['rating'].toString(),
+                                  image:
+                                      "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
+                                  title: tmb[index],
+                                  address: route[index],
+                                  rating: '5.0',
                                   onTap: () {
                                     Navigator.push(
                                       context,
                                       PageTransition(
                                         curve: Curves.easeInOut,
                                         type: PageTransitionType.bottomToTop,
-                                        // Add Parameter Data Train Detail
-                                        child: TransportationDetailScreen(
-                                          isTrain: true,
-                                          station: "Kiaracondong",
-                                        ),
+                                        child: TimeLineScreen(
+                                            name: tmb[index], isTrain: false),
                                         duration:
                                             const Duration(milliseconds: 150),
                                         reverseDuration:
@@ -261,55 +400,10 @@ class _TransportationListScreenState extends State<TransportationListScreen> {
                                 ),
                               );
                             },
-                            itemCount: station.length,
-                          );
-                        }),
-                  ),
-                ),
-                CustomSmartRefresh(
-                  refreshController: _refreshControllerBus,
-                  onLoading: _onLoadingBus,
-                  onRefresh: _onRefreshBus,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 0.0),
-                    child: ListView.builder(
-                      physics: const BouncingScrollPhysics(),
-                      shrinkWrap: true,
-                      itemBuilder: (BuildContext context, int index) {
-                        // Use Data Bus
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 15.0),
-                          child: CustomCardStasiunList(
-                            image:
-                                "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
-                            title: "Terninal Bandung Kota",
-                            description:
-                                "Stasiun Bandung, juga dikenal sebagai Stasiun Hall, adalah stasiun kereta api kelas besar tipe A yang terletak di Jalan Stasiun Timur dan Jalan Kebon Kawung",
-                            address:
-                                "Jl. Stasiun Barat, Kb. Jeruk, Kec. Andir, Bandung",
-                            rating: '5.0',
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                PageTransition(
-                                  curve: Curves.easeInOut,
-                                  type: PageTransitionType.bottomToTop,
-                                  child: const TransportationDetailScreen(
-                                    isTrain: false,
-                                    station: "Jalan Soekarno Hatta 517",
-                                  ),
-                                  duration: const Duration(milliseconds: 150),
-                                  reverseDuration:
-                                      const Duration(milliseconds: 150),
-                                ),
-                              );
-                            },
+                            itemCount: route.length,
                           ),
                         );
-                      },
-                      itemCount: 10,
-                    ),
-                  ),
+                      }),
                 ),
               ],
             ),

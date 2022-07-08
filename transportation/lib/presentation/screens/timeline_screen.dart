@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:theme/theme.dart';
 import 'package:timelines/timelines.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // Check
 
@@ -69,9 +70,9 @@ class _TimeLineScreenState extends State<TimeLineScreen> {
         ),
       );
     } else if (process == TimelineScreenProcessEnum.failed) {
-      return const ErrorScreen(
-        title: "AppLocalizations.of(context)!.oops",
-        message: "AppLocalizations.of(context)!.screenSmall",
+      return ErrorScreen(
+        title: AppLocalizations.of(context)!.oops,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else {
       return _buildScreen(context, screenSize, widget.name);
@@ -93,10 +94,10 @@ class _TimeLineScreenState extends State<TimeLineScreen> {
 
   Widget _buildScreen(BuildContext context, Size screenSize, String trainName) {
     if (screenSize.width < 300.0 || screenSize.height < 600.0) {
-      return const ErrorScreen(
+      return ErrorScreen(
         // Text wait localization
-        title: "AppLocalizations.of(context)!.screenError",
-        message: "AppLocalizations.of(context)!.screenSmall",
+        title: AppLocalizations.of(context)!.screenError,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else {
       // Mobile Mode
@@ -106,10 +107,12 @@ class _TimeLineScreenState extends State<TimeLineScreen> {
                 ? FirebaseFirestore.instance
                     .collection("Train")
                     .where("trainName", isEqualTo: widget.name)
+                    .orderBy("date")
                     .snapshots()
                 : FirebaseFirestore.instance
                     .collection("Bus")
                     .where("name", isEqualTo: widget.name)
+                    .orderBy("date")
                     .snapshots(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
@@ -234,7 +237,7 @@ class TitleContainer extends StatelessWidget {
                 Flexible(
                   child: Text(
                     // Change with data
-                    'Rp. 25.000',
+                    'Rp. 5.000',
                     style: bHeading7.copyWith(
                       color: Theme.of(context).colorScheme.tertiary,
                     ),
@@ -249,7 +252,7 @@ class TitleContainer extends StatelessWidget {
               height: 20.0,
             ),
             Text(
-              '${hour.toString()} ${"AppLocalizations.of(context)!.hour"} ${min.toString()} ${"AppLocalizations.of(context)!.minute"}',
+              '${hour.toString()} ${AppLocalizations.of(context)!.hour} ${min.toString()} ${"AppLocalizations.of(context)!.minute"}',
               style: bSubtitle2.copyWith(
                 color: Theme.of(context).colorScheme.tertiary,
               ),
@@ -275,6 +278,7 @@ class Process extends StatelessWidget {
   final bool isTrain;
   @override
   Widget build(BuildContext context) {
+    print(isTrain);
     return SliverPadding(
       padding: const EdgeInsets.only(
         left: 20.0,

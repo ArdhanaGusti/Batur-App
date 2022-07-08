@@ -1,187 +1,273 @@
+import 'package:account/account.dart';
 import 'package:core/core.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:theme/theme.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:umkm/data/service/api_service.dart';
+import 'package:umkm/presentation/screen/umkm_web_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../components/custom_sliver_appbar_text_leading_action_double.dart';
+enum UmkmDetailScreenProcessEnum {
+  loading,
+  loaded,
+  failed,
+}
 
 class UmkmDetailScreen extends StatefulWidget {
-  const UmkmDetailScreen({Key? key}) : super(key: key);
+  final String address,
+      coverUrl,
+      name,
+      desc,
+      type,
+      noHp,
+      email,
+      web,
+      tokped,
+      shopee;
+  final DocumentReference index;
+  const UmkmDetailScreen({
+    Key? key,
+    required this.address,
+    required this.web,
+    required this.tokped,
+    required this.shopee,
+    required this.coverUrl,
+    required this.name,
+    required this.desc,
+    required this.type,
+    required this.noHp,
+    required this.email,
+    required this.index,
+  }) : super(key: key);
 
   @override
   State<UmkmDetailScreen> createState() => _UmkmDetailScreenState();
 }
 
 class _UmkmDetailScreenState extends State<UmkmDetailScreen> {
+  User? user = FirebaseAuth.instance.currentUser;
+  UmkmDetailScreenProcessEnum process = UmkmDetailScreenProcessEnum.loading;
+  final toast = FToast();
+
+  void toastError(String message) {
+    toast.showToast(
+      child: CustomToast(
+        logo: "assets/icon/fill/exclamation-circle.svg",
+        message: message,
+        toastColor: bToastFiled,
+        bgToastColor: bBgToastFiled,
+        borderToastColor: bBorderToastFiled,
+      ),
+      gravity: ToastGravity.TOP,
+      toastDuration: const Duration(seconds: 3),
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    toast.init(context);
+
+    // Must be repair
+    // Change with to fetch data
+    if (mounted) {
+      setState(() {
+        process = UmkmDetailScreenProcessEnum.loaded;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-    double width = screenSize.width - 40;
-    return BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
-        builder: (context, state) {
-      Brightness screenBrightness = MediaQuery.platformBrightnessOf(context);
-      bool isLight = (state.isDark == ThemeModeEnum.darkTheme)
-          ? false
-          : (state.isDark == ThemeModeEnum.lightTheme)
-              ? true
-              : (screenBrightness == Brightness.light)
-                  ? true
-                  : false;
-      Color colorOne = (state.isDark == ThemeModeEnum.darkTheme)
-          ? bDarkGrey
-          : (state.isDark == ThemeModeEnum.lightTheme)
-              ? bPrimary
-              : (screenBrightness == Brightness.light)
-                  ? bPrimary
-                  : bDarkGrey;
-      Color colorTwo = (state.isDark == ThemeModeEnum.darkTheme)
-          ? bGrey
-          : (state.isDark == ThemeModeEnum.lightTheme)
-              ? bPrimaryVariant1
-              : (screenBrightness == Brightness.light)
-                  ? bPrimaryVariant1
-                  : bGrey;
-      Color colorThree = (state.isDark == ThemeModeEnum.darkTheme)
-          ? bGrey
-          : (state.isDark == ThemeModeEnum.lightTheme)
-              ? bSecondaryVariant1
-              : (screenBrightness == Brightness.light)
-                  ? bSecondaryVariant1
-                  : bGrey;
-      Color colorFour = (state.isDark == ThemeModeEnum.darkTheme)
-          ? bDarkGrey
-          : (state.isDark == ThemeModeEnum.lightTheme)
-              ? bSecondary
-              : (screenBrightness == Brightness.light)
-                  ? bSecondary
-                  : bDarkGrey;
+
+    if (process == UmkmDetailScreenProcessEnum.loading) {
+      return NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            _buildAppBar(),
+          ];
+        },
+        body: Scaffold(
+          body: Center(
+            child: LoadingAnimationWidget.horizontalRotatingDots(
+              color: Theme.of(context).colorScheme.tertiary,
+              size: 50.0,
+            ),
+          ),
+        ),
+      );
+    } else if (process == UmkmDetailScreenProcessEnum.failed) {
+      return ErrorScreen(
+        // Wait Localization
+        title: AppLocalizations.of(context)!.oops,
+        message: AppLocalizations.of(context)!.screenSmall,
+      );
+    } else {
+      return _buildScreen(context, screenSize);
+    }
+  }
+
+  Widget _buildAppBar() {
+    return CustomSliverAppBarTextLeading(
+      // Text wait localization
+      title: widget.name,
+      leadingIcon: "assets/icon/regular/chevron-left.svg",
+      leadingOnTap: () {
+        Navigator.pop(
+          context,
+        );
+      },
+    );
+  }
+
+  Widget _buildScreen(BuildContext context, Size screenSize) {
+    if (screenSize.width < 300.0 || screenSize.height < 600.0) {
+      return const ErrorScreen(
+        // Text wait localization
+        title: "Eror",
+        message: "Eror",
+      );
+    } else if (screenSize.width > 500.0) {
+      // Mobile Mode
       return Scaffold(
-        body: SafeArea(
-          child: DefaultTabController(
-            length: 2,
-            initialIndex: 0,
+        body: Container(
+          constraints: const BoxConstraints(maxWidth: 500.0),
+          child: _buildLoaded(context, screenSize),
+        ),
+      );
+    } else {
+      // Mobile Mode
+      return Scaffold(
+        body: _buildLoaded(context, screenSize),
+      );
+    }
+  }
+
+  Widget _buildLoaded(BuildContext context, Size screenSize) {
+    return CustomScrollView(
+      physics: const BouncingScrollPhysics(),
+      slivers: <Widget>[
+        _buildAppBar(),
+        SliverPadding(
+          padding: const EdgeInsets.all(20.0),
+          sliver: SliverToBoxAdapter(
             child: Column(
-              children: [
-                CustomSliverAppBarTextLeadingActionDouble(
-                  title: "Berita",
-                  leadingIcon: "assets/icon/bold/chevron-left.svg",
-                  leadingOnTap: () {
-                    Navigator.pop(
-                      context,
-                    );
-                  },
-                  actionIconFirst: "assets/icon/pen-light.svg",
-                  actionOnTapFirst: () {
-                    // Navigator.of(context)
-                    //     .push(MaterialPageRoute(builder: (context) {
-                    //   return EditNewsScreen(
-                    //       judul: widget.title,
-                    //       konten: widget.konten,
-                    //       urlName: widget.urlName,
-                    //       index: widget.index);
-                    // }));
-                  },
-                  actionIconSecond: "assets/icon/trash.svg",
-                  actionOnTapSecond: () {
-                    // context.read<NewsRemoveBloc>().add(
-                    //     OnRemoveNews(context, widget.urlName, widget.index));
+              children: <Widget>[
+                StreamBuilder<QuerySnapshot>(
+                    stream: (user == null)
+                        ? FirebaseFirestore.instance
+                            .collection("Favorite")
+                            .where("umkm", isEqualTo: widget.name)
+                            .snapshots()
+                        : FirebaseFirestore.instance
+                            .collection("Favorite")
+                            .where("umkm", isEqualTo: widget.name)
+                            .where("email", isEqualTo: user!.email)
+                            .where("seller", isEqualTo: widget.email)
+                            .snapshots(),
+                    builder: (context, fav) {
+                      return CustomDetailScreen(
+                        img: widget.coverUrl,
+                        title: widget.name,
+                        isFavorite: (user != null)
+                            ? (fav.data!.docs.isNotEmpty)
+                                ? true
+                                : false
+                            : false,
+                        description: widget.desc,
+                        address: widget.address,
+                        telephone: widget.noHp,
+                        onTap: () {
+                          if (user == null) {
+                            Navigator.push(
+                              context,
+                              PageTransition(
+                                curve: Curves.easeInOut,
+                                type: PageTransitionType.bottomToTop,
+                                child: const LoginScreen(),
+                              ),
+                            );
+                          } else {
+                            if (fav.data!.docs.isEmpty) {
+                              ApiServiceUMKM().addFavorite(
+                                widget.coverUrl,
+                                widget.address,
+                                widget.email,
+                                "",
+                                widget.name,
+                              );
+                            } else {
+                              ApiServiceUMKM().removeFavorite(
+                                fav.data!.docs[0].reference,
+                              );
+                            }
+                          }
+                        },
+                      );
+                    }),
+                const SizedBox(
+                  height: 15.0,
+                ),
+                CustomSecondaryIconTextButton(
+                  icon: "assets/icon/tokopedia.svg",
+                  width: screenSize.width,
+                  text: "Tokopedia",
+                  onTap: () {
+                    // To WebView
                   },
                 ),
-                Expanded(
-                  child: ListView(
-                    physics: BouncingScrollPhysics(),
-                    children: [
-                      CustomCardDetailTourScreen(
-                        img:
-                            'https://majalahpeluang.com/wp-content/uploads/2021/03/584ukm-bandung-ayobandung.jpg',
-                        title: 'Hias Teko',
-                        rating: '4,5',
-                        isFavourited: false,
-                        description:
-                            'Stasiun Bandung, juga dikenal sebagai Stasiun Hall, adalah stasiun kereta api kelas besar tipe A yang terletak di Jalan Stasiun Timur dan Jalan Kebon Kawung, di Kebonjeruk, Andir, tepatnya di perbatasan antara Kelurahan Pasirkaliki, Cicendo dan Kebonjeruk, Andir, Kota Bandung, Jawa Barat.',
-                        address: 'Jl. Trunojoyo No. 64 Bandung',
-                        telephone: '(022) 4208757',
-                        onTap: () {
-                          print("Container clicked");
-                        },
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                        child: CustomTextIconButton(
-                          icon: "assets/icon/shopee.svg",
-                          color: colorThree,
-                          width: width,
-                          text: "Shopee",
-                          onTap: () {
-                            // Navigator.pop(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => const Login(),
-                            //   ),
-                            // );
-                          },
+                const SizedBox(
+                  height: 15,
+                ),
+                CustomSecondaryIconTextButton(
+                  icon: "assets/icon/shopee.svg",
+                  width: screenSize.width,
+                  text: "Shopee",
+                  onTap: () {
+                    // To WebView
+                  },
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                CustomSecondaryIconTextButton(
+                  icon: "assets/icon/shopee.svg",
+                  width: screenSize.width,
+                  text: "Website",
+                  onTap: () {
+                    // To WebView
+                    if (widget.web == "") {
+                      toastError(AppLocalizations.of(context)!.linkNotFound);
+                    } else {
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                          curve: Curves.easeInOut,
+                          type: PageTransitionType.rightToLeft,
+                          child: UmkmWebScreen(
+                            url: "https://pub.dev/packages/photo_view",
+                            title: widget.name,
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                        child: CustomTextIconButton(
-                          icon: "assets/icon/tokopedia.svg",
-                          color: colorOne,
-                          width: width,
-                          text: "Tokopedia",
-                          onTap: () {
-                            // Navigator.pop(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => const Login(),
-                            //   ),
-                            // );
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                        child: CustomTextIconButton(
-                          icon: "assets/icon/map-marker.svg",
-                          color: colorTwo,
-                          width: width,
-                          text: "Petunjuk Arah",
-                          onTap: () {
-                            // Navigator.pop(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => const Login(),
-                            //   ),
-                            // );
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      )
-                    ],
-                  ),
+                      );
+                    }
+                  },
                 ),
               ],
             ),
           ),
         ),
-      );
-    });
+      ],
+    );
   }
 }

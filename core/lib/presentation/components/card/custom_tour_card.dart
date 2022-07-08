@@ -11,6 +11,7 @@ class CustomTourCard extends StatelessWidget {
   final bool isFavourited;
   final String description;
   final Function() onTap;
+  final Function() heartTap;
   const CustomTourCard({
     Key? key,
     required this.img,
@@ -19,6 +20,7 @@ class CustomTourCard extends StatelessWidget {
     required this.isFavourited,
     required this.description,
     required this.onTap,
+    required this.heartTap,
   }) : super(key: key);
 
   @override
@@ -72,6 +74,7 @@ class CustomTourCard extends StatelessWidget {
                           ),
                           fit: BoxFit.cover,
                           height: 85.0,
+                          width: 140,
                         ),
                       ),
                       Positioned(
@@ -125,7 +128,7 @@ class CustomTourCard extends StatelessWidget {
                             child: isFavourited == true
                                 ? GestureDetector(
                                     // Add on Tap
-                                    onTap: () {},
+                                    onTap: heartTap,
                                     child: SvgPicture.asset(
                                       "assets/icon/fill/heart.svg",
                                       color: bError,
@@ -134,7 +137,7 @@ class CustomTourCard extends StatelessWidget {
                                   )
                                 : GestureDetector(
                                     // Add on Tap
-                                    onTap: () {},
+                                    onTap: heartTap,
                                     child: SvgPicture.asset(
                                       "assets/icon/regular/heart.svg",
                                       color: Theme.of(context)

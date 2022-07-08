@@ -23,14 +23,14 @@ class ApiServiceNews {
         .ref()
         .child(imageName + DateTime.now().toString());
     UploadTask uploadTask = ref.putFile(image);
-    // User user = FirebaseAuth.instance.currentUser!;
+    User user = FirebaseAuth.instance.currentUser!;
     FirebaseFirestore.instance.runTransaction((transaction) async {
       CollectionReference reference =
           FirebaseFirestore.instance.collection("News");
       uploadTask.then((res) async {
         String urlName = await res.ref.getDownloadURL();
         await reference.add({
-          "username": "udin",
+          "username": user.email,
           "date": DateTime.now().toString(),
           "coverUrl": urlName,
           "title": judul,

@@ -7,14 +7,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 class CustomNewsCard extends StatelessWidget {
   final String img;
   final String title;
-  final String writer;
+  final String author;
   final String date;
+
   final Function() onTap;
   const CustomNewsCard({
     Key? key,
     required this.img,
     required this.title,
-    required this.writer,
+    required this.author,
     required this.date,
     required this.onTap,
   }) : super(key: key);
@@ -98,7 +99,7 @@ class CustomNewsCard extends StatelessWidget {
                               ),
                               Flexible(
                                 child: Text(
-                                  writer,
+                                  author,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: bCaption1.copyWith(color: bGrey),

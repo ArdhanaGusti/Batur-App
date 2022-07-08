@@ -4,6 +4,7 @@ import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:theme/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NotificationSettingScreen extends StatelessWidget {
   const NotificationSettingScreen({Key? key}) : super(key: key);
@@ -13,10 +14,10 @@ class NotificationSettingScreen extends StatelessWidget {
     Size screenSize = MediaQuery.of(context).size;
 
     if (screenSize.width < 320.0 || screenSize.height < 650.0) {
-      return const ErrorScreen(
+      return ErrorScreen(
         // Text wait localization
-        title: "AppLocalizations.of(context)!.screenError",
-        message: "AppLocalizations.of(context)!.screenSmall",
+        title: AppLocalizations.of(context)!.screenError,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else if (screenSize.width > 500.0) {
       // Tablet Mode (Must be repair)
@@ -42,7 +43,7 @@ class NotificationSettingScreen extends StatelessWidget {
       slivers: <Widget>[
         CustomSliverAppBarTextLeading(
           // Text wait localization
-          title: "Notifikasi",
+          title: AppLocalizations.of(context)!.notification,
           leadingIcon: "assets/icon/back.svg",
           // Navigation repair
           leadingOnTap: () {
@@ -78,7 +79,7 @@ class NotificationSettingScreen extends StatelessWidget {
             children: <Widget>[
               Text(
                 // Text wait localization
-                "AppLocalizations.of(context)!.notificationDesc",
+                AppLocalizations.of(context)!.notificationDesc,
                 style: bSubtitle2.copyWith(
                   color: Theme.of(context).colorScheme.tertiary,
                 ),
@@ -91,13 +92,13 @@ class NotificationSettingScreen extends StatelessWidget {
                 context,
                 NotificationEnum.off,
                 // Text wait localization
-                "AppLocalizations.of(context)!.disable",
+                AppLocalizations.of(context)!.disable,
               ),
               _customListTileNotif(
                 context,
                 NotificationEnum.on,
                 // Text wait localization
-                "AppLocalizations.of(context)!.enable",
+                AppLocalizations.of(context)!.enable,
               ),
             ],
           ),

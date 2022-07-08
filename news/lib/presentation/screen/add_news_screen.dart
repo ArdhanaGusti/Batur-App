@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:core/core.dart';
 import 'package:news/data/service/api_service.dart';
-import 'package:news/presentation/bloc/news_create_bloc.dart';
-import 'package:news/presentation/bloc/news_event.dart';
-import 'package:news/presentation/bloc/news_state.dart';
+import 'package:news/presentation/bloc/news_firebase/news_create_bloc.dart';
+import 'package:news/presentation/bloc/news_firebase/news_event.dart';
+import 'package:news/presentation/bloc/news_firebase/news_state.dart';
 import '../components/textFields/custom_add_news_description_text_field.dart';
 import '../components/textFields/custom_add_news_title_text_field.dart';
 import 'package:flutter/material.dart';
@@ -82,7 +82,6 @@ class _AddNewsScreenState extends State<AddNewsScreen> {
                     size: 50.0,
                   ),
                 );
-                print("sudah terloading");
               } else if (state is NewsCreated) {
                 toast.showToast(
                     child: CustomToast(
@@ -105,7 +104,7 @@ class _AddNewsScreenState extends State<AddNewsScreen> {
                             onPressed: () {
                               Navigator.pop(context);
                             },
-                            child: Text("Kembali"),
+                            child: Text(AppLocalizations.of(context)!.back),
                           )
                         ],
                       );
@@ -126,7 +125,8 @@ class _AddNewsScreenState extends State<AddNewsScreen> {
                     // });
                   } else {
                     AlertDialog alert = AlertDialog(
-                      title: Text("Silahkan lengkapi data"),
+                      title: Text(
+                          AppLocalizations.of(context)!.pleaseCompleteData),
                       actions: [
                         TextButton(
                             onPressed: () {

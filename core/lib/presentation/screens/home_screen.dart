@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:account/account.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:core/presentation/bloc/dashboard_bloc.dart';
 import 'package:core/presentation/components/appbar/custom_sliver_appbar_dashboard.dart';
 import 'package:core/presentation/components/card/custom_news_card.dart';
@@ -9,20 +10,30 @@ import 'package:core/presentation/components/card/custom_transport_card.dart';
 import 'package:core/presentation/components/card/custom_umkm_card.dart';
 import 'package:core/presentation/components/custom_smart_refresh.dart';
 import 'package:core/presentation/screens/error_screen.dart';
+import 'package:core/utils/config.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
+import 'package:news/data/datasources/news_remote_data_source.dart';
+import 'package:news/data/model/news.dart';
 import 'package:news/news.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:news/presentation/screen/news_detail_screen_api.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:theme/theme.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:tourism/data/datasource/tourism_remote_data_source.dart';
+import 'package:tourism/data/models/tourist_attraction.dart';
+import 'package:tourism/data/service/api_service_tour.dart';
+import 'package:transportation/data/datasources/transportation_remote_data_source.dart';
+import 'package:transportation/data/models/station.dart';
 import 'package:transportation/transportation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tourism/tourism.dart';
-import 'package:umkm/presentation/screen/umkm_screen.dart';
+import 'package:umkm/umkm.dart';
 
 // Check
 
@@ -44,6 +55,43 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   late TabController _controller;
   HomeScreenProcessEnum process = HomeScreenProcessEnum.loading;
   final toast = FToast();
+  final apiKey = Config().mapsKey;
+  final photosUrl = Config().photosUrl;
+
+  List<String> title = [
+    "Cimahi",
+    "Cicalengka",
+    "Padalarang",
+    "Haurpugur",
+    "Rancaekek",
+    "Cimekar",
+    "Gedebage",
+    "Cikudapateuh",
+    "Ciroyom",
+    "Stasiun Cimindi",
+    "Stasiun Bandung",
+    "Gadobangkong",
+    "Kiaracondong"
+  ];
+
+  List<String> titleFirebase = [
+    "Cimahi",
+    "Cicalengka",
+    "Padalarang",
+    "Haurpugur",
+    "Rancaekek",
+    "Cimekar",
+    "Gedebage",
+    "Cikudapateuh",
+    "Ciroyom",
+    "Cimindi",
+    "Bandung",
+    "Kiaracondong"
+  ];
+
+  late Future<ArticlesResult> futureArticle;
+  late Future<TouristAttractionResult> futurePlace;
+  late Future<StationResult> futureStation;
 
   @override
   void initState() {
@@ -53,6 +101,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       length: 2,
     );
     super.initState();
+    futureStation = TransportationRemoteDataSource().getStation();
+
+    futureArticle = NewsRemoteDataSource().bandungNewsId();
+    futurePlace = TourismRemoteDataSource().getTouristAttraction();
+
     if (user != null) {
       context.read<DashboardBloc>().add(OnIsHaveProfile(email: user!.email!));
       context.read<DashboardBloc>().add(OnIsAdmin(email: user!.email!));
@@ -191,32 +244,22 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   ];
 
   final List<Widget> onTapCarouselList = [
-    Builder(builder: (context) {
-      return ErrorScreen(
-        title: AppLocalizations.of(context)!.tour,
-        message: AppLocalizations.of(context)!.tourList,
-      );
-    }),
-    // Navigate to UMKM List
-    Builder(builder: (context) {
-      return ErrorScreen(
-        title: AppLocalizations.of(context)!.umkm,
-        message: AppLocalizations.of(context)!.umkmList,
-      );
-    }),
-    // Navigate to News List
-    // Not Working for Dummy
+    const TourMapScreen(),
+    const UmkmMapsScreen(),
     const NewsScreen(),
-    // Navigate to Transport List
     const TransportationMapScreen(),
   ];
 
   void onTapTourList() {
     // Navigate to Tour List
-    // Navigator.push(context,
-    //     MaterialPageRoute(builder: (context) => const TourListScreen()));
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => const TourListScreen()));
+    Navigator.push(
+      context,
+      PageTransition(
+        curve: Curves.easeInOut,
+        type: PageTransitionType.bottomToTop,
+        child: const TourMapScreen(),
+      ),
+    );
   }
 
   void onTapNewsList() {
@@ -229,7 +272,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   void onTapUMKMList() {
     // Navigate to UMKM List
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => const UmkmScreen()));
+        .push(MaterialPageRoute(builder: (context) => const UmkmMapsScreen()));
   }
 
   void onTapTransportList() {
@@ -473,26 +516,65 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ),
             SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              sliver: SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                    // Use Data News
-                    return Padding(
-                      padding: const EdgeInsets.only(top: 15.0),
-                      child: CustomNewsCard(
-                        img:
-                            "https://cdn1-production-images-kly.akamaized.net/lMHji7xE4GI7YHCWAQumKfFm9Ew=/1200x900/smart/filters:quality(75):strip_icc():format(jpeg)/kly-media-production/medias/3554482/original/037161700_1630219411-bandung-5319951_1920.jpg",
-                        title:
-                            "Prabowo Atau Anies, Siapa Capres yang Paling Kuat?",
-                        writer: "Udin Saparudin",
-                        date: "Jumat, 13 Mei 2022",
-                        onTap: () {
-                          // To detail News
+              sliver: SliverToBoxAdapter(
+                child: FutureBuilder<ArticlesResult>(
+                  future: futureArticle,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      final news = snapshot.data!.articles;
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        physics: const BouncingScrollPhysics(),
+                        itemBuilder: (BuildContext context, int index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 15.0),
+                            child: CustomNewsCard(
+                              img: news[index].urlToImage,
+                              title: news[index].title,
+                              author: news[index].author,
+                              date: DateFormat("EEEE, d MMMM yyyy", "id_ID")
+                                  .format(DateTime.parse(snapshot
+                                      .data!.articles[index].publishedAt
+                                      .toString())),
+                              onTap: () {
+                                // To detail News
+                                Navigator.push(
+                                  context,
+                                  PageTransition(
+                                    curve: Curves.easeOut,
+                                    type: PageTransitionType.bottomToTop,
+                                    child: NewsDetailScreenApi(
+                                      img: news[index].urlToImage,
+                                      title: news[index].title,
+                                      author: news[index].author,
+                                      date: DateFormat(
+                                              "EEEE, d MMMM yyyy", "id_ID")
+                                          .format(DateTime.parse(snapshot
+                                              .data!.articles[index].publishedAt
+                                              .toString())),
+                                      url: news[index].url,
+                                      content: news[index].content,
+                                    ),
+                                    duration: const Duration(milliseconds: 150),
+                                    reverseDuration:
+                                        const Duration(milliseconds: 150),
+                                  ),
+                                );
+                              },
+                            ),
+                          );
                         },
-                      ),
-                    );
+                        itemCount: 4,
+                      );
+                    } else if (snapshot.hasError) {
+                      return Container();
+                    } else {
+                      return LoadingAnimationWidget.horizontalRotatingDots(
+                        color: Theme.of(context).colorScheme.tertiary,
+                        size: 50.0,
+                      );
+                    }
                   },
-                  childCount: 4,
                 ),
               ),
             ),
@@ -520,17 +602,97 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             // Use data Tour
                             return Padding(
                               padding: const EdgeInsets.only(right: 15.0),
-                              child: CustomTourCard(
-                                img:
-                                    "https://akcdn.detik.net.id/visual/2020/03/12/2049bba1-49a2-4efb-a253-82825d9c1f2d_169.jpeg?w=650",
-                                // Process Rating must be 2 digit
-                                rating: "4.5",
-                                title: "Gedung Sate satu dua tiga",
-                                isFavourited: true,
-                                description:
-                                    "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
-                                onTap: () {
-                                  // To detail Tour
+                              child: FutureBuilder<TouristAttractionResult>(
+                                future: futurePlace,
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    final place = snapshot.data!.results;
+                                    return StreamBuilder<QuerySnapshot>(
+                                        stream: (user != null)
+                                            ? FirebaseFirestore.instance
+                                                .collection("FavoriteTour")
+                                                .where('email',
+                                                    isEqualTo: user!.email)
+                                                .where("tour",
+                                                    isEqualTo:
+                                                        place[index].name)
+                                                .snapshots()
+                                            : FirebaseFirestore.instance
+                                                .collection("FavoriteTour")
+                                                .where("tour",
+                                                    isEqualTo:
+                                                        place[index].name)
+                                                .snapshots(),
+                                        builder: (context, snapshot) {
+                                          if (!snapshot.hasData) {
+                                            return Container();
+                                          }
+                                          return CustomTourCard(
+                                            img:
+                                                '$photosUrl${place[index].photos[0].photoReference}&key=$apiKey',
+                                            // Process Rating must be 2 digit
+                                            rating:
+                                                place[index].rating.toString(),
+                                            title: place[index].name,
+                                            isFavourited: (user != null)
+                                                ? (snapshot
+                                                        .data!.docs.isNotEmpty)
+                                                    ? true
+                                                    : false
+                                                : false,
+                                            description:
+                                                "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+                                            onTap: () {
+                                              // To detail Tour
+                                              Navigator.push(
+                                                context,
+                                                PageTransition(
+                                                  curve: Curves.easeInOut,
+                                                  type: PageTransitionType
+                                                      .bottomToTop,
+                                                  // Navigate to detail with parameter
+
+                                                  child: TourDetailScreen(
+                                                    id: place[index].placeId,
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                            heartTap: () {
+                                              if (user != null) {
+                                                if (snapshot
+                                                    .data!.docs.isEmpty) {
+                                                  ApiServiceTour().addFavorite(
+                                                      place[index].rating,
+                                                      place[index].vicinity,
+                                                      place[index].name,
+                                                      '$photosUrl${place[index].photos[0].photoReference}&key=$apiKey');
+                                                } else {
+                                                  ApiServiceTour()
+                                                      .removeFavorite(snapshot
+                                                          .data!
+                                                          .docs[0]
+                                                          .reference);
+                                                }
+                                              } else {
+                                                Navigator.push(
+                                                  context,
+                                                  PageTransition(
+                                                    curve: Curves.easeInOut,
+                                                    type: PageTransitionType
+                                                        .bottomToTop,
+                                                    child: const LoginScreen(),
+                                                  ),
+                                                );
+                                              }
+                                            },
+                                          );
+                                        });
+                                  } else if (snapshot.hasError) {
+                                    return Container();
+                                  } else {
+                                    return Container();
+                                  }
                                 },
                               ),
                             );
@@ -553,40 +715,171 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               onTapUMKMList,
             ),
             SliverToBoxAdapter(
-              child: SizedBox(
-                height: 260.0,
-                child: CustomScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  slivers: <Widget>[
-                    SliverPadding(
-                      padding: const EdgeInsets.only(left: 20.0),
-                      sliver: SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          (BuildContext context, int index) {
-                            // Use Data for UMKM
-                            return Padding(
-                              padding: const EdgeInsets.only(right: 15.0),
-                              child: CustomUMKMCard(
-                                img:
-                                    "https://cdn-2.tstatic.net/tribunnews/foto/bank/images/indonesiatravel-gedung-sate-salah-satu-ikon-kota-bandung.jpg",
-                                title: "Gedung Sate satu dua tiga",
-                                isFavourited: false,
-                                description:
-                                    "Lorem ipsum It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
-                                onTap: () {
-                                  // To detail UMKM
-                                },
-                              ),
-                            );
-                          },
-                          childCount: 4,
+              child: StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection("UMKM")
+                      .where("verification", isEqualTo: true)
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: Text(
+                          AppLocalizations.of(context)!.umkmNotFound,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: bHeading7.copyWith(
+                            color: Theme.of(context).colorScheme.tertiary,
+                          ),
                         ),
+                      );
+                    } else if (snapshot.connectionState ==
+                        ConnectionState.waiting) {
+                      return Center(
+                        child: LoadingAnimationWidget.horizontalRotatingDots(
+                          color: Theme.of(context).colorScheme.tertiary,
+                          size: 30.0,
+                        ),
+                      );
+                    }
+                    return SizedBox(
+                      height: 260.0,
+                      child: CustomScrollView(
+                        physics: const BouncingScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
+                        slivers: <Widget>[
+                          SliverPadding(
+                            padding: const EdgeInsets.only(left: 20.0),
+                            sliver: SliverList(
+                              delegate: SliverChildBuilderDelegate(
+                                (BuildContext context, int index) {
+                                  final data = snapshot.data!.docs[index];
+                                  // Use Data for UMKM
+                                  return Padding(
+                                    padding: const EdgeInsets.only(right: 15.0),
+                                    child: StreamBuilder<QuerySnapshot>(
+                                      stream: (user == null)
+                                          ? FirebaseFirestore.instance
+                                              .collection("Favorite")
+                                              .where("umkm",
+                                                  isEqualTo: data["name"])
+                                              .snapshots()
+                                          : FirebaseFirestore.instance
+                                              .collection("Favorite")
+                                              .where("umkm",
+                                                  isEqualTo: data["name"])
+                                              .where("email",
+                                                  isEqualTo: user!.email)
+                                              .where("seller",
+                                                  isEqualTo: data["email"])
+                                              .snapshots(),
+                                      builder: (context, fav) {
+                                        if (fav.data == null || user == null) {
+                                          return CustomUMKMCard(
+                                            img: data['coverUrl'],
+                                            title: data['name'],
+                                            isFavourited: false,
+                                            description: data['desc'],
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                PageTransition(
+                                                  curve: Curves.easeInOut,
+                                                  type: PageTransitionType
+                                                      .rightToLeft,
+                                                  child: UmkmDetailScreen(
+                                                    name: data['name'],
+                                                    coverUrl: data['coverUrl'],
+                                                    address: data['address'],
+                                                    desc: data['desc'],
+                                                    index: data.reference,
+                                                    type: data['desc'],
+                                                    noHp: data['phone'],
+                                                    email: data["email"],
+                                                    web: data["website"],
+                                                    tokped: data["tokped"],
+                                                    shopee: data["shopee"],
+                                                  ),
+                                                  duration: const Duration(
+                                                      milliseconds: 150),
+                                                  reverseDuration:
+                                                      const Duration(
+                                                          milliseconds: 150),
+                                                ),
+                                              );
+                                            },
+                                            onHeartTap: () {
+                                              Navigator.push(
+                                                context,
+                                                PageTransition(
+                                                  curve: Curves.easeInOut,
+                                                  type: PageTransitionType
+                                                      .bottomToTop,
+                                                  child: const LoginScreen(),
+                                                ),
+                                              );
+                                            },
+                                          );
+                                        }
+                                        final favData = fav.data!.docs;
+                                        return CustomUMKMCard(
+                                          img: data['coverUrl'],
+                                          title: data['name'],
+                                          isFavourited:
+                                              (favData.isEmpty) ? false : true,
+                                          description: data['desc'],
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              PageTransition(
+                                                curve: Curves.easeInOut,
+                                                type: PageTransitionType
+                                                    .rightToLeft,
+                                                child: UmkmDetailScreen(
+                                                  name: data['name'],
+                                                  coverUrl: data['coverUrl'],
+                                                  address: data['address'],
+                                                  desc: data['desc'],
+                                                  index: data.reference,
+                                                  type: data['desc'],
+                                                  noHp: data['phone'],
+                                                  email: data["email"],
+                                                  web: data["website"],
+                                                  tokped: data["tokped"],
+                                                  shopee: data["shopee"],
+                                                ),
+                                                duration: const Duration(
+                                                    milliseconds: 150),
+                                                reverseDuration: const Duration(
+                                                    milliseconds: 150),
+                                              ),
+                                            );
+                                          },
+                                          onHeartTap: () {
+                                            if (favData.isEmpty) {
+                                              ApiServiceUMKM().addFavorite(
+                                                  data['coverUrl'],
+                                                  data['address'],
+                                                  data['email'],
+                                                  "",
+                                                  data['name']);
+                                            } else {
+                                              ApiServiceUMKM().removeFavorite(
+                                                  favData[0].reference);
+                                            }
+                                          },
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
+                                childCount: snapshot.data!.docs.length,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
-              ),
+                    );
+                  }),
             ),
             _buildTitle(
               20.0,
@@ -648,57 +941,179 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   physics: const BouncingScrollPhysics(),
                   controller: _controller,
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        physics: const ClampingScrollPhysics(),
-                        itemBuilder: (BuildContext context, int index) {
-                          // Use Data for Train
+                    FutureBuilder<StationResult>(
+                      future: futureStation,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
                           return Padding(
-                            padding: const EdgeInsets.only(bottom: 15.0),
-                            child: CustomTransportCard(
-                              img:
-                                  "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
-                              title: "Trans Metro Bandung",
-                              // Process the string of route
-                              route: "Cibiru – Cibeureum",
-                              time: "07.00 WIB -16.00 WIB",
-                              onTap: () {
-                                // To detail Train
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 20.0),
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              physics: const ClampingScrollPhysics(),
+                              itemBuilder: (BuildContext context, int index) {
+                                print(snapshot.data!.results[index].name);
+                                if (title.contains(
+                                    snapshot.data!.results[index].name)) {
+                                  return Padding(
+                                    padding:
+                                        const EdgeInsets.only(bottom: 15.0),
+                                    child: (snapshot
+                                                .data!.results[index].photos ==
+                                            null)
+                                        ? CustomTransportCard(
+                                            img:
+                                                'http://via.placeholder.com/350x150',
+                                            title: snapshot
+                                                .data!.results[index].name,
+                                            // Process the string of route
+                                            route: snapshot
+                                                .data!.results[index].vicinity,
+                                            time: "Buka",
+                                            onTap: () {
+                                              // To detail Train
+                                              final indexTitleStation =
+                                                  title.indexOf(snapshot.data!
+                                                      .results[index].name);
+                                              final titleStation =
+                                                  titleFirebase[
+                                                      indexTitleStation];
+                                              Navigator.push(
+                                                context,
+                                                PageTransition(
+                                                  curve: Curves.easeInOut,
+                                                  type: PageTransitionType
+                                                      .bottomToTop,
+                                                  // Add Parameter Data Train Detail
+                                                  child:
+                                                      TransportationDetailScreen(
+                                                    isTrain: true,
+                                                    station: titleStation,
+                                                    idStation: snapshot.data!
+                                                        .results[index].placeId,
+                                                  ),
+                                                  duration: const Duration(
+                                                      milliseconds: 150),
+                                                  reverseDuration:
+                                                      const Duration(
+                                                          milliseconds: 150),
+                                                ),
+                                              );
+                                            },
+                                          )
+                                        : CustomTransportCard(
+                                            img:
+                                                "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${snapshot.data!.results[index].photos![0].photoReference}&key=AIzaSyAO1b9CLWFz6Y9NG14g2gpYP7TQWPRsPG0",
+                                            title: snapshot
+                                                .data!.results[index].name,
+                                            // Process the string of route
+                                            route: snapshot
+                                                .data!.results[index].vicinity,
+                                            time: "Buka",
+                                            onTap: () {
+                                              // To detail Train
+                                              final indexTitleStation =
+                                                  title.indexOf(snapshot.data!
+                                                      .results[index].name);
+                                              final titleStation =
+                                                  titleFirebase[
+                                                      indexTitleStation];
+                                              Navigator.push(
+                                                context,
+                                                PageTransition(
+                                                  curve: Curves.easeInOut,
+                                                  type: PageTransitionType
+                                                      .bottomToTop,
+                                                  // Add Parameter Data Train Detail
+                                                  child:
+                                                      TransportationDetailScreen(
+                                                    isTrain: true,
+                                                    station: titleStation,
+                                                    idStation: snapshot.data!
+                                                        .results[index].placeId,
+                                                  ),
+                                                  duration: const Duration(
+                                                      milliseconds: 150),
+                                                  reverseDuration:
+                                                      const Duration(
+                                                          milliseconds: 150),
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                  );
+                                } else {
+                                  return Container();
+                                }
+                                // Use Data for Train
                               },
+                              itemCount: 7,
                             ),
                           );
-                        },
-                        itemCount: 4,
-                      ),
+                        } else {
+                          return Container();
+                        }
+                      },
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        physics: const ClampingScrollPhysics(),
-                        itemBuilder: (BuildContext context, int index) {
-                          // Use Data for Bus
+                    StreamBuilder<QuerySnapshot>(
+                        stream: FirebaseFirestore.instance
+                            .collection("Bus")
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          final List<String> route = [];
+                          final List<String> tmb = [];
+                          if (snapshot.hasData) {
+                            for (final indexxx in snapshot.data!.docs) {
+                              if (route.contains(indexxx["route"])) {
+                              } else {
+                                // buusss.insert(0, indexxx["transit"]);
+                                route.insert(0, indexxx["route"]);
+                                tmb.insert(0, indexxx["name"]);
+                              }
+                            }
+                          } else {
+                            return Container();
+                          }
                           return Padding(
-                            padding: const EdgeInsets.only(bottom: 15.0),
-                            child: CustomTransportCard(
-                              img:
-                                  "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
-                              title: "Trans Metro Bandung",
-                              // Process the string of route
-                              route:
-                                  "Cibiru – Cibeureumaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                              time: "07.00 WIB -16.00 WIB",
-                              onTap: () {
-                                // To detail Bus
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 20.0),
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              physics: const ClampingScrollPhysics(),
+                              itemBuilder: (BuildContext context, int index) {
+                                // Use Data for Bus
+                                return Padding(
+                                  padding: const EdgeInsets.only(bottom: 15.0),
+                                  child: CustomTransportCard(
+                                    img:
+                                        "https://upload.wikimedia.org/wikipedia/commons/2/24/Logo_TMB_Trans_Metro_Bandung.jpg",
+                                    title: tmb[index],
+                                    // Process the string of route
+                                    route: route[index],
+                                    time: "Buka",
+                                    onTap: () {
+                                      // To detail Bus
+                                      Navigator.push(
+                                        context,
+                                        PageTransition(
+                                          curve: Curves.easeInOut,
+                                          type: PageTransitionType.bottomToTop,
+                                          child: TimeLineScreen(
+                                              name: tmb[index], isTrain: false),
+                                          duration:
+                                              const Duration(milliseconds: 150),
+                                          reverseDuration:
+                                              const Duration(milliseconds: 150),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                );
                               },
+                              itemCount: 4,
                             ),
                           );
-                        },
-                        itemCount: 4,
-                      ),
-                    ),
+                        }),
                   ],
                 ),
               ),

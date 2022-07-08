@@ -3,6 +3,8 @@ description: A new Flutter package project.
 version: 0.0.1
 homepage:
 
+publish_to: "none"
+
 environment:
   sdk: ">=2.17.1 <3.0.0"
   flutter: ">=1.17.0"
@@ -12,15 +14,38 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+
+  core:
+    path: ../core
+
+  theme:
+    path: ../theme
+
+  account:
+    path: ../account
+
   intl:
+  loading_animation_widget:
+  page_transition:
+  flutter_svg:
+  cached_network_image:
+  pull_to_refresh:
+  flutter_bloc:
+  carousel_slider:
+  photo_view:
+  google_maps_flutter:
+  http:
+  cloud_firestore:
+  firebase_auth:
+  firebase_storage:
+  equatable:
+  dartz:
+  get_it:
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
-
-  core:
-    path: ../core
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

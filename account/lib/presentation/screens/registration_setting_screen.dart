@@ -12,6 +12,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:theme/theme.dart';
 import 'package:path/path.dart' as path;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RegistrationSettingScreen extends StatefulWidget {
   const RegistrationSettingScreen({Key? key}) : super(key: key);
@@ -88,10 +89,10 @@ class _RegistrationSettingScreenState extends State<RegistrationSettingScreen> {
     Size screenSize = MediaQuery.of(context).size;
 
     if (screenSize.width < 300.0 || screenSize.height < 600.0) {
-      return const ErrorScreen(
+      return ErrorScreen(
         // Text wait localization
-        title: "Aduh...",
-        message: "Layar terlalu kecil",
+        title: AppLocalizations.of(context)!.oops,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else if (screenSize.width > 500.0) {
       // Tablet Mode (Must be repair)
@@ -117,7 +118,7 @@ class _RegistrationSettingScreenState extends State<RegistrationSettingScreen> {
       slivers: <Widget>[
         CustomSliverAppBarTextLeading(
           // Text wait localization
-          title: "Daftar Profile",
+          title: AppLocalizations.of(context)!.registerProfile,
           leadingIcon: "assets/icon/regular/chevron-left.svg",
           leadingOnTap: () {
             // _error();
@@ -162,11 +163,11 @@ class _RegistrationSettingScreenState extends State<RegistrationSettingScreen> {
                 }).then((value) {
                   if (image == null) {
                     // Text wait localization
-                    throw UIException("Gambar Belum Dimasukkan");
+                    throw UIException(
+                        AppLocalizations.of(context)!.imageNotIncluded);
                   }
                 }).onError((er, stackTrace) {
-                  // Text wait localization
-                  toastError("Gambar Gagal Dimasukkan");
+                  toastError(AppLocalizations.of(context)!.imageInsertFailed);
                 });
               },
               child: Row(
@@ -180,8 +181,7 @@ class _RegistrationSettingScreenState extends State<RegistrationSettingScreen> {
                   Padding(
                     padding: const EdgeInsets.only(left: 10.0),
                     child: Text(
-                      // Text wait localization
-                      "Edit Profile",
+                      AppLocalizations.of(context)!.editProfile,
                       style: bSubtitle1.copyWith(
                         color: Theme.of(context).colorScheme.tertiary,
                       ),
@@ -255,8 +255,7 @@ class _RegistrationSettingScreenState extends State<RegistrationSettingScreen> {
               builder: (context, state) {
                 return CustomPrimaryTextButton(
                   width: screenSize.width,
-                  // Text wait localization
-                  text: "Selesai",
+                  text: AppLocalizations.of(context)!.done,
                   onTap: () async {
                     if (_regisprofileFormKey.currentState!.validate()) {
                       if (image != null) {
@@ -265,14 +264,17 @@ class _RegistrationSettingScreenState extends State<RegistrationSettingScreen> {
                               .read<RegisFormBloc>()
                               .add(OnSignUp(image!, imageName!));
                         }).onError((error, stackTrace) {
-                          toastError("Gagal Daftar");
+                          toastError(
+                              AppLocalizations.of(context)!.failedRegister);
                         });
                       } else {
-                        toastError("Gambar Belum Dimasukkan");
+                        toastError(
+                            AppLocalizations.of(context)!.imageNotIncluded);
                       }
                     } else {
                       // Text wait localization
-                      toastError("Lengkapi Data Anda Terlebih Dahulu");
+                      toastError(
+                          AppLocalizations.of(context)!.complateYourData);
                     }
                   },
                 );

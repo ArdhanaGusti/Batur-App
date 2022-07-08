@@ -1,20 +1,21 @@
 import 'dart:async';
 
 import 'package:core/core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:theme/theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:umkm/presentation/screen/umkm_detail_acc_screen.dart';
-
-import 'add_umkm_screen.dart';
+import 'package:umkm/data/service/api_service.dart';
+import 'package:umkm/presentation/components/custom_umkm_card_list.dart';
+import 'package:umkm/presentation/screen/umkm_detail_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:geocoding/geocoding.dart';
 
-enum ScreenProcessEnum {
+enum UmkmListScreenProcessEnum {
   loading,
   loaded,
   failed,
@@ -28,21 +29,11 @@ class UmkmScreen extends StatefulWidget {
 }
 
 class _UmkmScreenState extends State<UmkmScreen> {
+  User? user = FirebaseAuth.instance.currentUser;
+  TextEditingController controller = TextEditingController();
+  String find = '';
   String? address;
-  ScreenProcessEnum process = ScreenProcessEnum.loading;
-
-  final RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
-
-  void _onRefresh() async {
-    await Future.delayed(const Duration(milliseconds: 1000));
-    _refreshController.refreshCompleted();
-  }
-
-  void _onLoading() async {
-    await Future.delayed(const Duration(milliseconds: 1000));
-    _refreshController.loadComplete();
-  }
+  UmkmListScreenProcessEnum process = UmkmListScreenProcessEnum.loading;
 
   Future<void> getAddressFromLatLong(double latitude, double longitude) async {
     List<Placemark> placemarks =
@@ -57,11 +48,11 @@ class _UmkmScreenState extends State<UmkmScreen> {
     super.initState();
 
     // Must be repair
-    Timer(const Duration(seconds: 3), () {
+    if (mounted) {
       setState(() {
-        process = ScreenProcessEnum.loaded;
+        process = UmkmListScreenProcessEnum.loaded;
       });
-    });
+    }
   }
 
   @override
@@ -71,157 +62,162 @@ class _UmkmScreenState extends State<UmkmScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (process == ScreenProcessEnum.loading) {
-      return Scaffold(
-        body: SafeArea(
-          child: NestedScrollView(
-            headerSliverBuilder:
-                (BuildContext context, bool innerBoxIsScrolled) {
-              return [
-                _buildAppBar(),
-              ];
-            },
-            body: Center(
-              child: LoadingAnimationWidget.horizontalRotatingDots(
-                color: Theme.of(context).colorScheme.tertiary,
-                size: 50.0,
-              ),
+    Size screenSize = MediaQuery.of(context).size;
+    if (process == UmkmListScreenProcessEnum.loading) {
+      return NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            _buildAppBar(),
+          ];
+        },
+        body: Scaffold(
+          body: Center(
+            child: LoadingAnimationWidget.horizontalRotatingDots(
+              color: Theme.of(context).colorScheme.tertiary,
+              size: 50.0,
             ),
           ),
         ),
       );
-    } else if (process == ScreenProcessEnum.failed) {
+    } else if (process == UmkmListScreenProcessEnum.failed) {
       return ErrorScreen(
-        title: "AppLocalizations.of(context)!.internetConnection",
-        message: "AppLocalizations.of(context)!.tryAgain",
+        title: AppLocalizations.of(context)!.internetConnection,
+        message: AppLocalizations.of(context)!.tryAgain,
       );
     } else {
-      return _buildLoaded(context);
+      return _buildSuccess(screenSize);
     }
   }
 
-  Widget _buildLoaded(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
-
+  Widget _buildSuccess(Size screenSize) {
     if (screenSize.width < 300.0 || screenSize.height < 600.0) {
-      return ErrorScreen(
-        title: AppLocalizations.of(context)!.screenError,
-        message: AppLocalizations.of(context)!.screenSmall,
+      return const ErrorScreen(
+        // Text wait localization
+        title: "Eror",
+        message: "Eror",
       );
     } else if (screenSize.width > 500.0) {
-      // Tablet Mode (Must be repair)
-      return Center(
-        child: Container(
-          constraints: const BoxConstraints(maxWidth: 500.0),
-          child: _buildUmkmScreen(context, screenSize),
+      // Mobile Mode
+      return Scaffold(
+        body: Center(
+          child: Container(
+            constraints: const BoxConstraints(maxWidth: 500.0),
+            child: _buildLoaded(screenSize),
+          ),
         ),
       );
     } else {
       // Mobile Mode
-      return _buildUmkmScreen(context, screenSize);
+      return Scaffold(
+        body: _buildLoaded(screenSize),
+      );
     }
   }
 
   Widget _buildAppBar() {
-    return CustomSliverAppBarDashboard(
-      actionIcon: "assets/icon/regular/bell.svg",
+    return CustomSliverAppBarTextLeadingAction(
+      // Text wait localization
+      title: "UMKM",
+      leadingIcon: "assets/icon/regular/chevron-left.svg",
+      leadingOnTap: () {
+        Navigator.pop(
+          context,
+        );
+      },
+      actionIcon: "assets/icon/regular/map.svg",
       actionOnTap: () {
-        Navigator.push(
+        Navigator.pop(
           context,
-          PageTransition(
-            curve: Curves.easeInOut,
-            type: PageTransitionType.rightToLeft,
-            child: const AddUMKMScreen(),
-            duration: const Duration(milliseconds: 150),
-            reverseDuration: const Duration(milliseconds: 150),
-          ),
         );
       },
-      leading: Text(
-        AppLocalizations.of(context)!.umkm,
-        textAlign: TextAlign.center,
-      ),
-      actionIconSecondary: "assets/icon/regular/plus-square.svg",
-      actionOnTapSecondary: () {
-        Navigator.push(
-          context,
-          PageTransition(
-            curve: Curves.easeInOut,
-            type: PageTransitionType.rightToLeft,
-            child: const AddUMKMScreen(),
-            duration: const Duration(milliseconds: 150),
-            reverseDuration: const Duration(milliseconds: 150),
-          ),
-        );
-      },
-      isDoubleAction: true,
     );
   }
 
-  Widget _buildUmkmScreen(BuildContext context, Size screenSize) {
-    return Scaffold(
-      body: SafeArea(
-        child: NestedScrollView(
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return [
-              _buildAppBar(),
-            ];
-          },
-          body: SmartRefresher(
-            controller: _refreshController,
-            onRefresh: _onRefresh,
-            onLoading: _onLoading,
-            header: ClassicHeader(
-              refreshingIcon: LoadingAnimationWidget.horizontalRotatingDots(
-                color: Theme.of(context).colorScheme.tertiary,
-                size: 20.0,
-              ),
-              failedIcon: SvgPicture.asset(
-                "assets/icon/fill/exclamation-circle.svg",
-                color: Theme.of(context).colorScheme.tertiary,
-                height: 20.0,
-              ),
-              completeIcon: SvgPicture.asset(
-                "assets/icon/fill/check-circle.svg",
-                color: Theme.of(context).colorScheme.tertiary,
-                height: 20.0,
-              ),
-              releaseIcon: SvgPicture.asset(
-                "assets/icon/fill/chevron-circle-up.svg",
-                color: Theme.of(context).colorScheme.tertiary,
-                height: 20.0,
-              ),
-              idleIcon: SvgPicture.asset(
-                "assets/icon/fill/chevron-circle-down.svg",
-                color: Theme.of(context).colorScheme.tertiary,
-                height: 20.0,
-              ),
-              refreshingText: "AppLocalizations.of(context)!.refreshingText",
-              releaseText: "AppLocalizations.of(context)!.releaseText",
-              idleText: "AppLocalizations.of(context)!.idleText",
-              failedText: "AppLocalizations.of(context)!.failedText",
-              completeText: "AppLocalizations.of(context)!.completeText",
-              textStyle: bBody1.copyWith(
-                color: Theme.of(context).colorScheme.tertiary,
-              ),
-            ),
-            child: CustomScrollView(
-              physics: const BouncingScrollPhysics(),
-              slivers: <Widget>[
-                SliverPadding(
-                  padding: const EdgeInsets.only(
-                    left: 20.0,
-                    right: 20.0,
-                    top: 15.0,
-                    bottom: 15.0,
+  Widget _buildLoaded(Size screenSize) {
+    return CustomScrollView(
+      physics: const NeverScrollableScrollPhysics(),
+      slivers: <Widget>[
+        _buildAppBar(),
+        SliverToBoxAdapter(
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 15.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Container(
+                    width: screenSize.width - 90.0,
+                    margin: const EdgeInsets.all(8.0),
+                    child: TextField(
+                      controller: controller,
+                      decoration: InputDecoration(
+                        labelText: AppLocalizations.of(context)!.search,
+                      ),
+                      style: bSubtitle1.copyWith(color: bGrey),
+                      onChanged: (text) {
+                        setState(() {
+                          // Use for Search
+                          find = text;
+                        });
+                      },
+                    )),
+                Container(
+                  height: 40.0,
+                  width: 40.0,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.primaryContainer,
+                    borderRadius: BorderRadius.circular(8.0),
                   ),
-                  sliver: SliverFillRemaining(
-                    child: StreamBuilder<QuerySnapshot>(
-                        stream: FirebaseFirestore.instance
-                            .collection("UMKM")
-                            .snapshots(),
-                        builder: (context, snapshot) {
-                          if (!snapshot.hasData) {
+                  child: Center(
+                    child: SvgPicture.asset(
+                      "assets/icon/regular/search.svg",
+                      color: Theme.of(context).colorScheme.tertiary,
+                      height: 24.0,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        SliverFillRemaining(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 0.0),
+            child: StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection("UMKM")
+                  .where("verification", isEqualTo: true)
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(
+                    child: LoadingAnimationWidget.horizontalRotatingDots(
+                      color: Theme.of(context).colorScheme.tertiary,
+                      size: 50.0,
+                    ),
+                  );
+                }
+                return ListView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (BuildContext context, int index) {
+                    final data = snapshot.data!.docs[index];
+                    // Use Data News
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 15.0),
+                      child: StreamBuilder<QuerySnapshot>(
+                        stream: (user == null)
+                            ? FirebaseFirestore.instance
+                                .collection("Favorite")
+                                .where("umkm", isEqualTo: data["name"])
+                                .snapshots()
+                            : FirebaseFirestore.instance
+                                .collection("Favorite")
+                                .where("umkm", isEqualTo: data["name"])
+                                .where("email", isEqualTo: user!.email)
+                                .where("seller", isEqualTo: data["email"])
+                                .snapshots(),
+                        builder: (context, fav) {
+                          if (fav.data == null || user == null) {
                             return Center(
                               child:
                                   LoadingAnimationWidget.horizontalRotatingDots(
@@ -230,59 +226,63 @@ class _UmkmScreenState extends State<UmkmScreen> {
                               ),
                             );
                           }
-                          return ListView.builder(
-                            physics: BouncingScrollPhysics(),
-                            shrinkWrap: true,
-                            itemBuilder: (BuildContext context, int index) {
-                              // Use Data News
-                              return Padding(
-                                padding: const EdgeInsets.only(bottom: 15.0),
-                                child: CustomFavoriteUMKMCard(
-                                  img:
-                                      '${snapshot.data!.docs[index]['coverUrl']}',
-                                  title: snapshot.data!.docs[index]['name'],
-                                  // address: (address != null) ? address! : "",
-                                  open: "08:00 s/d 16:00",
-                                  address: snapshot.data!.docs[index]
-                                      ['address'],
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      PageTransition(
-                                        curve: Curves.easeInOut,
-                                        type: PageTransitionType.rightToLeft,
-                                        child: UmkmDetailAccScreen(
-                                          name: snapshot.data!.docs[index]
-                                              ['name'],
-                                          coverUrl: snapshot.data!.docs[index]
-                                              ['coverUrl'],
-                                          address: snapshot.data!.docs[index]
-                                              ['address'],
-                                          desc: snapshot.data!.docs[index]
-                                              ['desc'],
-                                          index: snapshot
-                                              .data!.docs[index].reference,
-                                        ),
-                                        duration:
-                                            const Duration(milliseconds: 150),
-                                        reverseDuration:
-                                            const Duration(milliseconds: 150),
-                                      ),
-                                    );
-                                  },
+                          final favData = fav.data!.docs;
+                          return CustomUMKMCardList(
+                            img: '${data['coverUrl']}',
+                            title: data['name'],
+                            timeOpen: "08:00 s/d 16:00",
+                            isFavourited: (favData.isEmpty) ? false : true,
+                            description: data['address'],
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                PageTransition(
+                                  curve: Curves.easeInOut,
+                                  type: PageTransitionType.rightToLeft,
+                                  child: UmkmDetailScreen(
+                                    name: data['name'],
+                                    coverUrl: data['coverUrl'],
+                                    address: data['address'],
+                                    desc: data['desc'],
+                                    index: data.reference,
+                                    type: data['desc'],
+                                    noHp: data['phone'],
+                                    email: data["email"],
+                                    web: data["website"],
+                                    tokped: data["tokped"],
+                                    shopee: data["shopee"],
+                                  ),
+                                  duration: const Duration(milliseconds: 150),
+                                  reverseDuration:
+                                      const Duration(milliseconds: 150),
                                 ),
                               );
                             },
-                            itemCount: snapshot.data!.docs.length,
+                            heartTap: () {
+                              if (favData.isEmpty) {
+                                ApiServiceUMKM().addFavorite(
+                                    data['coverUrl'],
+                                    data['address'],
+                                    data['email'],
+                                    "",
+                                    data['name']);
+                              } else {
+                                ApiServiceUMKM()
+                                    .removeFavorite(favData[0].reference);
+                              }
+                            },
                           );
-                        }),
-                  ),
-                ),
-              ],
+                        },
+                      ),
+                    );
+                  },
+                  itemCount: snapshot.data!.docs.length,
+                );
+              },
             ),
           ),
         ),
-      ),
+      ],
     );
   }
 }

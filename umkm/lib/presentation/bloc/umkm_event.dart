@@ -41,6 +41,8 @@ class OnUpdateUmkm extends UmkmEvent {
   final BuildContext context;
   final String? imageName;
   final String name, type, coverUrlNow, desc;
+  final String address;
+  final String? phone, shopee, tokped, website;
   final File? image;
   final double latitude, longitude;
   final DocumentReference index;
@@ -54,6 +56,11 @@ class OnUpdateUmkm extends UmkmEvent {
       this.image,
       this.latitude,
       this.longitude,
+      this.address,
+      this.phone,
+      this.shopee,
+      this.tokped,
+      this.website,
       this.index);
   @override
   List<Object> get props => [];
@@ -64,6 +71,15 @@ class OnRemoveUmkm extends UmkmEvent {
   final String coverUrl;
 
   const OnRemoveUmkm(this.coverUrl, this.index);
+  @override
+  List<Object> get props => [];
+}
+
+class OnVerifUmkm extends UmkmEvent {
+  final DocumentReference index;
+  final bool value;
+
+  const OnVerifUmkm(this.value, this.index);
   @override
   List<Object> get props => [];
 }

@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:core/core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:news/news.dart';
 import 'package:news/presentation/components/custom_sliver_appbar_text_leading_action_double.dart';
 import 'package:news/presentation/screen/edit_news_screen.dart';
@@ -14,18 +16,18 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class NewsDetailScreen extends StatefulWidget {
-  final String title, konten, urlName, writer;
+  final String title, konten, urlName, author;
   final String date;
   final DocumentReference index;
-  const NewsDetailScreen(
-      {Key? key,
-      required this.title,
-      required this.konten,
-      required this.urlName,
-      required this.index,
-      required this.date,
-      required this.writer})
-      : super(key: key);
+  const NewsDetailScreen({
+    Key? key,
+    required this.title,
+    required this.konten,
+    required this.urlName,
+    required this.index,
+    required this.date,
+    required this.author,
+  }) : super(key: key);
 
   @override
   State<NewsDetailScreen> createState() => _NewsDetailScreenState();
@@ -99,7 +101,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                                 onPressed: () {
                                   Navigator.pop(context);
                                 },
-                                child: Text("Kembali"),
+                                child: Text(AppLocalizations.of(context)!.back),
                               )
                             ],
                           );
@@ -108,7 +110,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                 },
                 builder: (context, state) {
                   return CustomSliverAppBarTextLeadingActionDouble(
-                    title: "Berita",
+                    title: AppLocalizations.of(context)!.news,
                     leadingIcon: "assets/icon/bold/chevron-left.svg",
                     leadingOnTap: () {
                       Navigator.pop(
@@ -147,7 +149,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
             child: CustomPrimaryTextButton(
               width: screenSize.width,
 
-              text: AppLocalizations.of(context)!.viewNews,
+              text: AppLocalizations.of(context)!.readNews,
               // On tap Navigation needs to be replaced
               onTap: () {
                 Navigator.pop(
@@ -204,30 +206,50 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           //wait profile
-                          // ClipRRect(
-                          //   borderRadius: BorderRadius.circular(15.0),
-                          //   // Use image assets or network
-                          //   child: StreamBuilder<QuerySnapshot>(
-                          //       stream: FirebaseFirestore.instance
-                          //           .collection('Profile')
-                          //           .where('email', isEqualTo: writer)
-                          //           .snapshots(),
-                          //       builder: (context, snapshot) {
-                          //         if (!snapshot.hasData) {
-                          //           return CircularProgressIndicator();
-                          //         }
-                          //         return Image.network(
-                          //           "${snapshot.data!.docs[0]["imgUrl"]}",
-                          //           height: 30.0,
-                          //         );
-                          //       }),
-                          // ),
+                          StreamBuilder<QuerySnapshot>(
+                              stream: FirebaseFirestore.instance
+                                  .collection('Profile')
+                                  .where('email', isEqualTo: widget.author)
+                                  .snapshots(),
+                              builder: (context, profile) {
+                                if (!profile.hasData) {
+                                  return CircularProgressIndicator();
+                                }
+                                return CircleAvatar(
+                                  child: ClipOval(
+                                    child: CachedNetworkImage(
+                                      imageUrl:
+                                          "${profile.data!.docs[0]["imgUrl"]}",
+                                      placeholder: (context, url) {
+                                        return Center(
+                                          child: LoadingAnimationWidget
+                                              .horizontalRotatingDots(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .tertiary,
+                                            size: 10.0,
+                                          ),
+                                        );
+                                      },
+                                      errorWidget: (context, url, error) =>
+                                          SvgPicture.asset(
+                                        "assets/icon/fill/exclamation-circle.svg",
+                                        color: bGrey,
+                                        height: 14.0,
+                                      ),
+                                      fit: BoxFit.cover,
+                                      width: 85.0,
+                                      height: 85.0,
+                                    ),
+                                  ),
+                                );
+                              }),
                           const SizedBox(
                             width: 10.0,
                           ),
                           Flexible(
                             child: Text(
-                              AppLocalizations.of(context)!.writer,
+                              widget.author,
                               overflow: TextOverflow.ellipsis,
                               style: bBody1.copyWith(
                                 color: Theme.of(context)

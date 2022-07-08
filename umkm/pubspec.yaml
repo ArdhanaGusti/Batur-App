@@ -3,6 +3,8 @@ description: A new Flutter package project.
 version: 0.0.1
 homepage:
 
+publish_to: "none"
+
 environment:
   sdk: ">=2.17.1 <3.0.0"
   flutter: ">=1.17.0"
@@ -12,31 +14,45 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  intl:
 
+  core:
+    path: ../core
+  tourism:
+    path: ../tourism
+  account:
+    path: ../account
+  theme:
+    path: ../theme
+
+
+  intl:
   image_picker:
   photo_view:
   firebase_storage:
   cloud_firestore:
   firebase_core:
   flutter_bloc:
+  firebase_auth:
   equatable:
   dartz:
   get_it:
   geolocator:
   geocoding:
   latlong2:
+  page_transition:
+  loading_animation_widget:
+  cached_network_image:
+  google_maps_flutter:
+  flutter_svg:
+  webview_flutter:
+  fluttertoast:
+  path: 
+  
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
-  firebase_auth:
-
-  theme:
-    path: ../theme
-  core:
-    path: ../core
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

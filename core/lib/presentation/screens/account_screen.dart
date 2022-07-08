@@ -9,6 +9,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:theme/theme.dart';
 import 'package:umkm/umkm.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // Check
 
@@ -89,9 +90,8 @@ class _AccountScreenState extends State<AccountScreen> {
                   );
                 }
               },
-              leading: const Text(
-                // Text wait localization
-                "Akun",
+              leading: Text(
+                AppLocalizations.of(context)!.account,
                 textAlign: TextAlign.center,
               ),
               actionIconSecondary: "",
@@ -171,7 +171,7 @@ class _AccountScreenState extends State<AccountScreen> {
                             color: Theme.of(context).colorScheme.surface,
                             child: Center(
                               child: Text(
-                                "Anda belum mempunyai profile\nKelik disini untuk registrasi profile",
+                                AppLocalizations.of(context)!.youHaveProfile,
                                 overflow: TextOverflow.ellipsis,
                                 style: bSubtitle2.copyWith(
                                   color: bTextPrimary,
@@ -207,7 +207,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       );
                     },
                     // Text wait localization
-                    "Detail Akun",
+                    AppLocalizations.of(context)!.accountDetail,
                     "assets/icon/regular/user.svg",
                   );
                 } else {
@@ -225,7 +225,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       );
                     },
                     // Text wait localization
-                    "Detail Akun",
+                    AppLocalizations.of(context)!.accountDetail,
                     "assets/icon/regular/user.svg",
                   );
                 }
@@ -247,18 +247,91 @@ class _AccountScreenState extends State<AccountScreen> {
                 );
               },
               // Text wait localization
-              "Pengaturan",
+              AppLocalizations.of(context)!.settings,
               "assets/icon/regular/settings.svg",
+            ),
+            BlocBuilder<DashboardBloc, DashboardState>(
+              builder: (context, state) {
+                if (state.isHaveProfile) {
+                  if (state.isAdmin) {
+                    return _buildSmallContainer(
+                      context,
+                      () {
+                        Navigator.push(
+                          context,
+                          PageTransition(
+                            curve: Curves.easeInOut,
+                            type: PageTransitionType.rightToLeft,
+                            child: const StatusRegisterUmkmAdminScreen(),
+                            duration: const Duration(milliseconds: 150),
+                            reverseDuration: const Duration(milliseconds: 150),
+                          ),
+                        );
+                      },
+                      // Text wait localization
+                      AppLocalizations.of(context)!.registrationStatus,
+                      "assets/icon/regular/check-circle.svg",
+                    );
+                  } else {
+                    return _buildSmallContainer(
+                      context,
+                      () {
+                        Navigator.push(
+                          context,
+                          PageTransition(
+                            curve: Curves.easeInOut,
+                            type: PageTransitionType.rightToLeft,
+                            child: const StatusRegisterUmkmScreen(),
+                            duration: const Duration(milliseconds: 150),
+                            reverseDuration: const Duration(milliseconds: 150),
+                          ),
+                        );
+                      },
+                      // Text wait localization
+                      AppLocalizations.of(context)!.registrationStatus,
+                      "assets/icon/regular/check-circle.svg",
+                    );
+                  }
+                } else {
+                  return _buildSmallContainer(
+                    context,
+                    () {
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                          curve: Curves.easeInOut,
+                          type: PageTransitionType.bottomToTop,
+                          child: const RegistrationSettingScreen(),
+                        ),
+                      );
+                    },
+                    // Text wait localization
+                    AppLocalizations.of(context)!.registrationStatus,
+                    "assets/icon/regular/check-circle.svg",
+                  );
+                }
+              },
             ),
             BlocBuilder<DashboardBloc, DashboardState>(
               builder: (context, state) {
                 if (state.isHaveProfile) {
                   return _buildSmallContainer(
                     context,
-                    () {},
+                    () {
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                          curve: Curves.easeInOut,
+                          type: PageTransitionType.rightToLeft,
+                          child: const AddUMKMScreen(),
+                          duration: const Duration(milliseconds: 150),
+                          reverseDuration: const Duration(milliseconds: 150),
+                        ),
+                      );
+                    },
                     // Text wait localization
-                    "Status Registrasi",
-                    "assets/icon/regular/check-circle.svg",
+                    AppLocalizations.of(context)!.addUmkm,
+                    "assets/icon/regular/plus-square.svg",
                   );
                 } else {
                   return _buildSmallContainer(
@@ -274,8 +347,8 @@ class _AccountScreenState extends State<AccountScreen> {
                       );
                     },
                     // Text wait localization
-                    "Status Registrasi",
-                    "assets/icon/regular/check-circle.svg",
+                    AppLocalizations.of(context)!.addUmkm,
+                    "assets/icon/regular/plus-square.svg",
                   );
                 }
               },
@@ -301,7 +374,7 @@ class _AccountScreenState extends State<AccountScreen> {
                 );
               },
               // Text wait localization
-              "Bantuan",
+              AppLocalizations.of(context)!.help,
               "assets/icon/regular/question-circle.svg",
             ),
             _buildSmallContainer(
@@ -319,7 +392,7 @@ class _AccountScreenState extends State<AccountScreen> {
                 );
               },
               // Text wait localization
-              "Term and Condition",
+              AppLocalizations.of(context)!.termsAndConditions,
               "assets/icon/regular/file.svg",
             ),
             _buildSmallContainer(
@@ -337,7 +410,7 @@ class _AccountScreenState extends State<AccountScreen> {
                 );
               },
               // Text wait localization
-              "Tentang",
+              AppLocalizations.of(context)!.about,
               "assets/icon/regular/info-circle.svg",
             ),
           ],
@@ -353,7 +426,7 @@ class _AccountScreenState extends State<AccountScreen> {
             child: CustomPrimaryIconTextButton(
               width: screenSize.width,
               // Text wait localization
-              text: "Keluar",
+              text: AppLocalizations.of(context)!.logout,
               // Must add on Tap
               onTap: () {
                 _signOut();

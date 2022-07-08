@@ -118,7 +118,7 @@ class _EditNewsScreenState extends State<EditNewsScreen> {
                             onPressed: () {
                               Navigator.pop(context);
                             },
-                            child: Text("Kembali"),
+                            child: Text(AppLocalizations.of(context)!.back),
                           )
                         ],
                       );
@@ -145,7 +145,8 @@ class _EditNewsScreenState extends State<EditNewsScreen> {
                     // });
                   } else {
                     AlertDialog alert = AlertDialog(
-                      title: Text("Silahkan lengkapi data"),
+                      title: Text(
+                          AppLocalizations.of(context)!.pleaseCompleteData),
                       actions: [
                         TextButton(
                             onPressed: () {
@@ -175,7 +176,7 @@ class _EditNewsScreenState extends State<EditNewsScreen> {
       physics: const BouncingScrollPhysics(),
       slivers: <Widget>[
         CustomSliverAppBarTextLeading(
-          title: "Edit News",
+          title: AppLocalizations.of(context)!.editNews,
           leadingIcon: "assets/icon/back.svg",
           // Navigation repair
           leadingOnTap: () {

@@ -2,6 +2,7 @@ import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:theme/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ThemeSettingScreen extends StatelessWidget {
   const ThemeSettingScreen({Key? key}) : super(key: key);
@@ -11,10 +12,10 @@ class ThemeSettingScreen extends StatelessWidget {
     Size screenSize = MediaQuery.of(context).size;
 
     if (screenSize.width < 320.0 || screenSize.height < 600.0) {
-      return const ErrorScreen(
+      return ErrorScreen(
         // Text wait localization
-        title: "AppLocalizations.of(context)!.screenError",
-        message: "AppLocalizations.of(context)!.screenSmall",
+        title: AppLocalizations.of(context)!.screenError,
+        message: AppLocalizations.of(context)!.screenSmall,
       );
     } else if (screenSize.width > 500.0) {
       // Tablet Mode (Must be repair)
@@ -40,7 +41,7 @@ class ThemeSettingScreen extends StatelessWidget {
       slivers: <Widget>[
         CustomSliverAppBarTextLeading(
           // Text wait localization
-          title: "AppLocalizations.of(context)!.displayMode",
+          title: AppLocalizations.of(context)!.displayMode,
           leadingIcon: "assets/icon/back.svg",
           // Navigation repair
           leadingOnTap: () {
@@ -76,7 +77,7 @@ class ThemeSettingScreen extends StatelessWidget {
             children: <Widget>[
               Text(
                 // Text wait localization
-                "AppLocalizations.of(context)!.themeDesc",
+                AppLocalizations.of(context)!.themeDesc,
                 style: bSubtitle2.copyWith(
                   color: Theme.of(context).colorScheme.tertiary,
                 ),
@@ -89,19 +90,19 @@ class ThemeSettingScreen extends StatelessWidget {
                 context,
                 ThemeModeEnum.lightTheme,
                 // Text wait localization
-                "AppLocalizations.of(context)!.light",
+                AppLocalizations.of(context)!.light,
               ),
               _customListTileTheme(
                 context,
                 ThemeModeEnum.darkTheme,
                 // Text wait localization
-                "AppLocalizations.of(context)!.dark",
+                AppLocalizations.of(context)!.dark,
               ),
               _customListTileTheme(
                 context,
                 ThemeModeEnum.systemTheme,
                 // Text wait localization
-                "AppLocalizations.of(context)!.sistem",
+                AppLocalizations.of(context)!.sistem,
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 20.0, top: 10.0),
@@ -109,7 +110,7 @@ class ThemeSettingScreen extends StatelessWidget {
               ),
               Text(
                 // Text wait localization
-                "AppLocalizations.of(context)!.ifLayoutSystem",
+                AppLocalizations.of(context)!.ifLayoutSystem,
                 style: bBody1.copyWith(
                   color: bGrey,
                 ),

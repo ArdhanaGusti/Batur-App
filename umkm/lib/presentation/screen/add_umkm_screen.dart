@@ -2,17 +2,19 @@ import 'dart:io';
 
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:theme/theme.dart';
 import 'package:path/path.dart' as path;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:umkm/presentation/bloc/umkm_create_bloc.dart';
 import 'package:umkm/presentation/bloc/umkm_state.dart';
+import 'package:umkm/presentation/screen/gallery_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../bloc/umkm_event.dart';
-import '../components/textFields/custom_add_umkm_address_text_field.dart';
 import '../components/textFields/custom_add_umkm_description_text_field.dart';
 import '../components/textFields/custom_add_umkm_latitute_text_field.dart';
 import '../components/textFields/custom_add_umkm_longitude_text_field.dart';
@@ -35,18 +37,18 @@ class AddUMKMScreen extends StatefulWidget {
 
 class _AddUMKMScreenState extends State<AddUMKMScreen> {
   String? imageName;
-
   String? address;
-
   File? image;
   double? latitude;
   double? longitude;
   late Position currentLocation;
   LatLng? _center;
+
   TextEditingController latController = TextEditingController(),
       longController = TextEditingController(),
       addressController = TextEditingController(),
       nameController = TextEditingController(),
+      typeController = TextEditingController(),
       descController = TextEditingController(),
       phoneController = TextEditingController(),
       tokpedController = TextEditingController(),
@@ -57,8 +59,7 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
   void initState() {
     super.initState();
     getUserLocation();
-
-    setState(() {});
+    toast.init(context);
   }
 
   void pickImg() async {
@@ -82,7 +83,6 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
       getAddressFromLatLong(
           currentLocation.latitude, currentLocation.longitude);
     });
-    // getAddressFromLatLong(currentLocation);
   }
 
   Future<void> getAddressFromLatLong(double latitude, double longitude) async {
@@ -117,29 +117,41 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
         desiredAccuracy: LocationAccuracy.high);
   }
 
-  List<String> images = [
-    "https://assets.pikiran-rakyat.com/crop/0x0:0x0/x/photo/2022/03/11/4072812075.jpg",
-    "https://akcdn.detik.net.id/visual/2022/03/30/seulgi-red-velvet-1_169.jpeg?w=650",
-    "https://ecs7.tokopedia.net/blog-tokopedia-com/uploads/2021/01/scmc.jpg",
-    "https://media.suara.com/pictures/970x544/2020/08/19/24987-wendy-red-velvet-soompi.jpg",
-  ];
-  // List<String> time = [
-  //   "07.00 - 16.00",
-  //   "07.00 - 16.00",
-  //   "07.00 - 16.00",
-  //   "07.00 - 16.00",
-  // ];
-  List<bool> isClose = [
-    false,
-    false,
-    false,
-    true,
-  ];
+  final toast = FToast();
+
+  void toastError(String message) {
+    toast.showToast(
+      child: CustomToast(
+        logo: "assets/icon/fill/exclamation-circle.svg",
+        message: message,
+        toastColor: bToastFiled,
+        bgToastColor: bBgToastFiled,
+        borderToastColor: bBorderToastFiled,
+      ),
+      gravity: ToastGravity.TOP,
+      toastDuration: const Duration(seconds: 3),
+    );
+  }
+
+  void toastSuccess(String message) {
+    toast.showToast(
+      child: CustomToast(
+        logo: "assets/icon/fill/check-circle.svg",
+        message: message,
+        toastColor: bToastSuccess,
+        bgToastColor: bBgToastSuccess,
+        borderToastColor: bBorderToastSuccess,
+      ),
+      gravity: ToastGravity.TOP,
+      toastDuration: const Duration(seconds: 3),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
 
-    if (screenSize.width < 320.0 || screenSize.height < 650.0) {
+    if (screenSize.width < 300.0 || screenSize.height < 600.0) {
       return ErrorScreen(
         title: AppLocalizations.of(context)!.screenError,
         message: AppLocalizations.of(context)!.screenSmall,
@@ -150,51 +162,28 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
         body: Center(
           child: Container(
             constraints: const BoxConstraints(maxWidth: 500.0),
-            child: _buildNewsDetailScreen(context, screenSize),
+            child: _buildAddUMKMScreen(context, screenSize),
           ),
         ),
       );
     } else {
       // Mobile Mode
       return Scaffold(
-        body: _buildNewsDetailScreen(context, screenSize),
+        body: _buildAddUMKMScreen(context, screenSize),
       );
     }
   }
 
-  Widget _buildNewsDetailScreen(BuildContext context, Size screenSize) {
-    List<String> days = [
-      AppLocalizations.of(context)!.monday,
-      AppLocalizations.of(context)!.tuesday,
-      AppLocalizations.of(context)!.wednesday,
-      AppLocalizations.of(context)!.thursday,
-    ];
+  Widget _buildAddUMKMScreen(BuildContext context, Size screenSize) {
     return BlocConsumer<UmkmCreateBloc, UmkmState>(
+      listenWhen: (previous, current) {
+        return (previous is UmkmLoading) ? true : false;
+      },
       listener: (context, state) async {
-        if (state is UmkmLoading) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: CircularProgressIndicator(),
-          ));
-        } else if (state is UmkmCreated) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(state.result),
-          ));
+        if (state is UmkmCreated) {
+          toastSuccess(AppLocalizations.of(context)!.successfullyAdded);
         } else if (state is UmkmError) {
-          await showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  content: Text(state.message),
-                  actions: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text("Kembali"),
-                    )
-                  ],
-                );
-              });
+          toastError(AppLocalizations.of(context)!.filedAdded);
         }
       },
       builder: (context, state) {
@@ -202,8 +191,8 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
           physics: const BouncingScrollPhysics(),
           slivers: <Widget>[
             CustomSliverAppBarTextLeading(
-              title: AppLocalizations.of(context)!.listUMKM,
-              leadingIcon: "assets/icon/back.svg",
+              title: AppLocalizations.of(context)!.addUmkm,
+              leadingIcon: "assets/icon/regular/chevron-left.svg",
               // Navigation repair
               leadingOnTap: () {
                 Navigator.pop(
@@ -218,6 +207,13 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
                 name: nameController,
               ),
             ),
+            _customEditForm(
+              context,
+              AppLocalizations.of(context)!.type,
+              CustomAddUMKMNameTextField(
+                name: typeController,
+              ),
+            ),
             _customEditFormDesc(
               context,
               AppLocalizations.of(context)!.shopDesc,
@@ -228,25 +224,54 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
               AppLocalizations.of(context)!.phoneNumber,
               CustomAddUMKMPhoneTextField(phone: phoneController),
             ),
-            // _customEditForm(
-            //   context,
-            //   AppLocalizations.of(context)!.address,
-            //   CustomAddUMKMAddressTextField(address: addressController),
-            // ),
-            SliverToBoxAdapter(
-              child: Container(
-                child: Text((address != null) ? address! : ""),
-              ),
-            ),
             _customEditForm(
               context,
-              AppLocalizations.of(context)!.address,
+              'Latitude',
               CustomAddUMKMLatituteTextField(latitute: latController),
             ),
             _customEditForm(
               context,
-              AppLocalizations.of(context)!.address,
+              'Longitude',
               CustomAddUMKMLongitudeTextField(longitude: longController),
+            ),
+            SliverToBoxAdapter(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    margin: const EdgeInsets.only(left: 20.0, top: 15.0),
+                    child: Text(
+                      AppLocalizations.of(context)!.addAddress,
+                      style: bHeading7.copyWith(
+                        color: Theme.of(context).colorScheme.tertiary,
+                      ),
+                    ),
+                  ),
+                  Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30.0),
+                        color: Theme.of(context).colorScheme.secondaryContainer,
+                        boxShadow: const [
+                          BoxShadow(
+                            color: bStroke,
+                            spreadRadius: 2.0,
+                            blurRadius: 10.0,
+                            offset: Offset(0, 0), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 10.0),
+                      padding: const EdgeInsets.all(20.0),
+                      child: Text(
+                          (address != null)
+                              ? address!
+                              : AppLocalizations.of(context)!.btnAddress,
+                          style: bSubtitle1.copyWith(
+                            color: Theme.of(context).colorScheme.tertiary,
+                          ))),
+                ],
+              ),
             ),
             SliverPadding(
               padding: const EdgeInsets.only(
@@ -299,7 +324,7 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
+                                children: <Widget>[
                                   SvgPicture.asset(
                                     "assets/icon/camera-Light.svg",
                                     color:
@@ -327,14 +352,17 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
                               padding: const EdgeInsets.only(right: 10.0),
                               child: GestureDetector(
                                 onTap: () {
-                                  // Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(
-                                  //     builder: (context) => GalleryScreen(
-                                  //       images: image!,
-                                  //     ),
-                                  //   ),
-                                  // );
+                                  Navigator.push(
+                                    context,
+                                    PageTransition(
+                                      curve: Curves.easeInOut,
+                                      type: PageTransitionType.rightToLeft,
+                                      child: GalleryScreen(
+                                        file: image,
+                                        typeNetwork: false,
+                                      ),
+                                    ),
+                                  );
                                 },
                                 child: Image.file(
                                   image!,
@@ -372,7 +400,7 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      AppLocalizations.of(context)!.timetable,
+                      AppLocalizations.of(context)!.schedule,
                       style: bHeading7.copyWith(
                         color: Theme.of(context).colorScheme.tertiary,
                       ),
@@ -381,57 +409,28 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
                 ),
               ),
             ),
-            // SliverPadding(
-            //   padding: const EdgeInsets.only(
-            //     left: 20.0,
-            //     right: 20.0,
-            //   ),
-            //   sliver: SliverList(
-            //     delegate: SliverChildBuilderDelegate(
-            //       (BuildContext context, int index) {
-            //         return _customCardScedule(
-            //           days[index],
-            //           time[index],
-            //           () {},
-            //           () {},
-            //           isClose[index],
-            //         );
-            //       },
-            //       childCount: isClose.length, // 1000 list items
-            //     ),
-            //   ),
-            // ),
-            _customEditFormLink(context,
-                AppLocalizations.of(context)!.onlineShopLink, screenSize),
-            SliverPadding(
-              padding: const EdgeInsets.only(
-                top: 20.0,
-                left: 20.0,
-                right: 20.0,
-              ),
-              sliver: SliverToBoxAdapter(
-                child: _buildCheckBox(),
-              ),
-            ),
+            _customEditFormLink(
+                context, "Online Shop Link (Optional)", screenSize),
             SliverPadding(
               padding: const EdgeInsets.all(20.0),
               sliver: SliverToBoxAdapter(
                 child: CustomPrimaryTextButton(
                   onTap: () {
                     context.read<UmkmCreateBloc>().add(OnCreateUmkm(
-                        context,
-                        imageName!,
-                        address!,
-                        phoneController.text,
-                        shopeeController.text,
-                        tokpedController.text,
-                        websiteController.text,
-                        nameController.text,
-                        "seblak",
-                        descController.text,
-                        image!,
-                        latitude!,
-                        longitude!));
+                          context,
+                          imageName!,
+                          address!,
+                          phoneController.text,
+                          shopeeController.text,
+                          tokpedController.text,
+                          websiteController.text,
+                          nameController.text,
+                          typeController.text,
+                          descController.text,
+                          image!,
+                          double.parse(latController.text),
+                          double.parse(longController.text),
+                        ));
                   },
                   text: AppLocalizations.of(context)!.applyShop,
                   width: screenSize.width,
@@ -530,161 +529,9 @@ class _AddUMKMScreenState extends State<AddUMKMScreen> {
       Function() onTap, bool isActive, Size screenSize) {
     return Padding(
       padding: const EdgeInsets.only(top: 20.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          SizedBox(
-            width: screenSize.width - 90,
-            child: field,
-          ),
-          GestureDetector(
-            onTap: onTap,
-            child: Center(
-              child: Container(
-                height: 40.0,
-                width: 40.0,
-                decoration: BoxDecoration(
-                  color: (isActive) ? bError : bPrimary,
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                child: Center(
-                  child: SvgPicture.asset(
-                    'assets/icon/regular/times-square.svg',
-                    color: bTextPrimary,
-                    height: 24.0,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  bool _checkBox = false;
-
-  Widget _buildCheckBox() {
-    return GestureDetector(
-      onTap: () {},
-      child: Row(
-        children: <Widget>[
-          SizedBox(
-            height: 24.0,
-            width: 24.0,
-            child: Checkbox(
-              value: _checkBox,
-              onChanged: (value) {
-                setState(() {
-                  _checkBox = value!;
-                });
-              },
-            ),
-          ),
-          const SizedBox(
-            width: 10.0,
-          ),
-          Flexible(
-            child: Text(
-              AppLocalizations.of(context)!.terms,
-              style: bBody1.copyWith(
-                color: Theme.of(context).colorScheme.tertiary,
-              ),
-              maxLines: 2,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _customCardScedule(
-    String day,
-    String time,
-    Function() editOnTap,
-    Function() deleteOnTap,
-    bool isClose,
-  ) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                day,
-                style: bSubtitle3.copyWith(
-                  color: Theme.of(context).colorScheme.tertiary,
-                ),
-              ),
-              Text(
-                time,
-                style: bButton2.copyWith(
-                  color: Theme.of(context).colorScheme.tertiary,
-                ),
-              ),
-            ],
-          ),
-          Row(
-            children: <Widget>[
-              GestureDetector(
-                onTap: editOnTap,
-                child: Center(
-                  child: Container(
-                    height: 30.0,
-                    width: 30.0,
-                    decoration: BoxDecoration(
-                      color: (isClose)
-                          ? bPrimary
-                          : Theme.of(context).colorScheme.primaryContainer,
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    child: Center(
-                      child: SvgPicture.asset(
-                        'assets/icon/camera-Light.svg',
-                        color: (isClose)
-                            ? bTextPrimary
-                            : Theme.of(context).colorScheme.onTertiary,
-                        height: 18.0,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                width: 10.0,
-              ),
-              GestureDetector(
-                onTap: deleteOnTap,
-                child: Center(
-                  child: Container(
-                    height: 30.0,
-                    width: 30.0,
-                    decoration: BoxDecoration(
-                      color: (isClose)
-                          ? Theme.of(context).colorScheme.primaryContainer
-                          : bError,
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    child: Center(
-                      child: SvgPicture.asset(
-                        'assets/icon/camera-Light.svg',
-                        color: (isClose)
-                            ? Theme.of(context).colorScheme.onTertiary
-                            : bTextPrimary,
-                        height: 18.0,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
+      child: SizedBox(
+        width: screenSize.width - 40,
+        child: field,
       ),
     );
   }

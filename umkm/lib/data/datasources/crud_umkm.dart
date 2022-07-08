@@ -30,10 +30,17 @@ abstract class CrudUmkm {
       String descNow,
       double latitude,
       double longitude,
+      String address,
+      String? phone,
+      String? shopee,
+      String? tokped,
+      String? website,
       DocumentReference index);
   Future<String> removeUmkm(DocumentReference index, String urlName);
-  Future<String> addFavorite(String username, String email, String umkm);
+  Future<String> addFavorite(
+      String address, String email, String umkm, String seller, String urlName);
   Future<String> removeFavorite(DocumentReference index);
+  Future<String> verif(DocumentReference index, bool value);
 }
 
 class CrudUmkmImpl implements CrudUmkm {
@@ -52,10 +59,29 @@ class CrudUmkmImpl implements CrudUmkm {
       String descNow,
       double latitude,
       double longitude,
+      String address,
+      String? phone,
+      String? shopee,
+      String? tokped,
+      String? website,
       DocumentReference<Object?> index) async {
     try {
-      apiService.editUmkm(context, image, coverUrlNow, imageName, nameNow,
-          typeNow, descNow, latitude, longitude, index);
+      apiService.editUmkm(
+          context,
+          image,
+          coverUrlNow,
+          imageName,
+          nameNow,
+          typeNow,
+          descNow,
+          latitude,
+          longitude,
+          address,
+          phone,
+          shopee,
+          tokped,
+          website,
+          index);
       return "UMKM sudah di Update";
     } catch (e) {
       throw DatabaseException(e.toString());
@@ -99,9 +125,10 @@ class CrudUmkmImpl implements CrudUmkm {
   }
 
   @override
-  Future<String> addFavorite(String username, String email, String umkm) async {
+  Future<String> addFavorite(String address, String email, String umkm,
+      String seller, String urlName) async {
     try {
-      apiService.addFavorite(username, email, umkm);
+      apiService.addFavorite(urlName, address, seller, email, umkm);
       return "Telah ditambahkan di favorit";
     } catch (e) {
       throw DatabaseException(e.toString());
@@ -113,6 +140,16 @@ class CrudUmkmImpl implements CrudUmkm {
     try {
       apiService.removeFavorite(index);
       return "Telah dihapus dari favorit";
+    } catch (e) {
+      throw DatabaseException(e.toString());
+    }
+  }
+
+  @override
+  Future<String> verif(DocumentReference<Object?> index, bool value) async {
+    try {
+      apiService.verif(index, value);
+      return "Telah diperbarui";
     } catch (e) {
       throw DatabaseException(e.toString());
     }

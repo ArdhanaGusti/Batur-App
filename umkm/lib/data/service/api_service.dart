@@ -34,7 +34,7 @@ class ApiServiceUMKM {
         .ref()
         .child(imageName + DateTime.now().toString());
     UploadTask uploadTask = ref.putFile(image);
-    // User user = FirebaseAuth.instance.currentUser!;
+    User user = FirebaseAuth.instance.currentUser!;
     FirebaseFirestore.instance.runTransaction((transaction) async {
       CollectionReference reference =
           FirebaseFirestore.instance.collection("UMKM");
@@ -47,13 +47,13 @@ class ApiServiceUMKM {
           "tokped": tokped,
           "website": website,
           "name": name,
-          "email": "udin",
+          "email": user.email,
           "latitude": latitude,
           "longitude": longitude,
           "coverUrl": urlName,
           "type": type,
           "desc": desc,
-          "verification": false,
+          "verification": null,
         });
         // Navigator.of(context).push(MaterialPageRoute(builder: (context) {
         //   return Dashboard(user: user);
@@ -72,6 +72,11 @@ class ApiServiceUMKM {
       String descNow,
       double latitude,
       double longitude,
+      String address,
+      String? phone,
+      String? shopee,
+      String? tokped,
+      String? website,
       DocumentReference index) async {
     UploadTask? uploadTask;
     if (image != null) {
@@ -97,7 +102,12 @@ class ApiServiceUMKM {
             "longitude": longitude,
             "coverUrl": coverUrlNow,
             "type": typeNow,
-            "desc": descNow
+            "desc": descNow,
+            "address": address,
+            "phone": phone,
+            "shopee": shopee,
+            "tokped": tokped,
+            "website": website,
           });
           // Navigator.of(context).push(MaterialPageRoute(builder: (context) {
           //   return Dashboard(user: user);
@@ -110,7 +120,12 @@ class ApiServiceUMKM {
           "longitude": longitude,
           "coverUrl": coverUrlNow,
           "type": typeNow,
-          "desc": descNow
+          "desc": descNow,
+          "address": address,
+          "phone": phone,
+          "shopee": shopee,
+          "tokped": tokped,
+          "website": website,
         });
         // Navigator.of(context).push(MaterialPageRoute(builder: (context) {
         //   return Dashboard(user: user);
@@ -119,14 +134,18 @@ class ApiServiceUMKM {
     });
   }
 
-  Future<void> addFavorite(String username, String email, String umkm) async {
+  Future<void> addFavorite(String urlName, String address, String seller,
+      String email, String umkm) async {
+    User user = FirebaseAuth.instance.currentUser!;
     FirebaseFirestore.instance.runTransaction((transaction) async {
       CollectionReference reference =
           FirebaseFirestore.instance.collection("Favorite");
       await reference.add({
-        "username": username,
-        "email": email,
+        "email": user.email,
         "umkm": umkm,
+        "coverUrl": urlName,
+        "address": address,
+        "seller": seller,
       });
     });
   }
@@ -135,6 +154,16 @@ class ApiServiceUMKM {
     FirebaseFirestore.instance.runTransaction((transaction) async {
       DocumentSnapshot snapshot = await transaction.get(index);
       transaction.delete(snapshot.reference);
+    });
+  }
+
+  Future<void> verif(DocumentReference index, bool value) async {
+    FirebaseFirestore.instance.runTransaction((transaction) async {
+      CollectionReference reference =
+          FirebaseFirestore.instance.collection("UMKM");
+      await reference.doc(index.id).update({
+        "verification": value,
+      });
     });
   }
 }

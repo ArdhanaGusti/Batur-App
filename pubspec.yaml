@@ -59,9 +59,12 @@ dependencies:
   cached_network_image:
   pull_to_refresh:
   http:
-  fluttertoast:
-  carousel_slider:
-  flutter_slidable:
+  fluttertoast: 
+  carousel_slider: 
+  flutter_slidable: 
+  flutter_local_notifications:
+  rxdart:
+  google_maps_flutter:
 
 dev_dependencies:
   flutter_test:

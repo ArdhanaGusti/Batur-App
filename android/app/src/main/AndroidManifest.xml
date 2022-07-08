@@ -28,6 +28,11 @@
             </intent-filter>
         </activity> -->
         <activity
+
+       <meta-data android:name="com.google.android.geo.API_KEY"
+           android:value="AIzaSyBPB8sNNlXTf_5CezqS_ZOLosugitqfSzs"/>
+
+       <activity
             android:name=".MainActivity"
             android:exported="true"
             android:launchMode="singleTop"

@@ -76,7 +76,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 
     // Must be repair
     // Change with to fetch data
-    Timer(const Duration(seconds: 3), () {
+    Timer(const Duration(seconds: 0), () {
       setState(() {
         // Change state value if data loaded or failed
         process = FavScreenProcessEnum.loaded;
@@ -281,7 +281,15 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                         .snapshots(),
                                     builder: (context, snapshot) {
                                       if (!snapshot.hasData) {
-                                        return CircularProgressIndicator();
+                                        return Center(
+                                          child: LoadingAnimationWidget
+                                              .horizontalRotatingDots(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .tertiary,
+                                            size: 50.0,
+                                          ),
+                                        );
                                       }
                                       return ListView.builder(
                                         itemBuilder: (context, index) {
@@ -338,7 +346,15 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                         .snapshots(),
                                     builder: (context, snapshot) {
                                       if (!snapshot.hasData) {
-                                        return CircularProgressIndicator();
+                                        return Center(
+                                          child: LoadingAnimationWidget
+                                              .horizontalRotatingDots(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .tertiary,
+                                            size: 50.0,
+                                          ),
+                                        );
                                       }
                                       return ListView.builder(
                                         physics: const BouncingScrollPhysics(),

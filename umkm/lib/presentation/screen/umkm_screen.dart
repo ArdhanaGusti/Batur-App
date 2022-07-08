@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:account/presentation/screens/login_screen.dart';
 import 'package:core/core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -217,7 +218,7 @@ class _UmkmScreenState extends State<UmkmScreen> {
                                 .where("seller", isEqualTo: data["email"])
                                 .snapshots(),
                         builder: (context, fav) {
-                          if (fav.data == null || user == null) {
+                          if (fav.data == null) {
                             return Center(
                               child:
                                   LoadingAnimationWidget.horizontalRotatingDots(
@@ -231,7 +232,9 @@ class _UmkmScreenState extends State<UmkmScreen> {
                             img: '${data['coverUrl']}',
                             title: data['name'],
                             timeOpen: "08:00 s/d 16:00",
-                            isFavourited: (favData.isEmpty) ? false : true,
+                            isFavourited: (favData.isEmpty || user == null)
+                                ? false
+                                : true,
                             description: data['address'],
                             onTap: () {
                               Navigator.push(
@@ -259,16 +262,27 @@ class _UmkmScreenState extends State<UmkmScreen> {
                               );
                             },
                             heartTap: () {
-                              if (favData.isEmpty) {
-                                ApiServiceUMKM().addFavorite(
-                                    data['coverUrl'],
-                                    data['address'],
-                                    data['email'],
-                                    "",
-                                    data['name']);
+                              if (user != null) {
+                                if (favData.isEmpty) {
+                                  ApiServiceUMKM().addFavorite(
+                                      data['coverUrl'],
+                                      data['address'],
+                                      data['email'],
+                                      "",
+                                      data['name']);
+                                } else {
+                                  ApiServiceUMKM()
+                                      .removeFavorite(favData[0].reference);
+                                }
                               } else {
-                                ApiServiceUMKM()
-                                    .removeFavorite(favData[0].reference);
+                                Navigator.push(
+                                  context,
+                                  PageTransition(
+                                    curve: Curves.easeInOut,
+                                    type: PageTransitionType.bottomToTop,
+                                    child: const LoginScreen(),
+                                  ),
+                                );
                               }
                             },
                           );

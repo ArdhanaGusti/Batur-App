@@ -215,7 +215,6 @@ class _UmkmScreenState extends State<UmkmScreen> {
                                 .collection("Favorite")
                                 .where("umkm", isEqualTo: data["name"])
                                 .where("email", isEqualTo: user!.email)
-                                .where("seller", isEqualTo: data["email"])
                                 .snapshots(),
                         builder: (context, fav) {
                           if (fav.data == null) {

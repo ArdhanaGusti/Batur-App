@@ -31,7 +31,7 @@ class _TourMapScreenState extends State<TourMapScreen> {
   // State for click a custom marker
   bool isTour = true;
   bool isClickTour = false;
-  final apiKey =  Config().mapsKey;
+  final apiKey = Config().mapsKey;
   final photosUrl = Config().photosUrl;
   String name = "";
   double rating = 0;

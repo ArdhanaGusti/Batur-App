@@ -229,13 +229,20 @@ class _UmkmMapsScreenState extends State<UmkmMapsScreen> {
                                 .collection("Favorite")
                                 .where("umkm", isEqualTo: name)
                                 .where("email", isEqualTo: user!.email)
-                                .where("seller", isEqualTo: email)
                                 .snapshots(),
                         builder: (context, fav) {
-                          bool favorite = false;
-                          if (fav.hasData) {
-                            favorite = true;
+                          if (!fav.hasData) {
+                            return Center(
+                              child:
+                                  LoadingAnimationWidget.horizontalRotatingDots(
+                                color: Theme.of(context).colorScheme.tertiary,
+                                size: 50.0,
+                              ),
+                            );
                           }
+                          // if (fav.hasData) {
+                          //   favorite = true;
+                          // }
                           return CustomCardUMKM(
                             image: (image == null)
                                 ? "http://via.placeholder.com/350x150"
@@ -291,7 +298,11 @@ class _UmkmMapsScreenState extends State<UmkmMapsScreen> {
                                 }
                               }
                             },
-                            isFavourited: favorite,
+                            isFavourited: (user == null)
+                                ? false
+                                : (fav.data!.docs.isNotEmpty)
+                                    ? true
+                                    : false,
                           );
                         },
                       ),
